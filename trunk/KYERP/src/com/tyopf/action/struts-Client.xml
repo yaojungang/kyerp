@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="Client" extends="struts-tyopf" namespace="/Client">
+		<action name="ClientAction_getClient" class="com.tyopf.action.ClientAction_getClient"
+			method="execute">
+			<result type="json">
+				<param name="root">clientnames</param>
+			</result>
+		</action>
+		<action name="getClient" class="com.tyopf.action.ClientAction_getClient"
+			method="execute">
+			<result>/Client/getClient.jsp</result>
+		</action>
+		<action name="getLinkMan" class="com.tyopf.action.ClientAction_getLinkMan"
+			method="execute">
+			<result>/Client/getLinkMan.jsp</result>
+		</action>
+		<action name="getAllLinkMan" class="com.tyopf.action.ClientAction_getLinkMan"
+			method="getAllLinkMan">
+			<result>/Client/getAllLinkMan.jsp</result>
+		</action>
+		<action name="getAllClientAndLinkMan" class="com.tyopf.action.ClientAction"
+			method="getAllClientAndLinkMan">
+			<result>/Client/testInput.jsp</result>
+		</action>
+		<action name="index" class="com.tyopf.action.ClientAction"
+			method="MyClient">
+			<result>/Client/index.jsp</result>
+		</action>
+		<action name="ClientInfo" class="com.tyopf.action.ClientAction"
+			method="ClientInfo">
+			<result>/Client/ClientInfo.jsp</result>
+		</action>
+		<action name="ClientInfo_print" class="com.tyopf.action.ClientAction"
+			method="ClientInfo">
+			<result>/Client/ClientInfo.jsp</result>
+		</action>
+		<action name="addClient" class="com.tyopf.action.ClientAction"
+			method="addClient">
+			<result>/Client/Client_input.jsp</result>
+		</action>
+		<action name="addLinkman" class="com.tyopf.action.ClientAction"
+			method="addLinkman">
+			<result>/Client/Client_input.jsp</result>
+		</action>
+		<action name="getLinkmanByCompany" class="com.tyopf.action.ClientAction"
+			method="getLinkmanByCompany">
+			<result>/Client/getLinkmanByCompany.jsp
+			</result>
+		</action>
+		<action name="delClient" class="com.tyopf.action.ClientAction"
+			method="delClient">
+			<result type="redirect">/Client/index.action</result>
+		</action>
+
+		<action name="editClient" class="com.tyopf.action.ClientAction"
+			method="editClient">
+			<result>/Client/Client_input.jsp</result>
+		</action>
+		<action name="saveClient" class="com.tyopf.action.ClientAction"
+			method="saveClient">
+			<result>/Client/ClientInfo.jsp</result>
+		</action>
+
+		<action name="delLinkman" class="com.tyopf.action.ClientAction"
+			method="delLinkman">
+			<result type="redirect">/Client/ClientInfo.action?clientId=${clientId}
+			</result>
+		</action>
+
+		<action name="getAllClients" class="com.tyopf.action.ClientAction"
+			method="getAllClients">
+			<result>/Client/getAllClients.jsp</result>
+		</action>
+		<action name="MyClient" class="com.tyopf.action.ClientAction"
+			method="MyClient">
+			<result>/Client/Client_list.jsp</result>
+		</action>
+		<action name="getClientByYW" class="com.tyopf.action.ClientAction"
+			method="getClientByYW">
+			<result>/Client/Client_list.jsp</result>
+		</action>
+		<action name="tjClientHK" class="com.tyopf.action.ClientAction"
+			method="tjClientHK">
+			<result>/Client/tjClientHK.jsp</result>
+		</action>
+		<action name="jsongetAllClient" class="com.tyopf.action.ClientAction"
+			method="getAllClients">
+			<result type="json">
+				<param name="root">clientList</param>
+			</result>
+		</action>
+	</package>
+</struts>

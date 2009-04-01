@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="ML" extends="struts-tyopf" namespace="/ML">
+		<action name="index" class="com.tyopf.action.OPEAction" method="ListAF_Eva">
+			<result name="success">/ML/index.jsp</result>
+		</action>
+
+		<action name="getAFByType" class="com.tyopf.action.OPEAction"
+			method="getAFByType">
+			<result name="success">/ML/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByAFNo" class="com.tyopf.action.OPEAction"
+			method="getAFByAFNo">
+			<result name="success">/ML/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByName" class="com.tyopf.action.OPEAction"
+			method="getAFByName">
+			<result name="success">/ML/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByYWY" class="com.tyopf.action.AFAction"
+			method="getAFByYWY">
+			<result name="success">/ML/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByDate" class="com.tyopf.action.AFAction"
+			method="getAFByDate">
+			<result name="success">/ML/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByClient" class="com.tyopf.action.AFAction"
+			method="getAFByClient">
+			<result name="success">/ML/AF_listAF.jsp</result>
+		</action>
+
+		<action name="ListAF_Eva" class="com.tyopf.action.OPEAction"
+			method="ListAF_Eva">
+			<result name="success">/ML/index.jsp</result>
+		</action>
+		<action name="ListAF" class="com.tyopf.action.OPEAction"
+			method="ListAF_Eva">
+			<result name="success">/ML/listAF.jsp</result>
+		</action>
+		<action name="ListEva" class="com.tyopf.action.OPEAction"
+			method="ListAF_Eva">
+			<result name="success">/OPE/listEva.jsp</result>
+		</action>
+
+		<action name="addAF" class="com.tyopf.action.OPEAction" method="addAF">
+			<result name="success">/OPE/addAF.jsp</result>
+		</action>
+		<action name="addAF_Base" class="com.tyopf.action.OPEAction"
+			method="addAF_Base">
+			<result name="input">/OPE/addAF.jsp</result>
+			<result>/OPE/addAF_Element.jsp</result>
+		</action>
+		<action name="addAF_Element" class="com.tyopf.action.OPEAction"
+			method="addAF_Element">
+			<!--<result name="success">/OPE/AFInfo.jsp</result>-->
+			<result name="success" type="redirect">
+				/OPE/addAF_Element.jsp
+			</result>
+		</action>
+		<action name="addAF_view" class="com.tyopf.action.OPEAction"
+			method="addAF_Element">
+			<result name="success">/OPE/AFInfo.jsp</result>
+			<!--<result name="success">/OPE/addAF_E.jsp</result>-->
+		</action>
+		<action name="addAF_save" class="com.tyopf.action.OPEAction"
+			method="addAF_save">
+			<result type="redirect">/OPE/ListAF_Eva.action
+			</result>
+		</action>
+		<action name="AFInfo" class="com.tyopf.action.OPEAction"
+			method="AFInfo">
+			<result name="success">/OPE/AFInfo.jsp</result>
+		</action>
+
+	</package>
+</struts>

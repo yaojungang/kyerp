@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tyopf.vo.AfDispose" table="AF_Dispose">
+		<id name="afDId" type="long">
+			<column name="AF_D_ID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="AfBase" class="com.tyopf.vo.AfBase"
+			column="AF_ID" lazy="false">
+		</many-to-one>
+		<!--
+			property name="afId" type="string"> <column name="AF_ID" length="50">
+			</column> </property
+		-->
+		<property name="afDAmount" type="java.lang.Long">
+			<column name="AF_D_Amount">
+			</column>
+		</property>
+		<property name="afEType" type="string">
+			<column name="AF_E_Type" length="50">
+			</column>
+		</property>
+		<property name="afDItem" type="string">
+			<column name="AF_D_Item" length="50">
+			</column>
+		</property>
+		<property name="afDDate" type="timestamp">
+			<column name="AF_D_Date" length="0">
+			</column>
+		</property>
+		<property name="afDFactory" type="string">
+			<column name="AF_D_Factory" length="50">
+			</column>
+		</property>
+		<property name="afDRemark" type="string">
+			<column name="AF_D_Remark" length="300">
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>

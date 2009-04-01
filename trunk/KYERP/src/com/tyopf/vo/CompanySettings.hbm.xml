@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tyopf.vo.CompanySettings" table="Company_Settings">
+		<id name="variableName" type="string">
+			<column name="VariableName" length="50" />
+			<generator class="assigned" />
+		</id>
+		<property name="varValue" type="string">
+			<column name="VarValue" length="200">
+				<comment>&#177;&#228;&#193;&#191;&#214;&#181;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

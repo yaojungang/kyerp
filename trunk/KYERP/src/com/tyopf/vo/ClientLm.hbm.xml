@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tyopf.vo.ClientLm" table="Client_LM">
+		<comment></comment>
+		<id name="CLmId" type="long">
+			<column name="C_LM_ID" />
+			<generator class="native" />
+		</id>
+
+		<many-to-one name="ClientC" class="com.tyopf.vo.ClientC"
+			column="C_C_ID" lazy="false">
+		</many-to-one>
+
+		<property name="CLmLinkman" type="string">
+			<column name="C_LM_Linkman" length="50">
+			</column>
+		</property>
+		<property name="CLmJob" type="string">
+			<column name="C_LM_Job" length="50">
+			</column>
+		</property>
+		<property name="CLmTel" type="string">
+			<column name="C_LM_Tel" length="50">
+			</column>
+		</property>
+		<property name="CLmMobile" type="string">
+			<column name="C_LM_Mobile" length="50">
+			</column>
+		</property>
+		<property name="mobileRemind" type="java.lang.Integer">
+			<column name="MobileRemind"></column>
+		</property>
+		<property name="email" type="string">
+			<column name="Email" length="40"></column>
+		</property>
+		<property name="emailRemind" type="java.lang.Integer">
+			<column name="EmailRemind">
+			</column>
+		</property>
+		<property name="CLmRemark" type="string">
+			<column name="C_LM_Remark" length="50">
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>
