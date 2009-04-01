@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="UTF-8">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-language" content="UTF-8" />
+<meta name="description" content="通用的JS提示框" />
+<meta name="keywords" content="JS,提示框" />
+<meta name="author" content="黄创钦,tine2cx@163.com" />
+<meta name="copyright" content="2007 (c) www.phptext.net" />
+<meta name="robots" content="all" />
+<meta name="generator" content="textpad" />
+<script type="text/javascript" src="dialog.js"></script>
+<style type="text/css">
+/*隐藏htmml,body*/
+html,body {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	margin: 0px;
+}
+
+a:link {
+	color: #000;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #000;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #000;
+	text-decoration: underline;
+}
+
+/*用div伪装body*/
+div#body {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow-x: auto;
+	overflow-y: auto;
+	background: #eee;
+	cursor: default
+}
+</style>
+<title>JS 提示框</title>
+</head>
+<body>
+<div id="body">这个是用JS，模拟Alert的功能，不过还没又+入返回值！还有一点问题！高度在FF下不能用！不过配合<br />
+<a href="http://www.phpchina.com/bbs/thread-45486-1-1.html">让你的页面在ie6也能玩position:fixed</a>
+这篇文章就可以解决！例如本演示。<br />
+<br />
+12-9 更新背景渐渐变暗功能<br />
+更新了注释，等内容<br />
+<br />
+现基本完善了。 <br />
+<br />
+另附宣传：<br />
+<a href="http://www.phptext.net" target="_blank">http://www.phptext.net</a><br>
+主站完成，时间最快12月底。 
+<br>
+<br> PHPText.Net 官方群： 
+<br> &nbsp;&nbsp;在线企业：35502431 
+<br> &nbsp;&nbsp;牵线学习：2501606 
+<br> &nbsp;&nbsp;研讨协会：35288220 
+<br>
+<br> 1、 
+<a onclick="new dialog().event('提示内容',1,1,1)" href="javascript:;">呼叫提示框(完整)</a><br />
+2、<a onclick="new dialog().event('提示内容',1,1,0)" href="javascript:;">呼叫提示框(无关闭按钮)</a><br />
+3、<a onclick="new dialog().event('提示内容',1)" href="javascript:;">呼叫提示框(只有确认按钮)</a><br />
+4、<a onclick="new dialog().event('提示内容',1,1,1,'提示标题')"
+	href="javascript:;">呼叫提示框(不一样的标题)</a><br />
+5、<a onclick="new dialog().event('提示内容,200*300',1,1,1,'',200,300);"
+	href="javascript:;">呼叫提示框(不一样的大小)</a><br />
+<br />
+6、IE下遮罩SELETE测试,将提示框拖动到这里看看<br />
+<select>
+	<option>test</option>
+</select><br />
+<br />
+6、<a
+	onclick="new dialog().open('http://www.phpchina.com','yes','PHPChina',600,500)"
+	href="javascript:;">显示嵌入网页提示框</a><br />
+<br />
+6、<a
+	onclick="new dialog().showWindow('http://www.phpchina.com',600,500,'yes')"
+	href="javascript:;">弹出窗口</a><br />
+<br />
+<img src="zz.jpg" width="10%" onclick="new dialog().imageview(this);" />
+<img src="zz2.jpg" width="10%"
+	onclick="new dialog().imageview(this,'新约圣经');" /> <br />
+<br />
+下面进行高度测试:<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+9、<a onclick="new dialog().event('高度测试',1)" href="javascript:;">呼叫提示框</a><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+10、<a onclick="new dialog().event('高度测试2',1)" href="javascript:;">呼叫提示框</a><br />
+</div>
+<script type="text/javascript">new dialog().init();</script>
+</body>
+</html>

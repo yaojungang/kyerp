@@ -1,0 +1,134 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>amcolumn</title>
+</head>
+<style>
+body {
+	background-color: #FFFFFF;
+	font-family: Arial;
+	font-size: 12px;
+}
+</style>
+<body>
+<b><font color="red">Attention! Because of security
+restrictions in most cases this example will work only if you upload
+files to your web server.</font></b>
+<br>
+<br>
+<!-- saved from url=(0013)about:internet -->
+<script type="text/javascript" src="../amcolumn/swfobject.js"></script>
+<script type="text/javascript">
+      // chart control functions ///////////////////////////////////
+      // set data
+      function setData() {
+         var txt = document.getElementById("data").value;
+         flashMovie.setData(txt);
+      }
+      // append data
+      function appendData() {
+         var txt = document.getElementById("data").value;
+         flashMovie.appendData(txt, 0);             // appendData(data, remove_count) this function appends data to the end of current data and can remove x values from the beginning
+      }      
+      // reload data
+      function reloadData() {
+         flashMovie.reloadData();       // you can pass new data file name: reloadData(new_data_file_name)
+      }
+      // reload settings
+      function reloadSettings() {
+         flashMovie.reloadSettings();   // you can pass new settings file name: reloadSettings(new_settings_file_name)
+      }
+      // reload all
+      function reloadAll() {
+         flashMovie.reloadAll();        // reloadAll(new_data_file_name, new_settings_file_name)
+      }
+      // set param
+      function setParam() {
+         var param = document.getElementById("param").value;
+         var value = document.getElementById("value").value;
+         flashMovie.setParam(param, value);
+      }
+      // get param
+      function getParam() {
+         var param = document.getElementById("getparam").value;            
+         flashMovie.getParam(param);
+      } 
+
+      // get data
+      function getData() {
+         flashMovie.getData();
+      }   
+      // export image
+      function exportImage() {
+         flashMovie.exportImage('../amcolumn/export.php'); // it is not required to pass filename here if you set it in settings file) 
+       }     
+      // print chart. Use this print function if you don't have rotated by 90 degrees values, also if you don't have custom backgrounds
+      function print(){
+         flashMovie.print();
+      }
+      // print chart as bitmap. Use this print function if you have rotated by 90 degrees text
+      function printAsBitmap(){
+         flashMovie.printAsBitmap();
+      }
+      
+      // functions called from flash /////////////////////////////////////////
+      // this function is called then chart is finished
+      function amChartInited(chart_id){
+          flashMovie = document.getElementById("amcolumn");
+          document.getElementById("chartfinished").value = "chart " + chart_id + " is finished";           
+      }      
+      // return data 
+      function amReturnData(chart_id, param){
+          document.getElementById("data").value = unescape(param);
+      }
+      // return param
+      function amReturnParam(chart_id, param){
+          document.getElementById("returnedparam").value = unescape(param);
+      }
+      // error 
+      function amError(chart_id, message){
+          alert(message);
+      }      
+            
+   // ]]>
+</script>
+<!-- amcolumn script-->
+<div id="flashcontent"><strong>You need to upgrade your
+Flash Player</strong></div>
+<script type="text/javascript">
+		// <![CDATA[		
+		var so = new SWFObject("../amcolumn/amcolumn.swf", "amcolumn", "520", "400", "8", "#FFFFFF");
+		so.addVariable("path", "../amcolumn/");
+    so.addVariable("chart_id", "amcolumn"); // if you have more then one chart in one page, set different chart_id for each chart		
+		so.addVariable("settings_file", escape("amcolumn/js/amcolumn_settings.xml"));
+		so.addVariable("data_file", escape("amcolumn/js/amcolumn_data.xml"));
+		so.addVariable("preloader_color", "#999999");
+		so.write("flashcontent");
+		// ]]>
+	</script>
+<!-- end of amcolumn script -->
+<form action="" id="myform"><input type="text" id="chartfinished">
+<input type="button" value="reload Data" onclick="reloadData();" /> <input
+	type="button" value="reload Settings" onclick="reloadSettings();" /> <input
+	type="button" value="reload All" onclick="reloadAll();" />
+<hr noshade size="1">
+<input type="button" value="export image" onclick="exportImage();" /> <input
+	type="button" value="print" onclick="print();" /> <input type="button"
+	value="print as bitmap" onclick="printAsBitmap();" />
+<hr noshade size="1">
+<textarea id="data" rows="6" cols="62"></textarea><br>
+<input type="button" value="Get data" onclick="getData();" /> <input
+	type="button" value="Set Data" onclick="setData();" /> <input
+	type="button" value="Append Data" onclick="appendData();" />
+<hr noshade size="1">
+Param: <input type="text" id="param" value="background.color" /> Value:
+<input type="text" id="value" value="0xBBBB00" /> <input type="button"
+	value="set param" onclick="setParam();" />
+<hr noshade size="1">
+Param: <input type="text" id="getparam" value="axes.category.width">
+Value: <input type="text" id="returnedparam" /> <input type="button"
+	value="get param" onclick="getParam();" />
+</p>
+</form>
+</body>
+</html>
