@@ -1,0 +1,163 @@
+
+<title>�?��֤�� Validator v1.01</title>
+<style>
+body,td {
+	font: normal 12px Verdana;
+	color: #333333
+}
+
+input,textarea,select,td {
+	font: normal 12px Verdana;
+	color: #333333;
+	border: 1px solid #999999;
+	background: #ffffff
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td {
+	padding: 3px
+}
+
+input {
+	height: 20;
+}
+
+textarea {
+	width: 80%;
+	height: 50px;
+	overfmin: auto;
+}
+
+form {
+	display: inline
+}
+</style>
+<table align="center">
+	<form name="theForm" id="demo" action="" method="get"
+		onSubmit="return Validator.Validate(this,2)">
+	<tr>
+		<td>��ʵ����</td>
+		<td><input name="Name" dataType="Chinese" msg="��ʵ����ֻ��������"></td>
+	</tr>
+	<tr>
+		<td>Ӣ����</td>
+		<td><input name="Nick" dataType="English" require="false"
+			msg="Ӣ����ֻ����Ӣ����ĸ"></td>
+	</tr>
+	<tr>
+		<td>��ҳ��</td>
+		<td><input name="Homepage" require="false" dataType="Url"
+			msg="�Ƿ���Url"></td>
+	</tr>
+	<tr>
+		<td>���룺</td>
+		<td><input name="Password" dataType="SafeString"
+			msg="���벻��ϰ�ȫ����" type="password"></td>
+	</tr>
+	<tr>
+		<td>�ظ���</td>
+		<td><input name="Repeat" dataType="Repeat" to="Password"
+			msg="������������벻һ��" type="password"></td>
+	</tr>
+	<tr>
+		<td>���䣺</td>
+		<td><input name="Email" dataType="Email" msg="�����ʽ����ȷ"></td>
+	</tr>
+	<tr>
+		<td>���䣺</td>
+		<td><input name="Email" dataType="Repeat" to="Email"
+			msg="������������䲻һ��"></td>
+	</tr>
+	<tr>
+		<td>QQ��</td>
+		<td><input name="QQ" require="false" dataType="QQ"
+			msg="QQ���벻����"></td>
+	</tr>
+	<tr>
+		<td>���֤��</td>
+		<td><input name="Card" dataType="IdCard" msg="���֤���벻��ȷ"></td>
+	</tr>
+	<tr>
+		<td>���䣺</td>
+		<td><input name="Year" dataType="Range" msg="���������18~28֮��"
+			min="18" max="28"></td>
+	</tr>
+	<tr>
+		<td>����1��</td>
+		<td><input name="Year1" require="false" dataType="Compare"
+			msg="���������18����" to="18" operator="GreaterThanEqual"></td>
+	</tr>
+	<tr>
+		<td>�绰��</td>
+		<td><input name="Phone" require="false" dataType="Phone"
+			msg="�绰���벻��ȷ"></td>
+	</tr>
+	<tr>
+		<td>�ֻ�</td>
+		<td><input name="Mobile" require="false" dataType="Mobile"
+			msg="�ֻ���벻��ȷ"></td>
+	</tr>
+	<tr>
+		<td>���գ�</td>
+		<td><input name="Birthday" dataType="Date" format="ymd"
+			msg="�������ڲ�����"></td>
+	</tr>
+	<tr>
+		<td>�������룺</td>
+		<td><input name="Zip" dataType="Custom" regexp="^[1-9]\d{5}$"
+			msg="�������벻����"></td>
+	</tr>
+	<tr>
+		<td>�������룺</td>
+		<td><input name="Zip1" dataType="Zip" msg="�������벻����"></td>
+	</tr>
+	<tr>
+		<td>����ϵͳ��</td>
+		<td><select name="Operation" dataType="Require"
+			msg="δѡ�����ò���ϵͳ">
+			<option value="">ѡ�������õĲ���ϵͳ</option>
+			<option value="Win98">Win98</option>
+			<option value="Win2k">Win2k</option>
+			<option value="WinXP">WinXP</option>
+		</select></td>
+	</tr>
+	<tr>
+		<td>����ʡ�ݣ�</td>
+		<td>�㶫<input name="Province" value="1" type="radio">����<input
+			name="Province" value="2" type="radio">�㽭<input
+			name="Province" value="3" type="radio">����<input
+			name="Province" value="4" type="radio" dataType="Group"
+			msg="����ѡ��һ��ʡ��"></td>
+	</tr>
+	<tr>
+		<td>���ã�</td>
+		<td>�˶�<input name="Favorite" value="1" type="checkbox">����<input
+			name="Favorite" value="2" type="checkbox">������<input
+			name="Favorite" value="3" type="checkbox">����<input
+			name="Favorite" value="4" type="checkbox" " dataType="Group" min="2"
+			max="3" msg="����ѡ��2~3�ְ���"></td>
+	</tr>
+	<td>���ҽ��ܣ�</td>
+	<td><textarea name="Description" dataType="Limit" max="10"
+		msg="���ҽ������ݱ�����10����֮��">������һ����</textarea></td>
+	</tr>
+	<td>�Դ���</td>
+	<td><textarea name="History" dataType="LimitB" min="3" max="10"
+		msg="�Դ����ݱ�����[3,10]���ֽ�֮��">�����������ֽ�t</textarea></td>
+	</tr>
+	<tr>
+		<td colspan="2"><input name="Submit" type="submit" value="ȷ���ύ"><input
+			onClick="Validator.Validate(document.getElementById('demo'))"
+			value="����ģʽ1" type="button"><input
+			onClick="Validator.Validate(document.getElementById('demo'),2)"
+			value="����ģʽ2" type="button"><input
+			onClick="Validator.Validate(document.getElementById('demo'),3)"
+			value="����ģʽ3" type="button"></td>
+	</tr>
+	</form>
+</table>
+<script type="text/javascript" src="Validator.js">
+</script>
