@@ -1,0 +1,96 @@
+.bluetabs {
+	BORDER-BOTTOM: gray 1px solid
+}
+
+.bluetabs UL {
+	PADDING-RIGHT: 0px;
+	MARGIN-TOP: 1px;
+	PADDING-LEFT: 0px;
+	MARGIN-BOTTOM: 0px;
+	PADDING-BOTTOM: 3px;
+	FONT: bold 12px Verdana;
+	MARGIN-LEFT: 0px;
+	PADDING-TOP: 3px;
+	LIST-STYLE-TYPE: none;
+	TEXT-ALIGN: left
+}
+
+.bluetabs LI {
+	DISPLAY: inline;
+	MARGIN: 0px
+}
+
+.bluetabs LI A {
+	BORDER-RIGHT: #778 1px solid;
+	PADDING-RIGHT: 7px;
+	BORDER-TOP: #778 1px solid;
+	PADDING-LEFT: 7px;
+	BACKGROUND: url(media/bluetab.gif) white repeat-x left top;
+	PADDING-BOTTOM: 3px;
+	BORDER-LEFT: #778 1px solid;
+	COLOR: #2d2b2b;
+	MARGIN-RIGHT: 3px;
+	PADDING-TOP: 3px;
+	BORDER-BOTTOM: #778 1px solid;
+	TEXT-DECORATION: none
+}
+
+.bluetabs LI A:visited {
+	COLOR: #2d2b2b
+}
+
+.bluetabs LI A:hover {
+	COLOR: #2d2b2b;
+	TEXT-DECORATION: underline
+}
+
+.bluetabs LI.selected {
+	
+}
+
+.bluetabs LI.selected A {
+	BACKGROUND-IMAGE: url(media/bluetabactive.gif);
+	BORDER-BOTTOM-COLOR: white
+}
+
+.bluetabs LI.selected A:hover {
+	TEXT-DECORATION: none
+}
+
+.dropmenudiv_b {
+	BORDER-RIGHT: #918d8d 1px solid;
+	BORDER-TOP: #918d8d 0px solid;
+	Z-INDEX: 100;
+	VISIBILITY: hidden;
+	FONT: 12px/ 18px Verdana;
+	BORDER-LEFT: #918d8d 1px solid;
+	WIDTH: 200px;
+	BORDER-BOTTOM: #918d8d 0px solid;
+	POSITION: absolute;
+	TOP: 0px;
+	BACKGROUND-COLOR: white
+}
+
+.dropmenudiv_b A {
+	BORDER-RIGHT: #918d8d 0px solid;
+	PADDING-RIGHT: 0px;
+	BORDER-TOP: #918d8d 0px solid;
+	DISPLAY: block;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 2px;
+	BORDER-LEFT: #918d8d 0px solid;
+	WIDTH: auto;
+	COLOR: black;
+	TEXT-INDENT: 5px;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #918d8d 1px solid;
+	TEXT-DECORATION: none
+}
+
+HTML .dropmenudiv_b A {
+	WIDTH: 100%
+}
+
+.dropmenudiv_b A:hover {
+	BACKGROUND-COLOR: #edf3f3
+}
