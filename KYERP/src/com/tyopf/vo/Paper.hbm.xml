@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tyopf.vo.Paper" table="Paper">
+		<id name="pid" type="java.lang.Integer">
+			<column name="PID" />
+			<generator class="native" />
+		</id>
+		<property name="type" type="string">
+			<column name="Type" length="20">
+				<comment>&#214;&#189;&#213;&#197;&#192;&#224;&#208;&#205;</comment>
+            </column>
+        </property>
+        <property name="bands" type="string">
+            <column name="Bands" length="50">
+                <comment>&#198;&#183;&#197;&#198;</comment>
+            </column>
+        </property>
+        <property name="weight" type="string">
+            <column name="Weight" length="50">
+                <comment>&#191;&#203;&#214;&#216;</comment>
+            </column>
+        </property>
+        <property name="width" type="string">
+            <column name="Width" length="10">
+                <comment>&#191;&#237;&#182;&#200;</comment>
+            </column>
+        </property>
+        <property name="height" type="string">
+            <column name="Height" length="10">
+                <comment>&#179;&#164;&#182;&#200;</comment>
+            </column>
+        </property>
+        <property name="price" type="java.lang.Double">
+            <column name="Price" precision="22" scale="0">
+                <comment>&#177;&#168;&#188;&#219;</comment>
+            </column>
+        </property>
+        <property name="updateDate" type="timestamp">
+            <column name="UpdateDate" length="0">
+                <comment>&#184;&#252;&#208;&#194;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="remark" type="string">
+            <column name="Remark" length="50">
+                <comment>&#177;&#184;&#215;&#162;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

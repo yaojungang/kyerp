@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="BL" extends="struts-tyopf" namespace="/BL">
+		<action name="index" class="com.tyopf.action.OPEAction" method="ListAF_Eva">
+			<result name="success">/BL/index.jsp</result>
+		</action>
+
+		<action name="getAFByType" class="com.tyopf.action.OPEAction"
+			method="getAFByType">
+			<result name="success">/BL/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByAFNo" class="com.tyopf.action.OPEAction"
+			method="getAFByAFNo">
+			<result name="success">/BL/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByName" class="com.tyopf.action.OPEAction"
+			method="getAFByName">
+			<result name="success">/BL/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByYWY" class="com.tyopf.action.AFAction"
+			method="getAFByYWY">
+			<result name="success">/BL/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByDate" class="com.tyopf.action.AFAction"
+			method="getAFByDate">
+			<result name="success">/BL/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByClient" class="com.tyopf.action.AFAction"
+			method="getAFByClient">
+			<result name="success">/BL/AF_listAF.jsp</result>
+		</action>
+
+		<action name="AF_getTodayAFs" class="com.tyopf.action.AFAction"
+			method="getTodayAFs">
+			<result name="success">/BL/AF_listAF.jsp</result>
+		</action>
+		<action name="AF_getSKAFs" class="com.tyopf.action.AFAction"
+			method="getSKAFs">
+			<result name="success">/BL/AF_listAF.jsp</result>
+		</action>
+		<action name="AF_getLHAFs" class="com.tyopf.action.AFAction"
+			method="getLHAFs">
+			<result name="success">/BL/AF_listAF.jsp</result>
+		</action>
+		<action name="AF_getAllAFs" class="com.tyopf.action.AFAction"
+			method="getAFs">
+			<result name="success">/BL/AF_listAF.jsp</result>
+		</action>
+		<action name="AFE_getAllAFEs" class="com.tyopf.action.AFAction"
+			method="getAFEs">
+			<result name="success">/BL/AFE_listAFE.jsp</result>
+		</action>
+		<action name="AF_getAFByBindingFactory" class="com.tyopf.action.AFAction"
+			method="getAFByBindingFactory">
+			<result name="success">/BL/listAFD.jsp</result>
+		</action>
+		<action name="AF_getTodayAFsForBindingFactory" class="com.tyopf.action.AFAction"
+			method="getTodayAFsForBindingFactory">
+			<result name="success">/BL/listAFD.jsp</result>
+		</action>
+		<action name="BL_Complete" class="com.tyopf.action.AFAction"
+			method="BL_Complete">
+			<result name="success" type="redirect">
+				/BL/AF_getAFByBindingFactory.action
+			</result>
+		</action>
+		<action name="BL_Complete_noSkin" class="com.tyopf.action.AFAction"
+			method="BL_Complete">
+			<result name="success">
+				/Library/info/txtMessage.jsp
+			</result>
+		</action>
+		<action name="AF_getFinishedAFEByItem" class="com.tyopf.action.AFAction"
+			method="getFinishedAFEByItem">
+			<result name="success">
+				/BL/AFE_listAFD.jsp
+			</result>
+		</action>
+		<action name="AF_getNotFinishedAFEByItem" class="com.tyopf.action.AFAction"
+			method="getNotFinishedAFEByItem">
+			<result name="success">
+				/BL/AFE_listAFD.jsp
+			</result>
+		</action>
+		<action name="AF_getFinishedAFD" class="com.tyopf.action.AFAction"
+			method="getFinishedAFD">
+			<result name="success">/BL/listAFD.jsp</result>
+		</action>
+		<action name="AF_getNotFinishedAFD" class="com.tyopf.action.AFAction"
+			method="getNotFinishedAFD">
+			<result name="success">/BL/listAFD.jsp</result>
+		</action>
+
+	</package>
+</struts>

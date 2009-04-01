@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="HR" extends="struts-tyopf" namespace="/HR">
+		<action name="HRAdmin" class="com.tyopf.action.HRAction"
+			method="HRAdmin">
+			<result name="success">/HR/EmployeeList.jsp</result>
+		</action>
+		<action name="HRAdminGetEmployeeByDeptId" class="com.tyopf.action.HRAction"
+			method="getEmployeeByDeptId">
+			<result name="success">/HR/EmployeeList.jsp</result>
+		</action>
+		<action name="Employee" class="com.tyopf.action.HRAction"
+			method="Employee">
+			<result name="success">/HR/EmployeeInfo.jsp
+			</result>
+		</action>
+		<action name="addEmployee" class="com.tyopf.action.HRAction"
+			method="addEmployee">
+			<result name="success">/HR/EmployeeAdd.jsp</result>
+		</action>
+		<action name="addEmployee_save" class="com.tyopf.action.HRAction"
+			method="addEmployee_save">
+			<result name="success">/HR/EmployeeInput.jsp
+			</result>
+		</action>
+		<action name="editEmployee" class="com.tyopf.action.HRAction"
+			method="editEmployee">
+			<result name="success">/HR/EmployeeInput.jsp
+			</result>
+		</action>
+		<action name="editEmployee_save" class="com.tyopf.action.HRAction"
+			method="editEmployee_save">
+			<result name="success">/HR/EmployeeInput.jsp
+			</result>
+		</action>
+		<action name="uploadPhoto" class="com.tyopf.util.photoUpload">
+			<result name="success">/HR/EmployeeInfo.jsp
+			</result>
+		</action>
+		<action name="changeUserPassword_save" class="com.tyopf.action.HRAction"
+			method="changeUserPassword_save">
+			<result name="success">/HR/EmployeeInput.jsp
+			</result>
+		</action>
+		<action name="jsonCheckUsernameForReg" class="com.tyopf.action.HRAction"
+			method="checkUsernameForReg">
+			<result type="json">
+				<param name="root">usernameRegable</param>
+			</result>
+		</action>
+		<action name="noSkin_getRoleListByDeptId" class="com.tyopf.action.HRAction"
+			method="getRoleListByDeptId">
+			<result name="success">/HR/noSkin_getRoleListByDeptId.jsp
+			</result>
+		</action>
+	</package>
+</struts>

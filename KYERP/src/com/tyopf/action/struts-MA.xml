@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="MA" extends="struts-tyopf" namespace="/MA">
+		<action name="getAFByYWY" class="com.tyopf.action.AFAction"
+			method="getAFByYWY">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+		<action name="index" class="com.tyopf.action.MAAction" method="index">
+			<result name="success">/MA/index.jsp</result>
+		</action>
+		<action name="ListAF_Eva" class="com.tyopf.action.OPEAction"
+			method="ListAF_Eva">
+			<result name="success">/MA/index.jsp</result>
+		</action>
+		<action name="ListAF" class="com.tyopf.action.OPEAction"
+			method="ListAF_Eva">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+		<action name="ListEva" class="com.tyopf.action.OPEAction"
+			method="ListAF_Eva">
+			<result name="success">/OPE/listEva.jsp</result>
+		</action>
+		<action name="getAFByType" class="com.tyopf.action.OPEAction"
+			method="getAFByType">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByAFNo" class="com.tyopf.action.OPEAction"
+			method="getAFByAFNo">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByName" class="com.tyopf.action.OPEAction"
+			method="getAFByName">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByYWY" class="com.tyopf.action.AFAction"
+			method="getAFByYWY">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByDate" class="com.tyopf.action.AFAction"
+			method="getAFByDate">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+		<action name="getAFByClient" class="com.tyopf.action.AFAction"
+			method="getAFByClient">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+
+		<action name="AFInfo" class="com.tyopf.action.OPEAction"
+			method="AFInfo">
+			<result name="success">/OPE/AFInfo.jsp</result>
+		</action>
+
+		<action name="getTodayAFs" class="com.tyopf.action.AFAction"
+			method="getTodayAFs">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+		<action name="getSKAFs" class="com.tyopf.action.AFAction"
+			method="getSKAFs">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+		<action name="getLHAFs" class="com.tyopf.action.AFAction"
+			method="getLHAFs">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+		<action name="AFE_schedule_SK" class="com.tyopf.action.AFAction"
+			method="getSKAFEs">
+			<result name="success">/MA/AFE_listAFE_schedule.jsp
+			</result>
+		</action>
+		<action name="AFE_schedule_LH" class="com.tyopf.action.AFAction"
+			method="getLHAFEs">
+			<result name="success">/MA/AFE_listAFE_schedule.jsp
+			</result>
+		</action>
+		<action name="AFE_schedule_getAFEsByMachine" class="com.tyopf.action.AFAction"
+			method="getAFEsByMachine">
+			<result name="success">/MA/AFE_listAFE_schedule.jsp
+			</result>
+		</action>
+		<action name="AFE_schedule_getAFEsByMachine_ss" class="com.tyopf.action.AFAction"
+			method="getAFEsByMachine_ss">
+			<result name="success">/MA/AFE_listAFE_schedule.jsp
+			</result>
+		</action>
+		<action name="AFE_schedule_getAFEsByMachine_sm" class="com.tyopf.action.AFAction"
+			method="getAFEsByMachine_sm">
+			<result name="success">/MA/AFE_listAFE_schedule.jsp
+			</result>
+		</action>
+		<action name="AFE_schedule_getAFEsByMachine_05" class="com.tyopf.action.AFAction"
+			method="getAFEsByMachine_05">
+			<result name="success">/MA/AFE_listAFE_schedule.jsp
+			</result>
+		</action>
+		<action name="AFE_schedule_getAFEsByMachine_02" class="com.tyopf.action.AFAction"
+			method="getAFEsByMachine_02">
+			<result name="success">/MA/AFE_listAFE_schedule.jsp
+			</result>
+		</action>
+
+		<action name="getAFs" class="com.tyopf.action.AFAction" method="getAFs">
+			<result name="success">/MA/AF_listAF.jsp</result>
+		</action>
+
+		<action name="getAllAFEs" class="com.tyopf.action.AFAction"
+			method="getAFEs">
+			<result name="success">/MA/AFE_listAFE.jsp</result>
+		</action>
+		<action name="AFE_schedule" class="com.tyopf.action.AFAction"
+			method="getAFEs">
+			<result name="success">/MA/AFE_listAFE_schedule.jsp
+			</result>
+		</action>
+
+		<action name="MASchedule" class="com.tyopf.action.AFAction"
+			method="getAFEs">
+			<result name="success">/MA/MASchedule.jsp</result>
+		</action>
+
+		<action name="cztjtb_input" class="com.tyopf.action.MAAction"
+			method="cztjtb_input">
+			<result name="success">/MA/cztjtb.jsp</result>
+		</action>
+		<action name="cztjtb" class="com.tyopf.action.MAAction" method="cztjtb">
+			<result name="success">/MA/cztjtb_result.jsp
+			</result>
+		</action>
+		<action name="cztjtb_noSkin" class="com.tyopf.action.MAAction"
+			method="cztjtb">
+			<result name="success">/MA/cztjtb_result_print.jsp
+			</result>
+		</action>
+		<action name="noSkin_getValueOfOutputOfThisMonth" class="com.tyopf.action.MAAction"
+			method="getValueOfOutputOfThisMonth">
+			<result name="success">/MA/ValueOfOutput_print.jsp
+			</result>
+		</action>
+		<action name="getAFbyAFNoList" class="com.tyopf.action.AFAction"
+			method="getAFbyAFNoList">
+			<result name="success">/AF/AF_listAF_list.jsp
+			</result>
+		</action>
+		<action name="getAFList_input" class="com.tyopf.action.AFAction"
+			method="getAFList_input">
+			<result name="success">/AF/getAFList_input.jsp
+			</result>
+		</action>
+		<action name="taizhang_input" class="com.tyopf.action.MAAction"
+			method="taizhang_input">
+			<result name="success">/MA/taizhang_input.jsp
+			</result>
+		</action>
+		<action name="taizhang" class="com.tyopf.action.MAAction"
+			method="taizhang">
+			<result name="success">/MA/taizhang.jsp</result>
+		</action>
+		<action name="taizhang_getAFbyAFNoList" class="com.tyopf.action.AFAction"
+			method="getAFbyAFNoList">
+			<result name="success">/MA/taizhang.jsp</result>
+		</action>
+		<action name="TjInput" class="com.tyopf.action.MAAction"
+			method="TjInput">
+			<result name="success">/MA/TjInput.jsp
+			</result>
+		</action>
+		<action name="Tj" class="com.tyopf.action.MAAction"
+			method="Tj">
+			<result name="success">/MA/Tj.jsp</result>
+		</action>
+		<action name="Tj_getAFbyAFNoList" class="com.tyopf.action.AFAction"
+			method="getAFbyAFNoList">
+			<result name="success">/MA/Tj.jsp</result>
+		</action>
+
+		<action name="getAFDetialList" class="com.tyopf.action.AFAction"
+			method="getAFs">
+			<result name="success">/MA/AFDetialList.jsp</result>
+		</action>
+	</package>
+</struts>

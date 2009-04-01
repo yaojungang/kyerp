@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tyopf.vo.Role" table="Role">
+		<comment></comment>
+		<id name="id" type="int">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="companyDept" class="com.tyopf.vo.CompanyDept"
+			column="DeptId" lazy="false"></many-to-one>
+		<set name="users" table="Users_Roles" lazy="true">
+			<key column="RoleId" />
+			<many-to-many class="com.tyopf.vo.User" column="UserId" />
+		</set>
+		<set name="systemFunctions" table="Roles_Functions " lazy="false">
+			<key column="RoleId" />
+			<many-to-many class="com.tyopf.vo.SystemFunctions" column="FunctionId" />
+		</set>
+		<property name="rname" type="string">
+			<column name="RName" length="50">
+				<comment>&#189;&#199;&#201;&#171;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="rdescribe" type="string">
+            <column name="RDescribe" length="100">
+                <comment>&#189;&#199;&#201;&#171;&#195;&#232;&#202;&#246;</comment>
+            </column>
+        </property>
+        <property name="rremark" type="string">
+            <column name="RRemark" length="250">
+                <comment>&#177;&#184;&#215;&#162;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>
