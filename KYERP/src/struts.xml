@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<include file="struts-default.xml" />
+	<include file="/com/tyopf/action/test/struts-test.xml" />
+	<include file="/com/tyopf/action/struts-System.xml" />
+	<include file="/com/tyopf/action/struts-HR.xml" />
+	<include file="/com/tyopf/action/struts-Client.xml" />
+	<include file="/com/tyopf/action/struts-User.xml" />
+	<include file="/com/tyopf/action/struts-OPE.xml" />
+	<include file="/com/tyopf/action/struts-MA.xml" />
+	<include file="/com/tyopf/action/struts-ML.xml" />
+	<include file="/com/tyopf/action/struts-ZP.xml" />
+	<include file="/com/tyopf/action/struts-PM.xml" />
+	<include file="/com/tyopf/action/struts-PL.xml" />
+	<include file="/com/tyopf/action/struts-BL.xml" />
+	<include file="/com/tyopf/action/struts-DL.xml" />
+	<include file="/com/tyopf/action/struts-AF.xml" />
+	<include file="/com/tyopf/action/struts-BindingFactory.xml" />
+	<include file="/com/tyopf/action/struts-FA.xml" />
+	<include file="/com/tyopf/action/struts-WareHouse.xml" />
+	<package name="struts-tyopf" extends="json-default">
+		<interceptors>
+			<interceptor name="systemFunctionsInterceptor" class="com.tyopf.util.SystemFunctionsInterceptor">
+				<param name="checkFunctions">System-Login</param>
+			</interceptor>
+			<interceptor-stack name="PIMdefault">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="systemFunctionsInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="PIMdefault" />
+		<global-results>
+			<result name="login">/login.jsp</result>
+			<result name="wait">/Library/info/wait.jsp</result>
+			<result name="invalid.token">/Library/info/invalidToken.jsp</result>
+			
+		</global-results>
+		<action name="login" class="com.tyopf.action.SystemAction"
+			method="CheckLogin">
+			<result name="success">/index.jsp</result>
+			<result name="error">/login.jsp</result>
+			<interceptor-ref name="defaultStack" />
+		</action>
+		<action name="Logout" class="com.tyopf.action.SystemAction"
+			method="Logout">
+			<result name="success">/login.jsp</result>
+		</action>
+	</package>
+</struts>
