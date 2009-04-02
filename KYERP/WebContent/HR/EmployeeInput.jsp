@@ -685,7 +685,8 @@ function clearOption(selectID)
 		cellspacing="0">
 		<tr>
 			<td width="80" align="right">用户名</td>
-			<td align="left"><s:property value="#employee.user.username" />
+			<td align="left"><s:property value="#employee.user.username" /><input type="button" value="修改"
+				onClick="ymPrompt.win('noSkin_changeUsername.action?id=<s:property value="#employee.user.id"/>',500,300,'修改用户名',null,null,null,{id:'a'})" />
 			</td>
 		</tr>
 		<tr>

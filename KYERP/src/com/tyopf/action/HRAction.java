@@ -339,5 +339,17 @@ public class HRAction extends ActionSupport implements SessionAware{
 		request.put("roleList", roleList);
 		return SUCCESS;
 	}
+	public String changeUsername() {
+		User user = systemService.getUserById(id);
+		Map request = (Map) ActionContext.getContext().get("request");
+		request.put("user", user);
+		return SUCCESS;
+	}
+	public String changeUsername_save() {
+		systemService.changeUsername_save(user);
+		Map request = (Map) ActionContext.getContext().get("request");
+		request.put("message", "用户修改成功！");
+		return SUCCESS;
+	}
 
 }
