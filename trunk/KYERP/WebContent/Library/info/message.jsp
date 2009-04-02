@@ -5,7 +5,9 @@
 <title>信息</title>
 </head>
 <body>
-<s:if test="message != null">
-<div class="pim2_errorMessage"><s:property value="message" /></div></s:if>
+<s:if test="#request.message != null">
+			<div class="pim2_errorMessage"><s:property
+				value="#request.message" /></div>
+		</s:if>
 </body>
 </html>

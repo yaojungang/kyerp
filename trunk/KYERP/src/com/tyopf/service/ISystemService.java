@@ -28,4 +28,6 @@ public interface ISystemService {
 	public Role getRoleById(int id);
 	public Role addRole_save(Role role,List<String> functionsIds);
 	public Role editRole_save(Role role,List<String> functionsIds);
+	public User getUserById(int UserId);
+	public User changeUsername_save(User user);
 }

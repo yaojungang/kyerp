@@ -174,4 +174,17 @@ public class SystemService implements ISystemService {
 	public SystemFunctions getSystemFunctionById(int id) {
 		return systemDAO.getSystemFunctionById(id);
 	}
+
+	public User getUserById(int UserId) {
+		return userDAO.getUserById(UserId);
+	}
+
+	@Override
+	public User changeUsername_save(User user) {
+		User user0 = userDAO.getUserById(user.getId());
+		user0.setUsername(user.getUsername());
+		userDAO.editUser(user0);
+		
+		return user0;
+	}
 }
