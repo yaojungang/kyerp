@@ -32,7 +32,7 @@ public interface IUserDAO {
 	public void removeEmployeeFamily(int familyId);
 	public void removeEmployeeResume(int resumeId);
 	public Employee getEmployeeById(int employeeId);
-	public List<Employee> getAllEmployee(int currentPage, int pageSize);
+	public List<Employee> getAllEmployee();
 	public List<Employee> getEmployeeByDeptId(int deptId);
 	public List<Employee> getEmployeeByWorkStatus(int workStatus,int currentPage, int pageSize);
 	public int getConuntOfEmployeeListByWorkStatus(int workStatus);

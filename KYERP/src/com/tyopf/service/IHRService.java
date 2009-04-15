@@ -21,6 +21,7 @@ public interface IHRService {
 	public Employee changeUserPassword_save(int id,String userPassword);
 	public int checkUsernameForReg(String username);
 	public List<Role> getRoleByDeptId(int deptId);
+	public List<Employee> getAllEmployee();
 	public List<Employee> getEmployeeByDeptId(int deptId);
 	public int getEmpNo(int id);
 }

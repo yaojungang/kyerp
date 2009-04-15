@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName">
-			<value>com.mysql.jdbc.Driver</value>
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		lazy-init="false">
+		<property name="locations">
+			<list>
+				<value>classpath*:mysqlConn.properties</value>
+			</list>
 		</property>
-		<property name="url">
-			<value>jdbc:mysql://192.168.0.10:3306/KYERPd</value>
-		</property>
-		<property name="username">
-			<value>PIM</value>
-		</property>
-		<property name="password">
-			<value>tyopfkeek</value>
-		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
 	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
@@ -21,14 +24,12 @@
 			<ref bean="dataSource" />
 		</property>
 		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">
-					org.hibernate.dialect.MySQLDialect
-				</prop>
-				<prop key="hibernate.show_sql">false</prop>
-				<prop key="hibernate.connection.useUnicode">true</prop>
-				<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
-			</props>
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQLDialect
+				hibernate.show_sql=false
+				hibernate.connection.useUnicode=true
+				hibernate.connection.characterEncoding=UTF-8
+     		 </value>
 		</property>
 		<property name="mappingResources">
 			<list>
@@ -37,6 +38,7 @@
 				<value>com/tyopf/vo/CompanyDept.hbm.xml</value>
 				<value>com/tyopf/vo/CompanyPartner.hbm.xml</value>
 				<value>com/tyopf/vo/CompanySettings.hbm.xml</value>
+				<value>com/tyopf/vo/CompanyFilm.hbm.xml</value>
 				<value>com/tyopf/vo/User.hbm.xml</value>
 				<value>com/tyopf/vo/Role.hbm.xml</value>
 				<value>com/tyopf/vo/Employee.hbm.xml</value>

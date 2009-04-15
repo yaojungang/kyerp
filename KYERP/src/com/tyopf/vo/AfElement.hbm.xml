@@ -11,7 +11,13 @@
 		<many-to-one name="AfBase" class="com.tyopf.vo.AfBase"
 			column="AF_ID" lazy="false">
 		</many-to-one>
-
+		<many-to-one name="companyFilm" class="com.tyopf.vo.CompanyFilm"
+			column="film_id" lazy="false">
+		</many-to-one>
+		<property name="afId" type="java.lang.Long" insert="false" update="false">
+            <column name="AF_ID">
+            </column>
+        </property>
 		<property name="EType" type="string">
 			<column name="E_Type" length="50">
 				<comment>&#192;&#224;&#208;&#205;</comment>
@@ -175,6 +181,10 @@
         <property name="paperSupplyTime" type="timestamp">
             <column name="paperSupplyTime" length="0">
                 <comment>&#183;&#162;&#214;&#189;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="filmId" type="java.lang.Integer" insert="false" update="false">
+            <column name="film_id">
             </column>
         </property>
 	</class>

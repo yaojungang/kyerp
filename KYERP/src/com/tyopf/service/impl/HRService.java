@@ -188,4 +188,9 @@ public class HRService implements IHRService {
 		userDAO.saveEmployee(employee);
 	}
 
+	@Override
+	public List<Employee> getAllEmployee() {
+		return userDAO.getAllEmployee();
+	}
+
 }

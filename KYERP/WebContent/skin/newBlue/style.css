@@ -801,10 +801,11 @@ div.xoopsQuote {
 	background: #0066FF;
 	color: #FFFFFF;
 	line-height: 150%;
+	font-size: 16px;
 }
 
 .stripe_tb td {
-	border-bottom: 0px solid #95bce2;
+	border-bottom: 1px solid #95bce2;
 }
 
 .stripe_tb td * {

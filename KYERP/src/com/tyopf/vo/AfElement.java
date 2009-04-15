@@ -5,9 +5,11 @@ import java.util.Date;
 public class AfElement {
 	private long afEId;
 
-	//private Long afId;
+	private Long afId;
 	
 	private AfBase afBase;
+	
+	private CompanyFilm companyFilm;
 
 	private String EType;
 
@@ -71,15 +73,39 @@ public class AfElement {
 	private String paperSupplyMan;
 	private String paperGetMan;
 	private Date paperSupplyTime;
-
+	private Integer filmId;
 	// Constructors
 
 	/** default constructor */
 	public AfElement() {
 	}
 
+	public CompanyFilm getCompanyFilm() {
+		return companyFilm;
+	}
+
+	public void setCompanyFilm(CompanyFilm companyFilm) {
+		this.companyFilm = companyFilm;
+	}
+
+	public Long getAfId() {
+		return afId;
+	}
+
+	public void setAfId(Long afId) {
+		this.afId = afId;
+	}
+
 	public Integer getPaperStatus() {
 		return paperStatus;
+	}
+
+	public Integer getFilmId() {
+		return filmId;
+	}
+
+	public void setFilmId(Integer filmId) {
+		this.filmId = filmId;
 	}
 
 	public void setPaperStatus(Integer paperStatus) {

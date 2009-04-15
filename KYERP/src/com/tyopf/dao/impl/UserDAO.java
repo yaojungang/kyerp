@@ -214,13 +214,9 @@ public class UserDAO extends BaseDAO implements IUserDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Employee> getAllEmployee(int currentPage, int pageSize) {
+	public List<Employee> getAllEmployee() {
 		Session session = getSession();
 		Query query = session.createQuery("from Employee employee order by employee.id desc");
-		int startRow = (currentPage - 1) * pageSize;
-		query.setFirstResult(startRow);
-		query.setMaxResults(pageSize);
-		query.setCacheable(true);
 		List employees = query.list();
 		session.close();
 		return employees;
@@ -307,6 +303,7 @@ public class UserDAO extends BaseDAO implements IUserDAO {
 		return employees;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public int getEmpNo(int id) {
 		Session session = getSession();
 		Employee employee0 = (Employee) session.get(Employee.class, id);

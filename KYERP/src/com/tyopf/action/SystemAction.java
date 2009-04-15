@@ -251,7 +251,8 @@ public class SystemAction extends ActionSupport implements SessionAware {
 	}
 	@SuppressWarnings("unchecked")
 	public String updateEmpNo() throws Exception{
-		List<Employee> allEmployee = hrService.getEmployeeListByWorkStatus(0, 1, 10000);
+//		List<Employee> allEmployee = hrService.getEmployeeListByWorkStatus(0, 1, 10000);
+		List<Employee> allEmployee = hrService.getAllEmployee();
 		for(Employee e:allEmployee){
 			e.setEmpNo(hrService.getEmpNo(e.getId()));
 			hrService.saveEmployee(e);

@@ -29,14 +29,14 @@ $(document).ready(function(){
 	<li><input type="button" value="增加人员"
 		onClick='javascript:window.location.href="addEmployee.action"'></li>
 	<li>
-	<select onchange="window.location.href=this.options[this.selectedIndex].value;">
+	<select onChange="window.location.href=this.options[this.selectedIndex].value;">
 		<option value="#" selected="selected">按部门筛选</option>
 		<s:iterator value="#request['DeptTree']" status="st">
 			<option value='HRAdminGetEmployeeByDeptId.action?deptId=<s:property value="id"/>' <s:if test="id == #request.deptId" >selected="selected"</s:if>><s:property value="name" /></option>
 		</s:iterator>
 	</select></li>
 	<li>
-	<select onchange="window.location.href=this.options[this.selectedIndex].value;">
+	<select onChange="window.location.href=this.options[this.selectedIndex].value;">
 		    <option value="#" selected="selected">按人员状态筛选</option>
 			<option value='HRAdmin.action?workStatus=0' <s:if test="0 == #request.workStatus" >selected="selected"</s:if>>在编人员</option>
 			<option value='HRAdmin.action?workStatus=1' <s:if test="1 == #request.workStatus" >selected="selected"</s:if>>试用期人员</option>
@@ -69,7 +69,7 @@ $(document).ready(function(){
 		<tr>
 			<td width="40px"><s:property value="#employee.id" /></td>
 			<td width="60px"><a target="_blank"
-				href="Employee.action?id=<s:property value="#employee.id" />"><s:property
+				href="Employee.action?id=<s:property value='#employee.id' />"><s:property
 				value="#employee.realname" /></a></td>
 			<td width="60px"><s:property value="#employee.empNo" /></td>
 			<td width="80px"><s:property value="#employee.companyDept.name" /></td>
@@ -79,7 +79,7 @@ $(document).ready(function(){
           <td width="80px"><s:property value="#employee.mobile" /></td>
 			<td width="60px"><s:property value="#employee.user.username" /></td>
 			<td><s:property value="#employee.remark" /></td>
-			<td width="40px"><a href="editEmployee.action?id=<s:property value="#employee.id" />">修改</a></td>
+			<td width="40px"><a href="editEmployee.action?id=<s:property value='#employee.id' />">修改</a></td>
 		</tr>
 	</s:iterator>
 	</tbody>
