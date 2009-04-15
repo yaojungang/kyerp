@@ -36,7 +36,7 @@ $(document).ready(function(){
 			<th width="40px">编号</th>
 			<th width="120px">部门名称</th>
 			<th>角色列表</th>
-			<th width="60px">员工人数</th>
+			<th width="80px">员工人数</th>
 			<th width="80px">备注</th>
 		</tr>
 	</thead>

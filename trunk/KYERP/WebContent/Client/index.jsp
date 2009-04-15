@@ -41,7 +41,7 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
         displayField: 'value',
-        readOnly: true,
+        readOnly: false,
 		applyTo: 'comboYW'
     });
 

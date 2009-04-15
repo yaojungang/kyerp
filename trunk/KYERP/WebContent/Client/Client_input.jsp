@@ -27,11 +27,10 @@ Ext.onReady(function(){
 	Ext.form.Field.prototype.msgTarget = 'side';
 	Ext.BLANK_IMAGE_URL = '../Library/js/ext/resources/images/default/s.gif';
 	
-    var storeYW = new Ext.data.Store({
+	var storeYW = new Ext.data.Store({
         proxy: new Ext.data.HttpProxy({url:'../OPE/jsongetAllYW.action'}),
         reader: new Ext.data.ArrayReader({},[
-            {name:'value'},
-            {name:'text'}
+            {name:'value'}
         ])
     });
    var comboYW = new Ext.form.ComboBox({
@@ -43,8 +42,8 @@ Ext.onReady(function(){
         mode: 'local',
         triggerAction: 'all',
         valueField: 'value',
-        displayField: 'text',
-        readOnly: true,
+        displayField: 'value',
+        readOnly: false,
 		applyTo: 'client_ywname'
     });
    storeYW.load();
