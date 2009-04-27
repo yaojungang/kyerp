@@ -75,6 +75,10 @@
 			method="MoneyIn_BAT">
 			<result name="success">/FA/MoneyIn_BAT.jsp</result>
 		</action>
-
+		<action name="getQYJYYJ" class="com.tyopf.action.OPEAction"
+			method="getMoneyByNoRange">
+			<result name="success">/AF/AF_listMoney_QYJYYJ.jsp
+			</result>
+		</action>
 	</package>
 </struts>

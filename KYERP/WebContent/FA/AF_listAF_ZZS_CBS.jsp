@@ -51,11 +51,11 @@
 			<td align="center" bgcolor="#FFFFFF"><s:property
 				value="#af.amount" /></td>
 			<td align="center" bgcolor="#FFFFFF"><s:if
-				test="#af.moneyShould > 0">
+				test="#af.moneyFact > 0">
 				<SCRIPT type="text/javascript">document.write(fixfloat(<s:property value="#af.moneyFact / 1.17 / #af.amount" />,2));</SCRIPT>
 			</s:if></td>
 			<td align="center" bgcolor="#FFFFFF"><s:if
-				test="#af.moneyShould > 0">
+				test="#af.moneyFact > 0">
 				<SCRIPT type="text/javascript">document.write(fixfloat(<s:property value="#af.moneyFact / 1.17" />,2));</SCRIPT>
 			</s:if></td>
 			<td align="center" bgcolor="#FFFFFF"><s:property

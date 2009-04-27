@@ -120,7 +120,7 @@
 		<s:if test="#user.userType.equals('Admin') or 'OM-AF-Del' in #userSystemFunctionList">
 			<li><a
 				href='<%=request.getContextPath()%>/OPE/delAF.action?afId=<s:property value="#af.afId" />'
-				target="_blank" onClick="return checkit('删除后不能恢复,您确认要删除这个任务单吗?')">删除任务单</a></li>
+				target="_blank" onClick="return checkit('删除后不能恢复,您确认要删除这个任务单吗?')">删除</a></li>
 		</s:if>
 	</s:else>
 </ul>

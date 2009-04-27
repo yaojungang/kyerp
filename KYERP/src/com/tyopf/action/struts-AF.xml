@@ -160,6 +160,15 @@
 				<param name="root">ListAF</param>
 			</result>
 		</action>
+		<action name="YZNo2AFNo" class="com.tyopf.action.AFAction"
+			method="changeYZNo2AFNo">
+			<result name="success">/AF/YZNo2AFNo.jsp
+			</result>
+		</action>
+		<action name="filmPlaceInput" class="com.tyopf.action.AFAction"
+			method="filmPlaceInput">
+			<result name="success">/Library/info/message.jsp</result>
+		</action>
 
 	</package>
 </struts>

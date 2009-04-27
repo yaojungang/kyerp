@@ -803,5 +803,12 @@ public class AFAction extends ActionSupport {
 		request.put("pageTitle", "全部任务单");
 		return SUCCESS;
 	}
+	@SuppressWarnings("unchecked")
+	public String filmPlaceInput() throws Exception {
+		
+		Map request = (Map) ActionContext.getContext().get("request");
+		request.put("messate", "软片存放位置修改成功！");
+		return SUCCESS;
+	}
 
 }
