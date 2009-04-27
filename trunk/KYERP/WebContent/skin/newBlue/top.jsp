@@ -112,9 +112,10 @@
 				<div id="fa" class="dropmenudiv_b"><a
 					href="${pageContext.request.contextPath}/FA/MoneyIn.action">收款</a>
 				<a href="${pageContext.request.contextPath}/FA/JZKP_input.jsp">结账开票</a>
-				<a
-					href="${pageContext.request.contextPath}/FA/MoneyIn_BAT_input.action">批量收款</a>
-				<a href="${pageContext.request.contextPath}/FA/MoneyTent.jsp">往来账管理</a></div>
+				<a href="${pageContext.request.contextPath}/FA/MoneyIn_BAT_input.action">批量收款</a>
+				<a href="${pageContext.request.contextPath}/FA/MoneyTent.jsp">往来账管理</a>
+				<a href="${pageContext.request.contextPath}/FA/TentAF_QYJYYJ.jsp">企业经营业绩统计</a>
+				</div>
 			</s:if>
 			<s:if test="#user.userType.equals('Admin') or 'HR-Basic' in #userSystemFunctionList">
 				<!--人员管理子菜单 -->

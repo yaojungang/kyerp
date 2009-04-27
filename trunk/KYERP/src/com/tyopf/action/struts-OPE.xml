@@ -238,6 +238,7 @@
 			<result name="success">/OPE/AF_listMoney.jsp
 			</result>
 		</action>
+		
 		<action name="getMoneyByYWandType" class="com.tyopf.action.OPEAction"
 			method="getMoneyByYWandType">
 			<result name="success">/OPE/AF_listMoney.jsp

@@ -1128,12 +1128,11 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		String YZNoListToGet = "\'88888888888888\'";
 		for (int i = 0; i < ss.length; i++) {
 			YZNoListToGet = YZNoListToGet + ",\'" + ss[i] + "\'";
-
+			
 		}
 		Query query = session.createQuery("from AfBase af where af.pcAf in ("
 				+ YZNoListToGet + ") order by af.pcAf asc");
-		query.setCacheable(true);
-		List AFs = query.list();
+		List<AfBase> AFs = query.list();
 		session.close();
 		return AFs;
 	}

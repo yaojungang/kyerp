@@ -138,6 +138,7 @@ public class FAAction extends ActionSupport {
 
 	@SuppressWarnings("unchecked")
 	public String MoneyIn_BAT_YZNoList_input2() throws Exception {
+		
 		List ListAF = afService.getAFinYZNoList(YZNoList);
 		Pager AFpager = new Pager(currentPage, ListAF.size());
 		AFpager.setPageSize(ListAF.size());
@@ -184,7 +185,7 @@ public class FAAction extends ActionSupport {
 					aft.setMoneyRemark(af0.getMoneyRemark());
 					
 					afs0.add(aft);
-					System.out.println("before update af.moneyGavinMan:"+af0.getMoneyGiveMan());
+					//System.out.println("before update af.moneyGavinMan:"+af0.getMoneyGiveMan());
 					af0.setMoneyTime(moneyTime);
 					af0.setMoneyGiveMan(af.getMoneyGiveMan());
 					af0.setMoneyFact(af.getMoneyFact());
@@ -202,7 +203,7 @@ public class FAAction extends ActionSupport {
 					af0.setMoneyRemark(af.getMoneyRemark());
 					
 					afsF.add(af0);
-					System.out.println("updated af.moneyGavinMan:"+af0.getMoneyGiveMan());
+					//System.out.println("updated af.moneyGavinMan:"+af0.getMoneyGiveMan());
 
 					afService.saveAF(af0);
 

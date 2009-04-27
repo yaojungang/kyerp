@@ -11,9 +11,6 @@
 		<many-to-one name="AfBase" class="com.tyopf.vo.AfBase"
 			column="AF_ID" lazy="false">
 		</many-to-one>
-		<many-to-one name="companyFilm" class="com.tyopf.vo.CompanyFilm"
-			column="film_id" lazy="false">
-		</many-to-one>
 		<property name="afId" type="java.lang.Long" insert="false" update="false">
             <column name="AF_ID">
             </column>
@@ -183,8 +180,9 @@
                 <comment>&#183;&#162;&#214;&#189;&#202;&#177;&#188;&#228;</comment>
             </column>
         </property>
-        <property name="filmId" type="java.lang.Integer" insert="false" update="false">
-            <column name="film_id">
+        <property name="filmPlace" type="java.lang.Integer">
+            <column name="filmPlace">
+                <comment>&#200;&#237;&#198;&#172;&#180;&#230;&#183;&#197;&#206;&#187;&#214;&#195;</comment>
             </column>
         </property>
 	</class>

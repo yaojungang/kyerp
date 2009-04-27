@@ -8,24 +8,26 @@
 </head>
 <body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0"
 	marginheight="0">
-<span class="pageTitle">增加软片存储单元</span>
+<span class="pageTitle">增加软片架子</span>
 <form name="form1" method="post" action="">
  <table width="90%" border="0" align="center" cellpadding="8"
 		cellspacing="0" bgcolor="#ffffff">
-    <tr>
-      <td width="80" align="right">名称</td>
-      <td><input type="text" style="width: 100px;" name="film.name" value='<s:property
-				value="#film.name" />'/></td>
+         <tr>
+      <td width="80" align="right">第一列列号</td>
+      <td><input type="text" style="width: 100px;" name="filmBoxUnit.lie1No" /></td>
     </tr>
     <tr>
-      <td align="right">备注</td>
-      <td><textarea name="film.remark"
-				style="width: 300px; height: 80px;"><s:property
-				value="#film.remark" /></textarea></td>
+      <td width="80" align="right">列数</td>
+      <td><input type="text" style="width: 100px;" name="filmBoxUnit.lie" /></td>
     </tr>
+    <tr>
+      <td width="80" align="right">行数</td>
+      <td><input type="text" style="width: 100px;" name="filmBoxUnit.hang" /></td>
+    </tr>
+    
     <tr>
       <td align="right">&nbsp;</td>
-      <td><input type="submit" value="保存" name="submit" /></td>
+      <td><input type="submit" value="下一步" name="submit" /></td>
     </tr>
   </table>
 </form>

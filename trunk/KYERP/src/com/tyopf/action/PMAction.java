@@ -10,6 +10,15 @@ import com.tyopf.service.IAFService;
 @SuppressWarnings("serial")
 public class PMAction extends ActionSupport {
 	protected IAFService afService;
+	private FilmBoxUnit filmBoxUnit;
+
+	public FilmBoxUnit getFilmBoxUnit() {
+		return filmBoxUnit;
+	}
+
+	public void setFilmBoxUnit(FilmBoxUnit filmBoxUnit) {
+		this.filmBoxUnit = filmBoxUnit;
+	}
 
 	public IAFService getAfService() {
 		return afService;

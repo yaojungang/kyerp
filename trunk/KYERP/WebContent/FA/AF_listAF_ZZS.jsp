@@ -50,20 +50,20 @@
 			<td align="center" bgcolor="#FFFFFF"><s:property
 				value="#af.amount" /></td>
 			<td align="center" bgcolor="#FFFFFF"><s:if
-				test="#af.moneyShould > 0">
-				<SCRIPT type="text/javascript">document.write(fixfloat(<s:property value="#af.moneyShould / #af.amount" />,2));</SCRIPT>
+				test="#af.moneyFact > 0">
+				<SCRIPT type="text/javascript">document.write(fixfloat(<s:property value="#af.moneyFact / #af.amount" />,2));</SCRIPT>
 			</s:if></td>
 			<td align="center" bgcolor="#FFFFFF"><s:if
-				test="#af.moneyShould > 0">
-				<SCRIPT type="text/javascript">document.write(fixfloat(<s:property value="#af.moneyShould" />,2));</SCRIPT>
+				test="#af.moneyFact > 0">
+				<SCRIPT type="text/javascript">document.write(fixfloat(<s:property value="#af.moneyFact" />,2));</SCRIPT>
 			</s:if></td>
 		</tr>
 	</s:iterator>
 	<tr>
 		<td align="center" bgcolor="#FFFFFF">金额合计 <s:set name="tmoney"
 			value="0" /> <s:iterator value="#request['ListAF']">
-			<s:if test="moneyShould">
-				<s:set name="tmoney" value="#tmoney=#tmoney + moneyShould" />
+			<s:if test="moneyFact">
+				<s:set name="tmoney" value="#tmoney=#tmoney + moneyFact" />
 			</s:if>
 		</s:iterator></td>
 		<td colspan="3" align="center" bgcolor="#FFFFFF"><s:if
