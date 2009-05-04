@@ -183,4 +183,5 @@ public interface IAFService {
 	public void saveAfProcess(AfProcess afp);
 
 	public void removeAfProcess(int afpId);
+	public void filmPlaceChange(long afEId,int filmPlace);
 }

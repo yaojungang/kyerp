@@ -8,17 +8,17 @@
 			<generator class="native" />
 		</id>
 
-		<set name="AfElement" table="AF_Element" order-by="E_Type"
+		<set name="AfElement" table="AF_Element" order-by="E_Type asc"
 			cascade="all-delete-orphan" lazy="true" inverse="true">
 			<key column="AF_ID" />
 			<one-to-many class="com.tyopf.vo.AfElement" />
 		</set>
-		<set name="AfDispose" table="AF_Dispose" order-by="AF_D_ID"
+		<set name="AfDispose" table="AF_Dispose" order-by="AF_D_ID asc"
 			cascade="all-delete-orphan" lazy="true" inverse="true">
 			<key column="AF_ID" />
 			<one-to-many class="com.tyopf.vo.AfDispose" />
 		</set>
-		<set name="AfValuation" table="AF_Valuation" order-by="AF_V_ID"
+		<set name="AfValuation" table="AF_Valuation" order-by="AF_V_ID asc"
 			cascade="all-delete-orphan" lazy="true" inverse="true">
 			<key column="AF_ID" />
 			<one-to-many class="com.tyopf.vo.AfValuation" />

@@ -39,7 +39,6 @@ public class AfElement {
 	private String paperSupplyMan;
 	private String paperGetMan;
 	private Date paperSupplyTime;
-	private Integer filmId;
 	private Integer filmPlace;
 	public AfElement() {
 	}
@@ -258,12 +257,6 @@ public class AfElement {
 	}
 	public void setPaperSupplyTime(Date paperSupplyTime) {
 		this.paperSupplyTime = paperSupplyTime;
-	}
-	public Integer getFilmId() {
-		return filmId;
-	}
-	public void setFilmId(Integer filmId) {
-		this.filmId = filmId;
 	}
 	public Integer getFilmPlace() {
 		return filmPlace;
