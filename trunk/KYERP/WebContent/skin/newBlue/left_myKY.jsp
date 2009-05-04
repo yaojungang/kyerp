@@ -15,7 +15,7 @@
 		</s:else></td>
 	</tr>
 	<tr>
-		<td align="center">欢迎您 <s:property value="#session.user.employee.realname" /> !</td>
+		<td align="center">欢迎您 <s:property value="#session.user.employee.realname" /> </td>
 	</tr>
 	<tr>
 		<td align="center"><a href="${pageContext.request.contextPath}<s:property value = "#session.user.url" />">我的首页</a>&nbsp;|&nbsp;<a

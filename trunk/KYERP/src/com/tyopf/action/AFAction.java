@@ -70,8 +70,17 @@ public class AFAction extends ActionSupport {
 	private long afEId;
 
 	private long afDId;
+	private int filmPlace;
 
 
+
+	public int getFilmPlace() {
+		return filmPlace;
+	}
+
+	public void setFilmPlace(int filmPlace) {
+		this.filmPlace = filmPlace;
+	}
 
 	public String getAFPage() {
 		return AFPage;
@@ -805,9 +814,12 @@ public class AFAction extends ActionSupport {
 	}
 	@SuppressWarnings("unchecked")
 	public String filmPlaceInput() throws Exception {
-		
+		afService.filmPlaceChange(afEId, filmPlace);
 		Map request = (Map) ActionContext.getContext().get("request");
-		request.put("messate", "软片存放位置修改成功！");
+		Map session = ActionContext.getContext().getSession();
+		User u =(User) session.get("user");
+		System.out.println(new Date()+" "+u.getUsername()+" update FilmPlace set afEId="+afEId+"  filmPlace:"+filmPlace);
+		request.put("message", "软片存放位置修改成功！");
 		return SUCCESS;
 	}
 

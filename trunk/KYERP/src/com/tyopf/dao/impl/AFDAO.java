@@ -79,7 +79,7 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		if (af.getClass() != null) {
 			Map ClientSession = ActionContext.getContext().getSession();
 			User u = (User) ClientSession.get("user");
-			System.out.println(u.getUsername() + " read AF:" + af.getIso()
+			System.out.println(new Date()+" "+u.getUsername() + " Read AF:" + af.getIso()
 					+ af.getAfNo());
 			if (!Hibernate.isInitialized(af.getAfElement()))
 				Hibernate.initialize(af.getAfElement());

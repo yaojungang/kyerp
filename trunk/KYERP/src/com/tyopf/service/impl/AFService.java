@@ -387,5 +387,12 @@ public class AFService implements IAFService {
 		return afDAO.getAFByYZNo(YZNo);
 	}
 
+	@Override
+	public void filmPlaceChange(long afEId, int filmPlace) {
+		AfElement afe = afDAO.getAFEById(afEId);
+		afe.setFilmPlace(filmPlace);
+		afDAO.saveAFE(afe);
+	}
+
 
 }

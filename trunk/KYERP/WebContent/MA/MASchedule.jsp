@@ -29,9 +29,9 @@
 	style="border-top: 1px solid gray; height: 550px; padding: 5px; margin-bottom: 1em">
 </div>
 <script type="text/javascript">
-var mypets=new ddajaxtabs("pettabs", "petsdivcontainer")
-mypets.setpersist(false)
-mypets.setselectedClassTarget("link")
-mypets.init()
+var mypets=new ddajaxtabs("pettabs", "petsdivcontainer");
+mypets.setpersist(false);
+mypets.setselectedClassTarget("link");
+mypets.init();
 </script>
 </html>

@@ -10,8 +10,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>清华园胶印厂生产任务单-<s:property value="#af.iso" /><s:property
 	value="#af.afNo" /></title>
+<script src="${pageContext.request.contextPath}/Library/js/jquery.js" type="text/javascript"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/Library/js/function.js"></script>
+    <link rel="stylesheet" id='skin' type="text/css" href="${pageContext.request.contextPath}/Library/js/ymPrompt/skin/qq/ymPrompt.css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/Library/js/ymPrompt/ymPrompt.js"></script>
 <link href="<%=request.getContextPath()%>/Library/css/AFinfo.css"
 	rel="stylesheet" type="text/css" />
 <style>
@@ -59,6 +62,25 @@
 	border: 1px;
 }
 </style>
+<script type="text/javascript">
+function updateFilmPlace(afEId,form) {
+	var divNode = document.getElementById("div" + afEId);
+	var filmPlaceVal = document.getElementById("filmPlace"+afEId).value;
+	//alert(filmPlaceVal);
+	$.get("noSkin_filmPlaceInput.action?afEId="+afEId+"&filmPlace="+filmPlaceVal, null, function(data) {
+		//divNode.innerHTML = data;
+		//divNode.innerHTML = filmPlaceVal;
+		divNode.innerText = filmPlaceVal;
+		//alert("软片存放位置修改成功！");
+		ymPrompt.succeedInfo({message:"软片存放位置修改成功！",width:250,height:180,handler:null});
+		$(form).hide("slow");
+	});
+
+}
+function show(id){
+	$(id).show("slow");
+}
+</script>
 </head>
 <body>
 <div id="AFmenu" class="noprint">
@@ -71,8 +93,7 @@
 			href='<%=request.getContextPath()%>/OPE/ZK.action?AFNo=<s:property value="#af.iso" /><s:property value="#af.afNo" />'>转开任务单</a></li>
 	</s:if>
 	<s:if test="#af.moneyStatus == 0">
-		<s:if
-			test="#user.userType.equals('Admin') or 'FM-AF-ViewMoneyFact' in #userSystemFunctionList">
+		<s:if test="#user.userType.equals('Admin') or 'FM-AF-ViewMoneyFact' in #userSystemFunctionList">
 			<li><a
 				href='<%=request.getContextPath()%>/OPE/CalAF.action?afId=<s:property value="#af.afId" />'
 				target="_blank">实收金额:<s:property value="#af.moneyFact" />元,已结清!</a></li>
@@ -392,5 +413,32 @@
 </table>
 </div>
 </div>
+<s:if test="#user.userType.equals('Admin') or 'PM-AF-FilmInput' in #userSystemFunctionList">
+<table width="750" border="1" align="center" cellpadding="6" cellspacing="0" bordercolor="#000000" style="BORDER-COLLAPSE: collapse;">
+  <tr>
+    <td colspan="3" bgcolor="#FFFFCC">软片存放记录</td>
+  </tr>
+  <tr>
+    <td width="80"><div align="center">类型</div></td>
+    <td>位置编号</td>
+    <td width="80"><div align="center">修改</div></td>
+  </tr>
+  <s:iterator value="#af.AfElement">
+  <tr>
+    <td><s:if test="EType.equals('BB')">正文</s:if>
+    <s:if test="EType.equals('Cover')">封面</s:if>
+    <s:if test="EType.equals('CI')">插页</s:if></td>
+    <td><div id="div<s:property value='afEId' />"><s:property value="filmPlace" /></div>
+    <div id="form<s:property value='afEId' />" style="display: none">
+    <input type="text" id="filmPlace<s:property value='afEId' />" name="filmPlace" value="<s:property value='filmPlace' />" />
+    <input type="button" value="确定" onclick="updateFilmPlace('<s:property value='afEId' />',form<s:property value='afEId' />)"/></div>
+    </td>
+    <td align="center">
+    <input type="button" value="修改" onclick="show(form<s:property value='afEId' />)" />
+    </td>
+  </tr>
+  </s:iterator>
+</table>
+</s:if>
 </body>
 </html>

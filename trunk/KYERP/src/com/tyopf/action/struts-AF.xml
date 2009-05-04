@@ -165,7 +165,7 @@
 			<result name="success">/AF/YZNo2AFNo.jsp
 			</result>
 		</action>
-		<action name="filmPlaceInput" class="com.tyopf.action.AFAction"
+		<action name="noSkin_filmPlaceInput" class="com.tyopf.action.AFAction"
 			method="filmPlaceInput">
 			<result name="success">/Library/info/message.jsp</result>
 		</action>
