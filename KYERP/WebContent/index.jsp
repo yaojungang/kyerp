@@ -7,6 +7,9 @@
 <title>首页</title>
 </head>
 <body>
+<s:if test="#session.user==null">您还没有登录,请登录!
+<jsp:forward page="/login.jsp" />
+</s:if>
 <script LANGUAGE="JavaScript">
 var url='<s:property value = "#session.user.url" />';
 if(url != "") {

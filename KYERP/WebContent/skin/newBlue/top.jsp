@@ -19,7 +19,7 @@
 		<div id="bluemenu" class="bluetabs">
 		<ul>
 			<s:if test="#session.user==null">
-				<li><a href="${pageContext.request.contextPath}" title="Home"><span>首页</span></a></li>
+				<li><a href="${pageContext.request.contextPath}/" title="Home"><span>首页</span></a></li>
 				<li><a href="${pageContext.request.contextPath}"
 					title="jianjie"><span>系统简介</span></a></li>
 				<li><a href="${pageContext.request.contextPath}"
