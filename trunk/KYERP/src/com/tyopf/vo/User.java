@@ -17,7 +17,14 @@ public class User {
 	private String userType;
 	private String url;
 	private String remark;
+	private Integer loginTimes;
 	public User() {
+	}
+	public Integer getLoginTimes() {
+		return loginTimes;
+	}
+	public void setLoginTimes(Integer loginTimes) {
+		this.loginTimes = loginTimes;
 	}
 	public int getId() {
 		return id;

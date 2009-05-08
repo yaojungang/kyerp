@@ -2,6 +2,7 @@ package com.tyopf.action;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -532,7 +533,7 @@ public class OPEAction extends ActionSupport {
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("bindingFactoryList", bindingFactoryList);
 
-		System.out.println(u.getUsername() + " Start a New AF !");
+		System.out.println(new Date()+" "+u.getUsername() + " Start a New AF !");
 
 		session.put("af", null);
 		return SUCCESS;
@@ -678,7 +679,7 @@ public class OPEAction extends ActionSupport {
 		af.setLastModify(t);
 		// 保存任务单
 		afService.saveAF(af);
-		System.out.println(u.getUsername() + " save AF:" + af.getIso()
+		System.out.println(new Date()+" "+u.getUsername() + " save AF:" + af.getIso()
 				+ af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
@@ -751,7 +752,7 @@ public class OPEAction extends ActionSupport {
 		af.setLastModify(t);
 		// 保存任务单
 		afService.saveAF(af);
-		System.out.println(u.getUsername() + " save AF:" + af.getIso()
+		System.out.println(new Date()+" "+u.getUsername() + " save AF:" + af.getIso()
 				+ af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
@@ -822,14 +823,14 @@ public class OPEAction extends ActionSupport {
 		af.setLastModify(t);
 		// 保存任务单
 		afService.saveAF(af);
-		System.out.println(u.getUsername() + " save AF:" + af.getIso()
+		System.out.println(new Date()+" "+u.getUsername() + " save AF:" + af.getIso()
 				+ af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
 			Map request = (Map) ActionContext.getContext().get("request");
 			request.put("AFInfo", afg);
 			AFPage = afg.getAfType();
-			System.out.println("AFPage" + AFPage);
+			//System.out.println("AFPage" + AFPage);
 			if ("Books".equals(afg.getAfType()) || "".equals(afg.getAfType()))
 				AFPage = "AF";
 			return SUCCESS;
@@ -916,7 +917,7 @@ public class OPEAction extends ActionSupport {
 		
 		// 保存任务单
 		afService.saveAF(af);
-		System.out.println(u.getUsername() + " save AF:" + af.getIso()
+		System.out.println(new Date()+" "+u.getUsername() + " save AF:" + af.getIso()
 				+ af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
@@ -992,7 +993,7 @@ public class OPEAction extends ActionSupport {
 		af.getAfValuation().add(new AfValuation());
 		af.getAfValuation().add(new AfValuation());
 
-		System.out.println(af.getAfValuation());
+		System.out.println(new Date()+" "+af.getAfValuation());
 		// List listBaojia = afService.AFcal(afId);
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("AFInfo", af);

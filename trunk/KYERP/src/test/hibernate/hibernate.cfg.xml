@@ -6,7 +6,7 @@
     <session-factory name="sf">
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.password">tyopfkeek</property>
-        <property name="hibernate.connection.url">jdbc:mysql://192.168.0.10:3306/PIM</property>
+        <property name="hibernate.connection.url">jdbc:mysql://192.168.0.10:3306/kyerp</property>
         <property name="hibernate.connection.username">PIM</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     </session-factory>

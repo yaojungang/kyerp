@@ -89,3 +89,46 @@ TD {
 	right: 3px;
 	bottom: 3px;
 }
+#AFmenu ul {
+	PADDING: 0px;
+	MARGIN: 2px;
+	FONT: 12px Arial, Verdana, sans-serif;
+	LIST-STYLE-TYPE: none;
+}
+
+#AFmenu li {
+	PADDING-RIGHT: 0px;
+	DISPLAY: inline;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px 2px 20px 0px;
+	TEXT-TRANSFORM: uppercase;
+	PADDING-TOP: 0px
+}
+
+#AFmenu LI A {
+	PADDING-RIGHT: 9px;
+	PADDING-LEFT: 5px;
+	FONT-SIZE: 13px;
+	BACKGROUND: url(media/halfmoontab.gif) #e5febc no-repeat right top;
+	PADDING-BOTTOM: 2px;
+	MARGIN: 0px 1px 0px 0px;
+	BORDER: gray 1px solid;
+	COLOR: black;
+	PADDING-TOP: 3px;
+	TEXT-DECORATION: none
+}
+
+#AFmenu LI A:visited {
+	COLOR: black;
+}
+
+#AFmenu LI A:hover {
+	COLOR: #2d2b2b;
+	TEXT-DECORATION: underline
+}
+
+#AFInfo {
+	clear: both;
+	border: 1px;
+}

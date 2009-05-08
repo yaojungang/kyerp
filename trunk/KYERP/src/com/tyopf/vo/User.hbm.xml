@@ -35,6 +35,10 @@
 		<property name="remark" type="string">
 			<column name="Remark"></column>
 		</property>
+		<property name="loginTimes" type="java.lang.Integer">
+            <column name="loginTimes">
+            </column>
+        </property>
 	</class>
 
 </hibernate-mapping>

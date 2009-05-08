@@ -53,6 +53,11 @@ public class SystemService implements ISystemService {
 		if (u != null) {
 			Timestamp t = new Timestamp(new GregorianCalendar(TimeZone.getTimeZone("GMT")).getTimeInMillis());
 			u.setLastLoginTime(t);
+			if(null != u.getLoginTimes()){
+				u.setLoginTimes(u.getLoginTimes()+1);
+			}else{
+				u.setLoginTimes(1);
+			}
 			userDAO.editUser(u);
 		}
 		return u;
@@ -81,7 +86,7 @@ public class SystemService implements ISystemService {
 				strA = "";
 			}
 			else {
-				strA = "——" + strA;
+				strA = "—" + strA;
 			}
 			dept.setName(strA +" "+ dept.getName());
 			tempList.add(dept);

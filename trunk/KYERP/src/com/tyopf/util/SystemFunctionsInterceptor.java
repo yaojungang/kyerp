@@ -64,18 +64,16 @@ public class SystemFunctionsInterceptor extends AbstractInterceptor {
 		HttpServletRequest request = (HttpServletRequest) actionContext.get(StrutsStatics.HTTP_REQUEST);
 		User user = (User) session.get("user");
 		if (null == user) {
+			//System.out.println("cookie login start");
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
 				for (int i = 0; cookies != null && i < cookies.length; i++) {
-					//System.out.println(cookies[i].getName());
-					if ("user".equals(cookies[i].getName())) {
-						String[] split = cookies[i].getValue().split("==");   
-						String username = split[0];   
-						String password = split[1];
-						System.out.println(new Date()+" "+username+" login from cookie");
-						
-						user = userDAO.validateUser(username, password);
+					if ("userId".equals(cookies[i].getName())) {
+						int userId = new Integer(cookies[i].getValue());
+						user =(User) userDAO.getUserById(userId);
+						//System.out.println("userId="+userId);
 						if (null != user) {
+							System.out.println(new Date()+" "+user.getUsername()+" login from cookie!");
 							user.setLastLoginIp(org.apache.struts2.ServletActionContext
 									.getRequest().getRemoteAddr());
 								Set<Role> userRoles = user.getRoles();
@@ -89,14 +87,7 @@ public class SystemFunctionsInterceptor extends AbstractInterceptor {
 							session.put("user", user);
 							session.put("employee", e);
 							session.put("userSystemFunctionList", userSystemFunctionList);
-//							HttpServletResponse response = ServletActionContext.getResponse();
-//							Cookie cooki; 
-//							cooki=new Cookie("user",user.getUsername()+"=="+user.getPassword());
-//							cooki.setMaxAge(60*60*24*365);//cookie时间 
-//							cooki.setPath("/"); //根据个人的不用，在不同功能的路径下创建 
-//							response.addCookie(cooki); 
 						}
-					// return actionInvocation.invoke();
 					}
 				}
 			}

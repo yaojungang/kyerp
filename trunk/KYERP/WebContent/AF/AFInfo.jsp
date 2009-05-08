@@ -17,69 +17,21 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/Library/js/ymPrompt/ymPrompt.js"></script>
 <link href="<%=request.getContextPath()%>/Library/css/AFinfo.css"
 	rel="stylesheet" type="text/css" />
-<style>
-#AFmenu ul {
-	PADDING: 0px;
-	MARGIN: 2px;
-	FONT: 12px Arial, Verdana, sans-serif;
-	LIST-STYLE-TYPE: none;
-}
-
-#AFmenu li {
-	PADDING-RIGHT: 0px;
-	DISPLAY: inline;
-	PADDING-LEFT: 0px;
-	PADDING-BOTTOM: 0px;
-	MARGIN: 0px 2px 20px 0px;
-	TEXT-TRANSFORM: uppercase;
-	PADDING-TOP: 0px
-}
-
-#AFmenu LI A {
-	PADDING-RIGHT: 9px;
-	PADDING-LEFT: 5px;
-	FONT-SIZE: 13px;
-	BACKGROUND: url(media/halfmoontab.gif) #e5febc no-repeat right top;
-	PADDING-BOTTOM: 2px;
-	MARGIN: 0px 1px 0px 0px;
-	BORDER: gray 1px solid;
-	COLOR: black;
-	PADDING-TOP: 3px;
-	TEXT-DECORATION: none
-}
-
-#AFmenu LI A:visited {
-	COLOR: black;
-}
-
-#AFmenu LI A:hover {
-	COLOR: #2d2b2b;
-	TEXT-DECORATION: underline
-}
-
-#AFInfo {
-	clear: both;
-	border: 1px;
-}
-</style>
 <script type="text/javascript">
 function updateFilmPlace(afEId,form) {
 	var divNode = document.getElementById("div" + afEId);
 	var filmPlaceVal = document.getElementById("filmPlace"+afEId).value;
-	//alert(filmPlaceVal);
 	$.get("noSkin_filmPlaceInput.action?afEId="+afEId+"&filmPlace="+filmPlaceVal, null, function(data) {
-		//divNode.innerHTML = data;
-		//divNode.innerHTML = filmPlaceVal;
 		divNode.innerText = filmPlaceVal;
-		//alert("软片存放位置修改成功！");
 		ymPrompt.succeedInfo({message:"软片存放位置修改成功！",width:250,height:180,handler:null});
 		$(form).hide("slow");
 	});
 
-}
+};
 function show(id){
+	var divform = document.getElementById(id);
 	$(id).show("slow");
-}
+};
 </script>
 </head>
 <body>
@@ -407,8 +359,7 @@ function show(id){
 			value="#af.fmp" /></span></td>
 		<td><span class="bottomtext">审核人: <s:property
 			value="#af.auditer" /></span></td>
-		<td><span class="bottomtext">审核时间: <s:date
-			name="#af.auditTime" format="yyyy-MM-dd HH:MM:SS" nice="false" /></span></td>
+		<td><span class="bottomtext">审核时间: <s:date name="#af.auditTime" format="yyyy-MM-dd HH:MM:SS" nice="false" /></span></td>
 	</tr>
 </table>
 </div>

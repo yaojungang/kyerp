@@ -48,6 +48,7 @@ public class SystemAction extends ActionSupport implements SessionAware {
 	private String message;
 	private Map session;
 	
+	
 	public IHRService getHrService() {
 		return hrService;
 	}
@@ -208,7 +209,6 @@ public class SystemAction extends ActionSupport implements SessionAware {
 			for (Role role : userRoles) {
 				for (SystemFunctions systemFunction : role.getSystemFunctions()) {
 					userSystemFunctionList.add(systemFunction.getName());
-					// System.out.println(user.getUsername()+" add SF:"+systemFunction.getName());
 				}
 			}
 			Employee e = userService.getEmployeeById(u.getEmployee().getId());
@@ -218,11 +218,12 @@ public class SystemAction extends ActionSupport implements SessionAware {
 			message = u.getEmployee().getRealname() + "您好！ 您已经成功登陆！";
 			request.put("message", message);
 			HttpServletResponse response = ServletActionContext.getResponse();
-			Cookie cooki;
-			cooki = new Cookie("user", user.getUsername() + "==" + user.getPassword());
-			cooki.setMaxAge(60 * 60 * 24 * 365);// cookie时间
-			cooki.setPath("/"); // 根据个人的不用，在不同功能的路径下创建
-			response.addCookie(cooki);
+			Cookie cookie;
+			cookie = new Cookie("userId", Integer.toString(u.getId()));
+			int cookieTime = 60 * 60 * 24 * 365;
+			cookie.setMaxAge(cookieTime);
+			//cooki.setPath("/"); // 根据个人的不用，在不同功能的路径下创建
+			response.addCookie(cookie);
 			return SUCCESS;
 		}
 		message = "登录失败，请核对您的用户名和密码是否输入正确!";
@@ -234,22 +235,28 @@ public class SystemAction extends ActionSupport implements SessionAware {
 	public String Logout() throws Exception {
 		Map session = ActionContext.getContext().getSession();
 		Map request0 = (Map) ActionContext.getContext().get("request");
+		User u = (User) session.get("user");
+		System.out.println(new Date()+" "+u.getUsername()+" Logout!");
 		session.remove("user");
 		session.remove("employee");
 		session.remove("userSystemFunctionList");
-		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(StrutsStatics.HTTP_REQUEST);
+		HttpServletRequest request =  ServletActionContext.getRequest ();
 		HttpServletResponse response = ServletActionContext.getResponse();
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				if ("user".equals(cookie.getName())) {
+				//System.out.println("Delete cookie for " + cookie.getName()+":"+cookie.getValue());
+				if ("userId".equals(cookie.getName())) {
+					System.out.println("Delete cookie for " + cookie.getName()+":"+cookie.getValue());
 					cookie.setValue("");
-					cookie.setMaxAge(0);
+					int noTime = 0;
+					cookie.setMaxAge(noTime);
 					response.addCookie(cookie);
 					return SUCCESS;
 				}
 			}
 		}
+		
 		message = "您已成功注销！";
 		request0.put("message", message);
 		return SUCCESS;
