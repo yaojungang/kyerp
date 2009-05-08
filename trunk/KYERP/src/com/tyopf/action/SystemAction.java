@@ -247,7 +247,7 @@ public class SystemAction extends ActionSupport implements SessionAware {
 			for (Cookie cookie : cookies) {
 				//System.out.println("Delete cookie for " + cookie.getName()+":"+cookie.getValue());
 				if ("userId".equals(cookie.getName())) {
-					System.out.println("Delete cookie for " + cookie.getName()+":"+cookie.getValue());
+					//System.out.println("Delete cookie for " + cookie.getName()+":"+cookie.getValue());
 					cookie.setValue("");
 					int noTime = 0;
 					cookie.setMaxAge(noTime);
