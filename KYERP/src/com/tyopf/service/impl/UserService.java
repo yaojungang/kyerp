@@ -144,6 +144,12 @@ public class UserService implements IUserService {
 			user.setRoles(user0.getRoles());
 			//用户类型不变
 			user.setUserType(user0.getUserType());
+			//用户登陆次数不变
+			user.setLoginTimes(user0.getLoginTimes());
+			//用户登陆时间不变
+			user.setLastLoginTime(user0.getLastLoginTime());
+			//用户登陆ip不变
+			user.setLastLoginIp(user0.getLastLoginIp());
 			
 			user.setEmployee(employee0);
 			employee0.setUser(user);

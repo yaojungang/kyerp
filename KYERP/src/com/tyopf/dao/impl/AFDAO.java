@@ -87,7 +87,13 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 				Hibernate.initialize(af.getAfDispose());
 			if (!Hibernate.isInitialized(af.getAfValuation()))
 				Hibernate.initialize(af.getAfValuation());
+			if(null != af.getViewTimes()){
+				af.setViewTimes(af.getViewTimes()+1);
+			}else{
+				af.setViewTimes(1);
+			}			
 			session.saveOrUpdate(af);
+			session.flush();
 			session.close();
 			return af;
 		}

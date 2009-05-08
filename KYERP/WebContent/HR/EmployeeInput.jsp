@@ -129,6 +129,7 @@ function clearOption(selectID)
 <ul class="block">
 	<li><s:if test="#employee.user.id>0">
 		<s:hidden name="user.id" value="%{#employee.user.id}" />
+		<s:hidden name="user.loginTimes" value="%{#employee.user.loginTimes}" />
 	</s:if>
 	<table width="90%" border="0" align="center" cellpadding="8"
 		cellspacing="0">

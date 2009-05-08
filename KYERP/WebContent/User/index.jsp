@@ -97,6 +97,14 @@
           	<s:property value="rname" />	
           </s:iterator></td>
               </tr>
+              <tr>
+                <td width="80" align="right">登陆次数</td>
+                <td align="left"><s:property value="#employee.user.loginTimes" /></td>
+              </tr>
+              <tr>
+                <td width="80" align="right">最后登陆时间</td>
+                <td align="left"><s:date name="#employee.user.lastLoginTime" format="yyyy-MM-dd HH:MM:SS" nice="false" /></td>
+              </tr>
             </table>
           </li>
         </ul>

@@ -51,6 +51,7 @@ function checkAF(){
 	<tr>
 		<td width="21%"><s:if test="#af.afNo>1">
 			<input type="hidden" name="af.afId" value='<s:property value="#af.afId"/>' />
+			<input type="hidden" name="af.viewTimes" value='<s:property value="#af.viewTimes"/>' />
 		</s:if></td>
 		<td width="58%">&nbsp;</td>
 		<td width="21%">&nbsp;</td>

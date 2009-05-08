@@ -23,6 +23,7 @@
 		<td width="90" bgcolor="#EEEEEE"><span class="From_item">委印单位</span></td>
 		<td bgcolor="#EEEEEE">印品名称</td>
 		<td width="30" bgcolor="#EEEEEE">装订</td>
+		<td width="50" bgcolor="#EEEEEE">印数</td>
 		<td width="50" bgcolor="#EEEEEE">业务员</td>
 		<td width="50" bgcolor="#EEEEEE">应收款</td>
 		<td width="50" bgcolor="#EEEEEE">实收款</td>
@@ -40,6 +41,7 @@
 				<img
 					src="${pageContext.request.contextPath}/Library/images/minico/yes.gif">
 			</s:if></td>
+			<td><s:property value="#af.amount" /></td>
 			<td align="center"><s:property value="#af.cp" /></td>
 			<td align="center">
 			<s:if test="#user.userType.equals('Admin') or 'FM-AF-ViewMoneyShould' in #userSystemFunctionList">

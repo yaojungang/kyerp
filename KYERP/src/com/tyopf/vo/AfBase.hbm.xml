@@ -298,5 +298,9 @@
             <column name="RemarkSendSample" length="200">
             </column>
         </property>
+        <property name="viewTimes" type="java.lang.Integer">
+            <column name="viewTimes">
+            </column>
+        </property>
 	</class>
 </hibernate-mapping>
