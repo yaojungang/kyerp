@@ -12,6 +12,9 @@
 <script src="${pageContext.request.contextPath}/Library/js/jquery.js" type="text/javascript"></script>
 </head>
 <body>
+<s:if test="#session.user==null">您还没有登录,请登录!
+<jsp:forward page="/login.jsp" />
+</s:if>
 <div class="pim2_secondMenu">
 <ul>
 	<li><input type="button" value="职工信息表" onClick='javascript:window.location.href="MyInfo.action"'></li>

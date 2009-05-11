@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.StrutsStatics;
 
 import com.opensymphony.xwork2.Action;
@@ -73,7 +74,8 @@ public class SystemFunctionsInterceptor extends AbstractInterceptor {
 						user =(User) userDAO.getUserById(userId);
 						//System.out.println("userId="+userId);
 						if (null != user) {
-							System.out.println(new Date()+" "+user.getUsername()+" login from cookie!");
+							Logger logger=Logger.getLogger(this.getClass());
+							logger.warn(user.getUsername()+" login from cookie!");
 							user.setLastLoginIp(org.apache.struts2.ServletActionContext
 									.getRequest().getRemoteAddr());
 								Set<Role> userRoles = user.getRoles();

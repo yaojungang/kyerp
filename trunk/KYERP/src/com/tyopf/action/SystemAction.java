@@ -11,8 +11,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.StrutsStatics;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -198,7 +198,9 @@ public class SystemAction extends ActionSupport implements SessionAware {
 	}
 	
 	public String CheckLogin() {
-		System.out.println(new Date() + " " + user.getUsername() + " Login!");
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn(user.getUsername() + " Login!");
+		
 		Map request = (Map) ActionContext.getContext().get("request");
 		Map session = ActionContext.getContext().getSession();
 		User u = systemService.CheckLogin(user);
@@ -236,7 +238,8 @@ public class SystemAction extends ActionSupport implements SessionAware {
 		Map session = ActionContext.getContext().getSession();
 		Map request0 = (Map) ActionContext.getContext().get("request");
 		User u = (User) session.get("user");
-		System.out.println(new Date()+" "+u.getUsername()+" Logout!");
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername()+" Logout!");
 		session.remove("user");
 		session.remove("employee");
 		session.remove("userSystemFunctionList");
