@@ -53,9 +53,7 @@ public class ClientAction_getLinkMan extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String execute() throws Exception
 	{
-		System.out.println(comName);
 		ClientC client = clientService.getLinkManbyComName(comName);
-		System.out.println(client.getClientLm());
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("Client",client);
 

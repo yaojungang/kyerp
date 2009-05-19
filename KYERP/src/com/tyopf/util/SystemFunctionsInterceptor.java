@@ -65,14 +65,12 @@ public class SystemFunctionsInterceptor extends AbstractInterceptor {
 		HttpServletRequest request = (HttpServletRequest) actionContext.get(StrutsStatics.HTTP_REQUEST);
 		User user = (User) session.get("user");
 		if (null == user) {
-			//System.out.println("cookie login start");
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
 				for (int i = 0; cookies != null && i < cookies.length; i++) {
 					if ("userId".equals(cookies[i].getName())) {
 						int userId = new Integer(cookies[i].getValue());
 						user =(User) userDAO.getUserById(userId);
-						//System.out.println("userId="+userId);
 						if (null != user) {
 							Logger logger=Logger.getLogger(this.getClass());
 							logger.warn(user.getUsername()+" login from cookie!");

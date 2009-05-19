@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
@@ -79,7 +80,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		if (af.getClass() != null) {
 			Map ClientSession = ActionContext.getContext().getSession();
 			User u = (User) ClientSession.get("user");
-			System.out.println(new Date()+" "+u.getUsername() + " Read AF:" + af.getIso()
+			Logger logger=Logger.getLogger(this.getClass());
+			logger.warn(u.getUsername() + " Read AF:" + af.getIso()
 					+ af.getAfNo());
 			if (!Hibernate.isInitialized(af.getAfElement()))
 				Hibernate.initialize(af.getAfElement());
@@ -310,7 +312,10 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		Query query = session
 				.createQuery("from AfBase AF where AF.presswork like :Name order by AF.afId desc");
 		query.setString("Name", "%" + Name + "%");
-		System.out.println("%" + Name + "%");
+		Map ClientSession = ActionContext.getContext().getSession();
+		User u = (User) ClientSession.get("user");
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername() + "%" + Name + "%");
 		query.setCacheable(true);
 		List AFs = query.list();
 		session.close();
@@ -724,9 +729,12 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		}
 
 		if (af.getClass() != null) {
-			System.out.println("Read:" + af.getIso() + af.getAfNo());
-			System.out.println(af.getAfElement());
-			System.out.println(af.getAfDispose());
+			if (!Hibernate.isInitialized(af.getAfElement()))
+				Hibernate.initialize(af.getAfElement());
+			if (!Hibernate.isInitialized(af.getAfDispose()))
+				Hibernate.initialize(af.getAfDispose());
+			if (!Hibernate.isInitialized(af.getAfValuation()))
+				Hibernate.initialize(af.getAfValuation());
 			session.saveOrUpdate(af);
 			session.close();
 			return af;
@@ -746,7 +754,6 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		criteria.addOrder(Order.asc("afNo"));
 
 		List afList = criteria.list();
-		// System.out.println(afList.size());
 		for (Iterator iterator = afList.iterator(); iterator.hasNext();) {
 			AfBase af = (AfBase) iterator.next();
 			if (!Hibernate.isInitialized(af.getAfElement()))
@@ -773,7 +780,6 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		criteria.addOrder(Order.asc("afNo"));
 
 		List afList = criteria.list();
-		// System.out.println(afList.size());
 		for (Iterator iterator = afList.iterator(); iterator.hasNext();) {
 			AfBase af = (AfBase) iterator.next();
 			if (!Hibernate.isInitialized(af.getAfElement()))
@@ -1021,9 +1027,6 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		query.setString("YWName", "%" + YWName + "%");
 		query.setString("ChejianName", "%" + ChejianName + "%");
 		query.setString("AFType", "%" + AFType + "%");
-		// System.out.println(
-		// "from AfValuation AFV where AFV.chejian like :ChejianName and AFV.AfBase.iso like :AFType and AFV.AfBase.afNo > :"
-		// +StartAFNo+" and AFV.AfBase.afNo < :"+EndAFNo);
 		query.setCacheable(true);
 		List AFVs = query.list();
 		session.close();
@@ -1197,6 +1200,14 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		tx.commit();
 		session.close();
 
+	}
+	public List<AfBase> searchAF(String searchOption, String searchValue) {
+		Session session = getSession();
+		Query query = session.createQuery("from AfBase af where af." + searchOption + " like :SearchValue order by af.afId desc");
+		query.setString("SearchValue", "%" + searchValue + "%");
+		List list = query.list();
+		session.close();
+		return list;
 	}
 
 }

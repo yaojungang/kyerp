@@ -80,7 +80,6 @@ public class AfProcessAction extends ExtJSONActionSuport {
 		afpList = afService.getProcessByType(processType, this.getStart(), this.getLimit());
 		this.setTotalCount(afService.getCountofProcessByType(processType));
 		JSONArray array = JSONArray.fromObject(this.afpList);
-		//System.out.println(this.getStart() + "---" + this.getLimit());
 		this.setJsonString("{success:true,totalCount : " + this.getTotalCount() + ", list:" + array.toString() + "}");
 		
 		return super.jsonExecute();

@@ -136,8 +136,6 @@ public class UserDAO extends BaseDAO implements IUserDAO {
 	public void editRole(Role role) {
 		Session session = getSession();
 		Transaction tx = session.beginTransaction();
-		// session.saveOrUpdate(role);
-		// System.out.println("save role id:"+role.getId());
 		session.merge(role);
 		tx.commit();
 		session.close();
@@ -207,7 +205,6 @@ public class UserDAO extends BaseDAO implements IUserDAO {
 	
 	public void saveEmployee(Employee employee) {
 		Session session = getSession();
-		// System.out.println("DEPTid:"+employee.getCompanyDept().getId());
 		session.saveOrUpdate(employee);
 		session.flush();
 		session.close();
@@ -315,14 +312,12 @@ public class UserDAO extends BaseDAO implements IUserDAO {
 		String[] params = { "startTime", "endTime"};
 		Object[] args = { startTime, endTime};
 		List<Employee> list = this.getHibernateTemplate().findByNamedParam(hql, params, args);
-		//System.out.println("time:"+startTime+" --- "+endTime+" Num:"+list.size());
 		session.close();
 		int i=0;
 		for(Employee e:list){
 			i=i+1;
 			int seNo = 1000+i;
 			int empNo = new Integer(pYear)*10000+seNo -1000;
-			System.out.println(e.getRealname()+"的员工号码为："+empNo);
 			if(e.getId()==id){
 				return empNo;
 			}

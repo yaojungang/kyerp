@@ -199,8 +199,7 @@ public class SystemAction extends ActionSupport implements SessionAware {
 	
 	public String CheckLogin() {
 		Logger logger=Logger.getLogger(this.getClass());
-		logger.warn(user.getUsername() + " Login!");
-		
+		logger.warn(user.getUsername() + " Login!");		
 		Map request = (Map) ActionContext.getContext().get("request");
 		Map session = ActionContext.getContext().getSession();
 		User u = systemService.CheckLogin(user);
@@ -222,7 +221,8 @@ public class SystemAction extends ActionSupport implements SessionAware {
 			HttpServletResponse response = ServletActionContext.getResponse();
 			Cookie cookie;
 			cookie = new Cookie("userId", Integer.toString(u.getId()));
-			int cookieTime = 60 * 60 * 24 * 365;
+			//cookie 超时时间设置为一周
+			int cookieTime = 60 * 60 * 24 * 7;
 			cookie.setMaxAge(cookieTime);
 			//cooki.setPath("/"); // 根据个人的不用，在不同功能的路径下创建
 			response.addCookie(cookie);
@@ -248,9 +248,7 @@ public class SystemAction extends ActionSupport implements SessionAware {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				//System.out.println("Delete cookie for " + cookie.getName()+":"+cookie.getValue());
 				if ("userId".equals(cookie.getName())) {
-					//System.out.println("Delete cookie for " + cookie.getName()+":"+cookie.getValue());
 					cookie.setValue("");
 					int noTime = 0;
 					cookie.setMaxAge(noTime);

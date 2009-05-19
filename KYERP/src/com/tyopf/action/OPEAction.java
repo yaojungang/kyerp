@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
+import org.apache.log4j.Logger;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IAFService;
@@ -532,9 +534,8 @@ public class OPEAction extends ActionSupport {
 		List bindingFactoryList = bindingFactoryService.getAllBindingFactorys();
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("bindingFactoryList", bindingFactoryList);
-
-		System.out.println(new Date()+" "+u.getUsername() + " Start a New AF !");
-
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername() + " Start a New AF !");
 		session.put("af", null);
 		return SUCCESS;
 	}
@@ -562,7 +563,6 @@ public class OPEAction extends ActionSupport {
 
 		Map session = ActionContext.getContext().getSession();
 		session.put("af", af);
-		//System.out.println("------------afId="+af.getAfId());
 		return SUCCESS;
 	}
 
@@ -575,8 +575,6 @@ public class OPEAction extends ActionSupport {
 		afe.setAfBase(af);
 
 		session.put("af", af);
-		//System.out.println(af.getPresswork());
-		//System.out.println(af.getAfElement());
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("AFInfo", af);
 		return SUCCESS;
@@ -679,7 +677,8 @@ public class OPEAction extends ActionSupport {
 		af.setLastModify(t);
 		// 保存任务单
 		afService.saveAF(af);
-		System.out.println(new Date()+" "+u.getUsername() + " save AF:" + af.getIso()
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername() + " save AF:" + af.getIso()
 				+ af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
@@ -752,7 +751,8 @@ public class OPEAction extends ActionSupport {
 		af.setLastModify(t);
 		// 保存任务单
 		afService.saveAF(af);
-		System.out.println(new Date()+" "+u.getUsername() + " save AF:" + af.getIso()
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername() + " save AF:" + af.getIso()
 				+ af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
@@ -823,14 +823,14 @@ public class OPEAction extends ActionSupport {
 		af.setLastModify(t);
 		// 保存任务单
 		afService.saveAF(af);
-		System.out.println(new Date()+" "+u.getUsername() + " save AF:" + af.getIso()
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername() + " save AF:" + af.getIso()
 				+ af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
 			Map request = (Map) ActionContext.getContext().get("request");
 			request.put("AFInfo", afg);
 			AFPage = afg.getAfType();
-			//System.out.println("AFPage" + AFPage);
 			if ("Books".equals(afg.getAfType()) || "".equals(afg.getAfType()))
 				AFPage = "AF";
 			return SUCCESS;
@@ -917,7 +917,8 @@ public class OPEAction extends ActionSupport {
 		
 		// 保存任务单
 		afService.saveAF(af);
-		System.out.println(new Date()+" "+u.getUsername() + " save AF:" + af.getIso()
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername() + " save AF:" + af.getIso()
 				+ af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
@@ -993,11 +994,10 @@ public class OPEAction extends ActionSupport {
 		af.getAfValuation().add(new AfValuation());
 		af.getAfValuation().add(new AfValuation());
 
-		System.out.println(new Date()+" "+af.getAfValuation());
-		// List listBaojia = afService.AFcal(afId);
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn(af.getAfValuation());
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("AFInfo", af);
-		// request.put("listBaojia", listBaojia);
 		return SUCCESS;
 	}
 
@@ -1202,12 +1202,10 @@ public class OPEAction extends ActionSupport {
 	public String jsongetAllYW() throws Exception {
 		ywlist = new ArrayList<String[]>();
 		List ListYW = userService.getEmployeeByDeptId(3);
-		//List ListYW = userService.
 		
 		for (Iterator it = ListYW.iterator(); it.hasNext();) {
 			Employee e = (Employee) it.next();
 			ywlist.add(new String[] { e.getRealname() });
-			//System.out.println(" 业务员："+e.getRealname());
 		}
 		return SUCCESS;
 	}

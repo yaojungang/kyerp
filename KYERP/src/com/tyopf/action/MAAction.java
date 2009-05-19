@@ -430,11 +430,7 @@ public class MAAction extends ActionSupport {
 	public String taizhang() throws Exception {
 		List ListAF = afService.getAFByNoRange(AFType, StartAFNo, EndAFNo);
 		Map request = (Map) ActionContext.getContext().get("request");
-		//Pager AFpager = new Pager(currentPage, ListAF.size());
-		//AFpager.setPageSize(ListAF.size());
-		//request.put("AFPager", AFpager);
 		request.put("ListAF", ListAF);
-		//System.out.println(ListAF.size());
 		return SUCCESS;
 	}
 	@SuppressWarnings("unchecked")

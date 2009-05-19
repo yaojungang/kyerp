@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.log4j.Logger;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IAFService;
@@ -71,15 +73,30 @@ public class AFAction extends ActionSupport {
 
 	private long afDId;
 	private int filmPlace;
-
-
-
+	private String searchOption;
+	private String searchValue;	
 	public int getFilmPlace() {
 		return filmPlace;
 	}
 
 	public void setFilmPlace(int filmPlace) {
 		this.filmPlace = filmPlace;
+	}
+
+	public String getSearchOption() {
+		return searchOption;
+	}
+
+	public void setSearchOption(String searchOption) {
+		this.searchOption = searchOption;
+	}
+
+	public String getSearchValue() {
+		return searchValue;
+	}
+
+	public void setSearchValue(String searchValue) {
+		this.searchValue = searchValue;
 	}
 
 	public String getAFPage() {
@@ -722,7 +739,7 @@ public class AFAction extends ActionSupport {
 				ActionContext.SESSION);
 		User u = (User) session.get("user");
 		String YWName = u.getEmployee().getRealname();
-		// System.out.println("你好:"+YWName);
+		
 		List ListAF = afService.getAFByYW(YWName, currentPage, 50);
 		Pager AFpager = new Pager(currentPage, afService
 				.getCountofAFbyYW(YWName));
@@ -818,8 +835,19 @@ public class AFAction extends ActionSupport {
 		Map request = (Map) ActionContext.getContext().get("request");
 		Map session = ActionContext.getContext().getSession();
 		User u =(User) session.get("user");
-		System.out.println(new Date()+" "+u.getUsername()+" update FilmPlace set afEId="+afEId+"  filmPlace:"+filmPlace);
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername()+" update FilmPlace set afEId="+afEId+"  filmPlace:"+filmPlace);
 		request.put("message", "软片存放位置修改成功！");
+		return SUCCESS;
+	}
+	public String searchAF() {
+		List afList = afService.searchAF(searchOption, searchValue);
+		Pager pager = new Pager(currentPage, afList.size());
+		pager.setPageSize(afList.size());
+		Map request = (Map) ActionContext.getContext().get("request");
+		request.put("ListAF", afList);
+		request.put("AFPager", pager);
+		request.put("pageTitle", "搜索："+searchOption+"="+searchValue);
 		return SUCCESS;
 	}
 
