@@ -90,7 +90,6 @@ public class SystemService implements ISystemService {
 			}
 			dept.setName(strA +" "+ dept.getName());
 			tempList.add(dept);
-			//System.out.println(dept.getId() + dept.getName());
 			getDeptTree(dept.getId());
 		}
 		return tempList;

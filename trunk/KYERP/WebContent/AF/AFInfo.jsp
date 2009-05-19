@@ -22,15 +22,16 @@ function updateFilmPlace(afEId,form) {
 	var divNode = document.getElementById("div" + afEId);
 	var filmPlaceVal = document.getElementById("filmPlace"+afEId).value;
 	$.get("noSkin_filmPlaceInput.action?afEId="+afEId+"&filmPlace="+filmPlaceVal, null, function(data) {
-		divNode.innerText = filmPlaceVal;
+		//divNode.innerText = filmPlaceVal;
+		$('#div'+afEId+'').html("<b>"+filmPlaceVal+"</b>");
 		ymPrompt.succeedInfo({message:"软片存放位置修改成功！",width:250,height:180,handler:null});
-		$(form).hide("slow");
+		$('#'+form+'').hide("slow");
 	});
 
 };
 function show(id){
 	var divform = document.getElementById(id);
-	$(id).show("slow");
+	$('#'+id+'').show("slow");
 };
 </script>
 </head>
@@ -382,10 +383,10 @@ function show(id){
     <td><div id="div<s:property value='afEId' />"><s:property value="filmPlace" /></div>
     <div id="form<s:property value='afEId' />" style="display: none">
     <input type="text" id="filmPlace<s:property value='afEId' />" name="filmPlace" value="<s:property value='filmPlace' />" />
-    <input type="button" value="确定" onclick="updateFilmPlace('<s:property value='afEId' />',form<s:property value='afEId' />)"/></div>
+    <input type="button" value="确定" onclick="updateFilmPlace('<s:property value='afEId' />','form<s:property value='afEId' />')"/></div>
     </td>
     <td align="center">
-    <input type="button" value="修改" onclick="show(form<s:property value='afEId' />)" />
+    <input type="button" value="修改" onclick="show('form<s:property value='afEId' />');" />
     </td>
   </tr>
   </s:iterator>

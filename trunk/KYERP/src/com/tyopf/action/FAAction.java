@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.log4j.Logger;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IAFService;
@@ -157,9 +159,8 @@ public class FAAction extends ActionSupport {
 
 	@SuppressWarnings("unchecked")
 	public String MoneyIn_BAT() throws Exception {
-		System.out.println("++++++++++批量收款开始++++++++++++++++++");
-		// Set afSet = new HashSet();
-		//afs0;
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn("++++++++++批量收款开始++++++++++++++++++");
 		List afs0 = (List)new java.util.ArrayList(); 
 		List afsF = (List)new java.util.ArrayList(); 
 		int i=afs.size();
@@ -185,7 +186,6 @@ public class FAAction extends ActionSupport {
 					aft.setMoneyRemark(af0.getMoneyRemark());
 					
 					afs0.add(aft);
-					//System.out.println("before update af.moneyGavinMan:"+af0.getMoneyGiveMan());
 					af0.setMoneyTime(moneyTime);
 					af0.setMoneyGiveMan(af.getMoneyGiveMan());
 					af0.setMoneyFact(af.getMoneyFact());
@@ -203,14 +203,13 @@ public class FAAction extends ActionSupport {
 					af0.setMoneyRemark(af.getMoneyRemark());
 					
 					afsF.add(af0);
-					//System.out.println("updated af.moneyGavinMan:"+af0.getMoneyGiveMan());
-
 					afService.saveAF(af0);
 
 				}
 			}
 		}
-		System.out.println("++++++++++批量收款结束++++++++++++++++++");
+		
+		logger.warn("批量收款成功！"+"共有"+i+" 个任务单成功执行了收款操作！");
 		
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("pageTitle", "批量结帐-结果");

@@ -74,7 +74,6 @@ public class CalSK {
 
 		Set afes = af.getAfElement();
 		Set afds = af.getAfDispose();
-		// System.out.println("===============开始计算============================");
 		if (afes != null) {
 
 			for (Iterator iterator = afes.iterator(); iterator.hasNext();) {

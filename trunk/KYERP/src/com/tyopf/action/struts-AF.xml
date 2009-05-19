@@ -118,6 +118,14 @@
 			method="getTodayDL">
 			<result name="success">/AF/listAF.jsp</result>
 		</action>
+		<action name="getTodayDL" class="com.tyopf.action.AFAction"
+			method="getTodayDL">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="searchAF" class="com.tyopf.action.AFAction"
+			method="searchAF">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
 
 
 		<action name="getPrintAmount" class="com.tyopf.action.AFAction"

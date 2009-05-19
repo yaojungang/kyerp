@@ -42,6 +42,18 @@
 		</td>
 		<td valign="top">
 		<s:if test="#request.message != null"><div class="pim2_errorMessage"><s:property value="#request.message" /></div></s:if>
+		<div style="float: left">搜索：<form action="${pageContext.request.contextPath}/AF/searchAF.action" method="post" target="_blank">
+    <select name="searchOption">
+    	<option value="afNo">任务单号</option>
+    	<option value="pcAf">印制单号</option>
+    	<option value="presswork">印品名称</option>
+    	<option value="isbn">书号</option>
+    	<option value="client">委印单位</option>
+    	<option value="linkman">经手人</option>
+    	<option value="cp">接洽人</option>
+    	<option value="fmp ">开单人 </option>
+    </select>
+    <input name="searchValue" /><input type="submit" value="搜索" /></form></div>
 		<decorator:body /></td>
 	</tr>
 </table>

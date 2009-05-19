@@ -21,7 +21,6 @@ public class FileUpload extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 
-		System.out.println(docContentType);
 		String savaPath=FILE_SAVE_PATH;
 		//if(docContentType.substring(0,5).equals("image")) savaPath += "images/";
 		//if(docContentType.equals("image/pgif")) savaPath += "images/";

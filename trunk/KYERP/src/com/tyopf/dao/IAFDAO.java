@@ -100,6 +100,6 @@ public interface IAFDAO {
 	public int getCountofProcessByType(String processType);
 	public void saveAfProcess(AfProcess afp);
 	public void removeAfProcess(int afpId);
-		
+	public List<AfBase> searchAF(String searchOption, String searchValue);
 }
 

@@ -394,5 +394,10 @@ public class AFService implements IAFService {
 		afDAO.saveAFE(afe);
 	}
 
+	@Override
+	public List<AfBase> searchAF(String searchOption, String searchValue) {
+		return afDAO.searchAF(searchOption, searchValue);
+	}
+
 
 }

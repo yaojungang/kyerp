@@ -184,4 +184,5 @@ public interface IAFService {
 
 	public void removeAfProcess(int afpId);
 	public void filmPlaceChange(long afEId,int filmPlace);
+	public List<AfBase> searchAF(String searchOption, String searchValue);
 }
