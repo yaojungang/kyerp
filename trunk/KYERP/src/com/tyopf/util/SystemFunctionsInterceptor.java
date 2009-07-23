@@ -1,7 +1,6 @@
 package com.tyopf.util;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,27 +21,30 @@ import com.tyopf.vo.Role;
 import com.tyopf.vo.SystemFunctions;
 import com.tyopf.vo.User;
 
+import edu.yale.its.tp.cas.client.filter.CASFilter;
+
 public class SystemFunctionsInterceptor extends AbstractInterceptor {
 	private static final long serialVersionUID = 2851203712084901130L;
 	private String checkFunctions;
 	private String message;
 	private UserDAO userDAO;
+	
 	public String getCheckFunctions() {
 		return checkFunctions;
 	}
-
+	
 	public UserDAO getUserDAO() {
 		return userDAO;
 	}
-
+	
 	public void setUserDAO(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
-
+	
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
 	}
-
+	
 	public String getMessage() {
 		return message;
 	}
@@ -58,6 +60,7 @@ public class SystemFunctionsInterceptor extends AbstractInterceptor {
 	@SuppressWarnings("unchecked")
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
+		Logger logger = Logger.getLogger(this.getClass());
 		Boolean getAuth = false;
 		Map session = invocation.getInvocationContext().getSession();
 		Map request0 = (Map) invocation.getInvocationContext().get("request");
@@ -65,31 +68,39 @@ public class SystemFunctionsInterceptor extends AbstractInterceptor {
 		HttpServletRequest request = (HttpServletRequest) actionContext.get(StrutsStatics.HTTP_REQUEST);
 		User user = (User) session.get("user");
 		if (null == user) {
-			Cookie[] cookies = request.getCookies();
-			if (cookies != null) {
-				for (int i = 0; cookies != null && i < cookies.length; i++) {
-					if ("userId".equals(cookies[i].getName())) {
-						int userId = new Integer(cookies[i].getValue());
-						user =(User) userDAO.getUserById(userId);
-						if (null != user) {
-							Logger logger=Logger.getLogger(this.getClass());
-							logger.warn(user.getUsername()+" login from cookie!");
-							user.setLastLoginIp(org.apache.struts2.ServletActionContext
-									.getRequest().getRemoteAddr());
-								Set<Role> userRoles = user.getRoles();
-								List<String> userSystemFunctionList = new ArrayList<String>();
-								for(Role role:userRoles){
-									for(SystemFunctions systemFunction : role.getSystemFunctions()){
-										userSystemFunctionList.add(systemFunction.getName());
-									}
-								}
-							Employee e = userDAO.getEmployeeById(user.getEmployee().getId());
-							session.put("user", user);
-							session.put("employee", e);
-							session.put("userSystemFunctionList", userSystemFunctionList);
+			// CAS Start
+			String username = (String) session.get(CASFilter.CAS_FILTER_USER);
+			if (username.length() > 0) {
+				user = (User) userDAO.getUserByUsername(username);
+				if (null != user) logger.warn(user.getUsername() + " get User from CAS!");
+			}
+			// CAS End
+			if (null == user) {
+				Cookie[] cookies = request.getCookies();
+				if (cookies != null) {
+					for (int i = 0; cookies != null && i < cookies.length; i++) {
+						if ("userId".equals(cookies[i].getName())) {
+							int userId = new Integer(cookies[i].getValue());
+							user = (User) userDAO.getUserById(userId);
+							if (null != user) logger.warn(user.getUsername() + " get User from cookie!");
 						}
 					}
 				}
+			}
+			if (null != user) {
+				logger.warn(user.getUsername() + " Login !");
+				user.setLastLoginIp(org.apache.struts2.ServletActionContext.getRequest().getRemoteAddr());
+				Set<Role> userRoles = user.getRoles();
+				List<String> userSystemFunctionList = new ArrayList<String>();
+				for (Role role : userRoles) {
+					for (SystemFunctions systemFunction : role.getSystemFunctions()) {
+						userSystemFunctionList.add(systemFunction.getName());
+					}
+				}
+				Employee e = userDAO.getEmployeeById(user.getEmployee().getId());
+				session.put("user", user);
+				session.put("employee", e);
+				session.put("userSystemFunctionList", userSystemFunctionList);
 			}
 		}
 		if (null != user) {

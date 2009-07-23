@@ -1,6 +1,7 @@
 package com.tyopf.dao.impl;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -14,6 +15,7 @@ import org.hibernate.criterion.Restrictions;
 import com.tyopf.dao.BaseDAO;
 import com.tyopf.dao.IUserDAO;
 import com.tyopf.util.Encrypt;
+import com.tyopf.vo.AfBase;
 import com.tyopf.vo.Employee;
 import com.tyopf.vo.EmployeeFamily;
 import com.tyopf.vo.EmployeeResume;
@@ -100,6 +102,27 @@ public class UserDAO extends BaseDAO implements IUserDAO {
 	public User getUserById(int UserId) {
 		Session session = getSession();
 		User user = (User) session.get(User.class, UserId);
+		if (user.getClass() != null) {
+			if (null != user.getRoles()) {
+				if (!Hibernate.isInitialized(user.getRoles())) Hibernate.initialize(user.getRoles());
+			}
+			session.saveOrUpdate(user);
+			session.close();
+			return user;
+		}
+		session.close();
+		return null;
+	}
+	public User getUserByUsername(String username) {
+		Session session = getSession();
+		User user = new User();
+		Criteria criteria = session.createCriteria(User.class);
+		criteria.add(Restrictions.eq("username", username));
+		List userList = criteria.list();
+		for (Iterator iterator = userList.iterator(); iterator.hasNext();) {
+			user = (User) iterator.next();
+		}
+
 		if (user.getClass() != null) {
 			if (null != user.getRoles()) {
 				if (!Hibernate.isInitialized(user.getRoles())) Hibernate.initialize(user.getRoles());

@@ -8,7 +8,9 @@
 </head>
 <body>
 <s:if test="#session.user==null">您还没有登录,请登录!
-<jsp:forward page="/login.jsp" />
+<script LANGUAGE="JavaScript">
+window.location='http://erp.tyopf.com/User/index.action';
+</script>
 </s:if>
 <script LANGUAGE="JavaScript">
 var url='<s:property value = "#session.user.url" />';

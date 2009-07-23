@@ -172,7 +172,11 @@ function checkAF(){
 						<input type="hidden"
 							name="afes[<s:property value="#stat.index" />].AfBase.afId"
 							value="<s:property value="#af.afId"/>" />
-					</s:if> <select name="afes[<s:property value="#stat.index" />].EType">
+					</s:if> 
+					<input type="hidden"
+							name="afes[<s:property value="#stat.index" />].filmPlace"
+							value="<s:property value="filmPlace"/>" />
+					<select name="afes[<s:property value="#stat.index" />].EType">
 						<option value="Del">删除</option>
 						<option value="BB" <s:if test="EType.equals('BB')">selected</s:if>>正文</option>
 						<option value="Cover"

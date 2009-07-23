@@ -66,6 +66,8 @@
 					<li><a href="${pageContext.request.contextPath}/System/DeptAdmin.action"
 						class="head" rel="user"><span>系统管理</span></a></li>
 				</s:if>
+				<li><a href="http://portal.tyopf.com/c/portal/login" title="Protal Home" target="_blank"><span>企业门户</span></a></li>
+				<li><a href="https://mail.tyopf.com/" title="Mail Home" target="_blank"><span>电子邮件</span></a></li>
 			</s:else>
 		</ul>
 		</div>
@@ -85,7 +87,8 @@
 				<a href="${pageContext.request.contextPath}/OPE/TentMonth.jsp">产值月报</a>
 				<a href="${pageContext.request.contextPath}/OPE/TentClient.jsp">回款统计</a>
 				<a href="${pageContext.request.contextPath}/OPE/ListAF.action">任务单列表</a>
-				<a href="${pageContext.request.contextPath}/OPE/newAF.action">新建任务单</a></div>
+				<a href="${pageContext.request.contextPath}/OPE/newAF.action">新建任务单</a>
+				<a href="${pageContext.request.contextPath}/OPE/getMyAF.action">我的任务单</a></div>
 			</s:if>
 			<s:if test="#user.userType.equals('Admin') or 'PM-Basic' in #userSystemFunctionList">
 				<!--生产管理子菜单 -->

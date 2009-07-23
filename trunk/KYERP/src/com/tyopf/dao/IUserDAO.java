@@ -17,6 +17,7 @@ public interface IUserDAO {
 	public List getUserByHql(String hql);
 	public User validateUser(String username, String password);
 	public User getUserById(int UserId);
+	public User getUserByUsername(String username);
 	
 	public List<Role> getAllRoles();
 	public List<User> getUserByRole(int RoleId);
