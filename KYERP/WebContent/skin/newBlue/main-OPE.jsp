@@ -58,6 +58,7 @@
     	<option value="fmp ">开单人 </option>
     </select>
     <input name="searchValue" /><input type="submit" value="搜索" /></form></div>
+    <div style="clear: both;"></div>
 		<decorator:body /></td>
 	</tr>
 </table>
