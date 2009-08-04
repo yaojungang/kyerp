@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<include file="struts-default.xml" />
+	<include file="/com/jzland/ChengDe/action/struts-Plate.xml" />
+	<include file="/com/jzland/ChengDe/action/struts-System.xml" />
+	<include file="/com/jzland/ChengDe/action/struts-HR.xml" />
+	<include file="/com/jzland/ChengDe/action/struts-User.xml" />
+	<package name="struts-ChengDe" extends="json-default">
+		<interceptors>
+			<interceptor name="systemFunctionsInterceptor"
+				class="com.jzland.ChengDe.util.SystemFunctionsInterceptor">
+				<param name="checkFunctions">System-Login</param>
+			</interceptor>
+			<interceptor-stack name="PIMdefault">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="systemFunctionsInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="PIMdefault" />
+		<global-results>
+			<result name="login">/login.jsp</result>
+			<result name="wait">/Library/info/wait.jsp
+			</result>
+			<result name="invalid.token">/Library/info/invalidToken.jsp
+			</result>
+
+		</global-results>
+		<action name="login" class="com.jzland.ChengDe.action.SystemAction"
+			method="CheckLogin">
+			<result name="success">/index.jsp</result>
+			<result name="error">/login.jsp</result>
+			<interceptor-ref name="defaultStack" />
+		</action>
+		<action name="Logout" class="com.jzland.ChengDe.action.SystemAction"
+			method="Logout">
+			<result name="success">/login.jsp</result>
+		</action>
+		
+	</package>	
+</struts>
