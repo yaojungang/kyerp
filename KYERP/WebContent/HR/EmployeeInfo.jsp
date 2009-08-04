@@ -20,7 +20,7 @@
 	type="button" class="ipt" onClick="printdiv('pim2_employeeInofTable');"
 	value=" 打印 "></li></ul></div>
 <div id="pim2_employeeInofTable">
-<div class="BigTitle">北京市清华园胶印厂职工信息表</div>
+<div class="BigTitle">职工信息表</div>
 <table width="680" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
     <td>
