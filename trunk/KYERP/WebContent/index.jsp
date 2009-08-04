@@ -7,9 +7,10 @@
 <title>首页</title>
 </head>
 <body>
-<s:if test="#session.user==null">您还没有登录,请登录!
+<s:if test="#session.user==null">欢迎使用酷印通ERP系统！
 <script LANGUAGE="JavaScript">
-window.location='http://erp.tyopf.com/User/index.action';
+//window.location='http://erp.tyopf.com/User/index.action';
+window.location='${pageContext.request.contextPath}/User/index.action';
 </script>
 </s:if>
 <script LANGUAGE="JavaScript">

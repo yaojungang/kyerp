@@ -39,6 +39,7 @@
 		<td align="center">客户</td>
 		<td align="center">印数</td>
 		<td align="center">印张</td>
+		<td align="center">装订</td>
 	</tr>
 	<s:iterator value="#request['ListAF']" id="af" status="st">
 		<tr>
@@ -55,7 +56,9 @@
 				<s:if test="EPs">
 					<s:set name="teps" value="#teps=#teps+EPs" />
 				</s:if>
-			</s:iterator> <s:property value="#teps" /></td>
+			</s:iterator> 
+			<s:property value="#teps" /></td>
+			<td><s:if test="#af.ourbinding==1">Y</s:if></td>
 		</tr>
 	</s:iterator>
 </table>
