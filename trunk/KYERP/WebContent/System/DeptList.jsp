@@ -68,7 +68,7 @@ $(document).ready(function(){
 				<tr>
 					<td width="80" align="right">上级部门</td>
 					<td align="left"><select name="dept.upDeptId">
-						<option value="0">清华园胶印厂</option>
+						<option value="0">酷印通ERP</option>
 						<s:iterator value="#request['DeptTree']" status="st">
 							<option value="<s:property value="id"/>"
 								<s:if test="#dept.upDeptId == id">selected="selected"</s:if>><s:property
@@ -121,7 +121,7 @@ $(document).ready(function(){
 	<tr>
 		<td width="80" align="right">上级部门</td>
 		<td align="left"><select name="dept.upDeptId">
-			<option value="0">清华园胶印厂</option>
+			<option value="0">酷印通ERP</option>
 			<s:iterator value="#request['DeptTree']" status="st">
 				<option value="<s:property value="id"/>"><s:property
 					value="name" /></option>
