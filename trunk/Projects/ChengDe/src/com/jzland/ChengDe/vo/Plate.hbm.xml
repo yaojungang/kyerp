@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.jzland.ChengDe.vo.Plate" table="plate">
+		<id name="id" type="int" column="id">
+			<generator class="native" />
+		</id>
+		<list name="useLogs" table="plate_use_log" cascade="all" lazy="true">
+			<key column="plateId" />
+			<index column="useOrder" type="java.lang.Integer"></index>
+       		<one-to-many class="com.jzland.ChengDe.vo.PlateUseLog"/>
+       	</list>
+       	<property name="startTime" type="timestamp">
+            <column name="startTime" length="0" />
+        </property>
+        <property name="lastChangeTime" type="timestamp">
+            <column name="lastChangeTime" length="0" />
+        </property>
+        <property name="startMan" type="string">
+            <column name="startMan" length="50">
+                <comment>&#191;&#170;&#181;&#165;&#200;&#203;</comment>
+            </column>
+        </property>
+        <property name="lastChangeMan" type="string">
+            <column name="lastChangeMan" length="50">
+                <comment>&#215;&#238;&#186;&#243;&#208;&#222;&#184;&#196;&#200;&#203;</comment>
+            </column>
+        </property>
+        <property name="viewTimes" type="java.lang.Integer">
+            <column name="viewTimes">
+                <comment>&#178;&#233;&#191;&#180;&#180;&#206;&#202;&#253;</comment>
+            </column>
+        </property>
+		<property name="inputDate" type="timestamp">
+            <column name="InputDate" length="0">
+                <comment>&#200;&#235;&#191;&#226;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="lastUseDate" type="timestamp">
+            <column name="LastUseDate" length="0">
+                <comment>&#215;&#238;&#186;&#243;&#202;&#185;&#211;&#195;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="expDate" type="timestamp">
+            <column name="ExpDate" length="0">
+                <comment>&#185;&#253;&#198;&#218;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="danAnNo" type="string">
+            <column name="DanAnNo" length="50" />
+        </property>
+        <property name="pname" type="string">
+            <column name="PName" length="50" />
+        </property>
+        <property name="plateNo" type="string">
+            <column name="PlateNo" length="20">
+                <comment>&#176;&#230;&#186;&#197;</comment>
+            </column>
+        </property>
+        <property name="plateLength" type="java.lang.Double">
+            <column name="PlateLength" precision="22" scale="0">
+                <comment>&#176;&#230;&#179;&#164;</comment>
+            </column>
+        </property>
+        <property name="plateWidth" type="java.lang.Double">
+            <column name="PlateWidth" precision="22" scale="0">
+                <comment>&#176;&#230;&#214;&#220;</comment>
+            </column>
+        </property>
+        <property name="plateAmount" type="java.lang.Integer">
+            <column name="PlateAmount">
+                <comment>&#214;&#167;&#202;&#253;</comment>
+            </column>
+        </property>
+        <property name="plateShare" type="string">
+            <column name="PlateShare" length="50">
+                <comment>&#185;&#178;&#211;&#195;&#176;&#230;</comment>
+            </column>
+        </property>
+        <property name="plateAddress" type="string">
+            <column name="PlateAddress" length="100">
+                <comment>&#206;&#187;&#214;&#195;&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </property>
+	</class>
+</hibernate-mapping>

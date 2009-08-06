@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.jzland.ChengDe.vo.Employee" table="employee">
+		<id name="id" type="int" column="id">
+			<generator class="native" />
+		</id>
+		<one-to-one name="user" class="com.jzland.ChengDe.vo.User"
+			property-ref="employee" cascade="all" lazy="false" />
+			
+		<many-to-one name="companyDept" class="com.jzland.ChengDe.vo.CompanyDept"
+			column="DeptId" lazy="false"></many-to-one>
+		<property name="empNo" type="long">
+			<column name="EmpNo" not-null="true">
+				<comment>&#212;&#177;&#185;&#164;&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </property>
+		<list name="resume" table="Employee_Resume" cascade="all" lazy="true">
+			<key column="EID" />
+			<index column="ResumeOrder" type="java.lang.Integer"></index>
+       		<one-to-many class="com.jzland.ChengDe.vo.EmployeeResume"/>
+       	</list>
+		<list name="family" table="Employee_Family" cascade="all" lazy="true">
+			<key column="EID" />
+			<index column="FamilyOrder" type="java.lang.Integer"></index>
+       		<one-to-many class="com.jzland.ChengDe.vo.EmployeeFamily"/>
+       	</list>
+		<property name="rprtype" type="java.lang.Integer">
+            <column name="RPRType">
+                <comment>&#187;&#167;&#191;&#218;&#192;&#224;&#208;&#205;</comment>
+            </column>
+        </property>
+		<property name="realname" type="string">
+            <column name="Realname" length="20">
+                <comment>&#208;&#213;&#195;&#251;</comment>
+            </column>
+        </property>
+        <property name="email" type="string">
+            <column name="Email" length="50">
+                <comment>&#181;&#231;&#215;&#211;&#211;&#202;&#188;&#254;</comment>
+            </column>
+        </property>
+        <property name="totp" type="string">
+            <column name="Totp" length="20">
+                <comment>&#214;&#176;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="bz" type="string">
+            <column name="BZ" length="20">
+                <comment>&#177;&#224;&#214;&#198;</comment>
+            </column>
+        </property>
+        <property name="sex" type="java.lang.Integer">
+            <column name="Sex">
+                <comment>&#208;&#212;&#177;&#240;</comment>
+            </column>
+        </property>
+        <property name="insurance" type="string">
+            <column name="Insurance" length="200">
+                <comment>&#177;&#163;&#207;&#213;</comment>
+            </column>
+        </property>
+        <property name="birthday" type="date">
+            <column name="Birthday" length="0">
+                <comment>&#179;&#246;&#201;&#250;&#200;&#213;&#198;&#218;</comment>
+            </column>
+        </property>
+        <property name="nativeplace" type="string">
+            <column name="Nativeplace" length="50">
+                <comment>&#188;&#174;&#185;&#225;</comment>
+            </column>
+        </property>
+        <property name="nation" type="string">
+            <column name="Nation" length="20">
+                <comment>&#195;&#241;&#215;&#229;</comment>
+            </column>
+        </property>
+        <property name="health" type="string">
+            <column name="Health" length="100">
+                <comment>&#189;&#161;&#191;&#181;&#215;&#180;&#191;&#246;</comment>
+            </column>
+        </property>
+        <property name="idcard" type="string">
+            <column name="IDCard" length="20">
+                <comment>&#201;&#237;&#183;&#221;&#214;&#164;&#186;&#197;&#194;&#235;</comment>
+            </column>
+        </property>
+        <property name="polity" type="string">
+            <column name="Polity" length="20">
+                <comment>&#213;&#254;&#214;&#206;&#195;&#230;&#195;&#178;</comment>
+            </column>
+        </property>
+        <property name="weeding" type="string">
+            <column name="Weeding" length="10">
+                <comment>&#187;&#233;&#210;&#246;&#215;&#180;&#191;&#246;</comment>
+            </column>
+        </property>
+        <property name="school" type="string">
+            <column name="School" length="100">
+                <comment>&#177;&#207;&#210;&#181;&#212;&#186;&#208;&#163;</comment>
+            </column>
+        </property>
+        <property name="graduteDate" type="date">
+            <column name="GraduteDate" length="0">
+                <comment>&#177;&#207;&#210;&#181;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="degree" type="string">
+            <column name="Degree" length="40">
+                <comment>&#206;&#196;&#187;&#175;&#179;&#204;&#182;&#200;</comment>
+            </column>
+        </property>
+        <property name="speciality" type="string">
+            <column name="Speciality" length="40">
+                <comment>&#215;&#168;&#210;&#181;&#204;&#216;&#179;&#164;</comment>
+            </column>
+        </property>
+        <property name="interest" type="string">
+            <column name="Interest" length="100">
+                <comment>&#204;&#216;&#179;&#164;&#176;&#174;&#186;&#195;</comment>
+            </column>
+        </property>
+        <property name="address" type="string">
+            <column name="Address" length="100">
+                <comment>&#207;&#214;&#215;&#161;&#214;&#183;</comment>
+            </column>
+        </property>
+        <property name="tel" type="string">
+            <column name="Tel" length="20">
+                <comment>&#207;&#214;&#215;&#161;&#214;&#183;&#193;&#170;&#207;&#181;&#181;&#231;&#187;&#176;</comment>
+            </column>
+        </property>
+        <property name="mobile" type="string">
+            <column name="Mobile" length="20">
+                <comment>&#202;&#214;&#187;&#250;</comment>
+            </column>
+        </property>
+        <property name="rpraddress" type="string">
+            <column name="RPRAddress" length="20">
+                <comment>&#187;&#167;&#191;&#218;&#203;&#249;&#212;&#218;&#181;&#216;</comment>
+            </column>
+        </property>
+        <property name="rprtel" type="string">
+            <column name="RPRTel" length="20">
+                <comment>&#203;&#249;&#212;&#218;&#181;&#216;&#181;&#231;&#187;&#176;</comment>
+            </column>
+        </property>
+        <property name="participateDate" type="date">
+            <column name="ParticipateDate" length="0">
+                <comment>&#189;&#248;&#179;&#167;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="photo" type="string">
+            <column name="Photo" length="100" />
+        </property>
+        <property name="remark" type="string">
+            <column name="Remark" length="250">
+                <comment>&#177;&#184;&#215;&#162;</comment>
+            </column>
+        </property>
+        <property name="workTel" type="string">
+            <column name="WorkTel" length="20">
+                <comment>&#176;&#236;&#185;&#171;&#181;&#231;&#187;&#176;</comment>
+            </column>
+        </property>
+        <property name="qq" type="java.lang.Integer">
+            <column name="QQ">
+                <comment>QQ&#186;&#197;</comment>
+            </column>
+        </property>
+        <property name="msn" type="string">
+            <column name="MSN" length="50" />
+        </property>
+        <property name="selfDesc" type="string">
+            <column name="selfDesc" length="250">
+                <comment>&#215;&#212;&#206;&#210;&#195;&#232;&#202;&#246;</comment>
+            </column>
+        </property>
+        <property name="zhiChen" type="string">
+            <column name="ZhiChen" length="20">
+                <comment>&#214;&#176;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="zhiChenDate" type="date">
+            <column name="ZhiChenDate" length="0">
+                <comment>&#214;&#176;&#179;&#198;&#200;&#161;&#181;&#195;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="bianZhi" type="string">
+            <column name="BianZhi" length="20">
+                <comment>&#177;&#224;&#214;&#198;</comment>
+            </column>
+        </property>
+        <property name="disabilityIdcard" type="string">
+            <column name="DisabilityIdcard" length="50">
+                <comment>&#178;&#208;&#188;&#178;&#214;&#164;&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </property>
+        <property name="contractSignDate" type="date">
+            <column name="ContractSignDate" length="0">
+                <comment>&#186;&#207;&#205;&#172;&#199;&#169;&#182;&#169;&#200;&#213;&#198;&#218;</comment>
+            </column>
+        </property>
+        <property name="contractMatureDate" type="date">
+            <column name="ContractMatureDate" length="0">
+                <comment>&#186;&#207;&#205;&#172;&#181;&#189;&#198;&#218;&#200;&#213;&#198;&#218;</comment>
+            </column>
+        </property>
+        <property name="contractRemark" type="string">
+            <column name="ContractRemark" length="250">
+                <comment>&#186;&#207;&#205;&#172;&#199;&#169;&#182;&#169;&#177;&#184;&#215;&#162;</comment>
+            </column>
+        </property>
+        <property name="infoStatus" type="java.lang.Integer">
+            <column name="InfoStatus">
+                <comment>&#215;&#202;&#193;&#207;&#215;&#180;&#204;&#172;</comment>
+            </column>
+        </property>
+        <property name="workStatus" type="java.lang.Integer">
+            <column name="WorkStatus">
+                <comment>
+                &#212;&#177;&#185;&#164;&#215;&#180;&#204;&#172;0&#163;&#186;&#212;&#218;&#214;&#176;&#163;&#187;2&#163;&#186;&#202;&#212;&#211;&#195;&#198;&#218;&#163;&#187;3&#163;&#186;&#188;&#180;&#189;&#171;&#192;&#235;&#214;&#176;&#163;&#187;100&#163;&#186;&#205;&#203;&#208;&#221;&#163;&#187;</comment>
+            </column>
+        </property>
+        <property name="rewardsAndPunishiment" type="string">
+            <column name="RewardsAndPunishiment" length="250">
+                <comment>&#189;&#177;&#179;&#205;&#188;&#199;&#194;&#188;</comment>
+            </column>
+        </property>
+        <property name="jobChanges" type="string">
+            <column name="JobChanges" length="250">
+                <comment>&#185;&#164;&#215;&#247;&#177;&#228;&#182;&#175;&#188;&#199;&#194;&#188;</comment>
+            </column>
+        </property>
+        <property name="workTrain" type="string">
+            <column name="WorkTrain" length="250">
+                <comment>&#197;&#224;&#209;&#181;&#188;&#199;&#194;&#188;</comment>
+            </column>
+        </property>
+        <property name="recognizor" type="string">
+            <column name="Recognizor" length="250">
+                <comment>&#181;&#163;&#177;&#163;&#188;&#199;&#194;&#188;</comment>
+            </column>
+        </property>
+        <property name="physical" type="string">
+            <column name="Physical" length="250">
+                <comment>&#204;&#229;&#188;&#236;&#188;&#199;&#194;&#188;</comment>
+            </column>
+        </property>
+	</class>
+</hibernate-mapping>
