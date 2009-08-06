@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Dynamic Drive DHTML Scripts- Drop Down Tabs demos</title>
+<script type="text/javascript" src="DropDownTab/dropdowntabs.js">
+</script>
+<!-- CSS for Drop Down Tabs Menu #1 -->
+<link rel="stylesheet" type="text/css"
+	href="DropDownTab/ddcolortabs.css" />
+<!-- CSS for Drop Down Tabs Menu #2 -->
+<link rel="stylesheet" type="text/css" href="DropDownTab/bluetabs.css" />
+<!-- CSS for Drop Down Tabs Menu #3 -->
+<link rel="stylesheet" type="text/css"
+	href="DropDownTab/slidingdoors.css" />
+<!-- CSS for Drop Down Tabs Menu #4 -->
+<link rel="stylesheet" type="text/css" href="DropDownTab/glowtabs.css" />
+<!-- CSS for Drop Down Tabs Menu #5 -->
+<link rel="stylesheet" type="text/css"
+	href="DropDownTab/halfmoontabs.css" />
+</head>
+<body>
+<h2>1) �� 1</h2>
+<p>ע��CSS��Ϊ��һ�˵����ÿ���˵��������ı�ǩ</p>
+<div id="colortab" class="ddcolortabs">
+<ul>
+	<li><a href="#" title="Home"><span>��ҳ</span></a></li>
+	<li><a href="#" title="New"><span>��ҳ��Ч</span></a></li>
+	<li><a href="#" title="CSS" rel="dropmenu1_a"><span>�������</span></a></li>
+	<li><a href="#" title="Partners" rel="dropmenu2_a"><span>����ѧԺ</span></a></li>
+	<li><a href="#" title="Useful Tools"><span>��վ����</span></a></li>
+</ul>
+</div>
+<div class="ddcolortabsline">&nbsp;</div>
+<!--1st drop down menu -->
+<div id="dropmenu1_a" class="dropmenudiv_a"><a href="#">�Ӳ˵�һ</a>
+<a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a
+	href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a></div>
+<!--2nd drop down menu -->
+<div id="dropmenu2_a" class="dropmenudiv_a" style="width: 150px;">
+<a href="#">�Ӳ˵�һ</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a
+	href="#">�Ӳ˵���</a></div>
+<script type="text/javascript">
+//SYNTAX: tabdropdown.init("menu_id", [integer OR "auto"])
+tabdropdown.init("colortab", 3)
+</script>
+<h2>2) �� 2</h2>
+<div id="bluemenu" class="bluetabs">
+<ul>
+	<li><a href="#">�˵�һ</a></li>
+	<li><a href="#" rel="dropmenu1_b">�˵���</a></li>
+	<li><a href="#" rel="dropmenu2_b">�˵���</a></li>
+	<li><a href="#">�˵���</a></li>
+</ul>
+</div>
+<!--1st drop down menu -->
+<div id="dropmenu1_b" class="dropmenudiv_b"><a href="#">�Ӳ˵�һ</a>
+<a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a
+	href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a></div>
+<!--2nd drop down menu -->
+<div id="dropmenu2_b" class="dropmenudiv_b" style="width: 150px;">
+<a href="#">�Ӳ˵�һ</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a
+	href="#">�Ӳ˵���</a></div>
+<script type="text/javascript">
+//SYNTAX: tabdropdown.init("menu_id", [integer OR "auto"])
+tabdropdown.init("bluemenu")
+</script>
+<h2>3) �� 3</h2>
+<div id="slidemenu" class="slidetabsmenu">
+<ul>
+	<li><a href="#" title="�˵�һ"><span>�˵�һ</span></a></li>
+	<li><a href="#" title="�˵���" rel="dropmenu1_c"><span>�˵���</span></a></li>
+	<li><a href="#" title="�˵���" rel="dropmenu2_c"><span>�˵���</span></a></li>
+	<li><a href="#" title="�˵���"><span>�˵���</span></a></li>
+</ul>
+</div>
+<br style="clear: left;" />
+<br class="IEonlybr" />
+<!--1st drop down menu -->
+<div id="dropmenu1_c" class="dropmenudiv_c"><a href="#">�Ӳ˵�һ</a>
+<a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a
+	href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a></div>
+<!--2nd drop down menu -->
+<div id="dropmenu2_c" class="dropmenudiv_c" style="width: 150px;">
+<a href="#">�Ӳ˵�һ</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a
+	href="#">�Ӳ˵���</a></div>
+<script type="text/javascript">
+//SYNTAX: tabdropdown.init("menu_id", [integer OR "auto"])
+tabdropdown.init("slidemenu")
+</script>
+<h2>4) �� 4</h2>
+<div id="glowmenu" class="glowingtabs">
+<ul>
+	<li><a href="#" title="�˵�һ"><span>�˵�һ</span></a></li>
+	<li><a href="#" title="�˵���" rel="dropmenu1_d"><span>�˵���</span></a></li>
+	<li><a href="#" title="�˵���" rel="dropmenu2_d"><span>�˵���</span></a></li>
+	<li><a href="#" title="�˵���"><span>�˵���</span></a></li>
+</ul>
+</div>
+<br style="clear: left;" />
+<br class="IEonlybr" />
+<!--1st drop down menu -->
+<div id="dropmenu1_d" class="dropmenudiv_d"><a href="#">�Ӳ˵�һ</a>
+<a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a
+	href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a></div>
+<!--2nd drop down menu -->
+<div id="dropmenu2_d" class="dropmenudiv_d" style="width: 150px;">
+<a href="#">�Ӳ˵�һ</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a
+	href="#">�Ӳ˵���</a></div>
+<script type="text/javascript">
+//SYNTAX: tabdropdown.init("menu_id", [integer OR "auto"])
+tabdropdown.init("glowmenu", "auto")
+</script>
+<h2>5) �� 5</h2>
+<div id="moonmenu" class="halfmoon">
+<ul>
+	<li><a href="#">�˵�һ</a></li>
+	<li><a href="#" rel="dropmenu1_e">�˵���</a></li>
+	<li><a href="#" rel="dropmenu2_e">�˵���</a></li>
+	<li><a href="#">�˵���</a></li>
+</ul>
+</div>
+<br style="clear: left;" />
+<!--1st drop down menu -->
+<div id="dropmenu1_e" class="dropmenudiv_e"><a href="#">�Ӳ˵�һ</a>
+<a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a
+	href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a></div>
+<!--2nd drop down menu -->
+<div id="dropmenu2_e" class="dropmenudiv_e" style="width: 150px;">
+<a href="#">�Ӳ˵�һ</a> <a href="#">�Ӳ˵���</a> <a href="#">�Ӳ˵���</a> <a
+	href="#">�Ӳ˵���</a></div>
+<script type="text/javascript">
+//SYNTAX: tabdropdown.init("menu_id", [integer OR "auto"])
+tabdropdown.init("moonmenu", 3)
+</script>
+<p>�����Ч�����<a href="http://www.smallrain.net">С������</a></p>
+</body>
+</html>
