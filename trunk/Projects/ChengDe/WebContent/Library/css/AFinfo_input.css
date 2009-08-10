@@ -1,0 +1,79 @@
+@charset "utf-8";
+
+/* CSS Document */
+@media print {
+	INPUT {
+		display: none
+	}
+}
+
+@media print {
+	.tnoprint {
+		display: none
+	}
+}
+
+.sImpactred {
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 18px;
+	COLOR: #ff0000;
+	FONT-FAMILY: "黑体"
+}
+
+TD {
+	FONT-WEIGHT: normal;
+	LINE-HEIGHT: normal;
+	FONT-STYLE: normal;
+	FONT-VARIANT: normal
+}
+
+.item {
+	line-height: 120%;
+}
+
+form {
+	margin: 0px;
+	display: inline;
+}
+
+.text {
+	color: #000000;
+}
+
+.bottomtext {
+	font-family: "宋体";
+	font-size: 13.5px;
+	color: #000000;
+}
+
+.table-zuoyou {
+	BORDER-RIGHT: #cccccc 1px solid;
+	BORDER-LEFT: #cccccc 1px solid
+}
+
+.t11 {
+	FONT-SIZE: 11px;
+	FONT-STYLE: normal;
+	FONT-FAMILY: Tahoma
+}
+
+.t12 {
+	FONT-SIZE: 14px;
+	FONT-STYLE: normal;
+	FONT-FAMILY: 宋体
+}
+
+.t10 {
+	FONT-SIZE: 10px;
+	FONT-STYLE: normal;
+	FONT-FAMILY: Tahoma
+}
+
+.etype {
+	COLOR: #000000;
+	font-size: 20px;
+	left: 3px;
+	top: 3px;
+	right: 3px;
+	bottom: 3px;
+}

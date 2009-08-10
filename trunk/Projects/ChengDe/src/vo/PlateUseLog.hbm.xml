@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2009-4-22 0:58:06 by Hibernate Tools 3.2.2.GA -->
+<hibernate-mapping>
+    <class name="PlateUseLog" table="plate_use_log" catalog="ChengDe">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="plateId" type="int">
+            <column name="plateId" not-null="true">
+                <comment>&#176;&#230;&#191;&#226;Id</comment>
+            </column>
+        </property>
+        <property name="useTime" type="timestamp">
+            <column name="useTime" length="0">
+                <comment>&#202;&#185;&#211;&#195;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="inputMan" type="string">
+            <column name="inputMan" length="50">
+                <comment>&#202;&#228;&#200;&#235;&#200;&#203;</comment>
+            </column>
+        </property>
+        <property name="pressAmount" type="java.lang.Integer">
+            <column name="pressAmount">
+                <comment>&#211;&#161;&#202;&#253;</comment>
+            </column>
+        </property>
+        <property name="useOrder" type="java.lang.Integer">
+            <column name="useOrder">
+                <comment>&#203;&#179;&#208;&#242;</comment>
+            </column>
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="250">
+                <comment>&#177;&#184;&#215;&#162;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>
