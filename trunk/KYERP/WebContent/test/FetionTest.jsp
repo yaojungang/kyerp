@@ -10,7 +10,7 @@
 <form action="FetionTest.action" method="POST">
 <input name="myPhone" value="13810965292"/ >
 <input name="myPassword" type="password" value="yaoyiyjg"/ ><br />
-<input name="toPhone" value="13810965292"/ ><br />
+<input name="toPhone" value=""/ ><br />
 <textarea name="msg" rows="3" cols="50">飞信测试内容</textarea><br />
 <input type="submit" />
 </form>
