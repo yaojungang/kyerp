@@ -12,6 +12,7 @@
 	<include file="/com/tyopf/action/struts-User.xml" />
 	<include file="/com/tyopf/action/struts-OPE.xml" />
 	<include file="/com/tyopf/action/struts-MA.xml" />
+	<include file="/com/tyopf/action/struts-QC.xml" />
 	<include file="/com/tyopf/action/struts-ML.xml" />
 	<include file="/com/tyopf/action/struts-ZP.xml" />
 	<include file="/com/tyopf/action/struts-PM.xml" />

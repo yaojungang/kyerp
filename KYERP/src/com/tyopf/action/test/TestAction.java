@@ -9,48 +9,57 @@ import com.tyopf.vo.Employee;
 
 @SuppressWarnings("serial")
 public class TestAction extends ActionSupport {
-	private ISystemService systemService;
-	private IHRService hrService;
-	private int upDeptId = 0;
 	
-
-	public IHRService getHrService() {
-		return hrService;
+	String myPhone;
+	String myPassword;
+	String toPhone;
+	String msg;
+	
+	
+	public String getMyPhone() {
+		return myPhone;
 	}
 
 
-	public void setHrService(IHRService hrService) {
-		this.hrService = hrService;
+	public void setMyPhone(String myPhone) {
+		this.myPhone = myPhone;
 	}
 
 
-	public ISystemService getSystemService() {
-		return systemService;
+	public String getMyPassword() {
+		return myPassword;
 	}
 
 
-	public void setSystemService(ISystemService systemService) {
-		this.systemService = systemService;
+	public void setMyPassword(String myPassword) {
+		this.myPassword = myPassword;
 	}
 
 
-	public int getUpDeptId() {
-		return upDeptId;
+	public String getToPhone() {
+		return toPhone;
 	}
 
 
-	public void setUpDeptId(int upDeptId) {
-		this.upDeptId = upDeptId;
+	public void setToPhone(String toPhone) {
+		this.toPhone = toPhone;
 	}
 
 
-	public String getEmpNo() throws Exception{
-		System.out.println(hrService.getEmpNo(22));
-		List<Employee> allEmployee = hrService.getEmployeeListByWorkStatus(0, 1, 10000);
-		for(Employee e:allEmployee){
-			e.setEmpNo(hrService.getEmpNo(e.getId()));
-			hrService.saveEmployee(e);
-		}
+	public String getMsg() {
+		return msg;
+	}
+
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+
+	public String testFetion() throws Exception{
+		//System.out.println("testFetion");
+		com.tyopf.util.SendMobileMsg.SendMsg(myPhone,myPassword,toPhone,msg);
+		
 		return SUCCESS;
 	}
 }

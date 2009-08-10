@@ -46,6 +46,10 @@
 						class="head" rel="ma"><span>生产管理</span></a></li>
 				</s:if>
 				<s:if
+					test="#user.userType.equals('Admin') or 'QC-Basic' in #userSystemFunctionList">
+					<li><a href="#" class="head" rel="qc"><span>质量管理</span></a></li>
+				</s:if>
+				<s:if
 					test="#user.userType.equals('Admin') or 'MM-Basic' in #userSystemFunctionList">
 					<li><a
 						href="${pageContext.request.contextPath}/WareHouse/index.action"
@@ -66,8 +70,8 @@
 					<li><a href="${pageContext.request.contextPath}/System/DeptAdmin.action"
 						class="head" rel="user"><span>系统管理</span></a></li>
 				</s:if>
-				<li><a href="http://portal.tyopf.com/c/portal/login" title="Protal Home" target="_blank"><span>企业门户</span></a></li>
-				<li><a href="https://mail.tyopf.com/" title="Mail Home" target="_blank"><span>电子邮件</span></a></li>
+				<li><a href="#" rel="web">网络资源</a></li>
+				
 			</s:else>
 		</ul>
 		</div>
@@ -101,6 +105,14 @@
 				<a href="${pageContext.request.contextPath}/DL/index.action">发行</a>
 				<a href="${pageContext.request.contextPath}/MA/TjInput.action">生产统计</a>
 				
+				</div>
+			</s:if>
+			<s:if test="#user.userType.equals('Admin') or 'QC-Basic' in #userSystemFunctionList">
+				<!--质量管理子菜单 -->
+				<div id="qc" class="dropmenudiv_b">
+				<a href="${pageContext.request.contextPath}/QC/index.action">质量问题记录</a>				
+				<a href="${pageContext.request.contextPath}/QC/index.action">巡检记录</a>				
+				<a href="${pageContext.request.contextPath}/QC/index.action">送检记录</a>				
 				</div>
 			</s:if>
 			<s:if test="#user.userType.equals('Admin') or 'MM-Basic' in #userSystemFunctionList">
@@ -145,6 +157,12 @@
 				<s:if test="#user.userType.equals('Admin') or 'System-Admin' in #userSystemFunctionList"><a href="${pageContext.request.contextPath}/System/SystemAdmin.action">系统设置</a></s:if>
 				</div>
 			</s:if>
+				<!--网络资源子菜单 -->
+				<div id="web" class="dropmenudiv_b">
+				<a href="http://www.tyopf.com" title="www Home" target="_blank"><span>企业网站</span></a>
+				<a href="http://portal.tyopf.com/c/portal/login" title="Protal Home" target="_blank"><span>企业门户</span></a>
+				<a href="https://mail.tyopf.com/" title="Mail Home" target="_blank"><span>电子邮件</span></a>
+				</div>
 		</s:else> <script type="text/javascript">
 	//SYNTAX: tabdropdown.init("menu_id", [integer OR "auto"])
 	tabdropdown.init("bluemenu")

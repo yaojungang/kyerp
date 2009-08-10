@@ -4,9 +4,9 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="test" extends="json-default" namespace="/test">
-		<action name="getEmpNo" class="com.tyopf.action.test.TestAction"
-			method="getEmpNo">
-			<result name="success">/test/jsonString.jsp</result>
+		<action name="FetionTest" class="com.tyopf.action.test.TestAction"
+			method="testFetion">
+			<result name="success">/test/FetionTest.jsp</result>
 		</action>
 	</package>
 </struts>
