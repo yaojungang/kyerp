@@ -415,7 +415,8 @@ function show(id){
     <td><div align="center"><s:property value="personLiable" /></div></td>
     <td><s:property value="description" /></td>
     <td align="center"><a href="${pageContext.request.contextPath}/QC/QualityProblemInfo.action?afId=<s:property value="#af.afId" />&id=<s:property value="id" />"
-				target="_blank">修改</a></td>
+				target="_blank">修改</a> 
+				<a href="${pageContext.request.contextPath}/QC/delQualityProblem.action?afId=<s:property value="#af.afId" />&id=<s:property value="id" />">删除</a></td>
   </tr>
   </s:iterator>
 </table>
