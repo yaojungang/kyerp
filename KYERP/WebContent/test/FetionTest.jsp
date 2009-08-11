@@ -7,10 +7,10 @@
 <title>FetionTest</title>
 </head>
 <body>
-<form action="FetionTest.action" method="POST">
-<input name="myPhone" value="13810965292"/ >
-<input name="myPassword" type="password" value="yaoyiyjg"/ ><br />
-<input name="toPhone" value=""/ ><br />
+<form action="FetionTest.action" method="POST" target="_blank">
+<input name="myPhone" value="13811409648"/ >
+<input name="myPassword" type="password" value="zfx!123"/ ><br />
+<input name="toPhone" value="13810965292"/ ><br />
 <textarea name="msg" rows="3" cols="50">飞信测试内容</textarea><br />
 <input type="submit" />
 </form>

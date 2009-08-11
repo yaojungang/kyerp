@@ -15,12 +15,15 @@ public class SendMobileMsg {
 //			System.out.println("####\r\n" + cc + "\r\n");
 //		}
 		//fetiont.sendSms2SelfPhone(new Date() + "给自己发个试哈^_^...");
-		//System.out.println("MyPhone:"+fetiont.getPhoneNum());
-		if(null == toPhone || toPhone==fetiont.getPhoneNum()){
+		System.out.println("MyPhone:"+fetiont.getPhoneNum());
+		//fetiont.sendSms("13810965292","kkkkk");
+		if(toPhone.length()<3 || toPhone.equals(fetiont.getFetionNum())){
 			fetiont.sendSms2SelfPhone(msg);
+			System.out.println(myPhone+" To Self");
 		}
 		else{
-		fetiont.sendSms(toPhone,msg);
+			fetiont.sendSms(toPhone,msg);
+			System.out.println(myPhone + " Send a Message To "+toPhone);
 		}
 		fetiont.logout();
 		return "success";
