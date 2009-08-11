@@ -126,6 +126,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 				Hibernate.initialize(af.getAfDispose());
 			if (!Hibernate.isInitialized(af.getAfValuation()))
 				Hibernate.initialize(af.getAfValuation());
+			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+				Hibernate.initialize(af.getAfQualityProblem());
 			AFs.add(af);
 		}
 		session.close();
@@ -230,6 +232,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 				Hibernate.initialize(af.getAfDispose());
 			if (!Hibernate.isInitialized(af.getAfValuation()))
 				Hibernate.initialize(af.getAfValuation());
+			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+				Hibernate.initialize(af.getAfQualityProblem());
 			AFs.add(af);
 		}
 
@@ -281,6 +285,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 				Hibernate.initialize(af.getAfDispose());
 			if (!Hibernate.isInitialized(af.getAfValuation()))
 				Hibernate.initialize(af.getAfValuation());
+			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+				Hibernate.initialize(af.getAfQualityProblem());
 			AFs.add(af);
 		}
 		session.close();
@@ -739,6 +745,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 				Hibernate.initialize(af.getAfDispose());
 			if (!Hibernate.isInitialized(af.getAfValuation()))
 				Hibernate.initialize(af.getAfValuation());
+			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+				Hibernate.initialize(af.getAfQualityProblem());
 			session.saveOrUpdate(af);
 			session.close();
 			return af;
@@ -766,6 +774,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 				Hibernate.initialize(af.getAfDispose());
 			if (!Hibernate.isInitialized(af.getAfValuation()))
 				Hibernate.initialize(af.getAfValuation());
+			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+				Hibernate.initialize(af.getAfQualityProblem());
 		}
 
 		session.close();
@@ -792,6 +802,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 				Hibernate.initialize(af.getAfDispose());
 			if (!Hibernate.isInitialized(af.getAfValuation()))
 				Hibernate.initialize(af.getAfValuation());
+			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+				Hibernate.initialize(af.getAfQualityProblem());
 		}
 
 		session.close();
@@ -941,6 +953,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 				Hibernate.initialize(af.getAfDispose());
 			if (!Hibernate.isInitialized(af.getAfValuation()))
 				Hibernate.initialize(af.getAfValuation());
+			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+				Hibernate.initialize(af.getAfQualityProblem());
 			AFs.add(af);
 		}
 
@@ -1126,6 +1140,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 					Hibernate.initialize(af.getAfDispose());
 				if (!Hibernate.isInitialized(af.getAfValuation()))
 					Hibernate.initialize(af.getAfValuation());
+				if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+					Hibernate.initialize(af.getAfQualityProblem());
 				AFs.add(af);
 			}
 
