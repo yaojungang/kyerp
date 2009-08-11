@@ -1,7 +1,6 @@
 package com.tyopf.action;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +46,44 @@ public class SystemAction extends ActionSupport implements SessionAware {
 	private List<String> sfs;
 	private String message;
 	private Map session;
+	private String myPhone;
+	private String myPassword;
+	private String toPhone;
+	private String msg;
 	
 	
+	public String getMyPhone() {
+		return myPhone;
+	}
+
+	public void setMyPhone(String myPhone) {
+		this.myPhone = myPhone;
+	}
+
+	public String getMyPassword() {
+		return myPassword;
+	}
+
+	public void setMyPassword(String myPassword) {
+		this.myPassword = myPassword;
+	}
+
+	public String getToPhone() {
+		return toPhone;
+	}
+
+	public void setToPhone(String toPhone) {
+		this.toPhone = toPhone;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
 	public IHRService getHrService() {
 		return hrService;
 	}
@@ -437,6 +472,17 @@ public class SystemAction extends ActionSupport implements SessionAware {
 		request.put("message", "角色修改成功！");
 		request.put("DeptTree", deptTree);
 		request.put("pageTitle", systemService.getDeptById(deptId).getName() + " 角色列表");
+		return SUCCESS;
+	}
+	@SuppressWarnings("unchecked")
+	public String FetionMsgSend() {
+		com.tyopf.util.SendMobileMsg.SendMsg(myPhone,myPassword,toPhone,msg);
+		Map request = (Map) ActionContext.getContext().get("request");
+		Map session = ActionContext.getContext().getSession();
+		User u =(User) session.get("user");
+		Logger logger=Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername()+" sent a fetion msg from "+ myPhone+" to "+toPhone);
+		request.put("message", "发送飞信短信成功！");
 		return SUCCESS;
 	}
 }

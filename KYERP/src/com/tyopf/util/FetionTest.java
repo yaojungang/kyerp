@@ -10,8 +10,7 @@ import cn.edu.ctgu.ghl.fetion.IFetionEventListener;
 
 public class FetionTest {
 	public static void main(String[] args) throws Exception {
-		//final Fetion fetiont = new Fetion("13811409648", "zfx!123");
-		final Fetion fetiont = new Fetion("13810965292", "yaoyiyjg");
+		final Fetion fetiont = new Fetion("13811409648", "zfx!123");
 		fetiont.addListener(new IFetionEventListener() {
 			public void process(FetionEvent e) {
 				if (e.getFirstLine() != null && e.getFirstLine().startsWith("M") && e.getBody() != null) {

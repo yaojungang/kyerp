@@ -12,7 +12,7 @@
 <input name="myPassword" type="password" value="zfx!123"/ ><br />
 <input name="toPhone" value="13810965292"/ ><br />
 <textarea name="msg" rows="3" cols="50">飞信测试内容</textarea><br />
-<input type="submit" />
+<input type="submit" value="发送" />
 </form>
 </body>
 </html>
