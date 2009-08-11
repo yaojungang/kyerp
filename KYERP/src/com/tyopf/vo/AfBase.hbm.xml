@@ -23,6 +23,11 @@
 			<key column="AF_ID" />
 			<one-to-many class="com.tyopf.vo.AfValuation" />
 		</set>
+		<set name="afQualityProblem" table="AF_Valuation" order-by="id asc"
+			cascade="all-delete-orphan" lazy="true" inverse="true">
+			<key column="AF_ID" />
+			<one-to-many class="com.tyopf.vo.AfQualityProblem" />
+		</set>
 
 		<property name="afType" type="string">
 			<column name="AFType" length="10"></column>
