@@ -13,6 +13,7 @@ import com.tyopf.vo.AfBase;
 import com.tyopf.vo.AfDispose;
 import com.tyopf.vo.AfElement;
 import com.tyopf.vo.AfProcess;
+import com.tyopf.vo.AfQualityProblem;
 import com.tyopf.vo.AfValuation;
 
 public class AFService implements IAFService {
@@ -397,6 +398,36 @@ public class AFService implements IAFService {
 	@Override
 	public List<AfBase> searchAF(String searchOption, String searchValue) {
 		return afDAO.searchAF(searchOption, searchValue);
+	}
+
+	@Override
+	public AfQualityProblem getAFQPById(int id) {
+		return afDAO.getAFQPById(id);
+	}
+
+	@Override
+	public List getAllQualityProblem(int currentPage, int pageSize) {
+		return afDAO.getAllQualityProblem(currentPage, pageSize);
+	}
+
+	@Override
+	public int getCountofAllQualityProblem() {
+		return afDAO.getCountofAllQualityProblem();
+	}
+
+	@Override
+	public void removeAfQualityProblem(int id) {
+		afDAO.removeAfQualityProblem(id);
+	}
+
+	@Override
+	public void saveAfQualityProblem(AfQualityProblem afqp) {
+		afDAO.saveAfQualityProblem(afqp);
+	}
+
+	@Override
+	public AfQualityProblem getLastAfQualityProblem() {
+		return afDAO.getLastAfQualityProblem();
 	}
 
 

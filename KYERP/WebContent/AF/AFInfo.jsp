@@ -97,6 +97,11 @@ function show(id){
 				target="_blank" onClick="return checkit('删除后不能恢复,您确认要删除这个任务单吗?')">删除</a></li>
 		</s:if>
 	</s:else>
+	<s:if test="#user.userType.equals('Admin') or 'QC-QualityProblemInput' in #userSystemFunctionList">
+			<li><a
+				href='<%=request.getContextPath()%>/QC/QualityProblemInput.action?afId=<s:property value="#af.afId" />'
+				target="_blank" >质量问题记录</a></li>
+		</s:if>
 </ul>
 </div>
 <div id="AFInfo">

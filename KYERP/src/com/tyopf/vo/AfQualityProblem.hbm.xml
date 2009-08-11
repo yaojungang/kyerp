@@ -11,7 +11,7 @@
 		<many-to-one name="AfBase" class="com.tyopf.vo.AfBase"
 			column="AF_ID" lazy="false">
 		</many-to-one>
-            <property name="afId" type="java.lang.Long" insert="false" update="false">
+            <property name="afId" type="java.lang.Integer" insert="false" update="false">
             <column name="AF_ID">
             </column>
         </property>
