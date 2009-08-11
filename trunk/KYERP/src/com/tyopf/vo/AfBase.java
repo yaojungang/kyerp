@@ -18,6 +18,7 @@ public class AfBase {
 	private Set<AfElement> afElement = new HashSet<AfElement>();
 	private Set<AfDispose> afDispose = new HashSet<AfDispose>();
 	private Set<AfValuation> AfValuation = new HashSet<AfValuation>();
+	private Set<AfQualityProblem> afQualityProblem = new HashSet<AfQualityProblem>();
 	private String iso;
 	private Date ad;
 	private Date lastModify;
@@ -97,6 +98,14 @@ public class AfBase {
 		this.viewTimes = viewTimes;
 	}
 	
+	public Set<AfQualityProblem> getAfQualityProblem() {
+		return afQualityProblem;
+	}
+
+	public void setAfQualityProblem(Set<AfQualityProblem> afQualityProblem) {
+		this.afQualityProblem = afQualityProblem;
+	}
+
 	public Date getPlanSendSample() {
 		return planSendSample;
 	}
