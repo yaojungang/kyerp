@@ -24,7 +24,9 @@ import com.tyopf.vo.AfBase;
 import com.tyopf.vo.AfDispose;
 import com.tyopf.vo.AfElement;
 import com.tyopf.vo.AfProcess;
+import com.tyopf.vo.AfQualityProblem;
 import com.tyopf.vo.AfValuation;
+import com.tyopf.vo.Employee;
 import com.tyopf.vo.User;
 
 public class AFDAO extends BaseDAO implements IAFDAO {
@@ -1210,4 +1212,71 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		return list;
 	}
 
+	@Override
+	public AfQualityProblem getAFQPById(int id) {
+		Session session = getSession();
+		AfQualityProblem afqp = (AfQualityProblem) session.get(AfQualityProblem.class, id);
+		if (afqp.getClass() != null) {
+			afqp.getAfBase();
+			session.close();
+			return afqp;
+		}
+		session.close();
+		return null;
+	}
+
+	@Override
+	public List getAllQualityProblem(int currentPage, int pageSize) {
+		Session session = getSession();
+		Query query;
+		query = session.createQuery("from AfQualityProblem QP order by QP.id desc");
+
+		query.setFirstResult(currentPage);
+		query.setMaxResults(pageSize);
+		query.setCacheable(true);
+		List list = query.list();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public int getCountofAllQualityProblem() {
+		Session session = getSession();
+		Criteria criteria = session.createCriteria(AfQualityProblem.class);
+		criteria.setProjection(Projections.rowCount());
+		int n = ((Integer) criteria.list().get(0)).intValue();
+		session.close();
+		return n;
+	}
+
+	@Override
+	public void removeAfQualityProblem(int id) {
+		Session session = getSession();
+		AfQualityProblem qp = (AfQualityProblem) session.get(AfQualityProblem.class, id);
+		session.delete(qp);
+		session.flush();
+		session.close();
+		
+	}
+
+	@Override
+	public void saveAfQualityProblem(AfQualityProblem afqp) {
+		Session session = getSession();
+		Transaction tx = session.beginTransaction();
+		session.saveOrUpdate(afqp);
+		tx.commit();
+		session.flush();
+		session.close();		
+	}
+	public AfQualityProblem getLastAfQualityProblem() {
+		Session session = getSession();
+		Query query = session.createQuery("from AfQualityProblem q order by q.id desc");
+		AfQualityProblem q = new AfQualityProblem();
+		if (query.list().size() != 0) {
+			q = (AfQualityProblem) query.list().get(0);
+		}
+		session.saveOrUpdate(q);
+		session.close();
+		return q;
+	}
 }

@@ -8,6 +8,7 @@ import com.tyopf.vo.AfBase;
 import com.tyopf.vo.AfDispose;
 import com.tyopf.vo.AfElement;
 import com.tyopf.vo.AfProcess;
+import com.tyopf.vo.AfQualityProblem;
 import com.tyopf.vo.AfValuation;
 
 public interface IAFService {
@@ -185,4 +186,11 @@ public interface IAFService {
 	public void removeAfProcess(int afpId);
 	public void filmPlaceChange(long afEId,int filmPlace);
 	public List<AfBase> searchAF(String searchOption, String searchValue);
+	
+	public List getAllQualityProblem(int currentPage,int pageSize);
+	public AfQualityProblem getAFQPById(int id);
+	public int getCountofAllQualityProblem();
+	public void saveAfQualityProblem(AfQualityProblem afqp);
+	public void removeAfQualityProblem(int id);
+	public AfQualityProblem getLastAfQualityProblem();
 }
