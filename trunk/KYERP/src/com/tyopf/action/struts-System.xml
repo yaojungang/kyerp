@@ -64,5 +64,9 @@
 			method="EditRole_save">
 			<result name="success">/System/RoleList.jsp</result>
 		</action>
+		<action name="FetionMsgSend" class="com.tyopf.action.SystemAction"
+			method="FetionMsgSend">
+			<result name="success">/Library/info/message.jsp</result>
+		</action>
 	</package>
 </struts>

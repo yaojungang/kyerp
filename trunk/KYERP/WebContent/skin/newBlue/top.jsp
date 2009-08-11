@@ -149,12 +149,12 @@
 				</div></s:if>
 			<s:if test="#user.userType.equals('Admin') or 'System-Basic' in #userSystemFunctionList">
 				<!--系统管理子菜单 -->
-				<div id="user" class="dropmenudiv_b"><a
-					href="${pageContext.request.contextPath}/System/DeptAdmin.action">部门管理</a>
+				<div id="user" class="dropmenudiv_b"><a href="${pageContext.request.contextPath}/System/DeptAdmin.action">部门管理</a>
 				<a href="${pageContext.request.contextPath}/System/RoleAdmin.action">角色管理</a>
 				<a
 					href="${pageContext.request.contextPath}/System/SystemFunctionsAdmin.action">功能设置</a>
 				<s:if test="#user.userType.equals('Admin') or 'System-Admin' in #userSystemFunctionList"><a href="${pageContext.request.contextPath}/System/SystemAdmin.action">系统设置</a></s:if>
+				<a href="${pageContext.request.contextPath}/System/FetionMsg.jsp">飞信短信</a>
 				</div>
 			</s:if>
 				<!--网络资源子菜单 -->
