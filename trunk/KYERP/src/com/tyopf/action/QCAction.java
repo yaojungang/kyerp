@@ -121,12 +121,21 @@ public class QCAction extends ActionSupport {
 		afqp.setInputMan(u.getEmployee().getRealname());
 		afService.saveAfQualityProblem(afqp);
 		//AfQualityProblem afqpGet = new AfQualityProblem();
-		if(afqp.getAfId()==0) afqp = afService.getLastAfQualityProblem();
+		if("".equals(afqp.getId()) || 0 == afqp.getId()) afqp = afService.getLastAfQualityProblem();
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("AFInfo", af);
 		request.put("AFQualityProblem", afqp);
-		request.put("pageTitle", "【"+af.getPresswork()+"】质量问题00");
+		request.put("pageTitle", "【"+af.getPresswork()+"】质量问题");
 		request.put("message", "【"+af.getPresswork()+"】质量问题保存成功！");
+		return SUCCESS;
+	}
+	@SuppressWarnings("unchecked")
+	public String delQualityProblemById() throws Exception {
+		afService.removeAfQualityProblem(id);
+		AfBase af = (AfBase) afService.getAFById(afId);
+		Map request = (Map) ActionContext.getContext().get("request");
+		request.put("AFInfo", af);
+		request.put("message", "删除成功！");
 		return SUCCESS;
 	}
 
