@@ -397,5 +397,28 @@ function show(id){
   </s:iterator>
 </table>
 </s:if>
+<br />
+<s:if test="#user.userType.equals('Admin') or 'QC-ViewAll' in #userSystemFunctionList">
+<table width="750" border="1" align="center" cellpadding="6" cellspacing="0" bordercolor="#000000" style="BORDER-COLLAPSE: collapse;">
+  <tr>
+    <td colspan="4" bgcolor="#FFFFCC">质量问题记录</td>
+  </tr>
+  <tr>
+    <td width="80"><div align="center">车间</div></td>
+    <td width="80"><div align="center">责任人</div></td>
+    <td>问题描述</td>
+    <td width="80"><div align="center">修改</div></td>
+  </tr>
+  <s:iterator value="#af.afQualityProblem">
+  <tr>
+    <td><div align="center"><s:property value="workshop" /></div></td>
+    <td><div align="center"><s:property value="personLiable" /></div></td>
+    <td><s:property value="description" /></td>
+    <td align="center"><a href="${pageContext.request.contextPath}/QC/QualityProblemInfo.action?afId=<s:property value="#af.afId" />&id=<s:property value="id" />"
+				target="_blank">修改</a></td>
+  </tr>
+  </s:iterator>
+</table>
+</s:if>
 </body>
 </html>

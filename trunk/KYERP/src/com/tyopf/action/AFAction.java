@@ -65,7 +65,7 @@ public class AFAction extends ActionSupport {
 	private int recentSize = 10;
 
 	private Integer currentPage = 1;
-	private Integer pageSize = 10;
+	private Integer pageSize = 50;
 
 	private long afId;
 

@@ -21,8 +21,11 @@
 		</action>
 		<action name="QualityProblem_save" class="com.tyopf.action.QCAction" method="QualityProblem_save">
 			<result name="success">
-				/QC/QualityProblemInput.jsp
+				/AF/AFInfo.jsp
 			</result>
+		</action>
+		<action name="QualityProblemInfo" class="com.tyopf.action.QCAction" method="QualityProblemInfo">
+			<result name="success">/QC/QualityProblemInput.jsp</result>
 		</action>
 		
 	</package>

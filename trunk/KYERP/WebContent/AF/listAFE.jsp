@@ -25,8 +25,7 @@
 			<s:if test="#st.odd">style="background-color:#FFffff"</s:if>>
 			<td align="center"><s:property value="#afe.afBase.iso" /><s:property
 				value="#afe.afBase.afNo" /></td>
-			<td><a
-				href="${pageContext.request.contextPath}/AF/AFInfo.action?afId=<s:property value="#afe.afBase.afId" />"
+			<td><a href="${pageContext.request.contextPath}/AF/AFInfo.action?afId=<s:property value="#afe.afBase.afId" />"
 				target="_blank"><s:property value="#afe.afBase.presswork" /></a></td>
 			<td><s:if test="#afe.EType.equals('BB')">正文</s:if> <s:if
 				test="#afe.EType.equals('Cover')">封面</s:if> <s:if

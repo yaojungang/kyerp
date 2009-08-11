@@ -30,6 +30,37 @@ import com.tyopf.vo.Employee;
 import com.tyopf.vo.User;
 
 public class AFDAO extends BaseDAO implements IAFDAO {
+	public AfBase getAFById(long afId) {
+		Session session = getSession();
+		// AfBase af = (AfBase) session.load(AfBase.class, afId);
+		AfBase af = (AfBase) session.get(AfBase.class, afId);
+		if (af.getClass() != null) {
+			Map ClientSession = ActionContext.getContext().getSession();
+			User u = (User) ClientSession.get("user");
+			Logger logger=Logger.getLogger(this.getClass());
+			logger.info(u.getUsername() + " Read AF:" + af.getIso()
+					+ af.getAfNo());
+			if (!Hibernate.isInitialized(af.getAfElement()))
+				Hibernate.initialize(af.getAfElement());
+			if (!Hibernate.isInitialized(af.getAfDispose()))
+				Hibernate.initialize(af.getAfDispose());
+			if (!Hibernate.isInitialized(af.getAfValuation()))
+				Hibernate.initialize(af.getAfValuation());
+			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+				Hibernate.initialize(af.getAfQualityProblem());
+			if(null != af.getViewTimes()){
+				af.setViewTimes(af.getViewTimes()+1);
+			}else{
+				af.setViewTimes(1);
+			}
+			session.saveOrUpdate(af);
+			session.flush();
+			session.close();
+			return af;
+		}
+		session.close();
+		return null;
+	}
 
 	public void addAF(AfBase af) {
 		Session session = getSession();
@@ -75,35 +106,6 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		return af;
 	}
 
-	public AfBase getAFById(long afId) {
-		Session session = getSession();
-		// AfBase af = (AfBase) session.load(AfBase.class, afId);
-		AfBase af = (AfBase) session.get(AfBase.class, afId);
-		if (af.getClass() != null) {
-			Map ClientSession = ActionContext.getContext().getSession();
-			User u = (User) ClientSession.get("user");
-			Logger logger=Logger.getLogger(this.getClass());
-			logger.warn(u.getUsername() + " Read AF:" + af.getIso()
-					+ af.getAfNo());
-			if (!Hibernate.isInitialized(af.getAfElement()))
-				Hibernate.initialize(af.getAfElement());
-			if (!Hibernate.isInitialized(af.getAfDispose()))
-				Hibernate.initialize(af.getAfDispose());
-			if (!Hibernate.isInitialized(af.getAfValuation()))
-				Hibernate.initialize(af.getAfValuation());
-			if(null != af.getViewTimes()){
-				af.setViewTimes(af.getViewTimes()+1);
-			}else{
-				af.setViewTimes(1);
-			}			
-			session.saveOrUpdate(af);
-			session.flush();
-			session.close();
-			return af;
-		}
-		session.close();
-		return null;
-	}
 
 	public List getAFs(int currentPage, int pageSize) {
 		Session session = getSession();
@@ -1174,9 +1176,9 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 					.createQuery("from AfProcess AP order by AP.id desc");
 		}
 
-		// int startRow = (currentPage - 1) * pageSize;
-		// query.setFirstResult(startRow);
-		query.setFirstResult(currentPage);
+		int startRow = (currentPage - 1) * pageSize;
+		query.setFirstResult(startRow);
+		
 		query.setMaxResults(pageSize);
 		query.setCacheable(true);
 		List processList = query.list();
@@ -1228,15 +1230,14 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 	@Override
 	public List getAllQualityProblem(int currentPage, int pageSize) {
 		Session session = getSession();
-		Query query;
-		query = session.createQuery("from AfQualityProblem QP order by QP.id desc");
-
-		query.setFirstResult(currentPage);
+		Query query = session.createQuery("from AfQualityProblem QP order by QP.id desc");
+		int startRow = (currentPage - 1) * pageSize;
+		query.setFirstResult(startRow);
 		query.setMaxResults(pageSize);
 		query.setCacheable(true);
-		List list = query.list();
+		List listq = query.list();
 		session.close();
-		return list;
+		return listq;
 	}
 
 	@Override
