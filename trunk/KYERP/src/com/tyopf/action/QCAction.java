@@ -4,22 +4,52 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.struts2.interceptor.SessionAware;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IAFService;
+import com.tyopf.service.ISystemService;
 import com.tyopf.util.Pager;
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.AfQualityProblem;
 import com.tyopf.vo.User;
 
 @SuppressWarnings("serial")
-public class QCAction extends ActionSupport {
+public class QCAction extends ActionSupport implements SessionAware{
 	protected IAFService afService;
+	protected ISystemService systemService;
 	protected int afId;
 	protected AfQualityProblem afqp;
 	private Integer currentPage = 1;
 	private Integer pageSize = 50;
 	private int id;
+	private Map session ;
+	private Map request;
+
+	public ISystemService getSystemService() {
+		return systemService;
+	}
+
+	public void setSystemService(ISystemService systemService) {
+		this.systemService = systemService;
+	}
+
+	public Map getSession() {
+		return session;
+	}
+
+	public void setSession(Map session) {
+		this.session = session;
+	}
+
+	public Map getRequest() {
+		return request;
+	}
+
+	public void setRequest(Map request) {
+		this.request = request;
+	}
 
 	public AfQualityProblem getAfqp() {
 		return afqp;
@@ -90,9 +120,15 @@ public class QCAction extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String QualityProblemInput() throws Exception {
 		AfBase af = (AfBase) afService.getAFById(afId);
+		List deptTree = (List) session.get("DeptTree");
+		if(null == deptTree){
+			deptTree =systemService.getDeptTree(0);
+			session.put("DeptTree", deptTree);
+		}
 		if (af != null) {
 			Map request = (Map) ActionContext.getContext().get("request");
 			request.put("AFInfo", af);
+			request.put("DeptTree", deptTree);
 			request.put("pageTitle", "【"+af.getPresswork()+"】质量问题录入");
 			return SUCCESS;
 		}
@@ -102,9 +138,15 @@ public class QCAction extends ActionSupport {
 	public String QualityProblemInfo() throws Exception {
 		AfBase af = (AfBase) afService.getAFById(afId);
 		AfQualityProblem afg = afService.getAFQPById(id);
+		List deptTree = (List) session.get("DeptTree");
+		if(null == deptTree){
+			deptTree =systemService.getDeptTree(0);
+			session.put("DeptTree", deptTree);
+		}
 		if (af != null) {
 			Map request = (Map) ActionContext.getContext().get("request");
 			request.put("AFInfo", af);
+			request.put("DeptTree", deptTree);
 			request.put("AFQualityProblem", afg);
 			request.put("pageTitle", "【"+af.getPresswork()+"】质量问题");
 			return SUCCESS;
@@ -114,6 +156,11 @@ public class QCAction extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String QualityProblem_save() throws Exception {
 		AfBase af = (AfBase) afService.getAFById(afId);
+		List deptTree = (List) session.get("DeptTree");
+		if(null == deptTree){
+			deptTree =systemService.getDeptTree(0);
+			session.put("DeptTree", deptTree);
+		}
 		afqp.setAfBase(af);
 		afqp.setInputTime(new Date());
 		Map session = ActionContext.getContext().getSession();
@@ -126,6 +173,7 @@ public class QCAction extends ActionSupport {
 		request.put("AFInfo", af);
 		request.put("AFQualityProblem", afqp);
 		request.put("pageTitle", "【"+af.getPresswork()+"】质量问题");
+		request.put("DeptTree", deptTree);
 		request.put("message", "【"+af.getPresswork()+"】质量问题保存成功！");
 		return SUCCESS;
 	}
