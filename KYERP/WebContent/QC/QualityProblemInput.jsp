@@ -17,9 +17,14 @@
 	value="<s:property value="#af.afId" />" />
 <input type="hidden" name=afqp.id
 	value="<s:property value="#afqp.id" />" />
-<p><label>车间</label> <input type="text"
-	name="afqp.workshop"
-	value='<s:property value="#afqp.workshop" />' />
+<p><label>车间</label> 	
+	<select name="afqp.workshop">
+				<s:iterator value="#request['DeptTree']" status="st">
+					<option value="<s:property value="id"/>"
+						<s:if test="#afqp.workshop == id" >selected="selected"</s:if>><s:property
+						value="name" /></option>
+				</s:iterator>
+			</select>
 </p>
 
 <p>
@@ -29,22 +34,22 @@
 </p>
 
 <p><label>问题描述</label> <textarea
-	name="afqp.description" cols="68" rows="8"><s:property
+	name="afqp.description" cols="58" rows="8"><s:property
 	value="#afqp.description" /></textarea></p>
 <p><label>原因分析</label> <textarea
-	name="afqp.reason" cols="68" rows="8"><s:property
+	name="afqp.reason" cols="58" rows="8"><s:property
 	value="#afqp.reason" /></textarea></p>
 <p><label>解决办法</label> <textarea
-	name="afqp.solution" cols="68" rows="8"><s:property
+	name="afqp.solution" cols="58" rows="8"><s:property
 	value="#afqp.solution" /></textarea></p>
 <p><label>损失</label> <textarea
-	name="afqp.loss" cols="68" rows="8"><s:property
+	name="afqp.loss" cols="58" rows="8"><s:property
 	value="#afqp.loss" /></textarea></p>
 <p><label>处置</label> <textarea
-	name="afqp.disposal" cols="68" rows="8"><s:property
+	name="afqp.disposal" cols="58" rows="8"><s:property
 	value="#afqp.disposal" /></textarea></p>
  <p><label>当事人意见</label> <textarea
-	name="afqp.personOpinion" cols="68" rows="8"><s:property
+	name="afqp.personOpinion" cols="58" rows="8"><s:property
 	value="#afqp.personOpinion" /></textarea></p>
 <div style="margin-left: 150px;"><input type="submit" value="提交" />
 <input type="reset" value="重置" /></div>
