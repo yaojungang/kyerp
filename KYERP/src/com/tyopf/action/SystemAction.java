@@ -476,13 +476,13 @@ public class SystemAction extends ActionSupport implements SessionAware {
 	}
 	@SuppressWarnings("unchecked")
 	public String FetionMsgSend() {
-		com.tyopf.util.SendMobileMsg.SendMsg(myPhone,myPassword,toPhone,msg);
+		String returnMsg = com.tyopf.util.SendMobileMsg.SendMsg(myPhone,myPassword,toPhone,msg);
 		Map request = (Map) ActionContext.getContext().get("request");
 		Map session = ActionContext.getContext().getSession();
 		User u =(User) session.get("user");
 		Logger logger=Logger.getLogger(this.getClass());
 		logger.warn(u.getUsername()+" sent a fetion msg from "+ myPhone+" to "+toPhone);
-		request.put("message", "发送飞信短信成功！");
+		request.put("message", returnMsg);
 		return SUCCESS;
 	}
 }

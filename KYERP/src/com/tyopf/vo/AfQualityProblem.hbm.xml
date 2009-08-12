@@ -15,8 +15,8 @@
             <column name="AF_ID">
             </column>
         </property>
-            <property name="workshop" type="string">
-                <column name="Workshop" length="50" />
+            <property name="workshop" type="java.lang.Integer">
+                <column name="Workshop" />
             </property>
             <property name="personLiable" type="string">
                 <column name="PersonLiable" length="50" />

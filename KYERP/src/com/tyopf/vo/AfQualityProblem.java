@@ -7,7 +7,7 @@ public class AfQualityProblem implements java.io.Serializable {
 	private int id;
 	private int afId;
 	private AfBase afBase;
-	private String workshop;
+	private int workshop;
 	private String personLiable;
 	private String description;
 	private String reason;
@@ -46,11 +46,11 @@ public class AfQualityProblem implements java.io.Serializable {
 		this.afBase = afBase;
 	}
 
-	public String getWorkshop() {
+	public int getWorkshop() {
 		return workshop;
 	}
 
-	public void setWorkshop(String workshop) {
+	public void setWorkshop(int workshop) {
 		this.workshop = workshop;
 	}
 
