@@ -12,5 +12,9 @@
 				<comment>&#177;&#228;&#193;&#191;&#214;&#181;</comment>
             </column>
         </property>
+		<property name="remark" type="string">
+			<column name="Remark" length="50">
+            </column>
+        </property>
     </class>
 </hibernate-mapping>

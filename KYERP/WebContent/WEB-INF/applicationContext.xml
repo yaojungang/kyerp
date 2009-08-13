@@ -49,6 +49,7 @@
 				<value>com/tyopf/vo/AfMonthAfnoRange.hbm.xml</value>
 				<value>com/tyopf/vo/AfProcess.hbm.xml</value>
 				<value>com/tyopf/vo/AfQualityProblem.hbm.xml</value>
+				<value>com/tyopf/vo/AfQualityProblemAttachment.hbm.xml</value>
 				<value>com/tyopf/vo/ClientC.hbm.xml</value>
 				<value>com/tyopf/vo/ClientLm.hbm.xml</value>
 				<value>com/tyopf/vo/BindingFactory.hbm.xml</value>

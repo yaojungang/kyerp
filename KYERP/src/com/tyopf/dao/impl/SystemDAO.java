@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import com.tyopf.dao.BaseDAO;
 import com.tyopf.dao.ISystemDAO;
 import com.tyopf.vo.CompanyDept;
+import com.tyopf.vo.CompanySettings;
 import com.tyopf.vo.Role;
 import com.tyopf.vo.SystemFunctions;
 import com.tyopf.vo.SystemModules;
@@ -108,6 +109,19 @@ public class SystemDAO extends BaseDAO implements ISystemDAO {
 		SystemModules systemModule = (SystemModules) session.get(SystemModules.class, id);
 		session.close();
 		return systemModule;
+	}
+
+	@SuppressWarnings("unchecked")
+	public String getSystemVarByName(String varName) {
+		String queryByName = "from CompanySettings s where s.variableName = ?";
+		List query = getHibernateTemplate().find(queryByName,varName);
+		String v="";
+		if (query.size() != 0) {
+			CompanySettings cs = (CompanySettings) query.get(0);
+			v=cs.getVarValue();
+			return v;
+		}
+		return null;
 	}
 
 }
