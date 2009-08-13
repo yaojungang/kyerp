@@ -1,5 +1,6 @@
 package com.tyopf.vo;
 
+@SuppressWarnings("serial")
 public class AfQualityProblemAttachment implements java.io.Serializable {
 	private int id;
 	private int afqpId;
