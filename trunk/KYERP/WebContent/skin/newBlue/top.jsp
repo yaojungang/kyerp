@@ -154,7 +154,8 @@
 				<a
 					href="${pageContext.request.contextPath}/System/SystemFunctionsAdmin.action">功能设置</a>
 				<s:if test="#user.userType.equals('Admin') or 'System-Admin' in #userSystemFunctionList"><a href="${pageContext.request.contextPath}/System/SystemAdmin.action">系统设置</a></s:if>
-				<a href="${pageContext.request.contextPath}/System/FetionMsg.jsp">飞信短信</a>
+				<a href="${pageContext.request.contextPath}/System/MailSender.action">网页邮件客户端</a>
+				<a href="${pageContext.request.contextPath}/System/FetionMsgSend.action">飞信短信</a>
 				</div>
 			</s:if>
 				<!--网络资源子菜单 -->
