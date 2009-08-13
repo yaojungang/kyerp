@@ -68,7 +68,7 @@ public class MsnTest extends MsnAdapter {
             messenger.logout();
             System.exit(0);
         }
-        message.setContent("Hello,I'm robot!");//设置要发送消息内容
+        message.setContent("Hello,我是酷印通机器人！\n现在的时间是："+new Date());//设置要发送消息内容
         message.setFontRGBColor((int) (Math.random() * 255 * 255 * 255));//设置消息的文本颜色
         switchboard.sendMessage(message);//发送信息
     }
@@ -98,7 +98,7 @@ public class MsnTest extends MsnAdapter {
     @Override
     public void loginCompleted(MsnMessenger messenger) {
         msg(messenger.getOwner().getDisplayName() + "登录成功！");
-      messenger.getOwner().setDisplayName("天天持之以恒");
+      messenger.getOwner().setDisplayName("酷印通机器人");
     }
 
     //注销时发生
