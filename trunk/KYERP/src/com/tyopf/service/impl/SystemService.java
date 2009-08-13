@@ -191,4 +191,9 @@ public class SystemService implements ISystemService {
 		
 		return user0;
 	}
+
+	@Override
+	public String getSystemVarByName(String varName) {
+		return systemDAO.getSystemVarByName(varName);
+	}
 }

@@ -1,12 +1,15 @@
 package com.tyopf.vo;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @SuppressWarnings("serial")
 public class AfQualityProblem implements java.io.Serializable {
 	private int id;
 	private int afId;
 	private AfBase afBase;
+	private Set<AfQualityProblemAttachment> attachments = new HashSet<AfQualityProblemAttachment>();
 	private int workshop;
 	private String personLiable;
 	private String description;
@@ -44,6 +47,15 @@ public class AfQualityProblem implements java.io.Serializable {
 
 	public void setAfBase(AfBase afBase) {
 		this.afBase = afBase;
+	}
+
+
+	public Set<AfQualityProblemAttachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(Set<AfQualityProblemAttachment> attachments) {
+		this.attachments = attachments;
 	}
 
 	public int getWorkshop() {

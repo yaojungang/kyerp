@@ -25,4 +25,6 @@ public interface ISystemDAO {
 	public Role getRoleById(int id);
 	public void saveRole(Role role);
 	public List<Role> getRoleByDeptId(int deptId);
+	
+	public String getSystemVarByName(String varName);
 }

@@ -5,6 +5,15 @@ public class CompanySettings implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private String variableName;
 	private String varValue;
+	private String remark;
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 	public CompanySettings() {
 	}

@@ -30,4 +30,6 @@ public interface ISystemService {
 	public Role editRole_save(Role role,List<String> functionsIds);
 	public User getUserById(int UserId);
 	public User changeUsername_save(User user);
+	
+	public String getSystemVarByName(String varName);
 }

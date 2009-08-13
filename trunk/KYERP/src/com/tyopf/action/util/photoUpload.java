@@ -1,4 +1,4 @@
-package com.tyopf.util;
+package com.tyopf.action.util;
 
 import java.io.File;
 import java.util.Map;
@@ -11,9 +11,8 @@ import org.apache.struts2.util.ServletContextAware;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IHRService;
+import com.tyopf.service.ISystemService;
 import com.tyopf.vo.Employee;
-import com.tyopf.vo.EmployeeFamily;
-import com.tyopf.vo.EmployeeResume;
 
 @SuppressWarnings("serial")
 public class photoUpload extends ActionSupport implements
@@ -23,17 +22,27 @@ public class photoUpload extends ActionSupport implements
 	
 	private int id;
 	protected IHRService hrService;
+	protected ISystemService systemService;
 	private String uploadContentType; // 文件的内容类型
 	private String uploadFileName; // 上传文件名
 	private ServletContext context;
+
+	public ISystemService getSystemService() {
+		return systemService;
+	}
+
+	public void setSystemService(ISystemService systemService) {
+		this.systemService = systemService;
+	}
 
 	@SuppressWarnings("unchecked")
 	public String execute() throws Exception {
 
 		try {
-			
-			String targetDirectory = context.getRealPath("../uploadData/photos");
+			String uploadPath = systemService.getSystemVarByName("dataPath");
+			String targetDirectory = context.getRealPath(uploadPath+"/photos");
 			String targetFileName = "employeePhoto"+id+".jpg";
+			System.out.println("uploadPhoto:"+uploadPath+"/photos");
 			File target = new File(targetDirectory, targetFileName);
 			FileUtils.copyFile(uploadPhoto, target);			
 			

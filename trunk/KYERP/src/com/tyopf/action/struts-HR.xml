@@ -36,7 +36,7 @@
 			<result name="success">/HR/EmployeeInput.jsp
 			</result>
 		</action>
-		<action name="uploadPhoto" class="com.tyopf.util.photoUpload">
+		<action name="uploadPhoto" class="com.tyopf.action.util.photoUpload" method="execute">
 			<result name="success">/HR/EmployeeInfo.jsp
 			</result>
 		</action>
