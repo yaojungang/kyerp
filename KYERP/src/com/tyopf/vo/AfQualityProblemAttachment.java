@@ -4,9 +4,18 @@ package com.tyopf.vo;
 public class AfQualityProblemAttachment implements java.io.Serializable {
 	private int id;
 	private int afqpId;
+	private String name;
 	private String fileName;
 	
 	public AfQualityProblemAttachment() {}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public int getId() {
 		return id;

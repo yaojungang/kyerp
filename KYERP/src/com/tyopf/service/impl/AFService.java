@@ -14,6 +14,7 @@ import com.tyopf.vo.AfDispose;
 import com.tyopf.vo.AfElement;
 import com.tyopf.vo.AfProcess;
 import com.tyopf.vo.AfQualityProblem;
+import com.tyopf.vo.AfQualityProblemAttachment;
 import com.tyopf.vo.AfValuation;
 
 public class AFService implements IAFService {
@@ -428,6 +429,21 @@ public class AFService implements IAFService {
 	@Override
 	public AfQualityProblem getLastAfQualityProblem() {
 		return afDAO.getLastAfQualityProblem();
+	}
+
+	@Override
+	public void delQPAttachment(AfQualityProblemAttachment qpa) {
+		afDAO.delQPAttachment(qpa);
+	}
+
+	@Override
+	public void saveQpa(AfQualityProblemAttachment qpa) {
+		afDAO.saveQpa(qpa);
+	}
+
+	@Override
+	public AfQualityProblemAttachment getAFQPAttachmentById(int id) {
+		return afDAO.getAFQPAttachmentById(id);
 	}
 
 

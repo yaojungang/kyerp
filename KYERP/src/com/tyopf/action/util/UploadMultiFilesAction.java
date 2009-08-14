@@ -2,19 +2,33 @@ package com.tyopf.action.util;
 
 import java.io.File;
 
+import javax.servlet.ServletContext;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.util.ServletContextAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.ISystemService;
 
 @SuppressWarnings("serial")
-public class UploadMultiFilesAction extends ActionSupport {
+public class UploadMultiFilesAction extends ActionSupport implements
+ServletContextAware {
 	private java.util.List<File> uploads;
 	private java.util.List<String> fileNames;
 	private java.util.List<String> uploadContentTypes;
 	protected ISystemService systemService;
+	private ServletContext context;
+	public ServletContext getContext() {
+		return context;
+	}
+
+	public void setContext(ServletContext context) {
+		this.context = context;
+	}
+
 	public java.util.List<String> getUploadFileName() {
+	
 		return fileNames;
 	}
 	
@@ -73,8 +87,7 @@ public class UploadMultiFilesAction extends ActionSupport {
 	public String execute() throws Exception {
 		String projectRealPath= ServletActionContext.getServletContext().getRealPath("/");
 		String uploadPath = systemService.getSystemVarByName("dataPath");
-		String targetDirectory=uploadPath+"/";
-		System.out.println("projectRealPath:"+projectRealPath);
+		String targetDirectory=context.getRealPath(uploadPath+"/QualityProblemAttactent/");
 		if (uploads != null) {
 			
 			int i = 0;
@@ -89,11 +102,18 @@ public class UploadMultiFilesAction extends ActionSupport {
 				}
 				os.close();
 				is.close();
+				File file = new File(projectRealPath, fileNames.get(i));
 				File target = new File(targetDirectory, fileNames.get(i));
-				System.out.println("uploadfile:"+target);
-//				FileUtils.copyFile(file, target);
+				
+				System.out.println(file.getParent());
+				FileUtils.copyFile(file, target);
+				FileUtils.deleteQuietly(file);
 			}
 		}
 		return SUCCESS;
+	}
+
+	public void setServletContext(ServletContext context) {
+		this.context = context;
 	}
 }

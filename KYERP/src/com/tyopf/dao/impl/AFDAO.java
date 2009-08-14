@@ -25,6 +25,7 @@ import com.tyopf.vo.AfDispose;
 import com.tyopf.vo.AfElement;
 import com.tyopf.vo.AfProcess;
 import com.tyopf.vo.AfQualityProblem;
+import com.tyopf.vo.AfQualityProblemAttachment;
 import com.tyopf.vo.AfValuation;
 import com.tyopf.vo.Employee;
 import com.tyopf.vo.User;
@@ -1236,6 +1237,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		AfQualityProblem afqp = (AfQualityProblem) session.get(AfQualityProblem.class, id);
 		if (afqp.getClass() != null) {
 			afqp.getAfBase();
+			if (!Hibernate.isInitialized(afqp.getAttachments()))
+				Hibernate.initialize(afqp.getAttachments());
 			session.close();
 			return afqp;
 		}
@@ -1291,9 +1294,38 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		AfQualityProblem q = new AfQualityProblem();
 		if (query.list().size() != 0) {
 			q = (AfQualityProblem) query.list().get(0);
+			if (!Hibernate.isInitialized(q.getAttachments()))
+				Hibernate.initialize(q.getAttachments());
 		}
 		session.saveOrUpdate(q);
 		session.close();
 		return q;
+	}
+
+	public void saveQpa(AfQualityProblemAttachment qpa) {
+		Session session = getSession();
+		Transaction tx = session.beginTransaction();
+		session.saveOrUpdate(qpa);
+		tx.commit();
+		session.close();
+	}
+	public void delQPAttachment(AfQualityProblemAttachment qpa) {
+		Session session = getSession();
+		Transaction tx = session.beginTransaction();
+		session.delete(qpa);
+		tx.commit();
+		session.close();
+	}
+
+	@Override
+	public AfQualityProblemAttachment getAFQPAttachmentById(int id) {
+		Session session = getSession();
+		AfQualityProblemAttachment a = (AfQualityProblemAttachment) session.get(AfQualityProblemAttachment.class, id);
+		if (a.getClass() != null) {
+			session.close();
+			return a;
+		}
+		session.close();
+		return null;
 	}
 }
