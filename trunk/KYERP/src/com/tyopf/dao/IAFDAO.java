@@ -8,6 +8,7 @@ import com.tyopf.vo.AfDispose;
 import com.tyopf.vo.AfElement;
 import com.tyopf.vo.AfProcess;
 import com.tyopf.vo.AfQualityProblem;
+import com.tyopf.vo.AfQualityProblemAttachment;
 import com.tyopf.vo.AfValuation;
 
 public interface IAFDAO {
@@ -109,5 +110,10 @@ public interface IAFDAO {
 	public void saveAfQualityProblem(AfQualityProblem afqp);
 	public void removeAfQualityProblem(int id);
 	public AfQualityProblem getLastAfQualityProblem();
+	
+	public void saveQpa(AfQualityProblemAttachment qpa);
+	public void delQPAttachment(AfQualityProblemAttachment qpa);
+	
+	public AfQualityProblemAttachment getAFQPAttachmentById(int id);
 }
 

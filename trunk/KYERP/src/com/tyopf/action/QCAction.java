@@ -1,10 +1,16 @@
 package com.tyopf.action;
 
+import java.io.File;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.util.ServletContextAware;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -13,10 +19,11 @@ import com.tyopf.service.ISystemService;
 import com.tyopf.util.Pager;
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.AfQualityProblem;
+import com.tyopf.vo.AfQualityProblemAttachment;
 import com.tyopf.vo.User;
 
 @SuppressWarnings("serial")
-public class QCAction extends ActionSupport implements SessionAware{
+public class QCAction extends ActionSupport implements ServletContextAware, SessionAware {
 	protected IAFService afService;
 	protected ISystemService systemService;
 	protected int afId;
@@ -26,6 +33,17 @@ public class QCAction extends ActionSupport implements SessionAware{
 	private int id;
 	private Map session ;
 	private Map request;
+	private ServletContext context;
+	public void setServletContext(ServletContext context) {
+		this.context = context;
+	}
+	public ServletContext getContext() {
+		return context;
+	}
+
+	public void setContext(ServletContext context) {
+		this.context = context;
+	}
 
 	public ISystemService getSystemService() {
 		return systemService;
@@ -179,6 +197,18 @@ public class QCAction extends ActionSupport implements SessionAware{
 	}
 	@SuppressWarnings("unchecked")
 	public String delQualityProblemById() throws Exception {
+		String uploadPath = systemService.getSystemVarByName("dataPath");
+		String targetDirectory = context.getRealPath(uploadPath + "/QualityProblemAttactent/");
+		
+		AfQualityProblem afqp = afService.getAFQPById(id);
+		if(null != afqp.getAttachments()){
+			for (Iterator iterator = afqp.getAttachments().iterator(); iterator.hasNext();) {
+				AfQualityProblemAttachment	a = (AfQualityProblemAttachment) iterator.next();
+			File file = new File(targetDirectory, a.getFileName());
+			FileUtils.deleteQuietly(file);
+			}
+		}
+		
 		afService.removeAfQualityProblem(id);
 		AfBase af = (AfBase) afService.getAFById(afId);
 		Map request = (Map) ActionContext.getContext().get("request");

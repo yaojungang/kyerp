@@ -19,6 +19,16 @@
 				/QC/QualityProblemInput.jsp
 			</result>
 		</action>
+		<action name="QualityProblemInput_uploadFile" class="com.tyopf.action.util.QualityProblemInput_uploadFile">
+			<result name="success">
+				/QC/QualityProblemInput.jsp
+			</result>
+		</action>
+		<action name="delQualityProblemAttachment" class="com.tyopf.action.util.QualityProblemInput_uploadFile" method="delQualityProblemAttachment">
+			<result name="success">
+				/QC/QualityProblemInput.jsp
+			</result>
+		</action>
 		<action name="QualityProblem_save" class="com.tyopf.action.QCAction" method="QualityProblem_save">
 			<result name="success">
 				/QC/QualityProblemInput.jsp

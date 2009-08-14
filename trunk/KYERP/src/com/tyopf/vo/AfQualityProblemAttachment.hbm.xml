@@ -10,6 +10,9 @@
             <property name="afqpId" type="int">
                 <column name="afqpId" />
             </property>
+            <property name="name" type="string">
+                <column name="Name" length="50" />
+            </property>
             <property name="fileName" type="string">
                 <column name="fileName" length="50" />
             </property>

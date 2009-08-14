@@ -17,8 +17,7 @@ function addComponent()
     <body> 
         <input type="button" onclick="addComponent();" value="添加文件" /> 
         <br /> 
-        <form onsubmit="return true;" action="upload.action" 
-            method="post" enctype="multipart/form-data"> 
+        <form onsubmit="return true;" action="upload.action" method="post" enctype="multipart/form-data"> 
             <span id="files"> <input type='file' name='upload' /> 
                 <p /> 
             </span> 

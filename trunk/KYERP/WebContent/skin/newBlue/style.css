@@ -768,6 +768,11 @@ div.xoopsQuote {
 	height: 1%;
 	font-size: 16px;
 }
+.cssform p fjName {
+	width: 80%;
+	clear: left;
+	font-size: 16px;
+}
 
 .cssform label {
 	font-weight: bold;
