@@ -28,15 +28,15 @@
 		<filter-class>edu.yale.its.tp.cas.client.filter.CASFilter</filter-class>
 		<init-param>
 			<param-name>edu.yale.its.tp.cas.client.filter.loginUrl</param-name>
-			<param-value>https://localhost:8543/cas/login</param-value>
+			<param-value>https://cas.tyopf.com:8443/cas/login</param-value>
 		</init-param>
 		<init-param>
 			<param-name>edu.yale.its.tp.cas.client.filter.validateUrl</param-name>
-			<param-value>https://localhost:8543/cas/serviceValidate</param-value>
+			<param-value>https://cas.tyopf.com:8443/cas/serviceValidate</param-value>
 		</init-param>
 		<init-param>
 			<param-name>edu.yale.its.tp.cas.client.filter.serverName</param-name>
-			<param-value>localhost:8180</param-value>
+			<param-value>erp.tyopf.com:8080</param-value>
 			
 		</init-param>
 	</filter>
