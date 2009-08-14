@@ -10,6 +10,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IHRService;
 import com.tyopf.service.ISystemService;
+import com.tyopf.service.impl.UserService;
 import com.tyopf.util.Pager;
 import com.tyopf.vo.CompanyDept;
 import com.tyopf.vo.Employee;
@@ -337,6 +338,13 @@ public class HRAction extends ActionSupport implements SessionAware{
 		roleList = dept.getRoles();
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("roleList", roleList);
+		return SUCCESS;
+	}
+	public String getPeopleListByDeptId() {
+		//CompanyDept dept = systemService.getDeptById(id);
+		List peopleList = hrService.getEmployeeByDeptId(id);
+		Map request = (Map) ActionContext.getContext().get("request");
+		request.put("peopleList", peopleList);
 		return SUCCESS;
 	}
 	public String changeUsername() {

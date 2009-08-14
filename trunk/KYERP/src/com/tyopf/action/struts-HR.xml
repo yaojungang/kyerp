@@ -56,6 +56,11 @@
 			<result name="success">/HR/noSkin_getRoleListByDeptId.jsp
 			</result>
 		</action>
+		<action name="noSkin_getPeopleListByDeptId" class="com.tyopf.action.HRAction"
+			method="getPeopleListByDeptId">
+			<result name="success">/HR/noSkin_getPeopleListByDeptId.jsp
+			</result>
+		</action>
 		<action name="noSkin_changeUsername" class="com.tyopf.action.HRAction"
 			method="changeUsername">
 			<result name="success">/HR/noSkin_changeUsername.jsp
