@@ -13,6 +13,10 @@
 	href="${pageContext.request.contextPath}/Library/js/ymPrompt/skin/qq/ymPrompt.css" />
 <script src="${pageContext.request.contextPath}/Library/js/jquery.js"
 	type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="<{$xoops_imageurl}>jsTree/source/tree_component.css" />
+<script type="text/javascript" src="<{$xoops_imageurl}>jsTree/_lib/css.js">
+<script type="text/javascript" src="<{$xoops_imageurl}>jsTree/source/tree_component.js"></script>
+<script type="text/javascript" src="<{$xoops_imageurl}>jsTree/_lib/jquery.cookie.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $(".stripe_tb tr").mouseover(function(){
@@ -49,6 +53,7 @@ $(document).ready(function(){
 </ul>
 </div>
 <span class="pageTitle"><s:property value="#request['pageTitle']" /></span>
+<div class="Center">
 <table width="100%" border="0" align="center" cellpadding="6"
 	class="stripe_tb" cellspacing="0">
 	<thead><tr>
@@ -93,5 +98,7 @@ pg.argName = 'currentPage';  // 定义参数名(可选,默认为page)
 pg.printHtml(1);
 //-->
 </script>
+</div>
+
 </body>
 </html>
