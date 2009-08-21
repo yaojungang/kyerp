@@ -32,7 +32,6 @@ $(document).ready(function(){
 		<th width="40px;">ID</th>
 		<th width="80px;">任务单号</th>
 		<th width="180px;">印品名称</th>
-		<th width="80px;">车间</th>
 		<th width="80px;">责任人</th>
 		<th width="80px;">问题描述</th>
 		<th>解决办法</th>
@@ -47,7 +46,6 @@ $(document).ready(function(){
 				value="#afqp.afBase.afNo" /></td>
 			<td width="180px"><a href="${pageContext.request.contextPath}/AF/AFInfo.action?afId=<s:property value="#afqp.afBase.afId" />"
 				target="_blank"><s:property value="#afqp.afBase.presswork" /></a></td>
-          <td width="80px"><s:property value="#afqp.workshop" /></td>
           <td width="80px"><s:property value="#afqp.personLiable" /></td>
           <td width="80px"><a href="${pageContext.request.contextPath}/QC/QualityProblemInfo.action?afId=<s:property value="#afqp.afBase.afId" />&id=<s:property value="#afqp.id" />"
 				target="_blank"><s:property value="#afqp.description" /></a></td>
