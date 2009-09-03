@@ -15,7 +15,7 @@
 	src="<%=request.getContextPath()%>/Library/js/function.js"></script>
     <link rel="stylesheet" id='skin' type="text/css" href="${pageContext.request.contextPath}/Library/js/ymPrompt/skin/qq/ymPrompt.css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/Library/js/ymPrompt/ymPrompt.js"></script>
-<link href="<%=request.getContextPath()%>/Library/css/AFinfo.css"
+<link href="<%=request.getContextPath()%>/Library/css/Info.css"
 	rel="stylesheet" type="text/css" />
 <script type="text/javascript">
 function updateFilmPlace(afEId,form) {
@@ -36,7 +36,8 @@ function show(id){
 </script>
 </head>
 <body>
-<div id="AFmenu" class="noprint">
+<div class="tnoprint">
+<div id="AFmenu" class="SecMenu">
 <ul>
 	<li><a target="_blank"
 		href='<%=request.getContextPath()%>/AF/AFInfo_print.action?afId=<s:property value="#af.afId" />'>打印任务单</a></li>
@@ -103,6 +104,7 @@ function show(id){
 				target="_blank" >质量问题记录</a></li>
 		</s:if>
 </ul>
+</div>
 </div>
 <div id="AFInfo">
 <div class="height30"></div>
@@ -406,15 +408,15 @@ function show(id){
   <tr>
     <td width="80"><div align="center">责任人</div></td>
     <td>问题描述</td>
-    <td width="80"><div align="center">修改</div></td>
+    <td width="80"><div align="center">查看</div></td>
   </tr>
   <s:iterator value="#af.afQualityProblem">
   <tr>
     <td><div align="center"><s:property value="personLiable" /></div></td>
     <td><s:property value="description" /></td>
     <td align="center"><a href="${pageContext.request.contextPath}/QC/QualityProblemInfo.action?afId=<s:property value="#af.afId" />&id=<s:property value="id" />"
-				target="_blank">修改</a> 
-				<a href="${pageContext.request.contextPath}/QC/delQualityProblem.action?afId=<s:property value="#af.afId" />&id=<s:property value="id" />">删除</a></td>
+				target="_blank">查看</a> 
+				</td>
   </tr>
   </s:iterator>
 </table>

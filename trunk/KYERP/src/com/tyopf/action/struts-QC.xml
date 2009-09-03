@@ -34,8 +34,14 @@
 				/QC/QualityProblemInput.jsp
 			</result>
 		</action>
-		<action name="QualityProblemInfo" class="com.tyopf.action.QCAction" method="QualityProblemInfo">
+		<action name="QualityProblemInput" class="com.tyopf.action.QCAction" method="QualityProblemInfo">
 			<result name="success">/QC/QualityProblemInput.jsp</result>
+		</action>
+		<action name="QualityProblemInfo" class="com.tyopf.action.QCAction" method="QualityProblemInfo">
+			<result name="success">/QC/QualityProblemInfo.jsp</result>
+		</action>
+		<action name="QualityProblemInfo_print" class="com.tyopf.action.QCAction" method="QualityProblemInfo">
+			<result name="success">/QC/QualityProblemInfo.jsp</result>
 		</action>
 		<action name="delQualityProblem" class="com.tyopf.action.QCAction" method="delQualityProblemById">
 			<result name="success">/AF/AFInfo.jsp</result>

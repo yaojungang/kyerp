@@ -9,7 +9,7 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/Library/js/function.js"></script>
 <link
-	href="${pageContext.request.contextPath}/Library/css/EmployeeInfo.css"
+	href="${pageContext.request.contextPath}/Library/css/Info.css"
 	rel="stylesheet" type="text/css" />
 </head>
 <body>
