@@ -13,21 +13,98 @@
 	href="${pageContext.request.contextPath}/Library/js/ymPrompt/skin/qq/ymPrompt.css" />
 <script src="${pageContext.request.contextPath}/Library/js/jquery.js"
 	type="text/javascript"></script>
-<link rel="stylesheet" type="text/css" href="<{$xoops_imageurl}>jsTree/source/tree_component.css" />
-<script type="text/javascript" src="<{$xoops_imageurl}>jsTree/_lib/css.js">
-<script type="text/javascript" src="<{$xoops_imageurl}>jsTree/source/tree_component.js"></script>
-<script type="text/javascript" src="<{$xoops_imageurl}>jsTree/_lib/jquery.cookie.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/Library/js/jsTree/source/tree_component.css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/Library/js/jsTree/_lib/css.js">
+<script type="text/javascript" src="${pageContext.request.contextPath}/Library/js/jsTree/source/tree_component.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/Library/js/jsTree/_lib/jquery.cookie.js"></script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/Library/js/jquery.layout/jquery.layout.js"></script> 
+<script type="text/javascript" src="${pageContext.request.contextPath}/Library/js/jquery.layout/jquery.ui.all.js"></script> 
+<style type="text/css"> 
+
+	.ui-layout-pane { /* all 'panes' */ 
+		padding: 10px; 
+		background: #FFF; 
+		border-top: 1px solid #BBB;
+		border-bottom: 1px solid #BBB;
+		}
+		.ui-layout-pane-north ,
+		.ui-layout-pane-south {
+			border: 1px solid #BBB;
+		} 
+		.ui-layout-pane-west {
+			border-left: 1px solid #BBB;
+		} 
+		.ui-layout-pane-east {
+			border-right: 1px solid #BBB;
+		} 
+		.ui-layout-pane-center {
+			border-left: 0;
+			border-right: 0;
+			} 
+			.inner-center {
+				border: 1px solid #BBB;
+			} 
+
+		.outer-west ,
+		.outer-east {
+			background-color: #EEE;
+		}
+		.middle-west ,
+		.middle-east {
+			background-color: #F8F8F8;
+		}
+
+	.ui-layout-resizer { /* all 'resizer-bars' */ 
+		background: #DDD; 
+		}
+		.ui-layout-resizer:hover { /* all 'resizer-bars' */ 
+			background: #FED; 
+		}
+		.ui-layout-resizer-west {
+			border-left: 1px solid #BBB;
+		}
+		.ui-layout-resizer-east {
+			border-right: 1px solid #BBB;
+		}
+
+	.ui-layout-toggler { /* all 'toggler-buttons' */ 
+		background: #AAA; 
+		} 
+		.ui-layout-toggler:hover { /* all 'toggler-buttons' */ 
+			background: #FC3; 
+		} 
+
+	.outer-center ,
+	.middle-center {
+		/* center pane that are 'containers' for a nested layout */ 
+		padding: 0; 
+		border: 0; 
+	} 
+
+	</style> 
 <script type="text/javascript">
+var middleLayout;
 $(document).ready(function(){
     $(".stripe_tb tr").mouseover(function(){
     $(this).addClass("over");}).mouseout(function(){
     $(this).removeClass("over");}).click(function(){	
 	$(this).toggleClass("click").removeClass("alt")})
  	$(".stripe_tb tr:even").addClass("alt");
+	
+	middleLayout = $('body').layout({ 
+			center__paneSelector:	".peopleList" 
+		,	west__paneSelector:		".deptTree" 
+		,	west__size:				100 
+		,	spacing_open:			8  // ALL panes
+		,	spacing_closed:			12 // ALL panes
+		}); 
+	
 });
 </script>
 </head>
 <body>
+<span class="pageTitle"><s:property value="#request['pageTitle']" /></span>
 <div class="pim2_secondMenu">
 <ul>
 	<li><input type="button" value="增加人员"
@@ -52,8 +129,9 @@ $(document).ready(function(){
 	</li>
 </ul>
 </div>
-<span class="pageTitle"><s:property value="#request['pageTitle']" /></span>
-<div class="Center">
+<div class="center">
+<div class="deptTree">deptTree</div>
+<div class="peopleList">
 <table width="100%" border="0" align="center" cellpadding="6"
 	class="stripe_tb" cellspacing="0">
 	<thead><tr>
@@ -99,6 +177,6 @@ pg.printHtml(1);
 //-->
 </script>
 </div>
-
+</div>
 </body>
 </html>
