@@ -34,7 +34,7 @@
 				/QC/QualityProblemInput.jsp
 			</result>
 		</action>
-		<action name="QualityProblemInput" class="com.tyopf.action.QCAction" method="QualityProblemInfo">
+		<action name="QualityProblemInput" class="com.tyopf.action.QCAction" method="QualityProblemInput">
 			<result name="success">/QC/QualityProblemInput.jsp</result>
 		</action>
 		<action name="QualityProblemInfo" class="com.tyopf.action.QCAction" method="QualityProblemInfo">
