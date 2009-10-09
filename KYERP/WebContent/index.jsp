@@ -17,7 +17,7 @@
 <p style="width:100%">
 <center><h1>欢迎使用酷印通ERP系统！</h1></center></p>
 <script LANGUAGE="JavaScript">
-//window.location='http://erp.tyopf.com/User/index.action';
+window.location='http://erp.tyopf.com/User/index.action';
 //window.location='${pageContext.request.contextPath}/User/index.action';
 </script>
 </s:if>

@@ -400,6 +400,7 @@ function show(id){
 </table>
 </s:if>
 <br />
+<s:if test="#af.afQualityProblem.length > 0">
 <s:if test="#user.userType.equals('Admin') or 'QC-ViewAll' in #userSystemFunctionList">
 <table width="750" border="1" align="center" cellpadding="6" cellspacing="0" bordercolor="#000000" style="BORDER-COLLAPSE: collapse;">
   <tr>
@@ -421,5 +422,7 @@ function show(id){
   </s:iterator>
 </table>
 </s:if>
+</s:if>
+
 </body>
 </html>
