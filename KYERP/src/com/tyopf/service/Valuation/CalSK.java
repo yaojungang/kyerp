@@ -39,7 +39,8 @@ public class CalSK {
 		double shangbanFee = 0; // 上版费
 		int Cover_ColorAmount = 0; // 封面颜色数
 		int ColorAmount = 0; // 封面颜色数
-		double Cover_PressDanjia = 510; // 封面印刷系数
+		//double Cover_PressDanjia = 510; // 封面印刷系数
+		double Cover_PressDanjia = 360; // 封面印刷系数
 		double CoverPressDanjia2 = 140; // 封面印刷系数2
 		int BB_Plate_Amont = 0; // 正文版数
 		int CI_Plate_Amont = 0; // 插页版数

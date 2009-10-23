@@ -337,7 +337,7 @@ public class MAAction extends ActionSupport {
 				if (null != af.getMoneyFact())
 					LHYWYFactcgz = LHYWYFactcgz + af.getMoneyFact();
 			}
-			if ("孙玉萍".equals(af.getCp())) {
+			if ("郭建红".equals(af.getCp())) {
 				if (null != af.getMoneyShould())
 					LHYWYShouldsyp = LHYWYShouldsyp + af.getMoneyShould();
 				if (null != af.getMoneyFact())
@@ -348,12 +348,6 @@ public class MAAction extends ActionSupport {
 					LHYWYShouldsjw = LHYWYShouldsjw + af.getMoneyShould();
 				if (null != af.getMoneyFact())
 					LHYWYFactsjw = LHYWYFactsjw + af.getMoneyFact();
-			}
-			if ("吴宝举".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
-					LHYWYShouldwbj = LHYWYShouldwbj + af.getMoneyShould();
-				if (null != af.getMoneyFact())
-					LHYWYFactwbj = LHYWYFactwbj + af.getMoneyFact();
 			}
 		}
 
