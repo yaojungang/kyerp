@@ -120,5 +120,28 @@
 			method="getAFEs">
 			<result name="success">/MA/MASchedule.jsp</result>
 		</action>
+		<action name="PM_AFE_input" class="com.tyopf.action.PMAction"
+			method="PM_AFE_input">
+			<result name="success">/PM/PM_AFE_input.jsp</result>
+		</action>
+		<action name="PM_AFE_save" class="com.tyopf.action.PMAction" method="PM_AFE_save">
+			<result name="success" type="redirect">/AF/AFInfo.action?afId=${afId}</result>
+		</action>
+		<action name="noSkin_getPeopleForBindManInput" class="com.tyopf.action.HRAction"
+			method="getPeopleListByDeptId">
+			<result name="success">/PM/noSkin_getPeopleForBindManInput.jsp
+			</result>
+		</action>		
+		<action name="noSkin_getPeopleForSaiManInput" class="com.tyopf.action.HRAction"
+			method="getPeopleListByDeptId">
+			<result name="success">/PM/noSkin_getPeopleForSaiManInput.jsp
+			</result>
+		</action>		
+		<action name="noSkin_getPeopleForPushSampleManInput" class="com.tyopf.action.HRAction"
+			method="getPeopleListByDeptId">
+			<result name="success">/PM/noSkin_getPeopleForPushSampleManInput.jsp
+			</result>
+		</action>		
+		
 	</package>
 </struts>

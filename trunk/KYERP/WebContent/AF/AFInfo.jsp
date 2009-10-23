@@ -375,7 +375,7 @@ function show(id){
 <s:if test="#user.userType.equals('Admin') or 'PM-AF-FilmInput' in #userSystemFunctionList">
 <table width="750" border="1" align="center" cellpadding="6" cellspacing="0" bordercolor="#000000" style="BORDER-COLLAPSE: collapse;">
   <tr>
-    <td colspan="3" bgcolor="#FFFFCC">软片存放记录</td>
+    <td colspan="3" bgcolor="#FFFFCC">制版车间记录</td>
   </tr>
   <tr>
     <td width="80"><div align="center">类型</div></td>
@@ -390,10 +390,10 @@ function show(id){
     <td><div id="div<s:property value='afEId' />"><s:property value="filmPlace" /></div>
     <div id="form<s:property value='afEId' />" style="display: none">
     <input type="text" id="filmPlace<s:property value='afEId' />" name="filmPlace" value="<s:property value='filmPlace' />" />
-    <input type="button" value="确定" onclick="updateFilmPlace('<s:property value='afEId' />','form<s:property value='afEId' />')"/></div>
+    <input type="button" value="确定" onClick="updateFilmPlace('<s:property value='afEId' />','form<s:property value='afEId' />')"/></div>
     </td>
     <td align="center">
-    <input type="button" value="修改" onclick="show('form<s:property value='afEId' />');" />
+    <a href="<%=request.getContextPath()%>/PM/PM_AFE_input.action?afEId=<s:property value='afEId' />">修改</a>
     </td>
   </tr>
   </s:iterator>

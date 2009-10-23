@@ -21,8 +21,6 @@
 		rel="#iframe">[双面]任务</a></li>
 	<li><a href="AFE_schedule_getAFEsByMachine.action?MachineName=05"
 		rel="#iframe">[05]任务</a></li>
-	<li><a href="AFE_schedule_getAFEsByMachine.action?MachineName=02"
-		rel="#iframe">[02]任务</a></li>
 </ul>
 </div>
 <div id="petsdivcontainer"

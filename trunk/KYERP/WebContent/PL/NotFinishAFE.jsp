@@ -24,9 +24,6 @@
 	<li><a
 		href="AF_getNotFinishedAFEByItemMachine.action?ItemName=EComPress&MachineName=sm"
 		rel="#iframe">[双面]任务</a></li>
-	<li><a
-		href="AF_getNotFinishedAFEByItemMachine.action?ItemName=EComPress&MachineName=02"
-		rel="#iframe">[02]任务</a></li>
 </ul>
 </div>
 <div id="petsdivcontainer"

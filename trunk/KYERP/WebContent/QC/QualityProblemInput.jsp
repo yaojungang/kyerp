@@ -16,7 +16,7 @@
 		type="text/css" />
 	<script type="text/javascript"
 		src="<%=request.getContextPath()%>/Library/js/dhtmlwindow/windowfiles/dhtmlwindow.js"></script>
-	<script language="javascript"> 
+<script language="javascript"> 
 function addComponent() 
 { 
         var uploadHTML = document.createElement( "<input type='file'  name='upload'/>"); 
@@ -32,14 +32,6 @@ $("#deptId").change(function() {
 	var id=$("#deptId").val();
 	$.get("noSkin_getPeopleForQuailityProblemInput.action?id=" + id, null, function(data) {
 		document.getElementById("divPeopleSelect").innerHTML = data;
-		//var jobList = data.split("|");
-		//clearOption("roleList");
-		//for(i=0; i<jobList.length;i++)
-		//{
-		//	job = trim(jobList[i]);
-			//alert(jobList[i]);
-		//	addOption("roleList",role, role);
-		//} 
 	});
 	});
 
@@ -92,7 +84,7 @@ function clearOption(selectID)
 						value="name" /></option>
 				</s:iterator>
 			</select>
-<span id="divPeopleSelect"></span>			
+<span id="divPeopleSelect"></span>
 </p>
 <p><label>问题描述</label> <textarea name="afqp.description" cols="58"
 	rows="3"><s:property value="#afqp.description" /></textarea></p>
