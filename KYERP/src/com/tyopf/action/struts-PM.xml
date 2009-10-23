@@ -142,6 +142,10 @@
 			<result name="success">/PM/noSkin_getPeopleForPushSampleManInput.jsp
 			</result>
 		</action>		
-		
-	</package>
+		<action name="PMWorkList" class="com.tyopf.action.AFAction"
+			method="getAFEs">
+			<result name="success">/PM/PMWorkList.jsp
+			</result>
+		</action>
+</package>
 </struts>

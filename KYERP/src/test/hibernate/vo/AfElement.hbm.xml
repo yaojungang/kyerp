@@ -1,23 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2009-10-23 23:19:36 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
-	<class name="com.tyopf.vo.AfElement" table="AF_Element">
-		<id name="afEId" type="long">
-			<column name="AF_E_ID" />
-			<generator class="native" />
-		</id>
-
-		<many-to-one name="AfBase" class="com.tyopf.vo.AfBase"
-			column="AF_ID" lazy="false">
-		</many-to-one>
-		<property name="afId" type="java.lang.Long" insert="false" update="false">
+    <class name="AfElement" table="AF_Element" catalog="tyopf_kyerp">
+        <id name="afEId" type="java.lang.Long">
+            <column name="AF_E_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="afId" type="java.lang.Long">
             <column name="AF_ID">
+                <comment>&#200;&#206;&#206;&#241;&#181;&#165;&#186;&#197;</comment>
             </column>
         </property>
-		<property name="EType" type="string">
-			<column name="E_Type" length="50">
-				<comment>&#192;&#224;&#208;&#205;</comment>
+        <property name="EType" type="string">
+            <column name="E_Type" length="50">
+                <comment>&#192;&#224;&#208;&#205;</comment>
             </column>
         </property>
         <property name="EAmount" type="java.lang.Integer">
@@ -205,14 +203,14 @@
                 <comment>&#200;&#237;&#198;&#172;&#215;&#180;&#204;&#172;</comment>
             </column>
         </property>
-        <property name="pmsaiMan" type="string">
-            <column name="PMSaiMan" length="50">
-                <comment>&#201;&#185;&#176;&#230;&#200;&#203;&#212;&#177;</comment>
-            </column>
-        </property>
         <property name="pmsaiMethod" type="string">
             <column name="PMSaiMethod" length="50">
                 <comment>&#214;&#198;&#176;&#230;-&#201;&#185;&#176;&#230;&#183;&#189;&#183;&#168;</comment>
+            </column>
+        </property>
+        <property name="pmsaiMan" type="string">
+            <column name="PMSaiMan" length="50">
+                <comment>&#201;&#185;&#176;&#230;&#200;&#203;&#212;&#177;</comment>
             </column>
         </property>
         <property name="pmoldPs" type="java.lang.Integer">
@@ -245,5 +243,5 @@
                 <comment>&#214;&#198;&#176;&#230;-&#193;&#236;&#181;&#165;&#200;&#203;</comment>
             </column>
         </property>
-	</class>
+    </class>
 </hibernate-mapping>

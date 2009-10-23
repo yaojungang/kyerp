@@ -20,9 +20,18 @@ public class PMAction extends ActionSupport implements SessionAware{
 	private int afId;
 	private int afEId;
 	private Map session;
+	private AfElement afe;
 
 	public int getAfEId() {
 		return afEId;
+	}
+
+	public AfElement getAfe() {
+		return afe;
+	}
+
+	public void setAfe(AfElement afe) {
+		this.afe = afe;
 	}
 
 	public ISystemService getSystemService() {
@@ -98,9 +107,7 @@ public class PMAction extends ActionSupport implements SessionAware{
 	}
 
 	public String PM_AFE_save() throws Exception {
-		//Map request = (Map) ActionContext.getContext().get("request");
-		//request.put("ListAF", ListAF);
-		//afId= af.
+		afService.editAFE_PM(afe);
 		return SUCCESS;
 	}
 

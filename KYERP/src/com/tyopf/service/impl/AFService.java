@@ -446,5 +446,26 @@ public class AFService implements IAFService {
 		return afDAO.getAFQPAttachmentById(id);
 	}
 
+	@Override
+	public void editAFE_PM(AfElement afe) {
+		AfElement afe0 = afDAO.getAFEById(afe.getAfEId());
+		
+		afe0.setFilmPlace(afe.getFilmPlace());
+		afe0.setPmstartTime(afe.getPmstartTime());
+		afe0.setPmfilmCheck(afe.getPmfilmCheck());
+		afe0.setPmfilmStatus(afe.getPmfilmStatus());
+		afe0.setPmbindMan(afe.getPmbindMan());
+		afe0.setPmsaiMan(afe.getPmsaiMan());
+		afe0.setPmsaiMethod(afe.getPmsaiMethod());
+		afe0.setPmnewPs(afe.getPmnewPs());
+		afe0.setPmoldPs(afe.getPmoldPs());
+		afe0.setPmsaiLong(afe.getPmsaiLong());
+		afe0.setPmsaiMpa(afe.getPmsaiMpa());
+		afe0.setPmpushSampleTime(afe.getPmpushSampleTime());
+		afe0.setPmpushSampleMan(afe.getPmpushSampleMan());
+		
+		afDAO.saveAFE(afe0);
+	}
+
 
 }

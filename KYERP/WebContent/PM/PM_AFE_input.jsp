@@ -59,28 +59,30 @@ function clearOption(selectID)
 </head>
 <body>
 <div id="MainForm">
-<form action="PM_AFE_save.action" class="cssform" method="post"><input type="hidden" name="afId"
-	value="<s:property value="#af.afId" />" />
+<form action="<%=request.getContextPath()%>/PM/PM_AFE_save.action" class="cssform" method="post">
+<input type="hidden" name="afId" value="<s:property value="#af.afId" />" />
+<input type="hidden" name="afe.afEId" value="<s:property value="#afe.afEId" />" />
 
-<p><label>接活时间</label> <input type="text" id="workTime" name="workTime" value='<s:date name="#afe.workTime" format="yyyy-MM-dd HH:mm:ss" nice="false"/>' />
-<img onClick="WdatePicker({el:'workTime',dateFmt:'yyyy-MM-dd HH:mm:ss'})" src="<%=request.getContextPath()%>/Library/js/DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle" style="cursor:pointer"/>
+<p><label>接活时间</label> <input type="text" id="pmstartTime" name="afe.pmstartTime" value='<s:date name="#afe.pmstartTime" format="yyyy-MM-dd HH:mm:ss" nice="false"/>' />
+<img onClick="WdatePicker({el:'pmstartTime',dateFmt:'yyyy-MM-dd HH:mm:ss'})" src="<%=request.getContextPath()%>/Library/js/DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle" style="cursor:pointer"/>
 </p>
-<p><label>软片检验</label> <input name="filmCheck" type="radio" value='<s:property value="#afe.filmCheck" />' checked="checked">
+<p><label>软片检验</label> <input name="afe.pmfilmCheck" type="radio" value='1' <s:if test="#afe.pmfilmCheck == 1"> checked="checked" </s:if> >
   已检验 &nbsp;&nbsp; 
-  <input name="filmCheck" type="radio" value='<s:property value="#afe.filmCheck" />'>
+  <input name="afe.pmfilmCheck" type="radio" value='0' <s:if test="#afe.pmfilmCheck == 0"> checked="checked" </s:if> >
   未检验 </p>
-<p><label>软片位置编号</label> <input type="text" name="filmPlace" value='<s:property value="#afe.filmPlace" />' />
+<p><label>软片位置编号</label> <input type="text" name="afe.filmPlace" value='<s:property value="#afe.filmPlace" />'/>
 只能填写数字</p>
-<p><label>软片备注</label> <input type="text" id="filmStatus" name="filmStatus" value='<s:property value="#afe.filmStatus" />' />&nbsp;&nbsp; <select
+<p><label>软片备注</label> <input type="text" id="filmStatus" name="afe.pmfilmStatus" value='<s:property value="#afe.pmfilmStatus" />' />&nbsp;&nbsp; <select
 			name="filmStatus00" id="filmStatus00"
 			onChange="(document.getElementById('filmStatus').value=this.options[this.selectedIndex].value)">
 			<option value="">选择</option>
+            <option value="正常">正常</option>
 			<option value="取走">取走</option>
 			<option value="借用">借用</option>
 			<option value="销毁">销毁</option>
 		</select></p>
 
-<p><label>拼版人员</label> <input type="text" id="bindMan" name="bindMan" value='<s:property value="#afe.bindMan" />' /> 
+<p><label>拼版人员</label> <input type="text" id="bindMan" name="afe.pmbindMan" value='<s:property value="#afe.pmbindMan" />' /> 
 <select id="bindMan-deptId">
 				<option value="--">选择</option>
 				<s:iterator value="#request['DeptTree']" status="st">
@@ -89,10 +91,10 @@ function clearOption(selectID)
 				</s:iterator>
 			</select>
 <span id="divbindManSelect"></span> 多个人员中间用半角逗号(,)分开 </p>
-<p><label>拼版版数</label> <input type="text" name="EPlateAmount" value='<s:property value="#afe.EPlateAmount" />' /> 
+<p><label>拼版版数</label> <input type="text" name="afe.EPlateAmount" value='<s:property value="#afe.EPlateAmount" />' /> 
 由任务单给出</p>
 
-<p><label>晒版人员</label> <input type="text" id="saiMan" name="saiMan" value='<s:property value="#afe.bindMan" />' /> 
+<p><label>晒版人员</label> <input type="text" id="saiMan" name="afe.pmsaiMan" value='<s:property value="#afe.pmsaiMan" />' /> 
 <select id="saiMan-deptId">
 				<option value="--">选择</option>
 				<s:iterator value="#request['DeptTree']" status="st">
@@ -102,25 +104,26 @@ function clearOption(selectID)
 			</select>
 <span id="divSaiManSelect"></span>
 多个人员中间用半角逗号(,)分开</p>
-<p><label>晒版版数</label> 新PS版：<input type="text" name="newPS" value='<s:property value="#afe.newPS" />' style="width:60px;" />&nbsp;&nbsp;再生PS版：<input type="text" name="oldPS" value='<s:property value="#afe.oldPS" />' style="width:60px;" /></p>
-<p><label>晒版方法</label> <select name="saiNum">
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-</select>
-填写几晒，只能填写数字</p>
-<p><label>曝光时间</label> <input type="text" name="saiLong" value='<s:property value="#afe.saiLong" />' /> 
+<p><label>晒版版数</label> 新PS版：<input type="text" name="afe.pmnewPs" value='<s:property value="#afe.pmnewPs" />' style="width:60px;" />&nbsp;&nbsp;再生PS版：<input type="text" name="afe.pmoldPs" value='<s:property value="#afe.pmoldPs" />' style="width:60px;" /></p>
+<p><label>晒版方法</label> <input type="text" id="pmsaiMethod" name="afe.pmsaiMethod" value='<s:property value="#afe.pmsaiMethod" />' />&nbsp;&nbsp; <select
+			name="pmsaiMethod00" id="pmsaiMethod00"
+			onChange="(document.getElementById('pmsaiMethod').value=this.options[this.selectedIndex].value)">
+			<option value="">选择</option>
+			<option value="一晒">一晒</option>
+			<option value="二晒">二晒</option>
+			<option value="三晒">三晒</option>
+            <option value="四晒">四晒</option>
+		</select>
+填写几晒</p>
+<p><label>曝光时间</label> <input type="text" name="afe.pmsaiLong" value='<s:property value="#afe.pmsaiLong" />' /> 
 填写晒版时间（单位：秒），只能填写数字</p>
-<p><label>真空度</label> <input type="text" name="saiMpa" value='<s:property value="#afe.saiMpa" />' /> 
+<p><label>真空度</label> <input type="text" name="afe.pmsaiMpa" value='<s:property value="#afe.pmsaiMpa" />' /> 
 填写真空度（单位：MPA），只能填写数字</p>
 
-<p><label>机组领单时间</label> <input type="text" id="pushSampleTime" name="pushSampleTime" value='<s:date name="#afe.pushSampleTime" format="yyyy-MM-dd HH:mm:ss" nice="false"/>' /> 
+<p><label>机组领单时间</label> <input type="text" id="pushSampleTime" name="afe.pmpushSampleTime" value='<s:date name="#afe.pmpushSampleTime" format="yyyy-MM-dd HH:mm:ss" nice="false"/>' /> 
 <img onClick="WdatePicker({el:'pushSampleTime',dateFmt:'yyyy-MM-dd HH:mm:ss'})" src="<%=request.getContextPath()%>/Library/js/DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle" style="cursor:pointer"/>
 </p>
-<p><label>领单人</label> <input type="text" id="pushSampleMan" name="pushSampleMan" value='<s:property value="#afe.pushSampleMan" />' />
+<p><label>领单人</label> <input type="text" id="pushSampleMan" name="afe.pmpushSampleMan" value='<s:property value="#afe.pmpushSampleMan" />' />
 <select id="pushSampleMan-deptId">
 				<option value="--">选择</option>
 				<s:iterator value="#request['DeptTree']" status="st">
