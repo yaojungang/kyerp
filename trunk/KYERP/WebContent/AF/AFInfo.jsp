@@ -375,26 +375,39 @@ function show(id){
 <s:if test="#user.userType.equals('Admin') or 'PM-AF-FilmInput' in #userSystemFunctionList">
 <table width="750" border="1" align="center" cellpadding="6" cellspacing="0" bordercolor="#000000" style="BORDER-COLLAPSE: collapse;">
   <tr>
-    <td colspan="3" bgcolor="#FFFFCC">制版车间记录</td>
+    <td colspan="12" bgcolor="#FFFFCC">制版车间记录</td>
   </tr>
   <tr>
-    <td width="80"><div align="center">类型</div></td>
-    <td>位置编号</td>
+    <td width="40"><div align="center">类型</div></td>
+    <td width="50">接活时间</td>
+    <td width="40">软片状态</td>
+    <td>软片位置</td>
+    <td>拼版人员</td>
+    <td>晒版人员</td>
+    <td>曝光时间</td>
+    <td>真空度</td>
+    <td>方法</td>
+    <td>领单人</td>
+    <td>领单时间</td>
     <td width="80"><div align="center">修改</div></td>
   </tr>
   <s:iterator value="#af.AfElement">
   <tr>
-    <td><s:if test="EType.equals('BB')">正文</s:if>
+    <td align="center"><s:if test="EType.equals('BB')">正文</s:if>
     <s:if test="EType.equals('Cover')">封面</s:if>
     <s:if test="EType.equals('CI')">插页</s:if></td>
-    <td><div id="div<s:property value='afEId' />"><s:property value="filmPlace" /></div>
-    <div id="form<s:property value='afEId' />" style="display: none">
-    <input type="text" id="filmPlace<s:property value='afEId' />" name="filmPlace" value="<s:property value='filmPlace' />" />
-    <input type="button" value="确定" onClick="updateFilmPlace('<s:property value='afEId' />','form<s:property value='afEId' />')"/></div>
-    </td>
+    <td><s:property value="pmstartTime" /></td>
+    <td><s:property value="pmfilmStatus" /></td>
+    <td><s:property value="filmPlace" /></td>
+    <td><s:property value="pmbindMan" /></td>
+    <td><s:property value="pmsaiMan" /></td>
+    <td><s:property value="pmsaiLong" /></td>
+    <td><s:property value="pmsaiMpa" /></td>
+    <td><s:property value="pmsaiMpa" /></td>
+    <td><s:property value="pmpushSampleMan" /></td>
+    <td><s:property value="pmpushSampleTime" /></td>
     <td align="center">
-    <a href="<%=request.getContextPath()%>/PM/PM_AFE_input.action?afEId=<s:property value='afEId' />">修改</a>
-    </td>
+    <a href="<%=request.getContextPath()%>/PM/PM_AFE_input.action?afEId=<s:property value='afEId' />">修改</a>    </td>
   </tr>
   </s:iterator>
 </table>
@@ -402,7 +415,7 @@ function show(id){
 <br />
 <s:if test="#af.afQualityProblem.length > 0">
 <s:if test="#user.userType.equals('Admin') or 'QC-ViewAll' in #userSystemFunctionList">
-<table width="750" border="1" align="center" cellpadding="6" cellspacing="0" bordercolor="#000000" style="BORDER-COLLAPSE: collapse;">
+<table width="100%" border="1" align="center" cellpadding="6" cellspacing="0" bordercolor="#000000" style="BORDER-COLLAPSE: collapse;">
   <tr>
     <td colspan="3" bgcolor="#FFFFCC">质量问题记录</td>
   </tr>

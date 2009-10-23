@@ -40,7 +40,92 @@ public class AfElement {
 	private String paperGetMan;
 	private Date paperSupplyTime;
 	private Integer filmPlace;
+	private Date pmstartTime;
+	private String pmbindMan;
+	private Integer pmfilmCheck;
+	private String pmfilmStatus;
+	private String pmsaiMan;
+	private String pmsaiMethod;
+	private Integer pmoldPs;
+	private Integer pmnewPs;
+	private Double pmsaiLong;
+	private Double pmsaiMpa;
+	private Date pmpushSampleTime;
+	private String pmpushSampleMan;
+	
 	public AfElement() {
+	}
+	public Date getPmstartTime() {
+		return pmstartTime;
+	}
+	public Integer getPmfilmCheck() {
+		return pmfilmCheck;
+	}
+	public void setPmfilmCheck(Integer pmfilmCheck) {
+		this.pmfilmCheck = pmfilmCheck;
+	}
+	public String getPmsaiMethod() {
+		return pmsaiMethod;
+	}
+	public void setPmsaiMethod(String pmsaiMethod) {
+		this.pmsaiMethod = pmsaiMethod;
+	}
+	public void setPmstartTime(Date pmstartTime) {
+		this.pmstartTime = pmstartTime;
+	}
+	public String getPmbindMan() {
+		return pmbindMan;
+	}
+	public void setPmbindMan(String pmbindMan) {
+		this.pmbindMan = pmbindMan;
+	}
+	public String getPmfilmStatus() {
+		return pmfilmStatus;
+	}
+	public void setPmfilmStatus(String pmfilmStatus) {
+		this.pmfilmStatus = pmfilmStatus;
+	}
+	public String getPmsaiMan() {
+		return pmsaiMan;
+	}
+	public void setPmsaiMan(String pmsaiMan) {
+		this.pmsaiMan = pmsaiMan;
+	}
+	public Integer getPmoldPs() {
+		return pmoldPs;
+	}
+	public void setPmoldPs(Integer pmoldPs) {
+		this.pmoldPs = pmoldPs;
+	}
+	public Integer getPmnewPs() {
+		return pmnewPs;
+	}
+	public void setPmnewPs(Integer pmnewPs) {
+		this.pmnewPs = pmnewPs;
+	}
+	public Double getPmsaiLong() {
+		return pmsaiLong;
+	}
+	public void setPmsaiLong(Double pmsaiLong) {
+		this.pmsaiLong = pmsaiLong;
+	}
+	public Double getPmsaiMpa() {
+		return pmsaiMpa;
+	}
+	public void setPmsaiMpa(Double pmsaiMpa) {
+		this.pmsaiMpa = pmsaiMpa;
+	}
+	public Date getPmpushSampleTime() {
+		return pmpushSampleTime;
+	}
+	public void setPmpushSampleTime(Date pmpushSampleTime) {
+		this.pmpushSampleTime = pmpushSampleTime;
+	}
+	public String getPmpushSampleMan() {
+		return pmpushSampleMan;
+	}
+	public void setPmpushSampleMan(String pmpushSampleMan) {
+		this.pmpushSampleMan = pmpushSampleMan;
 	}
 	public long getAfEId() {
 		return afEId;

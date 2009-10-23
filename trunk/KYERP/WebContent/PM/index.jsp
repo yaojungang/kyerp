@@ -28,9 +28,9 @@
 			<tr>
 				<td><img src="images/czrwd.jpg" width="151" height="152" alt=""></td>
 				<td><img src="images/sctj.jpg" width="152" height="152" alt=""></td>
-				<td><img src="images/zbcjtz.jpg" width="151" height="152"
-					alt=""></td>
-			</tr>
+				<td><a href="PMWorkList.action"><img src="images/zbcjtz.jpg"
+					alt="" width="151" height="152" border="0"></a></td>
+		  </tr>
 			<tr>
 				<td><a href="getSKAFs.action" target="_blank"><img
 					src="images/skrwd.jpg" alt="" width="151" height="151" border="0"></a></td>

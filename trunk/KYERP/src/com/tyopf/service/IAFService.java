@@ -199,4 +199,5 @@ public interface IAFService {
 	public void delQPAttachment(AfQualityProblemAttachment qpa);
 	
 	public AfQualityProblemAttachment getAFQPAttachmentById(int id);
+	public void editAFE_PM(AfElement afe);
 }

@@ -8,7 +8,7 @@
 </head>
 <body>
 <span class="pageTitle">制版车间工作记录</span>
-<table width="100%" border="1" cellspacing="0" cellpadding="8">
+<table width="100%" border="1" cellpadding="8" cellspacing="0" bordercolor="#000000">
   <tr>
     <td rowspan="2"><div align="center">卡号</div></td>
     <td rowspan="2"><div align="center">印品名称</div></td>
