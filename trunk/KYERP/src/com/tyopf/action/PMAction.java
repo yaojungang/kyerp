@@ -9,11 +9,14 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IAFService;
 import com.tyopf.service.ISystemService;
+import com.tyopf.util.Pager;
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.AfElement;
 
 @SuppressWarnings("serial")
 public class PMAction extends ActionSupport implements SessionAware{
+	private Integer currentPage = 1;
+	private Integer pageSize = 50;
 	protected IAFService afService;
 	protected ISystemService systemService;
 	private FilmBoxUnit filmBoxUnit;
@@ -28,6 +31,22 @@ public class PMAction extends ActionSupport implements SessionAware{
 
 	public AfElement getAfe() {
 		return afe;
+	}
+
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public Integer getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
 	}
 
 	public void setAfe(AfElement afe) {
@@ -108,6 +127,17 @@ public class PMAction extends ActionSupport implements SessionAware{
 
 	public String PM_AFE_save() throws Exception {
 		afService.editAFE_PM(afe);
+		return SUCCESS;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String getAFEs() {
+		List ListAFE = afService.getAFEs(currentPage, pageSize);
+		Pager AFpager = new Pager(currentPage, afService.getCountofAllAFEs());
+		AFpager.setPageSize(pageSize);
+		Map request = (Map) ActionContext.getContext().get("request");
+		request.put("ListAFE", ListAFE);
+		request.put("AFPager", AFpager);
 		return SUCCESS;
 	}
 
