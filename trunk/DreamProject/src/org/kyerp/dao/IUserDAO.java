@@ -1,6 +1,6 @@
 package org.kyerp.dao;
 
-import org.kyerp.vo.User;
+import org.kyerp.domain.User;
 
 public interface IUserDAO extends GenericDAO<User>{
 	

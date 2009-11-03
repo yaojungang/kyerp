@@ -10,9 +10,9 @@ import javax.persistence.Persistence;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kyerp.dao.IUserDAO;
-import org.kyerp.vo.Employee;
-import org.kyerp.vo.Role;
-import org.kyerp.vo.User;
+import org.kyerp.domain.Employee;
+import org.kyerp.domain.Role;
+import org.kyerp.domain.User;
 
 public class EmployeeTest implements java.io.Serializable{
 	private static final long serialVersionUID = 1L;

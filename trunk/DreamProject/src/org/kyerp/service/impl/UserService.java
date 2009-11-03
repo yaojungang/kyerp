@@ -3,8 +3,8 @@ package org.kyerp.service.impl;
 import java.util.List;
 
 import org.kyerp.dao.IUserDAO;
+import org.kyerp.domain.User;
 import org.kyerp.service.IUserService;
-import org.kyerp.vo.User;
 import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserService implements IUserService {

@@ -1,5 +1,5 @@
 package org.kyerp.dao;
 
-import org.kyerp.vo.Role;
+import org.kyerp.domain.Role;
 
 public interface IRoleDAO extends GenericDAO<Role> {}
