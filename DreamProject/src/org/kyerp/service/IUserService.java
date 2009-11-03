@@ -2,7 +2,7 @@ package org.kyerp.service;
 
 import java.util.List;
 
-import org.kyerp.vo.User;
+import org.kyerp.domain.User;
 
 public interface IUserService{
 	void save(User u);

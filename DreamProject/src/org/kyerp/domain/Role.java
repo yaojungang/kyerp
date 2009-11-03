@@ -1,4 +1,4 @@
-package org.kyerp.vo;
+package org.kyerp.domain;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package org.kyerp.vo;
+package org.kyerp.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
