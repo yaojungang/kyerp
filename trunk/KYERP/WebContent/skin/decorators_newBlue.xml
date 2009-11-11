@@ -49,6 +49,9 @@
 	<decorator name="SearchAF" page="main-AF.jsp">
 		<pattern>/AF/*</pattern>
 	</decorator>
+	<decorator name="ISO" page="main-ISO.jsp">
+		<pattern>/ISO/*</pattern>
+	</decorator>
 	<decorator name="ML" page="main-ML.jsp">
 		<pattern>/MA/*</pattern>
 		<pattern>/ZP/*</pattern>

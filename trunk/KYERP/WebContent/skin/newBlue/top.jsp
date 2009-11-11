@@ -70,6 +70,7 @@
 					<li><a href="${pageContext.request.contextPath}/System/DeptAdmin.action"
 						class="head" rel="user"><span>系统管理</span></a></li>
 				</s:if>
+				<li><a href="${pageContext.request.contextPath}/ISO/index.jsp" rel="iso">ISO</a></li>
 				<li><a href="#" rel="web">网络资源</a></li>
 				
 			</s:else>
@@ -158,6 +159,13 @@
 				<a href="${pageContext.request.contextPath}/System/FetionMsgSend.action">飞信短信</a>
 				</div>
 			</s:if>
+				<!--ISO子菜单 -->
+				<div id="iso" class="dropmenudiv_b">
+                   <a href="${pageContext.request.contextPath}/ISO/SC.jsp"><span>质量手册</span></a>
+                   <a href="${pageContext.request.contextPath}/ISO/CX.jsp"><span>程序文件</span></a>
+                   <a href="${pageContext.request.contextPath}/ISO/ZC.jsp"><span>支持文件</span></a>
+                   <a href="${pageContext.request.contextPath}/ISO/BG.jsp"><span>表格</span></a>
+				</div>
 				<!--网络资源子菜单 -->
 				<div id="web" class="dropmenudiv_b">
 				<a href="http://www.tyopf.com" title="www Home" target="_blank"><span>企业网站</span></a>
