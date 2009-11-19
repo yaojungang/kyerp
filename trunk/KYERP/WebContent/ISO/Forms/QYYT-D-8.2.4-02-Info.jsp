@@ -9,11 +9,11 @@
 <link href="../../Library/css/ISOForm.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body class="表格标题">
+<body>
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td><p align="center" class="表格抬头"><span class="formTitle">毛样书记录 </span></p>
-    <p class="表格文字"><span class="formText">QYYT-D-8.2.4-02 </span></p></td>
+    <td><p align="center" class="formTitle">毛样书记录 </p>
+    <p class="formText">QYYT-D-8.2.4-02 </p></td>
   </tr>
 </table>
 <table width="750" border="1" align="center" cellpadding="0" cellspacing="1" bordercolor="#000000" bgcolor="#000000" style="border-collapse: collapse; font-size: 16px;">
@@ -231,6 +231,5 @@
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
 </table>
-<p>&nbsp;</p>
 </body>
 </html>
