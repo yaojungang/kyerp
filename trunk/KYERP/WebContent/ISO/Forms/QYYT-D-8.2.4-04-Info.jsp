@@ -5,10 +5,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>QYYT-D-8.2.4-04-装订成品检验记录</title>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/Library/js/function.js"></script>
 <link href="../../Library/css/ISOForm.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
+<div class="pim2_secondMenu tnoprint">
+<ul>
+	<li><input name="b_print"
+	type="button" class="ipt" onClick="printdiv('tableInfo');"
+	value=" 打印 "></li></ul></div>
+<div id="tableInfo">
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td><p align="center" class="表格抬头"><span class="formTitle">装订成品检验记录 </span></p>
@@ -46,6 +54,10 @@
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
+  <tr>
+    <td height="1" colspan="8" align="center" valign="middle" bgcolor="#FFFFFF"></td>
+    </tr>
+  <tr>
   <tr>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF"><span class="formText">2</span></td>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">折页</td>
@@ -91,7 +103,7 @@
   <tr>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF"><span class="formText">8</span></td>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">粘页机</td>
-    <td height="40" colspan="4" align="left" valign="middle" bgcolor="#FFFFFF" class="formText">&nbsp;</td>
+    <td height="40" colspan="4" align="left" valign="middle" bgcolor="#FFFFFF" class="formText">粘页顺序正确，排序整齐，无破损、脏迹，粘接牢固无掉页，刷胶宽度3-4mm，收贴依次错位重叠排列。</td>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
@@ -102,6 +114,10 @@
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">&nbsp;</td>
   </tr>
+  <tr>
+    <td height="1" colspan="8" align="center" valign="middle" bgcolor="#FFFFFF"></td>
+    </tr>
+  <tr>
   <tr>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF"><span class="formText">10</span></td>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">成品</td>
@@ -125,5 +141,6 @@
       3．检验结论一栏，填是否合格。 </p></td>
   </tr>
 </table>
+</div>
 </body>
 </html>

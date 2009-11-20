@@ -101,7 +101,7 @@
   <tr>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF"><span class="formText">8</span></td>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">粘页机</td>
-    <td height="40" colspan="4" align="left" valign="middle" bgcolor="#FFFFFF" class="formText">&nbsp;</td>
+    <td height="40" colspan="4" align="left" valign="middle" bgcolor="#FFFFFF" class="formText">粘页顺序正确，排序整齐，无破损、脏迹，粘接牢固无掉页，刷胶宽度3-4mm，收贴依次错位重叠排列。</td>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF"><input name="textfield11" type="text" id="textfield11" size="5" /></td>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF"><input name="textfield22" type="text" id="textfield22" value="自动" size="6" /></td>
   </tr>
