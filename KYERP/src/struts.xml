@@ -12,7 +12,6 @@
 	<include file="/com/tyopf/action/struts-User.xml" />
 	<include file="/com/tyopf/action/struts-OPE.xml" />
 	<include file="/com/tyopf/action/struts-MA.xml" />
-	<include file="/com/tyopf/action/struts-QC.xml" />
 	<include file="/com/tyopf/action/struts-ML.xml" />
 	<include file="/com/tyopf/action/struts-ZP.xml" />
 	<include file="/com/tyopf/action/struts-PM.xml" />
@@ -23,6 +22,7 @@
 	<include file="/com/tyopf/action/struts-BindingFactory.xml" />
 	<include file="/com/tyopf/action/struts-FA.xml" />
 	<include file="/com/tyopf/action/struts-WareHouse.xml" />
+	<include file="/com/tyopf/action/qc/struts-QC.xml" />
 	<package name="struts-tyopf" extends="json-default">
 		<interceptors>
 			<interceptor name="systemFunctionsInterceptor" class="com.tyopf.util.SystemFunctionsInterceptor">

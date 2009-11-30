@@ -28,6 +28,7 @@
 				hibernate.show_sql=false
 				hibernate.connection.useUnicode=true
 				hibernate.connection.characterEncoding=UTF-8
+				hibernate.hbm2ddl.auto=update
      		 </value>
 		</property>
 		<property name="mappingResources">
@@ -54,6 +55,17 @@
 				<value>com/tyopf/vo/ClientLm.hbm.xml</value>
 				<value>com/tyopf/vo/BindingFactory.hbm.xml</value>
 				<value>com/tyopf/vo/Paper.hbm.xml</value>
+				
+				<value>com/tyopf/vo/qc/InspectionRecordsOfSemifinshed.hbm.xml
+				</value>
+				<value>com/tyopf/vo/qc/InspectionRecordsOfBindingfinshed.hbm.xml
+				</value>
+				<value>com/tyopf/vo/qc/InspectionRecordsOfFinshedGoods.hbm.xml
+				</value>
+				<value>com/tyopf/vo/qc/InspectionRecordsOfPatrolAndExamineForSingletonPresswork.hbm.xml
+				</value>
+				<value>com/tyopf/vo/qc/InspectionRecordsOfPatrolAndExamineForMulticolorPresswork.hbm.xml
+				</value>
 			</list>
 		</property>
 	</bean>
@@ -102,7 +114,6 @@
 	<bean id="bindingFactoryDAO" class="com.tyopf.dao.impl.BindingFactoryDAO"
 		parent="baseDAO">
 	</bean>
-
 
 	<bean id="systemService" class="com.tyopf.service.impl.SystemService">
 		<property name="systemDAO">
@@ -159,6 +170,15 @@
 	<bean id="bindingFactoryService" class="com.tyopf.service.impl.BindingFactoryService">
 		<property name="bindingFactoryDAO">
 			<ref bean="bindingFactoryDAO" />
+		</property>
+	</bean>
+	
+	<bean id="inspectionRecordsOfBindingfinshedDAO" class="com.tyopf.dao.qc.impl.InspectionRecordsOfBindingfinshedDAO"
+		parent="baseDAO">
+	</bean>
+	<bean id="inspectionRecordsOfBindingfinshedService" class="com.tyopf.service.qc.impl.InspectionRecordsOfBindingfinshedService">
+		<property name="inspectionRecordsOfBindingfinshedDAO">
+			<ref bean="inspectionRecordsOfBindingfinshedDAO" />
 		</property>
 	</bean>
 </beans>
