@@ -8,6 +8,12 @@
 </head>
 <body>
 Presswork:${presswork.name} ${presswork.createTime}<br />
-Paper:${paper.name}${paper.createTime} ${paper.paperHeight} ${paper.brand.name}
+Paper:${paper.name}${paper.createTime} ${paper.paperHeight} ${paper.brand.name} ${paper.price }
+<br />
+${pageContext.request.queryString}
+ 取得请求的参数字符串<br />
+ 
+${pageContext.request.requestURL}
+ 取得请求的URL，但不包括请求之参数字符串,即servlet的HTTP地址。<br />
 </body>
 </html>
