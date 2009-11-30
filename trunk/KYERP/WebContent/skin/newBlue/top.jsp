@@ -47,7 +47,7 @@
 				</s:if>
 				<s:if
 					test="#user.userType.equals('Admin') or 'QC-Basic' in #userSystemFunctionList">
-					<li><a href="#" class="head" rel="qc"><span>质量管理</span></a></li>
+					<li><a href="${pageContext.request.contextPath}/QC/index.jsp" class="head" rel="qc"><span>质量管理</span></a></li>
 				</s:if>
 				<s:if
 					test="#user.userType.equals('Admin') or 'MM-Basic' in #userSystemFunctionList">
