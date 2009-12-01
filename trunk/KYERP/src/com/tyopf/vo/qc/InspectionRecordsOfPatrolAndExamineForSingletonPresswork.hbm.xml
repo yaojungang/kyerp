@@ -7,14 +7,9 @@
 			<column name="id" />
 			<generator class="native" />
 		</id>
-		<many-to-one name="afBase" class="com.tyopf.vo.AfBase"
-			column="af_id" lazy="false">
+		<many-to-one name="afBase" class="com.tyopf.vo.AfBase" unique="true" lazy="false">
+			  <column name="af_id" />   
 		</many-to-one>
-		<list name="operatorsEmployees" table="Employee" cascade="persist">
-			<key column="InspectionRecordsOfPatrolAndExamineForMulticolorPresswork_id" />
-			<list-index column="InspectionRecordsOfPatrolAndExamineForMulticolorPresswork_index" />
-			<one-to-many class="com.tyopf.vo.Employee" />
-		</list>
 		<property name="finishDate" type="timestamp"></property>
 		<property name="amount" type="java.lang.Integer"></property>
 		<property name="examDate" type="timestamp"></property>
@@ -27,6 +22,7 @@
 		<many-to-one name="examEmployee" class="com.tyopf.vo.Employee"
 			column="employee_id" lazy="false">
 		</many-to-one>		
+		<property name="operators" type="string"></property>
 		<property name="remark" type="string"></property>
 	</class>
 </hibernate-mapping>

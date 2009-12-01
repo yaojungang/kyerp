@@ -8,18 +8,19 @@
 			<column name="id" />
 			<generator class="native" />
 		</id>
-		<many-to-one name="afBase" class="com.tyopf.vo.AfBase"
-			column="af_id" lazy="false">
+		<many-to-one name="afBase" class="com.tyopf.vo.AfBase" unique="true" lazy="false">
+			  <column name="af_id" />   
 		</many-to-one>
 		<property name="examdate" type="timestamp"></property>
 		<property name="item" type="string">
 			<column name="item" length="50"></column>
 		</property>
-		<list name="operatorsEmployees" table="Employee" cascade="persist">
-			<key column="inspectionRecordsOfSemifinshed_id" />
-			<list-index column="inspectionRecordsOfSemifinshed_index" />
-			<one-to-many class="com.tyopf.vo.Employee" />
-		</list>
+		<property name="operators" type="string">
+			<column name="operators" length="200"></column>
+		</property>
+		<many-to-one name="examEmployee" class="com.tyopf.vo.Employee"
+			column="employee_id" lazy="false">
+		</many-to-one>
 		<property name="remark" type="string">
 			<column name="remark" length="200"></column>
 		</property>

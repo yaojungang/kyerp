@@ -1,86 +1,84 @@
 package com.tyopf.vo.qc;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.Employee;
 
 /**
- * 彩色印刷品巡检记录
+ * QYYT-D-8.2.4-08-（彩色）印刷品巡检记录
  */
 public class InspectionRecordsOfPatrolAndExamineForMulticolorPresswork {
 	/** id */
-	private long			id;
+	private long		id;
 	/**
 	 * 任务单
 	 */
-	private AfBase			afBase;
+	private AfBase		afBase;
 
 	/**
 	 * 操作员
 	 */
-	private List<Employee>	operatorsEmployees	= new ArrayList<Employee>();
+	private String		operators;
 
 	/**
 	 * 日期
 	 */
-	private Date			finishDate;
+	private Date		finishDate;
 	/**
 	 * 数量
 	 */
-	private int				amount;
+	private int			amount;
 	/**
 	 * 巡检时间
 	 */
-	private Date			examDate;
+	private Date		examDate;
 	/**
 	 * 检验项目01-亮调： 合格 不合格
 	 */
-	private String			examItem01;
+	private String		examItem01;
 	/**
 	 * 检验项目02-层次： 合格 不 合格
 	 */
-	private String			examItem02;
+	private String		examItem02;
 	/**
 	 * 检验项目03-套印： 合格 不 合格
 	 */
-	private String			examItem03;
+	private String		examItem03;
 	/**
 	 * 检验项目04-网点： 合格 不 合格
 	 */
-	private String			examItem04;
+	private String		examItem04;
 	/**
 	 * 检验项目05-颜色： 合格 不 合格
 	 */
-	private String			examItem05;
+	private String		examItem05;
 	/**
 	 * 检验项目06-版面： 合格 不 合格
 	 */
-	private String			examItem06;
+	private String		examItem06;
 	/**
 	 * 检验项目07-接版： 合格 不 合格
 	 */
-	private String			examItem07;
+	private String		examItem07;
 	/**
 	 * 检验项目08-图文： 合格 不 合格
 	 */
-	private String			examItem08;
+	private String		examItem08;
 	/**
 	 * 结论： 合格 不 合格
 	 */
-	private String			examResult;
+	private String		examResult;
 
 	/**
 	 * 检验员
 	 */
-	private Employee		examEmployee;
+	private Employee	examEmployee;
 
 	/**
 	 * 不合格说明及处置
 	 */
-	private String			remark;
+	private String		remark;
 
 	public InspectionRecordsOfPatrolAndExamineForMulticolorPresswork() {
 	}
@@ -135,10 +133,6 @@ public class InspectionRecordsOfPatrolAndExamineForMulticolorPresswork {
 
 	public String getExamItem02() {
 		return examItem02;
-	}
-
-	public void setOperatorsEmployees(List<Employee> operatorsEmployees) {
-		this.operatorsEmployees = operatorsEmployees;
 	}
 
 	public void setExamItem02(String examItem02) {
@@ -217,7 +211,11 @@ public class InspectionRecordsOfPatrolAndExamineForMulticolorPresswork {
 		this.remark = remark;
 	}
 
-	public List<Employee> getOperatorsEmployees() {
-		return operatorsEmployees;
+	public String getOperators() {
+		return operators;
+	}
+
+	public void setOperators(String operators) {
+		this.operators = operators;
 	}
 }

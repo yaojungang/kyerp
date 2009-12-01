@@ -7,6 +7,16 @@
 			<column name="AF_ID" />
 			<generator class="native" />
 		</id>
+		<one-to-one name="inspectionRecordsOfBindingfinshed" class="com.tyopf.vo.qc.InspectionRecordsOfBindingfinshed"
+			property-ref="afBase" cascade="all" />
+		<one-to-one name="inspectionRecordsOfFinshedGoods" class="com.tyopf.vo.qc.InspectionRecordsOfFinshedGoods"
+			property-ref="afBase" cascade="all" />
+		<one-to-one name="inspectionRecordsOfPatrolAndExamineForMulticolorPresswork" class="com.tyopf.vo.qc.InspectionRecordsOfPatrolAndExamineForMulticolorPresswork"
+			property-ref="afBase" cascade="all" />
+		<one-to-one name="inspectionRecordsOfPatrolAndExamineForSingletonPresswork" class="com.tyopf.vo.qc.InspectionRecordsOfPatrolAndExamineForSingletonPresswork"
+			property-ref="afBase" cascade="all" />
+		<one-to-one name="inspectionRecordsOfSemifinshed" class="com.tyopf.vo.qc.InspectionRecordsOfSemifinshed"
+			property-ref="afBase" cascade="all" />
 
 		<set name="AfElement" table="AF_Element" order-by="E_Type asc"
 			cascade="all-delete-orphan" lazy="true" inverse="true">
@@ -185,7 +195,6 @@
         </property>
         <property name="cp" type="string">
             <column name="CP" length="50">
-                <comment>&#189;&#211;&#199;&#162;&#200;&#203;</comment>
             </column>
         </property>
         <property name="fmp" type="string">

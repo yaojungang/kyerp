@@ -4,7 +4,7 @@ import com.tyopf.vo.AfBase;
 import com.tyopf.vo.Employee;
 
 /**
- * 产成品检验记录
+ * QYYT-D-8.2.4-07-产成品检验记录
  */
 public class InspectionRecordsOfFinshedGoods {
 	/** id */

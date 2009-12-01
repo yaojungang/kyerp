@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<package name="QC-InspectionRecordsOfFinshedGoods" extends="struts-tyopf" namespace="/QC/InspectionRecordsOfFinshedGoods">
+		<action name="find" class="com.tyopf.action.qc.InspectionRecordsOfFinshedGoodsAction" method="find">
+			<result name="success">
+				/QC/InspectionRecordsOfFinshedGoods/input.jsp
+				</result>
+		</action>
+		<action name="add" class="com.tyopf.action.qc.InspectionRecordsOfFinshedGoodsAction" method="add">
+			<result name="success">
+				/QC/InspectionRecordsOfFinshedGoods/input.jsp
+				</result>
+		</action>
+		<action name="save" class="com.tyopf.action.qc.InspectionRecordsOfFinshedGoodsAction" method="save">
+			<result name="success" type="redirect">
+				/QC/InspectionRecordsOfFinshedGoods/list.action
+				</result>
+		</action>
+		<action name="edit" class="com.tyopf.action.qc.InspectionRecordsOfFinshedGoodsAction" method="edit">
+			<result name="success">
+				/QC/InspectionRecordsOfFinshedGoods/input.jsp
+				</result>
+		</action>
+		<action name="list" class="com.tyopf.action.qc.InspectionRecordsOfFinshedGoodsAction" method="list">
+			<result name="success">
+				/QC/InspectionRecordsOfFinshedGoods/list.jsp
+				</result>
+		</action>
+		</package>
+</struts>

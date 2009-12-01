@@ -53,4 +53,8 @@
 		</action>
 	</package>
 	<include file="/com/tyopf/action/qc/InspectionRecordsOfBindingfinshedAction.xml"/>
+	<include file="/com/tyopf/action/qc/InspectionRecordsOfFinshedGoodsAction.xml"/>
+	<include file="/com/tyopf/action/qc/InspectionRecordsOfSemifinshedAction.xml"/>
+	<include file="/com/tyopf/action/qc/QYYTD82408Action.xml"/>
+	<include file="/com/tyopf/action/qc/QYYTD82409Action.xml"/>
 </struts>
