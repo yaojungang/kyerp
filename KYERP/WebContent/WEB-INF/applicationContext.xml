@@ -56,16 +56,11 @@
 				<value>com/tyopf/vo/BindingFactory.hbm.xml</value>
 				<value>com/tyopf/vo/Paper.hbm.xml</value>
 				
-				<value>com/tyopf/vo/qc/InspectionRecordsOfSemifinshed.hbm.xml
-				</value>
-				<value>com/tyopf/vo/qc/InspectionRecordsOfBindingfinshed.hbm.xml
-				</value>
-				<value>com/tyopf/vo/qc/InspectionRecordsOfFinshedGoods.hbm.xml
-				</value>
-				<value>com/tyopf/vo/qc/InspectionRecordsOfPatrolAndExamineForSingletonPresswork.hbm.xml
-				</value>
-				<value>com/tyopf/vo/qc/InspectionRecordsOfPatrolAndExamineForMulticolorPresswork.hbm.xml
-				</value>
+				<value>com/tyopf/vo/qc/InspectionRecordsOfSemifinshed.hbm.xml</value>
+				<value>com/tyopf/vo/qc/InspectionRecordsOfBindingfinshed.hbm.xml</value>
+				<value>com/tyopf/vo/qc/InspectionRecordsOfFinshedGoods.hbm.xml</value>
+				<value>com/tyopf/vo/qc/InspectionRecordsOfPatrolAndExamineForSingletonPresswork.hbm.xml</value>
+				<value>com/tyopf/vo/qc/InspectionRecordsOfPatrolAndExamineForMulticolorPresswork.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -179,6 +174,41 @@
 	<bean id="inspectionRecordsOfBindingfinshedService" class="com.tyopf.service.qc.impl.InspectionRecordsOfBindingfinshedService">
 		<property name="inspectionRecordsOfBindingfinshedDAO">
 			<ref bean="inspectionRecordsOfBindingfinshedDAO" />
+		</property>
+	</bean>
+	<bean id="inspectionRecordsOfFinshedGoodsDAO" class="com.tyopf.dao.qc.impl.InspectionRecordsOfFinshedGoodsDAO"
+		parent="baseDAO">
+	</bean>
+	<bean id="inspectionRecordsOfFinshedGoodsService" class="com.tyopf.service.qc.impl.InspectionRecordsOfFinshedGoodsService">
+		<property name="inspectionRecordsOfFinshedGoodsDAO">
+			<ref bean="inspectionRecordsOfFinshedGoodsDAO" />
+		</property>
+	</bean>
+	
+	<bean id="inspectionRecordsOfPatrolAndExamineForMulticolorPressworkDAO" class="com.tyopf.dao.qc.impl.InspectionRecordsOfPatrolAndExamineForMulticolorPressworkDAO"
+		parent="baseDAO">
+	</bean>
+	<bean id="inspectionRecordsOfPatrolAndExamineForMulticolorPressworkService" class="com.tyopf.service.qc.impl.InspectionRecordsOfPatrolAndExamineForMulticolorPressworkService">
+		<property name="inspectionRecordsOfPatrolAndExamineForMulticolorPressworkDAO">
+			<ref bean="inspectionRecordsOfPatrolAndExamineForMulticolorPressworkDAO" />
+		</property>
+	</bean>
+	
+	<bean id="inspectionRecordsOfPatrolAndExamineForSingletonPressworkDAO" class="com.tyopf.dao.qc.impl.InspectionRecordsOfPatrolAndExamineForSingletonPressworkDAO"
+		parent="baseDAO">
+	</bean>
+	<bean id="inspectionRecordsOfPatrolAndExamineForSingletonPressworkService" class="com.tyopf.service.qc.impl.InspectionRecordsOfPatrolAndExamineForSingletonPressworkService">
+		<property name="inspectionRecordsOfPatrolAndExamineForSingletonPressworkDAO">
+			<ref bean="inspectionRecordsOfPatrolAndExamineForSingletonPressworkDAO" />
+		</property>
+	</bean>
+	
+	<bean id="inspectionRecordsOfSemifinshedDAO" class="com.tyopf.dao.qc.impl.InspectionRecordsOfSemifinshedDAO"
+		parent="baseDAO">
+	</bean>
+	<bean id="inspectionRecordsOfSemifinshedService" class="com.tyopf.service.qc.impl.InspectionRecordsOfSemifinshedService">
+		<property name="inspectionRecordsOfSemifinshedDAO">
+			<ref bean="inspectionRecordsOfSemifinshedDAO" />
 		</property>
 	</bean>
 </beans>
