@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <s:set value="#request['AFInfo']" name="af" id="af" />
 <s:set value="#session['userSystemFunctionList']" name="userSystemFunctionList"
@@ -436,6 +437,55 @@ function show(id){
 </table>
 </s:if>
 </s:if>
-
+<p>
+<c:choose> 
+<c:when test="${null != af.inspectionRecordsOfBindingfinshed}"> 
+<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfBindingfinshed/edit.action?afId=${af.afId}&id=${af.inspectionRecordsOfBindingfinshed.id}">QYYT-D-8.2.4-04-装订成品检查记录-修改</a>
+</c:when> 
+<c:otherwise> 
+<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfBindingfinshed/add.action?afId=${af.afId}">QYYT-D-8.2.4-04-装订成品检查记录-填写</a>
+</c:otherwise> 
+</c:choose>
+</p>
+<p>
+<c:choose> 
+<c:when test="${null != af.inspectionRecordsOfFinshedGoods}"> 
+<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfFinshedGoods/edit.action?afId=${af.afId}&id=${af.inspectionRecordsOfFinshedGoods.id}">QYYT-D-8.2.4-07-产成品检验记录-修改</a>
+</c:when> 
+<c:otherwise> 
+<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfFinshedGoods/add.action?afId=${af.afId}">QYYT-D-8.2.4-07-产成品检验记录-填写</a>
+</c:otherwise> 
+</c:choose>
+</p>
+<p>
+<c:choose> 
+<c:when test="${null != af.inspectionRecordsOfSemifinshed}"> 
+<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfSemifinshed/edit.action?afId=${af.afId}&id=${af.inspectionRecordsOfSemifinshed.id}">QYYT-D-8.2.4-02-毛样书记录-修改</a>
+</c:when> 
+<c:otherwise> 
+<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfSemifinshed/add.action?afId=${af.afId}">QYYT-D-8.2.4-02-毛样书记录-填写</a>
+</c:otherwise> 
+</c:choose>
+</p>
+<p>
+<c:choose> 
+<c:when test="${null != af.inspectionRecordsOfPatrolAndExamineForSingletonPresswork}"> 
+<a href="${pageContext.request.contextPath}/QC/QYYTD82409/edit.action?afId=${af.afId}&id=${af.inspectionRecordsOfPatrolAndExamineForSingletonPresswork.id}">QYYT-D-8.2.4-09-（单色）印刷品巡检记录-修改</a>
+</c:when> 
+<c:otherwise> 
+<a href="${pageContext.request.contextPath}/QC/QYYTD82409/add.action?afId=${af.afId}">QYYT-D-8.2.4-09-（单色）印刷品巡检记录-填写</a>
+</c:otherwise> 
+</c:choose>
+</p>
+<p>
+<c:choose> 
+<c:when test="${null != af.inspectionRecordsOfPatrolAndExamineForMulticolorPresswork}"> 
+<a href="${pageContext.request.contextPath}/QC/QYYTD82408/edit.action?afId=${af.afId}&id=${af.inspectionRecordsOfPatrolAndExamineForMulticolorPresswork.id}">QYYT-D-8.2.4-08-（彩色）印刷品巡检记录-修改</a>
+</c:when> 
+<c:otherwise> 
+<a href="${pageContext.request.contextPath}/QC/QYYTD82408/add.action?afId=${af.afId}">QYYT-D-8.2.4-08-（彩色）印刷品巡检记录-填写</a>
+</c:otherwise> 
+</c:choose>
+</p>
 </body>
 </html>
