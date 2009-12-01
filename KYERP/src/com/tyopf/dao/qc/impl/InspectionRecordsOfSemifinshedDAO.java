@@ -8,25 +8,25 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 
 import com.tyopf.dao.BaseDAO;
-import com.tyopf.dao.qc.IInspectionRecordsOfBindingfinshedDAO;
-import com.tyopf.vo.qc.InspectionRecordsOfBindingfinshed;
+import com.tyopf.dao.qc.IInspectionRecordsOfSemifinshedDAO;
+import com.tyopf.vo.qc.InspectionRecordsOfSemifinshed;
 
-public class InspectionRecordsOfBindingfinshedDAO extends BaseDAO implements
-		IInspectionRecordsOfBindingfinshedDAO {
+public class InspectionRecordsOfSemifinshedDAO extends BaseDAO implements
+		IInspectionRecordsOfSemifinshedDAO {
 
 	@Override
-	public InspectionRecordsOfBindingfinshed find(long id) {
-		return (InspectionRecordsOfBindingfinshed) getHibernateTemplate().get(
-				InspectionRecordsOfBindingfinshed.class, id);
+	public InspectionRecordsOfSemifinshed find(long id) {
+		return (InspectionRecordsOfSemifinshed) getHibernateTemplate().get(
+				InspectionRecordsOfSemifinshed.class, id);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<InspectionRecordsOfBindingfinshed> getList(int currentPage,
+	public List<InspectionRecordsOfSemifinshed> getList(int currentPage,
 			int pageSize) {
 		Session session = getSession();
 		Query query = session
-				.createQuery("from InspectionRecordsOfBindingfinshed o order by o.id desc");
+				.createQuery("from InspectionRecordsOfSemifinshed o order by o.id desc");
 		int startRow = (currentPage - 1) * pageSize;
 		query.setFirstResult(startRow);
 		query.setMaxResults(pageSize);
@@ -39,11 +39,11 @@ public class InspectionRecordsOfBindingfinshedDAO extends BaseDAO implements
 	public void remove(long id) {
 		getHibernateTemplate().delete(
 				getHibernateTemplate().get(
-						InspectionRecordsOfBindingfinshed.class, id));
+						InspectionRecordsOfSemifinshed.class, id));
 	}
 
 	@Override
-	public void save(InspectionRecordsOfBindingfinshed ins) {
+	public void save(InspectionRecordsOfSemifinshed ins) {
 		getHibernateTemplate().saveOrUpdate(ins);
 	}
 
@@ -51,7 +51,7 @@ public class InspectionRecordsOfBindingfinshedDAO extends BaseDAO implements
 	public int getCountAll() {
 		Session session = getSession();
 		Criteria criteria = session
-				.createCriteria(InspectionRecordsOfBindingfinshed.class);
+				.createCriteria(InspectionRecordsOfSemifinshed.class);
 		criteria.setProjection(Projections.rowCount());
 		int n = ((Integer) criteria.list().get(0)).intValue();
 		session.close();

@@ -1,8 +1,6 @@
 package com.tyopf.vo.qc;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.Employee;
@@ -11,9 +9,6 @@ import com.tyopf.vo.Employee;
  * QYYT-D-8.2.4-02-毛样书记录
  */
 public class InspectionRecordsOfSemifinshed implements java.io.Serializable {
-	/**
-	 * 
-	 */
 	private static final long	serialVersionUID	= 6059701803708388543L;
 	/** id */
 	private Long				id;
@@ -32,13 +27,17 @@ public class InspectionRecordsOfSemifinshed implements java.io.Serializable {
 	/**
 	 * 负责人
 	 */
-	private List<Employee>		operatorsEmployees	= new ArrayList<Employee>();
+	private String				operators;
+	/**
+	 * 检查人
+	 */
+	private Employee			examEmployee;
 	/**
 	 * 备注
 	 */
 	private String				remark;
 
-	private InspectionRecordsOfSemifinshed() {
+	public InspectionRecordsOfSemifinshed() {
 	}
 
 	public AfBase getAfBase() {
@@ -81,12 +80,20 @@ public class InspectionRecordsOfSemifinshed implements java.io.Serializable {
 		this.remark = remark;
 	}
 
-	public List<Employee> getOperatorsEmployees() {
-		return operatorsEmployees;
+	public String getOperators() {
+		return operators;
 	}
 
-	public void setOperatorsEmployees(List<Employee> operatorsEmployees) {
-		this.operatorsEmployees = operatorsEmployees;
+	public void setOperators(String operators) {
+		this.operators = operators;
+	}
+
+	public Employee getExamEmployee() {
+		return examEmployee;
+	}
+
+	public void setExamEmployee(Employee examEmployee) {
+		this.examEmployee = examEmployee;
 	}
 
 }

@@ -1,10 +1,12 @@
 package com.tyopf.vo.qc;
 
+import java.util.Date;
+
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.Employee;
 
 /**
- * 装订成品检查记录
+ * QYYT-D-8.2.4-04-装订成品检查记录
  */
 public class InspectionRecordsOfBindingfinshed {
 
@@ -18,7 +20,7 @@ public class InspectionRecordsOfBindingfinshed {
 	/**
 	 * 正品数
 	 */
-	private int			totalAmount			= 0;
+	private int			qualifiedAmount		= 0;
 	/**
 	 * 不合格数
 	 */
@@ -64,6 +66,16 @@ public class InspectionRecordsOfBindingfinshed {
 	 * 检验结果10-成品
 	 */
 	private String		examItem10;
+	private Date		examItem01Date;
+	private Date		examItem02Date;
+	private Date		examItem03Date;
+	private Date		examItem04Date;
+	private Date		examItem05Date;
+	private Date		examItem06Date;
+	private Date		examItem07Date;
+	private Date		examItem08Date;
+	private Date		examItem09Date;
+	private Date		examItem10Date;
 	/**
 	 * 综合结论
 	 */
@@ -81,10 +93,6 @@ public class InspectionRecordsOfBindingfinshed {
 		return afBase;
 	}
 
-	public void setAfBase(AfBase afBase) {
-		this.afBase = afBase;
-	}
-
 	public long getId() {
 		return id;
 	}
@@ -93,20 +101,20 @@ public class InspectionRecordsOfBindingfinshed {
 		this.id = id;
 	}
 
-	public int getTotalAmount() {
-		return totalAmount;
+	public int getQualifiedAmount() {
+		return qualifiedAmount;
 	}
 
-	public void setTotalAmount(int totalAmount) {
-		this.totalAmount = totalAmount;
+	public void setQualifiedAmount(int qualifiedAmount) {
+		this.qualifiedAmount = qualifiedAmount;
 	}
 
-	public String getRemark() {
-		return remark;
+	public int getUnqualifiedAmount() {
+		return unqualifiedAmount;
 	}
 
-	public void setRemark(String remark) {
-		this.remark = remark;
+	public void setUnqualifiedAmount(int unqualifiedAmount) {
+		this.unqualifiedAmount = unqualifiedAmount;
 	}
 
 	public String getExamItem01() {
@@ -115,6 +123,86 @@ public class InspectionRecordsOfBindingfinshed {
 
 	public void setExamItem01(String examItem01) {
 		this.examItem01 = examItem01;
+	}
+
+	public Date getExamItem01Date() {
+		return examItem01Date;
+	}
+
+	public void setExamItem01Date(Date examItem01Date) {
+		this.examItem01Date = examItem01Date;
+	}
+
+	public Date getExamItem02Date() {
+		return examItem02Date;
+	}
+
+	public void setExamItem02Date(Date examItem02Date) {
+		this.examItem02Date = examItem02Date;
+	}
+
+	public Date getExamItem03Date() {
+		return examItem03Date;
+	}
+
+	public void setExamItem03Date(Date examItem03Date) {
+		this.examItem03Date = examItem03Date;
+	}
+
+	public Date getExamItem04Date() {
+		return examItem04Date;
+	}
+
+	public void setExamItem04Date(Date examItem04Date) {
+		this.examItem04Date = examItem04Date;
+	}
+
+	public Date getExamItem05Date() {
+		return examItem05Date;
+	}
+
+	public void setExamItem05Date(Date examItem05Date) {
+		this.examItem05Date = examItem05Date;
+	}
+
+	public Date getExamItem06Date() {
+		return examItem06Date;
+	}
+
+	public void setExamItem06Date(Date examItem06Date) {
+		this.examItem06Date = examItem06Date;
+	}
+
+	public Date getExamItem07Date() {
+		return examItem07Date;
+	}
+
+	public void setExamItem07Date(Date examItem07Date) {
+		this.examItem07Date = examItem07Date;
+	}
+
+	public Date getExamItem08Date() {
+		return examItem08Date;
+	}
+
+	public void setExamItem08Date(Date examItem08Date) {
+		this.examItem08Date = examItem08Date;
+	}
+
+	public Date getExamItem09Date() {
+		return examItem09Date;
+	}
+
+	public void setExamItem09Date(Date examItem09Date) {
+		this.examItem09Date = examItem09Date;
+	}
+
+	public Date getExamItem10Date() {
+		return examItem10Date;
+	}
+
+	public void setExamItem10Date(Date examItem10Date) {
+		this.examItem10Date = examItem10Date;
 	}
 
 	public String getExamItem02() {
@@ -205,11 +293,16 @@ public class InspectionRecordsOfBindingfinshed {
 		this.examEmployee = examEmployee;
 	}
 
-	public int getUnqualifiedAmount() {
-		return unqualifiedAmount;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setUnqualifiedAmount(int unqualifiedAmount) {
-		this.unqualifiedAmount = unqualifiedAmount;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
+
+	public void setAfBase(AfBase afBase) {
+		this.afBase = afBase;
+	}
+
 }

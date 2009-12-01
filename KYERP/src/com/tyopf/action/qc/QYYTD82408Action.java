@@ -8,24 +8,34 @@ import java.util.Map;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IAFService;
-import com.tyopf.service.qc.IInspectionRecordsOfBindingfinshedService;
+import com.tyopf.service.ISystemService;
+import com.tyopf.service.qc.IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService;
 import com.tyopf.util.Pager;
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.Employee;
-import com.tyopf.vo.qc.InspectionRecordsOfBindingfinshed;
+import com.tyopf.vo.qc.InspectionRecordsOfPatrolAndExamineForMulticolorPresswork;
 
 @SuppressWarnings("serial")
-public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
-	private IInspectionRecordsOfBindingfinshedService	irs;
-	private IAFService									afService;
-	private int											afId;
-	private int											currentPage	= 1;
-	private int											pageSize	= 50;
-	private int											id;
-	private InspectionRecordsOfBindingfinshed			ir;
+public class QYYTD82408Action extends ActionSupport {
+	private IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService	irs;
+	private IAFService															afService;
+	private ISystemService														systemService;
+	private int																	afId;
+	private int																	currentPage	= 1;
+	private int																	pageSize	= 50;
+	private int																	id;
+	private InspectionRecordsOfPatrolAndExamineForMulticolorPresswork			ir;
 
-	public IInspectionRecordsOfBindingfinshedService getIrs() {
+	public IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService getIrs() {
 		return irs;
+	}
+
+	public ISystemService getSystemService() {
+		return systemService;
+	}
+
+	public void setSystemService(ISystemService systemService) {
+		this.systemService = systemService;
 	}
 
 	public int getCurrentPage() {
@@ -44,7 +54,8 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 		this.pageSize = pageSize;
 	}
 
-	public void setIrs(IInspectionRecordsOfBindingfinshedService irs) {
+	public void setIrs(
+			IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService irs) {
 		this.irs = irs;
 	}
 
@@ -56,21 +67,22 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 		this.afService = afService;
 	}
 
-	public InspectionRecordsOfBindingfinshed getIr() {
+	public InspectionRecordsOfPatrolAndExamineForMulticolorPresswork getIr() {
 		return ir;
 	}
 
-	public void setIr(InspectionRecordsOfBindingfinshed ir) {
+	public void setIr(
+			InspectionRecordsOfPatrolAndExamineForMulticolorPresswork ir) {
 		this.ir = ir;
 	}
 
-	public IInspectionRecordsOfBindingfinshedService getInspectionRecordsOfBindingfinshedService() {
+	public IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService getInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService() {
 		return irs;
 	}
 
-	public void setInspectionRecordsOfBindingfinshedService(
-			IInspectionRecordsOfBindingfinshedService inspectionRecordsOfBindingfinshedService) {
-		this.irs = inspectionRecordsOfBindingfinshedService;
+	public void setInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService(
+			IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService InspectionRecordsOfPatrolAndExamineForMulticolorPressworkService) {
+		this.irs = InspectionRecordsOfPatrolAndExamineForMulticolorPressworkService;
 	}
 
 	public int getAfId() {
@@ -93,8 +105,9 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 	public String add() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
 		Map request = (Map) ActionContext.getContext().get("request");
-		InspectionRecordsOfBindingfinshed ir = new InspectionRecordsOfBindingfinshed();
-
+		Map session = ActionContext.getContext().getSession();
+		InspectionRecordsOfPatrolAndExamineForMulticolorPresswork ir = new InspectionRecordsOfPatrolAndExamineForMulticolorPresswork();
+		ir.setExamDate(new Date());
 		ir.setExamItem01("合格");
 		ir.setExamItem02("合格");
 		ir.setExamItem03("合格");
@@ -103,34 +116,26 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 		ir.setExamItem06("合格");
 		ir.setExamItem07("合格");
 		ir.setExamItem08("合格");
-		ir.setExamItem09("合格");
-		ir.setExamItem10("合格");
 		ir.setExamResult("合格");
-		ir.setExamItem01Date(new Date());
-		ir.setExamItem02Date(new Date());
-		ir.setExamItem03Date(new Date());
-		ir.setExamItem04Date(new Date());
-		ir.setExamItem05Date(new Date());
-		ir.setExamItem06Date(new Date());
-		ir.setExamItem07Date(new Date());
-		ir.setExamItem08Date(new Date());
-		ir.setExamItem09Date(new Date());
-		ir.setExamItem10Date(new Date());
-
+		List deptTree = (List) session.get("DeptTree");
+		if (null == deptTree) {
+			deptTree = systemService.getDeptTree(0);
+			session.put("DeptTree", deptTree);
+		}
 		request.put("afBase", afBase);
 		request.put("ir", ir);
 		return SUCCESS;
 	}
 
+	@SuppressWarnings("unchecked")
 	public String save() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
-		afBase.setInspectionRecordsOfBindingfinshed(ir);
+		afBase.setInspectionRecordsOfPatrolAndExamineForMulticolorPresswork(ir);
 		ir.setAfBase(afBase);
 		Map session = ActionContext.getContext().getSession();
 		Employee employee = (Employee) session.get("employee");
 		ir.setExamEmployee(employee);
 		irs.save(ir);
-		// afService.saveAF(afBase);
 		return SUCCESS;
 	}
 
@@ -142,8 +147,15 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String edit() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
-		InspectionRecordsOfBindingfinshed ir = irs.find(id);
+		InspectionRecordsOfPatrolAndExamineForMulticolorPresswork ir = irs
+				.find(id);
 		Map request = (Map) ActionContext.getContext().get("request");
+		Map session = ActionContext.getContext().getSession();
+		List deptTree = (List) session.get("DeptTree");
+		if (null == deptTree) {
+			deptTree = systemService.getDeptTree(0);
+			session.put("DeptTree", deptTree);
+		}
 		request.put("ir", ir);
 		request.put("afBase", afBase);
 		return SUCCESS;

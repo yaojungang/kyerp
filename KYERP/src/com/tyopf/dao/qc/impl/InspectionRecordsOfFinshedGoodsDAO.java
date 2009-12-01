@@ -8,25 +8,25 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 
 import com.tyopf.dao.BaseDAO;
-import com.tyopf.dao.qc.IInspectionRecordsOfBindingfinshedDAO;
-import com.tyopf.vo.qc.InspectionRecordsOfBindingfinshed;
+import com.tyopf.dao.qc.IInspectionRecordsOfFinshedGoodsDAO;
+import com.tyopf.vo.qc.InspectionRecordsOfFinshedGoods;
 
-public class InspectionRecordsOfBindingfinshedDAO extends BaseDAO implements
-		IInspectionRecordsOfBindingfinshedDAO {
+public class InspectionRecordsOfFinshedGoodsDAO extends BaseDAO implements
+		IInspectionRecordsOfFinshedGoodsDAO {
 
 	@Override
-	public InspectionRecordsOfBindingfinshed find(long id) {
-		return (InspectionRecordsOfBindingfinshed) getHibernateTemplate().get(
-				InspectionRecordsOfBindingfinshed.class, id);
+	public InspectionRecordsOfFinshedGoods find(long id) {
+		return (InspectionRecordsOfFinshedGoods) getHibernateTemplate().get(
+				InspectionRecordsOfFinshedGoods.class, id);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<InspectionRecordsOfBindingfinshed> getList(int currentPage,
+	public List<InspectionRecordsOfFinshedGoods> getList(int currentPage,
 			int pageSize) {
 		Session session = getSession();
 		Query query = session
-				.createQuery("from InspectionRecordsOfBindingfinshed o order by o.id desc");
+				.createQuery("from InspectionRecordsOfFinshedGoods o order by o.id desc");
 		int startRow = (currentPage - 1) * pageSize;
 		query.setFirstResult(startRow);
 		query.setMaxResults(pageSize);
@@ -39,11 +39,11 @@ public class InspectionRecordsOfBindingfinshedDAO extends BaseDAO implements
 	public void remove(long id) {
 		getHibernateTemplate().delete(
 				getHibernateTemplate().get(
-						InspectionRecordsOfBindingfinshed.class, id));
+						InspectionRecordsOfFinshedGoods.class, id));
 	}
 
 	@Override
-	public void save(InspectionRecordsOfBindingfinshed ins) {
+	public void save(InspectionRecordsOfFinshedGoods ins) {
 		getHibernateTemplate().saveOrUpdate(ins);
 	}
 
@@ -51,7 +51,7 @@ public class InspectionRecordsOfBindingfinshedDAO extends BaseDAO implements
 	public int getCountAll() {
 		Session session = getSession();
 		Criteria criteria = session
-				.createCriteria(InspectionRecordsOfBindingfinshed.class);
+				.createCriteria(InspectionRecordsOfFinshedGoods.class);
 		criteria.setProjection(Projections.rowCount());
 		int n = ((Integer) criteria.list().get(0)).intValue();
 		session.close();

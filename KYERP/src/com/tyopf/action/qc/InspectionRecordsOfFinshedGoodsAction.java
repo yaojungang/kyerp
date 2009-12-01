@@ -1,30 +1,29 @@
 package com.tyopf.action.qc;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IAFService;
-import com.tyopf.service.qc.IInspectionRecordsOfBindingfinshedService;
+import com.tyopf.service.qc.IInspectionRecordsOfFinshedGoodsService;
 import com.tyopf.util.Pager;
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.Employee;
-import com.tyopf.vo.qc.InspectionRecordsOfBindingfinshed;
+import com.tyopf.vo.qc.InspectionRecordsOfFinshedGoods;
 
 @SuppressWarnings("serial")
-public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
-	private IInspectionRecordsOfBindingfinshedService	irs;
-	private IAFService									afService;
-	private int											afId;
-	private int											currentPage	= 1;
-	private int											pageSize	= 50;
-	private int											id;
-	private InspectionRecordsOfBindingfinshed			ir;
+public class InspectionRecordsOfFinshedGoodsAction extends ActionSupport {
+	private IInspectionRecordsOfFinshedGoodsService	irs;
+	private IAFService								afService;
+	private int										afId;
+	private int										currentPage	= 1;
+	private int										pageSize	= 50;
+	private int										id;
+	private InspectionRecordsOfFinshedGoods			ir;
 
-	public IInspectionRecordsOfBindingfinshedService getIrs() {
+	public IInspectionRecordsOfFinshedGoodsService getIrs() {
 		return irs;
 	}
 
@@ -44,7 +43,7 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 		this.pageSize = pageSize;
 	}
 
-	public void setIrs(IInspectionRecordsOfBindingfinshedService irs) {
+	public void setIrs(IInspectionRecordsOfFinshedGoodsService irs) {
 		this.irs = irs;
 	}
 
@@ -56,21 +55,21 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 		this.afService = afService;
 	}
 
-	public InspectionRecordsOfBindingfinshed getIr() {
+	public InspectionRecordsOfFinshedGoods getIr() {
 		return ir;
 	}
 
-	public void setIr(InspectionRecordsOfBindingfinshed ir) {
+	public void setIr(InspectionRecordsOfFinshedGoods ir) {
 		this.ir = ir;
 	}
 
-	public IInspectionRecordsOfBindingfinshedService getInspectionRecordsOfBindingfinshedService() {
+	public IInspectionRecordsOfFinshedGoodsService getInspectionRecordsOfFinshedGoodsService() {
 		return irs;
 	}
 
-	public void setInspectionRecordsOfBindingfinshedService(
-			IInspectionRecordsOfBindingfinshedService inspectionRecordsOfBindingfinshedService) {
-		this.irs = inspectionRecordsOfBindingfinshedService;
+	public void setInspectionRecordsOfFinshedGoodsService(
+			IInspectionRecordsOfFinshedGoodsService InspectionRecordsOfFinshedGoodsService) {
+		this.irs = InspectionRecordsOfFinshedGoodsService;
 	}
 
 	public int getAfId() {
@@ -93,7 +92,7 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 	public String add() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
 		Map request = (Map) ActionContext.getContext().get("request");
-		InspectionRecordsOfBindingfinshed ir = new InspectionRecordsOfBindingfinshed();
+		InspectionRecordsOfFinshedGoods ir = new InspectionRecordsOfFinshedGoods();
 
 		ir.setExamItem01("合格");
 		ir.setExamItem02("合格");
@@ -106,16 +105,6 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 		ir.setExamItem09("合格");
 		ir.setExamItem10("合格");
 		ir.setExamResult("合格");
-		ir.setExamItem01Date(new Date());
-		ir.setExamItem02Date(new Date());
-		ir.setExamItem03Date(new Date());
-		ir.setExamItem04Date(new Date());
-		ir.setExamItem05Date(new Date());
-		ir.setExamItem06Date(new Date());
-		ir.setExamItem07Date(new Date());
-		ir.setExamItem08Date(new Date());
-		ir.setExamItem09Date(new Date());
-		ir.setExamItem10Date(new Date());
 
 		request.put("afBase", afBase);
 		request.put("ir", ir);
@@ -124,7 +113,7 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 
 	public String save() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
-		afBase.setInspectionRecordsOfBindingfinshed(ir);
+		afBase.setInspectionRecordsOfFinshedGoods(ir);
 		ir.setAfBase(afBase);
 		Map session = ActionContext.getContext().getSession();
 		Employee employee = (Employee) session.get("employee");
@@ -142,7 +131,7 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String edit() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
-		InspectionRecordsOfBindingfinshed ir = irs.find(id);
+		InspectionRecordsOfFinshedGoods ir = irs.find(id);
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("ir", ir);
 		request.put("afBase", afBase);

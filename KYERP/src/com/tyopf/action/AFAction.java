@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -23,58 +22,59 @@ import com.tyopf.vo.User;
 
 @SuppressWarnings("serial")
 public class AFAction extends ActionSupport {
-	protected IAFService afService;
+	protected IAFService	afService;
 
-	private List<String[]> columnNames;
-	private List<AfBase> ListAF;
+	private List<String[]>	columnNames;
+	private List<AfBase>	ListAF;
 
-	private String columnName = "seriesName";
+	private String			columnName			= "seriesName";
 
-	private String BindingFactoryName = "本厂";
+	private String			BindingFactoryName	= "本厂";
 
-	private String ItemName = "EComPm";
+	private String			ItemName			= "EComPm";
 
-	private String MachineName = "";
-	private String mm = "";
+	private String			MachineName			= "";
+	private String			mm					= "";
 
-	private String client;
+	private String			client;
 
-	private String AFNo;
+	private String			AFNo;
 
-	private String AFType;
-	private String AFPage = "AF";
+	private String			AFType;
+	private String			AFPage				= "AF";
 
-	private String url;
+	private String			url;
 
-	private String YWName = "王秀云";
+	private String			YWName				= "王秀云";
 
-	private String AFNoList;
+	private String			AFNoList;
 
-	private String YZNoList;
+	private String			YZNoList;
 
-	private long StartAFNo = 20070001;
+	private long			StartAFNo			= 20070001;
 
-	private long EndAFNo = 20079999;
+	private long			EndAFNo				= 20079999;
 
-	private long StartAFId = 1;
+	private long			StartAFId			= 1;
 
-	private long EndAFId = 2321;
+	private long			EndAFId				= 2321;
 
-	private Date date;
+	private Date			date;
 
-	private int recentSize = 10;
+	private int				recentSize			= 10;
 
-	private Integer currentPage = 1;
-	private Integer pageSize = 50;
+	private Integer			currentPage			= 1;
+	private Integer			pageSize			= 50;
 
-	private long afId;
+	private long			afId;
 
-	private long afEId;
+	private long			afEId;
 
-	private long afDId;
-	private int filmPlace;
-	private String searchOption;
-	private String searchValue;	
+	private long			afDId;
+	private int				filmPlace;
+	private String			searchOption;
+	private String			searchValue;
+
 	public int getFilmPlace() {
 		return filmPlace;
 	}
@@ -319,6 +319,7 @@ public class AFAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	@Override
 	public String execute() throws Exception {
 		afService.getAllAFs();
 		return SUCCESS;
@@ -397,7 +398,7 @@ public class AFAction extends ActionSupport {
 		afService.editAF(af);
 		Map request = (Map) ActionContext.getContext().get("request");
 		String msg = t.toString();
-		request.put("message",msg);
+		request.put("message", msg);
 		return SUCCESS;
 	}
 
@@ -409,7 +410,7 @@ public class AFAction extends ActionSupport {
 		afService.editAFE(afe);
 		Map request = (Map) ActionContext.getContext().get("request");
 		String msg = t.toString();
-		request.put("message",msg);
+		request.put("message", msg);
 		return SUCCESS;
 	}
 
@@ -421,7 +422,7 @@ public class AFAction extends ActionSupport {
 		afService.editAFE(afe);
 		Map request = (Map) ActionContext.getContext().get("request");
 		String msg = t.toString();
-		request.put("message",msg);
+		request.put("message", msg);
 		return SUCCESS;
 	}
 
@@ -432,13 +433,13 @@ public class AFAction extends ActionSupport {
 		afe.setEComProof(t);
 		Map request = (Map) ActionContext.getContext().get("request");
 		String msg = t.toString();
-		request.put("message",msg);
+		request.put("message", msg);
 		afService.editAFE(afe);
 
 		return SUCCESS;
 	}
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
+	@SuppressWarnings( { "unchecked", "deprecation" })
 	public String BL_Complete() {
 		AfDispose afd = afService.getAFDById(afDId);
 		Timestamp t = new Timestamp(new GregorianCalendar(TimeZone
@@ -447,7 +448,7 @@ public class AFAction extends ActionSupport {
 		afService.editAFD(afd);
 		Map request = (Map) ActionContext.getContext().get("request");
 		String msg = t.toString();
-		request.put("message",msg);
+		request.put("message", msg);
 		return SUCCESS;
 	}
 
@@ -504,8 +505,8 @@ public class AFAction extends ActionSupport {
 
 	@SuppressWarnings("unchecked")
 	public String getFinishedAFEByItem() throws Exception {
-		List ListAFE = afService
-				.getFinishedAFEByItem(ItemName, currentPage, pageSize);
+		List ListAFE = afService.getFinishedAFEByItem(ItemName, currentPage,
+				pageSize);
 		Pager AFpager = new Pager(currentPage, afService
 				.getCountofFinishedAFEByItem(ItemName));
 		AFpager.setPageSize(pageSize);
@@ -531,18 +532,23 @@ public class AFAction extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String getNotFinishedAFEByItemMachine() throws Exception {
 		String machine = "";
-		if ("ss".equals(MachineName))
+		if ("ss".equals(MachineName)) {
 			machine = "四色";
-		if ("sm".equals(MachineName))
+		}
+		if ("sm".equals(MachineName)) {
 			machine = "双面";
-		if ("05".equals(MachineName))
+		}
+		if ("05".equals(MachineName)) {
 			machine = "05";
-		if ("02".equals(MachineName))
+		}
+		if ("02".equals(MachineName)) {
 			machine = "02";
+		}
 
 		List ListAFE = afService.getNotFinishedAFEByItemMachine(ItemName,
-				machine, currentPage,pageSize);
-		Pager AFpager = new Pager(currentPage, afService.getCountofNotFinishedAFEByItemMachine(ItemName, machine));
+				machine, currentPage, pageSize);
+		Pager AFpager = new Pager(currentPage, afService
+				.getCountofNotFinishedAFEByItemMachine(ItemName, machine));
 		AFpager.setPageSize(pageSize);
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("ListAFE", ListAFE);
@@ -622,8 +628,9 @@ public class AFAction extends ActionSupport {
 			Map request = (Map) ActionContext.getContext().get("request");
 			request.put("AFInfo", af);
 			AFPage = af.getAfType();
-			if ("Books".equals(af.getAfType()) || "".equals(af.getAfType()))
+			if ("Books".equals(af.getAfType()) || "".equals(af.getAfType())) {
 				AFPage = "AF";
+			}
 			return SUCCESS;
 		}
 		return ERROR;
@@ -639,7 +646,6 @@ public class AFAction extends ActionSupport {
 		}
 		return ERROR;
 	}
-
 
 	@SuppressWarnings("unchecked")
 	public String getAFByMachine() throws Exception {
@@ -680,7 +686,8 @@ public class AFAction extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String getLHAFEs() throws Exception {
 		List ListAFE = afService.getAFEByType("LH", currentPage, pageSize);
-		Pager AFpager = new Pager(currentPage, afService.getCountofAFEbyType("LH"));
+		Pager AFpager = new Pager(currentPage, afService
+				.getCountofAFEbyType("LH"));
 		AFpager.setPageSize(pageSize);
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("ListAFE", ListAFE);
@@ -691,15 +698,20 @@ public class AFAction extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String getAFEsByMachine() throws Exception {
 		String machine = "";
-		if ("ss".equals(mm))
+		if ("ss".equals(mm)) {
 			machine = "四色";
-		if ("sm".equals(mm))
+		}
+		if ("sm".equals(mm)) {
 			machine = "双面";
-		if ("05".equals(mm))
+		}
+		if ("05".equals(mm)) {
 			machine = "05";
-		if ("02".equals(mm))
+		}
+		if ("02".equals(mm)) {
 			machine = "02";
-		List ListAFE = afService.getAFEByMachine(machine, currentPage, pageSize);
+		}
+		List ListAFE = afService
+				.getAFEByMachine(machine, currentPage, pageSize);
 		Pager AFpager = new Pager(currentPage, afService
 				.getCountofAFEbyMachine(machine));
 		AFpager.setPageSize(pageSize);
@@ -708,10 +720,12 @@ public class AFAction extends ActionSupport {
 		request.put("AFPager", AFpager);
 		return SUCCESS;
 	}
+
 	@SuppressWarnings("unchecked")
 	public String getAFEsByMachine_ss() throws Exception {
-		String machine="四色";
-		List ListAFE = afService.getAFEByMachine(machine, currentPage, pageSize);
+		String machine = "四色";
+		List ListAFE = afService
+				.getAFEByMachine(machine, currentPage, pageSize);
 		Pager AFpager = new Pager(currentPage, afService
 				.getCountofAFEbyMachine(machine));
 		AFpager.setPageSize(pageSize);
@@ -739,7 +753,7 @@ public class AFAction extends ActionSupport {
 				ActionContext.SESSION);
 		User u = (User) session.get("user");
 		String YWName = u.getEmployee().getRealname();
-		
+
 		List ListAF = afService.getAFByYW(YWName, currentPage, 50);
 		Pager AFpager = new Pager(currentPage, afService
 				.getCountofAFbyYW(YWName));
@@ -753,18 +767,24 @@ public class AFAction extends ActionSupport {
 
 	@SuppressWarnings("unchecked")
 	public String getAFByYWY() throws Exception {
-		if ("wxy".equals(YWName))
+		if ("wxy".equals(YWName)) {
 			YWName = "王秀云";
-		if ("yar".equals(YWName))
+		}
+		if ("yar".equals(YWName)) {
 			YWName = "杨爱荣";
-		if ("cgz".equals(YWName))
+		}
+		if ("cgz".equals(YWName)) {
 			YWName = "陈桂芝";
-		if ("syp".equals(YWName))
+		}
+		if ("syp".equals(YWName)) {
 			YWName = "孙玉萍";
-		if ("sjw".equals(YWName))
+		}
+		if ("sjw".equals(YWName)) {
 			YWName = "孙纪文";
-		if ("wbj".equals(YWName))
+		}
+		if ("wbj".equals(YWName)) {
 			YWName = "吴宝举";
+		}
 		ListAF = afService.getAFByYW(YWName, currentPage, 50);
 		Pager AFpager = new Pager(currentPage, afService
 				.getCountofAFbyYW(YWName));
@@ -818,6 +838,7 @@ public class AFAction extends ActionSupport {
 		request.put("pageTitle", "任务单列表");
 		return SUCCESS;
 	}
+
 	@SuppressWarnings("unchecked")
 	public String getAFs() throws Exception {
 		List listAF = afService.getAFs(currentPage, pageSize);
@@ -829,17 +850,20 @@ public class AFAction extends ActionSupport {
 		request.put("pageTitle", "全部任务单");
 		return SUCCESS;
 	}
+
 	@SuppressWarnings("unchecked")
 	public String filmPlaceInput() throws Exception {
 		afService.filmPlaceChange(afEId, filmPlace);
 		Map request = (Map) ActionContext.getContext().get("request");
 		Map session = ActionContext.getContext().getSession();
-		User u =(User) session.get("user");
-		Logger logger=Logger.getLogger(this.getClass());
-		logger.warn(u.getUsername()+" update FilmPlace set afEId="+afEId+"  filmPlace:"+filmPlace);
+		User u = (User) session.get("user");
+		Logger logger = Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername() + " update FilmPlace set afEId=" + afEId
+				+ "  filmPlace:" + filmPlace);
 		request.put("message", "软片存放位置修改成功！");
 		return SUCCESS;
 	}
+
 	public String searchAF() {
 		List afList = afService.searchAF(searchOption, searchValue);
 		Pager pager = new Pager(currentPage, afList.size());
@@ -847,7 +871,7 @@ public class AFAction extends ActionSupport {
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("ListAF", afList);
 		request.put("AFPager", pager);
-		request.put("pageTitle", "搜索："+searchOption+"="+searchValue);
+		request.put("pageTitle", "搜索：" + searchOption + "=" + searchValue);
 		return SUCCESS;
 	}
 
