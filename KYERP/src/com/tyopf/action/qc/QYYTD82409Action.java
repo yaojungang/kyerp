@@ -114,6 +114,7 @@ public class QYYTD82409Action extends ActionSupport {
 		ir.setExamItem04("合格");
 		ir.setExamItem05("合格");
 		ir.setExamResult("合格");
+		ir.setFinishDate(afBase.getComDeliver());
 		List deptTree = (List) session.get("DeptTree");
 		if (null == deptTree) {
 			deptTree = systemService.getDeptTree(0);

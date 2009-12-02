@@ -116,7 +116,7 @@ public class InspectionRecordsOfBindingfinshedAction extends ActionSupport {
 		ir.setExamItem08Date(new Date());
 		ir.setExamItem09Date(new Date());
 		ir.setExamItem10Date(new Date());
-
+		ir.setQualifiedAmount(new Integer(afBase.getAmount().toString()));
 		request.put("afBase", afBase);
 		request.put("ir", ir);
 		return SUCCESS;
