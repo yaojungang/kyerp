@@ -12,6 +12,6 @@ import org.springframework.stereotype.Service;
  * @author y109 2009-11-27下午11:55:19
  */
 @Service
-public interface IPaperService extends DAO<PaperOfMaterial> {
+public interface IPaperOfMaterialService extends DAO<PaperOfMaterial> {
 
 }
