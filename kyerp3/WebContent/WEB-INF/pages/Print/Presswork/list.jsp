@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/share/taglib.jsp" %>
+<%@ include file="/WEB-INF/pages/share/taglib.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -54,7 +54,7 @@ Paper:${paper.name}${paper.createTime} ${paper.paperHeight} ${paper.brand.name} 
 <input type="hidden" name="page" value="${page}"/>
  <table width="98%" border="1" cellspacing="1" cellpadding="2" align="center">
     <tr ><td colspan="12" align="right">
-     <%@ include file="/WEB-INF/views/share/pager.jsp" %>
+     <%@ include file="/WEB-INF/pages/share/pager.jsp" %>
    </td></tr>
     <tr>
       <td width="4%"> <div align="center">选择</div></td>
