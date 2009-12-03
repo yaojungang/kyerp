@@ -9,24 +9,24 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IAFService;
 import com.tyopf.service.ISystemService;
-import com.tyopf.service.qc.IQYYTD82409Service;
+import com.tyopf.service.qc.IQYYTD82402Service;
 import com.tyopf.util.Pager;
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.Employee;
-import com.tyopf.vo.qc.QYYTD82409;
+import com.tyopf.vo.qc.QYYTD82402;
 
 @SuppressWarnings("serial")
-public class QYYTD82409Action extends ActionSupport {
-	private IQYYTD82409Service	irs;
-	private IAFService			afService;
-	private ISystemService		systemService;
-	private int					afId;
-	private int					currentPage	= 1;
-	private int					pageSize	= 50;
-	private int					id;
-	private QYYTD82409			ir;
+public class QYYTD82402Action extends ActionSupport {
+	private IQYYTD82402Service	irs;
+	private IAFService								afService;
+	private ISystemService							systemService;
+	private int										afId;
+	private int										currentPage	= 1;
+	private int										pageSize	= 50;
+	private int										id;
+	private QYYTD82402			ir;
 
-	public IQYYTD82409Service getIrs() {
+	public IQYYTD82402Service getIrs() {
 		return irs;
 	}
 
@@ -54,7 +54,7 @@ public class QYYTD82409Action extends ActionSupport {
 		this.pageSize = pageSize;
 	}
 
-	public void setIrs(IQYYTD82409Service irs) {
+	public void setIrs(IQYYTD82402Service irs) {
 		this.irs = irs;
 	}
 
@@ -66,20 +66,21 @@ public class QYYTD82409Action extends ActionSupport {
 		this.afService = afService;
 	}
 
-	public QYYTD82409 getIr() {
+	public QYYTD82402 getIr() {
 		return ir;
 	}
 
-	public void setIr(QYYTD82409 ir) {
+	public void setIr(QYYTD82402 ir) {
 		this.ir = ir;
 	}
 
-	public IQYYTD82409Service getQYYTD82409Service() {
+	public IQYYTD82402Service getQYYTD82402Service() {
 		return irs;
 	}
 
-	public void setQYYTD82409Service(IQYYTD82409Service QYYTD82409Service) {
-		this.irs = QYYTD82409Service;
+	public void setQYYTD82402Service(
+			IQYYTD82402Service QYYTD82402Service) {
+		this.irs = QYYTD82402Service;
 	}
 
 	public int getAfId() {
@@ -103,15 +104,9 @@ public class QYYTD82409Action extends ActionSupport {
 		AfBase afBase = afService.getAFById(afId);
 		Map request = (Map) ActionContext.getContext().get("request");
 		Map session = ActionContext.getContext().getSession();
-		QYYTD82409 ir = new QYYTD82409();
-		ir.setExamDate(new Date());
-		ir.setExamItem01("合格");
-		ir.setExamItem02("合格");
-		ir.setExamItem03("合格");
-		ir.setExamItem04("合格");
-		ir.setExamItem05("合格");
-		ir.setExamResult("合格");
-		ir.setFinishDate(afBase.getComDeliver());
+		QYYTD82402 ir = new QYYTD82402();
+		ir.setExamdate(new Date());
+		ir.setItem("合格");
 		List deptTree = (List) session.get("DeptTree");
 		if (null == deptTree) {
 			deptTree = systemService.getDeptTree(0);
@@ -125,7 +120,7 @@ public class QYYTD82409Action extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String save() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
-		afBase.setQYYTD82409(ir);
+		afBase.setQYYTD82402(ir);
 		ir.setAfBase(afBase);
 		Map session = ActionContext.getContext().getSession();
 		Employee employee = (Employee) session.get("employee");
@@ -142,7 +137,7 @@ public class QYYTD82409Action extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String edit() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
-		QYYTD82409 ir = irs.find(id);
+		QYYTD82402 ir = irs.find(id);
 		Map request = (Map) ActionContext.getContext().get("request");
 		Map session = ActionContext.getContext().getSession();
 		List deptTree = (List) session.get("DeptTree");

@@ -4,90 +4,90 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tyopf.vo.qc.InspectionRecordsOfBindingfinshed;
-import com.tyopf.vo.qc.InspectionRecordsOfFinshedGoods;
-import com.tyopf.vo.qc.InspectionRecordsOfPatrolAndExamineForMulticolorPresswork;
-import com.tyopf.vo.qc.InspectionRecordsOfPatrolAndExamineForSingletonPresswork;
-import com.tyopf.vo.qc.InspectionRecordsOfSemifinshed;
+import com.tyopf.vo.qc.QYYTD82402;
+import com.tyopf.vo.qc.QYYTD82404;
+import com.tyopf.vo.qc.QYYTD82407;
+import com.tyopf.vo.qc.QYYTD82408;
+import com.tyopf.vo.qc.QYYTD82409;
 
 public class AfBase {
-	private long														afId;
-	private String														afType;
-	private Integer														aftypeNo;
-	private Integer														number;
-	private Integer														colorFrontN;
-	private String														colorFront;
-	private Integer														colorBackN;
-	private String														colorBack;
-	private String														paper;
-	private Double														paperPrice;
-	private Set<AfElement>												afElement			= new HashSet<AfElement>();
-	private Set<AfDispose>												afDispose			= new HashSet<AfDispose>();
-	private Set<AfValuation>											AfValuation			= new HashSet<AfValuation>();
-	private Set<AfQualityProblem>										afQualityProblem	= new HashSet<AfQualityProblem>();
-	private InspectionRecordsOfBindingfinshed							inspectionRecordsOfBindingfinshed;
-	private InspectionRecordsOfFinshedGoods								inspectionRecordsOfFinshedGoods;
-	private InspectionRecordsOfSemifinshed								inspectionRecordsOfSemifinshed;
-	private InspectionRecordsOfPatrolAndExamineForSingletonPresswork	inspectionRecordsOfPatrolAndExamineForSingletonPresswork;
-	private InspectionRecordsOfPatrolAndExamineForMulticolorPresswork	inspectionRecordsOfPatrolAndExamineForMulticolorPresswork;
-	private String														iso;
-	private Date														ad;
-	private Date														lastModify;
-	private Integer														afStatus;
-	private String														client;
-	private String														linkman;
-	private String														presswork;
-	private Integer														ourbinding;
-	private String														isbn;
-	private String														tel;
-	private Long														amount;
-	private String														edition;
-	private String														format;
-	private String														fps;
-	private String														bm;
-	private String														plateMakeOrder;
-	private String														oq;
-	private Date														planTypeset;
-	private Date														planPm;
-	private Date														planPress;
-	private Date														planBind;
-	private Date														planDeliver;
-	private Date														comTypeset;
-	private Date														comPm;
-	private Date														comPress;
-	private Date														comBind;
-	private Date														comDeliver;
-	private String														pcAf;
-	private String														bindery;
-	private String														remark;
-	private String														cp;
-	private String														fmp;
-	private String														dp;
-	private Integer														afNo;
-	private String														seriesName;
-	private String														deliverAddress;
-	private String														auditer;
-	private Date														auditTime;
-	private Integer														timeRank;
-	private Double														moneyShould;
-	private Double														moneyFact;
-	private Date														moneyTime;
-	private Date														moneyInputTime;
-	private String														moneyInputMan;
-	private String														moneyGiveMan;
-	private String														moneyGetMan;
-	private Integer														moneyStatus;
-	private Date														fapiaoTime;
-	private Integer														fapiaoStatus;
-	private String														moneyInputRemark;
-	private String														moneyRemark;
-	private String														mobile;
-	private Integer														mobileRemind;
-	private String														email;
-	private Integer														emailRemind;
-	private Date														planSendSample;
-	private String														remarkSendSample;
-	private Integer														viewTimes;
+	private long					afId;
+	private String					afType;
+	private Integer					aftypeNo;
+	private Integer					number;
+	private Integer					colorFrontN;
+	private String					colorFront;
+	private Integer					colorBackN;
+	private String					colorBack;
+	private String					paper;
+	private Double					paperPrice;
+	private Set<AfElement>			afElement			= new HashSet<AfElement>();
+	private Set<AfDispose>			afDispose			= new HashSet<AfDispose>();
+	private Set<AfValuation>		AfValuation			= new HashSet<AfValuation>();
+	private Set<AfQualityProblem>	afQualityProblem	= new HashSet<AfQualityProblem>();
+	private QYYTD82402				QYYTD82402;
+	private QYYTD82404				QYYTD82404;
+	private QYYTD82407				QYYTD82407;
+	private QYYTD82408				QYYTD82408;
+	private QYYTD82409				QYYTD82409;
+	private String					iso;
+	private Date					ad;
+	private Date					lastModify;
+	private Integer					afStatus;
+	private String					client;
+	private String					linkman;
+	private String					presswork;
+	private Integer					ourbinding;
+	private String					isbn;
+	private String					tel;
+	private Long					amount;
+	private String					edition;
+	private String					format;
+	private String					fps;
+	private String					bm;
+	private String					plateMakeOrder;
+	private String					oq;
+	private Date					planTypeset;
+	private Date					planPm;
+	private Date					planPress;
+	private Date					planBind;
+	private Date					planDeliver;
+	private Date					comTypeset;
+	private Date					comPm;
+	private Date					comPress;
+	private Date					comBind;
+	private Date					comDeliver;
+	private String					pcAf;
+	private String					bindery;
+	private String					remark;
+	private String					cp;
+	private String					fmp;
+	private String					dp;
+	private Integer					afNo;
+	private String					seriesName;
+	private String					deliverAddress;
+	private String					auditer;
+	private Date					auditTime;
+	private Integer					timeRank;
+	private Double					moneyShould;
+	private Double					moneyFact;
+	private Date					moneyTime;
+	private Date					moneyInputTime;
+	private String					moneyInputMan;
+	private String					moneyGiveMan;
+	private String					moneyGetMan;
+	private Integer					moneyStatus;
+	private Date					fapiaoTime;
+	private Integer					fapiaoStatus;
+	private String					moneyInputRemark;
+	private String					moneyRemark;
+	private String					mobile;
+	private Integer					mobileRemind;
+	private String					email;
+	private Integer					emailRemind;
+	private Date					planSendSample;
+	private String					remarkSendSample;
+	private Integer					viewTimes;
 
 	public Date getFapiaoTime() {
 		return fapiaoTime;
@@ -95,15 +95,6 @@ public class AfBase {
 
 	public String getMobile() {
 		return mobile;
-	}
-
-	public InspectionRecordsOfSemifinshed getInspectionRecordsOfSemifinshed() {
-		return inspectionRecordsOfSemifinshed;
-	}
-
-	public void setInspectionRecordsOfSemifinshed(
-			InspectionRecordsOfSemifinshed inspectionRecordsOfSemifinshed) {
-		this.inspectionRecordsOfSemifinshed = inspectionRecordsOfSemifinshed;
 	}
 
 	public void setMobile(String mobile) {
@@ -114,13 +105,44 @@ public class AfBase {
 		return viewTimes;
 	}
 
-	public InspectionRecordsOfFinshedGoods getInspectionRecordsOfFinshedGoods() {
-		return inspectionRecordsOfFinshedGoods;
+	public QYYTD82402 getQYYTD82402() {
+		return QYYTD82402;
 	}
 
-	public void setInspectionRecordsOfFinshedGoods(
-			InspectionRecordsOfFinshedGoods inspectionRecordsOfFinshedGoods) {
-		this.inspectionRecordsOfFinshedGoods = inspectionRecordsOfFinshedGoods;
+	public void setQYYTD82402(QYYTD82402 qYYTD82402) {
+		QYYTD82402 = qYYTD82402;
+	}
+
+	public QYYTD82404 getQYYTD82404() {
+		return QYYTD82404;
+	}
+
+	public void setQYYTD82404(QYYTD82404 qYYTD82404) {
+		QYYTD82404 = qYYTD82404;
+	}
+
+	public QYYTD82407 getQYYTD82407() {
+		return QYYTD82407;
+	}
+
+	public void setQYYTD82407(QYYTD82407 qYYTD82407) {
+		QYYTD82407 = qYYTD82407;
+	}
+
+	public QYYTD82408 getQYYTD82408() {
+		return QYYTD82408;
+	}
+
+	public void setQYYTD82408(QYYTD82408 qYYTD82408) {
+		QYYTD82408 = qYYTD82408;
+	}
+
+	public QYYTD82409 getQYYTD82409() {
+		return QYYTD82409;
+	}
+
+	public void setQYYTD82409(QYYTD82409 qYYTD82409) {
+		QYYTD82409 = qYYTD82409;
 	}
 
 	public void setViewTimes(Integer viewTimes) {
@@ -137,15 +159,6 @@ public class AfBase {
 
 	public Date getPlanSendSample() {
 		return planSendSample;
-	}
-
-	public InspectionRecordsOfBindingfinshed getInspectionRecordsOfBindingfinshed() {
-		return inspectionRecordsOfBindingfinshed;
-	}
-
-	public void setInspectionRecordsOfBindingfinshed(
-			InspectionRecordsOfBindingfinshed inspectionRecordsOfBindingfinshed) {
-		this.inspectionRecordsOfBindingfinshed = inspectionRecordsOfBindingfinshed;
 	}
 
 	public void setPlanSendSample(Date planSendSample) {
@@ -505,24 +518,6 @@ public class AfBase {
 
 	public Date getComDeliver() {
 		return comDeliver;
-	}
-
-	public InspectionRecordsOfPatrolAndExamineForSingletonPresswork getInspectionRecordsOfPatrolAndExamineForSingletonPresswork() {
-		return inspectionRecordsOfPatrolAndExamineForSingletonPresswork;
-	}
-
-	public void setInspectionRecordsOfPatrolAndExamineForSingletonPresswork(
-			InspectionRecordsOfPatrolAndExamineForSingletonPresswork inspectionRecordsOfPatrolAndExamineForSingletonPresswork) {
-		this.inspectionRecordsOfPatrolAndExamineForSingletonPresswork = inspectionRecordsOfPatrolAndExamineForSingletonPresswork;
-	}
-
-	public InspectionRecordsOfPatrolAndExamineForMulticolorPresswork getInspectionRecordsOfPatrolAndExamineForMulticolorPresswork() {
-		return inspectionRecordsOfPatrolAndExamineForMulticolorPresswork;
-	}
-
-	public void setInspectionRecordsOfPatrolAndExamineForMulticolorPresswork(
-			InspectionRecordsOfPatrolAndExamineForMulticolorPresswork inspectionRecordsOfPatrolAndExamineForMulticolorPresswork) {
-		this.inspectionRecordsOfPatrolAndExamineForMulticolorPresswork = inspectionRecordsOfPatrolAndExamineForMulticolorPresswork;
 	}
 
 	public void setComDeliver(Date comDeliver) {

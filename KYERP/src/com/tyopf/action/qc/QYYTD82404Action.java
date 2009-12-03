@@ -8,34 +8,24 @@ import java.util.Map;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IAFService;
-import com.tyopf.service.ISystemService;
-import com.tyopf.service.qc.IQYYTD82409Service;
+import com.tyopf.service.qc.IQYYTD82404Service;
 import com.tyopf.util.Pager;
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.Employee;
-import com.tyopf.vo.qc.QYYTD82409;
+import com.tyopf.vo.qc.QYYTD82404;
 
 @SuppressWarnings("serial")
-public class QYYTD82409Action extends ActionSupport {
-	private IQYYTD82409Service	irs;
+public class QYYTD82404Action extends ActionSupport {
+	private IQYYTD82404Service	irs;
 	private IAFService			afService;
-	private ISystemService		systemService;
 	private int					afId;
 	private int					currentPage	= 1;
 	private int					pageSize	= 50;
 	private int					id;
-	private QYYTD82409			ir;
+	private QYYTD82404			ir;
 
-	public IQYYTD82409Service getIrs() {
+	public IQYYTD82404Service getIrs() {
 		return irs;
-	}
-
-	public ISystemService getSystemService() {
-		return systemService;
-	}
-
-	public void setSystemService(ISystemService systemService) {
-		this.systemService = systemService;
 	}
 
 	public int getCurrentPage() {
@@ -54,7 +44,7 @@ public class QYYTD82409Action extends ActionSupport {
 		this.pageSize = pageSize;
 	}
 
-	public void setIrs(IQYYTD82409Service irs) {
+	public void setIrs(IQYYTD82404Service irs) {
 		this.irs = irs;
 	}
 
@@ -66,20 +56,20 @@ public class QYYTD82409Action extends ActionSupport {
 		this.afService = afService;
 	}
 
-	public QYYTD82409 getIr() {
+	public QYYTD82404 getIr() {
 		return ir;
 	}
 
-	public void setIr(QYYTD82409 ir) {
+	public void setIr(QYYTD82404 ir) {
 		this.ir = ir;
 	}
 
-	public IQYYTD82409Service getQYYTD82409Service() {
+	public IQYYTD82404Service getQYYTD82404Service() {
 		return irs;
 	}
 
-	public void setQYYTD82409Service(IQYYTD82409Service QYYTD82409Service) {
-		this.irs = QYYTD82409Service;
+	public void setQYYTD82404Service(IQYYTD82404Service QYYTD82404Service) {
+		this.irs = QYYTD82404Service;
 	}
 
 	public int getAfId() {
@@ -102,35 +92,44 @@ public class QYYTD82409Action extends ActionSupport {
 	public String add() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
 		Map request = (Map) ActionContext.getContext().get("request");
-		Map session = ActionContext.getContext().getSession();
-		QYYTD82409 ir = new QYYTD82409();
-		ir.setExamDate(new Date());
+		QYYTD82404 ir = new QYYTD82404();
+
 		ir.setExamItem01("合格");
 		ir.setExamItem02("合格");
 		ir.setExamItem03("合格");
 		ir.setExamItem04("合格");
 		ir.setExamItem05("合格");
+		ir.setExamItem06("合格");
+		ir.setExamItem07("合格");
+		ir.setExamItem08("合格");
+		ir.setExamItem09("合格");
+		ir.setExamItem10("合格");
 		ir.setExamResult("合格");
-		ir.setFinishDate(afBase.getComDeliver());
-		List deptTree = (List) session.get("DeptTree");
-		if (null == deptTree) {
-			deptTree = systemService.getDeptTree(0);
-			session.put("DeptTree", deptTree);
-		}
+		ir.setExamItem01Date(new Date());
+		ir.setExamItem02Date(new Date());
+		ir.setExamItem03Date(new Date());
+		ir.setExamItem04Date(new Date());
+		ir.setExamItem05Date(new Date());
+		ir.setExamItem06Date(new Date());
+		ir.setExamItem07Date(new Date());
+		ir.setExamItem08Date(new Date());
+		ir.setExamItem09Date(new Date());
+		ir.setExamItem10Date(new Date());
+		ir.setQualifiedAmount(new Integer(afBase.getAmount().toString()));
 		request.put("afBase", afBase);
 		request.put("ir", ir);
 		return SUCCESS;
 	}
 
-	@SuppressWarnings("unchecked")
 	public String save() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
-		afBase.setQYYTD82409(ir);
+		afBase.setQYYTD82404(ir);
 		ir.setAfBase(afBase);
 		Map session = ActionContext.getContext().getSession();
 		Employee employee = (Employee) session.get("employee");
 		ir.setExamEmployee(employee);
 		irs.save(ir);
+		// afService.saveAF(afBase);
 		return SUCCESS;
 	}
 
@@ -142,14 +141,8 @@ public class QYYTD82409Action extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String edit() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
-		QYYTD82409 ir = irs.find(id);
+		QYYTD82404 ir = irs.find(id);
 		Map request = (Map) ActionContext.getContext().get("request");
-		Map session = ActionContext.getContext().getSession();
-		List deptTree = (List) session.get("DeptTree");
-		if (null == deptTree) {
-			deptTree = systemService.getDeptTree(0);
-			session.put("DeptTree", deptTree);
-		}
 		request.put("ir", ir);
 		request.put("afBase", afBase);
 		return SUCCESS;

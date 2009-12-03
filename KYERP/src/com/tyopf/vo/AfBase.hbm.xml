@@ -7,16 +7,11 @@
 			<column name="AF_ID" />
 			<generator class="native" />
 		</id>
-		<one-to-one name="inspectionRecordsOfBindingfinshed" class="com.tyopf.vo.qc.InspectionRecordsOfBindingfinshed"
-			property-ref="afBase" cascade="all" />
-		<one-to-one name="inspectionRecordsOfFinshedGoods" class="com.tyopf.vo.qc.InspectionRecordsOfFinshedGoods"
-			property-ref="afBase" cascade="all" />
-		<one-to-one name="inspectionRecordsOfPatrolAndExamineForMulticolorPresswork" class="com.tyopf.vo.qc.InspectionRecordsOfPatrolAndExamineForMulticolorPresswork"
-			property-ref="afBase" cascade="all" />
-		<one-to-one name="inspectionRecordsOfPatrolAndExamineForSingletonPresswork" class="com.tyopf.vo.qc.InspectionRecordsOfPatrolAndExamineForSingletonPresswork"
-			property-ref="afBase" cascade="all" />
-		<one-to-one name="inspectionRecordsOfSemifinshed" class="com.tyopf.vo.qc.InspectionRecordsOfSemifinshed"
-			property-ref="afBase" cascade="all" />
+		<one-to-one name="QYYTD82402" class="com.tyopf.vo.qc.QYYTD82402" property-ref="afBase" cascade="all" />
+		<one-to-one name="QYYTD82404" class="com.tyopf.vo.qc.QYYTD82404" property-ref="afBase" cascade="all" />
+		<one-to-one name="QYYTD82407" class="com.tyopf.vo.qc.QYYTD82407" property-ref="afBase" cascade="all" />
+		<one-to-one name="QYYTD82408" class="com.tyopf.vo.qc.QYYTD82408" property-ref="afBase" cascade="all" />
+		<one-to-one name="QYYTD82409" class="com.tyopf.vo.qc.QYYTD82409" property-ref="afBase" cascade="all" />
 
 		<set name="AfElement" table="AF_Element" order-by="E_Type asc"
 			cascade="all-delete-orphan" lazy="true" inverse="true">
