@@ -12,6 +12,7 @@
 		<one-to-one name="QYYTD82407" class="com.tyopf.vo.qc.QYYTD82407" property-ref="afBase" cascade="all" />
 		<one-to-one name="QYYTD82408" class="com.tyopf.vo.qc.QYYTD82408" property-ref="afBase" cascade="all" />
 		<one-to-one name="QYYTD82409" class="com.tyopf.vo.qc.QYYTD82409" property-ref="afBase" cascade="all" />
+		<one-to-one name="QYYTD82410" class="com.tyopf.vo.qc.QYYTD82410" property-ref="afBase" cascade="all" />
 
 		<set name="AfElement" table="AF_Element" order-by="E_Type asc"
 			cascade="all-delete-orphan" lazy="true" inverse="true">

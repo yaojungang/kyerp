@@ -439,38 +439,48 @@ function show(id){
 </s:if>
 <p>
 <c:choose> 
-<c:when test="${null != af.inspectionRecordsOfBindingfinshed}"> 
-<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfBindingfinshed/edit.action?afId=${af.afId}&id=${af.inspectionRecordsOfBindingfinshed.id}">QYYT-D-8.2.4-04-装订成品检查记录-修改</a>
+<c:when test="${null != af.QYYTD82402}"> 
+<a href="${pageContext.request.contextPath}/QC/QYYTD82402/edit.action?afId=${af.afId}&id=${af.QYYTD82402.id}">QYYT-D-8.2.4-02-毛样书记录-修改</a>
 </c:when> 
 <c:otherwise> 
-<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfBindingfinshed/add.action?afId=${af.afId}">QYYT-D-8.2.4-04-装订成品检查记录-填写</a>
+<a href="${pageContext.request.contextPath}/QC/QYYTD82402/add.action?afId=${af.afId}">QYYT-D-8.2.4-02-毛样书记录-填写</a>
 </c:otherwise> 
 </c:choose>
 </p>
 <p>
 <c:choose> 
-<c:when test="${null != af.inspectionRecordsOfFinshedGoods}"> 
-<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfFinshedGoods/edit.action?afId=${af.afId}&id=${af.inspectionRecordsOfFinshedGoods.id}">QYYT-D-8.2.4-07-产成品检验记录-修改</a>
+<c:when test="${null != af.QYYTD82404}"> 
+<a href="${pageContext.request.contextPath}/QC/QYYTD82404/edit.action?afId=${af.afId}&id=${af.QYYTD82404.id}">QYYT-D-8.2.4-04-装订成品检查记录-修改</a>
 </c:when> 
 <c:otherwise> 
-<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfFinshedGoods/add.action?afId=${af.afId}">QYYT-D-8.2.4-07-产成品检验记录-填写</a>
+<a href="${pageContext.request.contextPath}/QC/QYYTD82404/add.action?afId=${af.afId}">QYYT-D-8.2.4-04-装订成品检查记录-填写</a>
 </c:otherwise> 
 </c:choose>
 </p>
 <p>
 <c:choose> 
-<c:when test="${null != af.inspectionRecordsOfSemifinshed}"> 
-<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfSemifinshed/edit.action?afId=${af.afId}&id=${af.inspectionRecordsOfSemifinshed.id}">QYYT-D-8.2.4-02-毛样书记录-修改</a>
+<c:when test="${null != af.QYYTD82407}"> 
+<a href="${pageContext.request.contextPath}/QC/QYYTD82407/edit.action?afId=${af.afId}&id=${af.QYYTD82407.id}">QYYT-D-8.2.4-07-产成品检验记录-修改</a>
 </c:when> 
 <c:otherwise> 
-<a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfSemifinshed/add.action?afId=${af.afId}">QYYT-D-8.2.4-02-毛样书记录-填写</a>
+<a href="${pageContext.request.contextPath}/QC/QYYTD82407/add.action?afId=${af.afId}">QYYT-D-8.2.4-07-产成品检验记录-填写</a>
 </c:otherwise> 
 </c:choose>
 </p>
 <p>
 <c:choose> 
-<c:when test="${null != af.inspectionRecordsOfPatrolAndExamineForSingletonPresswork}"> 
-<a href="${pageContext.request.contextPath}/QC/QYYTD82409/edit.action?afId=${af.afId}&id=${af.inspectionRecordsOfPatrolAndExamineForSingletonPresswork.id}">QYYT-D-8.2.4-09-（单色）印刷品巡检记录-修改</a>
+<c:when test="${null != af.QYYTD82408}"> 
+<a href="${pageContext.request.contextPath}/QC/QYYTD82408/edit.action?afId=${af.afId}&id=${af.QYYTD82408.id}">QYYT-D-8.2.4-08-（彩色）印刷品巡检记录-修改</a>
+</c:when> 
+<c:otherwise> 
+<a href="${pageContext.request.contextPath}/QC/QYYTD82408/add.action?afId=${af.afId}">QYYT-D-8.2.4-08-（彩色）印刷品巡检记录-填写</a>
+</c:otherwise> 
+</c:choose>
+</p>
+<p>
+<c:choose> 
+<c:when test="${null != af.QYYTD82409}"> 
+<a href="${pageContext.request.contextPath}/QC/QYYTD82409/edit.action?afId=${af.afId}&id=${af.QYYTD82409.id}">QYYT-D-8.2.4-09-（单色）印刷品巡检记录-修改</a>
 </c:when> 
 <c:otherwise> 
 <a href="${pageContext.request.contextPath}/QC/QYYTD82409/add.action?afId=${af.afId}">QYYT-D-8.2.4-09-（单色）印刷品巡检记录-填写</a>
@@ -479,13 +489,14 @@ function show(id){
 </p>
 <p>
 <c:choose> 
-<c:when test="${null != af.inspectionRecordsOfPatrolAndExamineForMulticolorPresswork}"> 
-<a href="${pageContext.request.contextPath}/QC/QYYTD82408/edit.action?afId=${af.afId}&id=${af.inspectionRecordsOfPatrolAndExamineForMulticolorPresswork.id}">QYYT-D-8.2.4-08-（彩色）印刷品巡检记录-修改</a>
+<c:when test="${null != af.QYYTD82410}"> 
+<a href="${pageContext.request.contextPath}/QC/QYYTD82410/edit.action?afId=${af.afId}&id=${af.QYYTD82410.id}">QYYT-D-8.2.4-10-装订产品巡检记录-修改</a>
 </c:when> 
 <c:otherwise> 
-<a href="${pageContext.request.contextPath}/QC/QYYTD82408/add.action?afId=${af.afId}">QYYT-D-8.2.4-08-（彩色）印刷品巡检记录-填写</a>
+<a href="${pageContext.request.contextPath}/QC/QYYTD82410/add.action?afId=${af.afId}">QYYT-D-8.2.4-10-装订产品巡检记录-填写</a>
 </c:otherwise> 
 </c:choose>
 </p>
+
 </body>
 </html>
