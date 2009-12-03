@@ -13,5 +13,6 @@
 <p><a href="${pageContext.request.contextPath}/QC/QYYTD82407/list.action">QYYT-D-8.2.4-07-产成品检验记录</a></p>
 <p><a href="${pageContext.request.contextPath}/QC/QYYTD82408/list.action">QYYT-D-8.2.4-08-（彩色）印刷品巡检记录</a></p>
 <p><a href="${pageContext.request.contextPath}/QC/QYYTD82409/list.action">QYYT-D-8.2.4-09-（单色）印刷品巡检记录</a></p>
+<p><a href="${pageContext.request.contextPath}/QC/QYYTD82410/list.action">QYYT-D-8.2.4-10-装订产品巡检记录</a></p>
 </body>
 </html>
