@@ -8,7 +8,7 @@
 </head>
 <body>
 KYERP3
-<a href="${pageContext.request.contextPath}/Print/Presswork/Presswork.html">presswork</a>
+<a href="${pageContext.request.contextPath}/Print/Presswork/list.html">presswork</a>
 <br />
 ${pageContext.request.contextPath}
 <br />
