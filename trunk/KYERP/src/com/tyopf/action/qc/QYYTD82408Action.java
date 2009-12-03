@@ -9,24 +9,24 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IAFService;
 import com.tyopf.service.ISystemService;
-import com.tyopf.service.qc.IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService;
+import com.tyopf.service.qc.IQYYTD82408Service;
 import com.tyopf.util.Pager;
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.Employee;
-import com.tyopf.vo.qc.InspectionRecordsOfPatrolAndExamineForMulticolorPresswork;
+import com.tyopf.vo.qc.QYYTD82408;
 
 @SuppressWarnings("serial")
 public class QYYTD82408Action extends ActionSupport {
-	private IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService	irs;
-	private IAFService															afService;
-	private ISystemService														systemService;
-	private int																	afId;
-	private int																	currentPage	= 1;
-	private int																	pageSize	= 50;
-	private int																	id;
-	private InspectionRecordsOfPatrolAndExamineForMulticolorPresswork			ir;
+	private IQYYTD82408Service	irs;
+	private IAFService			afService;
+	private ISystemService		systemService;
+	private int					afId;
+	private int					currentPage	= 1;
+	private int					pageSize	= 50;
+	private int					id;
+	private QYYTD82408			ir;
 
-	public IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService getIrs() {
+	public IQYYTD82408Service getIrs() {
 		return irs;
 	}
 
@@ -54,8 +54,7 @@ public class QYYTD82408Action extends ActionSupport {
 		this.pageSize = pageSize;
 	}
 
-	public void setIrs(
-			IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService irs) {
+	public void setIrs(IQYYTD82408Service irs) {
 		this.irs = irs;
 	}
 
@@ -67,22 +66,20 @@ public class QYYTD82408Action extends ActionSupport {
 		this.afService = afService;
 	}
 
-	public InspectionRecordsOfPatrolAndExamineForMulticolorPresswork getIr() {
+	public QYYTD82408 getIr() {
 		return ir;
 	}
 
-	public void setIr(
-			InspectionRecordsOfPatrolAndExamineForMulticolorPresswork ir) {
+	public void setIr(QYYTD82408 ir) {
 		this.ir = ir;
 	}
 
-	public IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService getInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService() {
+	public IQYYTD82408Service getQYYTD82408Service() {
 		return irs;
 	}
 
-	public void setInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService(
-			IInspectionRecordsOfPatrolAndExamineForMulticolorPressworkService InspectionRecordsOfPatrolAndExamineForMulticolorPressworkService) {
-		this.irs = InspectionRecordsOfPatrolAndExamineForMulticolorPressworkService;
+	public void setQYYTD82408Service(IQYYTD82408Service QYYTD82408Service) {
+		this.irs = QYYTD82408Service;
 	}
 
 	public int getAfId() {
@@ -106,7 +103,7 @@ public class QYYTD82408Action extends ActionSupport {
 		AfBase afBase = afService.getAFById(afId);
 		Map request = (Map) ActionContext.getContext().get("request");
 		Map session = ActionContext.getContext().getSession();
-		InspectionRecordsOfPatrolAndExamineForMulticolorPresswork ir = new InspectionRecordsOfPatrolAndExamineForMulticolorPresswork();
+		QYYTD82408 ir = new QYYTD82408();
 		ir.setExamDate(new Date());
 		ir.setExamItem01("合格");
 		ir.setExamItem02("合格");
@@ -130,7 +127,7 @@ public class QYYTD82408Action extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String save() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
-		afBase.setInspectionRecordsOfPatrolAndExamineForMulticolorPresswork(ir);
+		afBase.setQYYTD82408(ir);
 		ir.setAfBase(afBase);
 		Map session = ActionContext.getContext().getSession();
 		Employee employee = (Employee) session.get("employee");
@@ -147,8 +144,7 @@ public class QYYTD82408Action extends ActionSupport {
 	@SuppressWarnings("unchecked")
 	public String edit() throws Exception {
 		AfBase afBase = afService.getAFById(afId);
-		InspectionRecordsOfPatrolAndExamineForMulticolorPresswork ir = irs
-				.find(id);
+		QYYTD82408 ir = irs.find(id);
 		Map request = (Map) ActionContext.getContext().get("request");
 		Map session = ActionContext.getContext().getSession();
 		List deptTree = (List) session.get("DeptTree");

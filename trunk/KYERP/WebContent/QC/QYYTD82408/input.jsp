@@ -52,6 +52,7 @@ function clearOption(selectID)
   </tr>
 </table>
 <form action="save.action" method="post" id="form">
+<s:token></s:token>
 <input type="hidden" name="afId" value="${afBase.afId}" />
 <input type="hidden" name="ir.id" value="${ir.id}"/>
 <table width="800" border="1" align="center" cellpadding="0" cellspacing="1" bordercolor="#000000" bgcolor="#000000" style="border-collapse: collapse; font-size: 16px;">

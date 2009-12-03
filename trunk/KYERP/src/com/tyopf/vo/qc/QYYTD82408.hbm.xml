@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tyopf.vo.qc.QYYTD82408">
+		<id name="id" type="long">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="afBase" class="com.tyopf.vo.AfBase" unique="true" lazy="false">
+			  <column name="af_id" />   
+		</many-to-one>
+		<property name="finishDate" type="timestamp"></property>
+		<property name="amount" type="java.lang.Integer"></property>
+		<property name="examDate" type="timestamp"></property>
+		<property name="examItem01" type="string"></property>
+		<property name="examItem02" type="string"></property>
+		<property name="examItem03" type="string"></property>
+		<property name="examItem04" type="string"></property>
+		<property name="examItem05" type="string"></property>
+		<property name="examItem06" type="string"></property>
+		<property name="examItem07" type="string"></property>
+		<property name="examItem08" type="string"></property>
+		<property name="examResult" type="string"></property>
+		<many-to-one name="examEmployee" class="com.tyopf.vo.Employee"
+			column="employee_id" lazy="false">
+		</many-to-one>		
+		<property name="operators" type="string"></property>
+		<property name="remark" type="string"></property>
+	</class>
+</hibernate-mapping>
