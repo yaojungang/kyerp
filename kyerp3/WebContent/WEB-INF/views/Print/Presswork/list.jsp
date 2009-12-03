@@ -50,7 +50,7 @@
 Presswork:${presswork.name} ${presswork.createTime}<br />
 Paper:${paper.name}${paper.createTime} ${paper.paperHeight} ${paper.brand.name} ${paper.price }
 <br />
-<form action="/kyerp3/Print/Presswork/Presswork.html" method="post" id="myForm">
+<form action="/kyerp3/Print/Presswork/list.html" method="post" id="myForm">
 <input type="hidden" name="page" value="${page}"/>
  <table width="98%" border="1" cellspacing="1" cellpadding="2" align="center">
     <tr ><td colspan="12" align="right">
