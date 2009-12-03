@@ -20,7 +20,7 @@
     <p class="表格文字"><span class="formText">QYYT-D-8.2.4-04 </span></p></td>
   </tr>
 </table>
-<form action="${pageContext.request.contextPath}/QC/InspectionRecordsOfBindingfinshed/save.action" method="post" id="form">
+<form action="save.action" method="post" id="form">
 <s:token></s:token>
 <input type="hidden" name="afId" value="${afBase.afId}" />
 <input type="hidden" name="ir.id" value="${ir.id}"/>

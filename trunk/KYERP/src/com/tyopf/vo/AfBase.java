@@ -9,6 +9,7 @@ import com.tyopf.vo.qc.QYYTD82404;
 import com.tyopf.vo.qc.QYYTD82407;
 import com.tyopf.vo.qc.QYYTD82408;
 import com.tyopf.vo.qc.QYYTD82409;
+import com.tyopf.vo.qc.QYYTD82410;
 
 public class AfBase {
 	private long					afId;
@@ -30,6 +31,7 @@ public class AfBase {
 	private QYYTD82407				QYYTD82407;
 	private QYYTD82408				QYYTD82408;
 	private QYYTD82409				QYYTD82409;
+	private QYYTD82410				QYYTD82410;
 	private String					iso;
 	private Date					ad;
 	private Date					lastModify;
@@ -111,6 +113,14 @@ public class AfBase {
 
 	public void setQYYTD82402(QYYTD82402 qYYTD82402) {
 		QYYTD82402 = qYYTD82402;
+	}
+
+	public QYYTD82410 getQYYTD82410() {
+		return QYYTD82410;
+	}
+
+	public void setQYYTD82410(QYYTD82410 qYYTD82410) {
+		QYYTD82410 = qYYTD82410;
 	}
 
 	public QYYTD82404 getQYYTD82404() {

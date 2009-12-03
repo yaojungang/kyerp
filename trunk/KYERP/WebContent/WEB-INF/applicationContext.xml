@@ -61,6 +61,7 @@
 				<value>com/tyopf/vo/qc/QYYTD82407.hbm.xml</value>
 				<value>com/tyopf/vo/qc/QYYTD82408.hbm.xml</value>
 				<value>com/tyopf/vo/qc/QYYTD82409.hbm.xml</value>
+				<value>com/tyopf/vo/qc/QYYTD82410.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -201,6 +202,13 @@
 	<bean id="QYYTD82409Service" class="com.tyopf.service.qc.impl.QYYTD82409Service">
 		<property name="QYYTD82409DAO">
 			<ref bean="QYYTD82409DAO" />
+		</property>
+	</bean>
+	<bean id="QYYTD82410DAO" class="com.tyopf.dao.qc.impl.QYYTD82410DAO"
+		parent="baseDAO"></bean>
+	<bean id="QYYTD82410Service" class="com.tyopf.service.qc.impl.QYYTD82410Service">
+		<property name="QYYTD82410DAO">
+			<ref bean="QYYTD82410DAO" />
 		</property>
 	</bean>
 </beans>

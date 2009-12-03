@@ -57,4 +57,5 @@
 	<include file="/com/tyopf/action/qc/QYYTD82407Action.xml"/>
 	<include file="/com/tyopf/action/qc/QYYTD82408Action.xml"/>
 	<include file="/com/tyopf/action/qc/QYYTD82409Action.xml"/>
+	<include file="/com/tyopf/action/qc/QYYTD82410Action.xml"/>
 </struts>

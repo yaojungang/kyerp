@@ -45,7 +45,7 @@
    <td>${item.examItem08}</td>
    <td>${item.examItem09}</td>
    <td>${item.examItem10}</td>
-   <td><a href="${pageContext.request.contextPath}/QC/InspectionRecordsOfFinshedGoods/edit.action?afId=${item.afBase.afId}&id=${item.id}">${item.examResult}</a></td>
+   <td><a href="edit.action?afId=${item.afBase.afId}&id=${item.id}">${item.examResult}</a></td>
    <td>${item.examEmployee.realname}</td>
  </tr>
 </c:forEach>
