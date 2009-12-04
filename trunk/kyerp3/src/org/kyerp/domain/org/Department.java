@@ -19,6 +19,7 @@ public class Department implements Serializable {
 	private final List<Employee>	employees			= new ArrayList<Employee>();
 	@OneToMany
 	private List<Role>				roles				= new ArrayList<Role>();
+
 	private String					name;
 	private Integer					upDeptId;
 	private String					employeeAmount;
