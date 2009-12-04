@@ -10,6 +10,6 @@
 <body>
 Y109's Dream Project !
 
-<c:redirect url="/user/getUser.html" />
+<c:redirect url="/user/user.html" />
 </body>
 </html>
