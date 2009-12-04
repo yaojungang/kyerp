@@ -10,42 +10,4 @@
            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd   
            http://www.springframework.org/schema/tx   
            http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
-
-
-	<bean id="genericDAO" abstract="true" class="org.kyerp.dao.impl.GenericDAOImpl">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>
-	<bean id="abstractDAO" abstract="true"
-		class="org.springframework.aop.framework.ProxyFactoryBean" />
-		
-	<bean id="userDAO" parent="abstractDAO">
-		<property name="proxyInterfaces">
-			<value>org.kyerp.dao.IUserDAO</value>
-		</property>
-		<property name="target">
-			<bean parent="genericDAO">
-				<constructor-arg>
-					<value>org.kyerp.domain.User</value>
-				</constructor-arg>
-			</bean>
-		</property>
-	</bean>
-	<bean id="roleDAO" parent="abstractDAO">
-		<property name="proxyInterfaces">
-			<value>org.kyerp.dao.IRoleDAO</value>
-		</property>
-		<property name="target">
-			<bean parent="genericDAO">
-				<constructor-arg>
-					<value>org.kyerp.domain.Role</value>
-				</constructor-arg>
-			</bean>
-		</property>
-	</bean>
-	
-	
-	<bean id="userService" class="org.kyerp.service.impl.UserService">
-		<property name="userDAO" ref="userDAO" />
-		<property name="roleDAO" ref="roleDAO" />
-	</bean>
 </beans>  
