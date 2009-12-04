@@ -28,7 +28,7 @@
  }
  function _action(methodName){
   var form = document.getElementById("myForm");
-  form.action='/kyerp3/Print/Presswork/del.html';
+  form.action='${ctx}/Print/Presswork/del.html';
   form.submit();
  }
  function selectItem(items){
@@ -50,7 +50,7 @@
 Presswork:${presswork.name} ${presswork.createTime}<br />
 Paper:${paper.name}${paper.createTime} ${paper.paperHeight} ${paper.brand.name} ${paper.price }
 <br />
-<form action="/kyerp3/Print/Presswork/list.html" method="post" id="myForm">
+<form action="${ctx}/Print/Presswork/list.html" method="post" id="myForm">
 <input type="hidden" name="page" value="${page}"/>
  <table width="98%" border="1" cellspacing="1" cellpadding="2" align="center">
     <tr ><td colspan="12" align="right">
