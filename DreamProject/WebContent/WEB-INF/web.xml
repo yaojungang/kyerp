@@ -4,8 +4,36 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
 	<display-name>DreamProject</display-name>
-	
-
+	 <context-param>
+	  <param-name>contextConfigLocation</param-name>
+	  <param-value>classpath:conf/applicationContext*.xml</param-value>
+	</context-param>
+	<!-- 对Spring容器进行实例化 -->
+	<listener>
+	  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!-- 用Spring解决 OpenEntityManagerInViewFilter-->
+<filter>
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+   		<init-param>
+   		<!-- 指定org.springframework.orm.jpa.LocalEntityManagerFactoryBean在spring配置文件中的名称,默认值为entityManagerFactory
+   		如果LocalEntityManagerFactoryBean在spring中的名称不是entityManagerFactory,该参数一定要指定,否则会出现找不到entityManagerFactory的例外 -->
+			<param-name>entityManagerFactoryBeanName</param-name>
+			<param-value>entityManagerFactory</param-value>
+		</init-param>	
+    </filter>
+    <filter-mapping>
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- display tag 配置的过滤器 -->
+	<filter>
+		<filter-name>exportFilter</filter-name>
+		<filter-class>
+			org.displaytag.filter.ResponseOverrideFilter
+		</filter-class>
+	</filter>
 	<!-- spirng解决乱码 -->
 	<filter>
 		<filter-name>encoding</filter-name>
@@ -21,6 +49,8 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	
+    <!-- 配置SpringMVC -->
     <servlet>
         <servlet-name>springMvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
