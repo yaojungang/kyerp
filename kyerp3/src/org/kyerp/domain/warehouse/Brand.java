@@ -32,6 +32,13 @@ public class Brand implements Serializable {
 	public Brand() {
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(name);
+		return builder.toString();
+	}
+
 	public long getId() {
 		return id;
 	}

@@ -54,5 +54,9 @@ public class PaperOfMaterialController {
 		paperOfMaterialService.delete(ids);
 		return "redirect:/Print/PaperOfMaterial/list.html";
 	}
+// @RequestMapping("/Print/PaperOfMaterial/{id}", method=RequestMethod.GET)
+// public String find(@PathVariable("id") String ownerId, Model model) {
+// // implementation omitted
+// }
 
 }
