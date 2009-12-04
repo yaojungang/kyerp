@@ -1,4 +1,4 @@
-package org.kyerp.domain;
+package org.kyerp.domain.org;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+
 
 @Entity
 public class User {

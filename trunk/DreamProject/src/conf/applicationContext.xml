@@ -11,7 +11,7 @@
            http://www.springframework.org/schema/tx   
            http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 	<context:annotation-config />
-
+	<context:component-scan base-package="org.kyerp"/>	
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 		lazy-init="false">
