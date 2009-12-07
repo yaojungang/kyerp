@@ -14,7 +14,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.Version;
 
 /**
  * 库存
@@ -33,10 +32,8 @@ public abstract class Material implements Serializable {
 	@Id
 	@GeneratedValue
 	/** Id*/
-	@Version
 	private long				id;
 	/** 材料名称 **/
-
 	private String				name;
 	/** 材料类别 */
 	@ManyToOne
