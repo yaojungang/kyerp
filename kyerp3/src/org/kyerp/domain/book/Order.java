@@ -36,7 +36,6 @@ public class Order implements Serializable {
 	/** 订单号 */
 	private String					orderNo;
 	/** 订单名称 */
-
 	private String					name;
 	/** 纸张项目 */
 	@OneToMany(mappedBy = "order")
