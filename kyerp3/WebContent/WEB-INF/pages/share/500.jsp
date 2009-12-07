@@ -11,12 +11,11 @@
 <div><a href="<c:url value="/"/>">返回首页</a></div>
 <% 
 try {
-	// The Servlet spec guarantees this attribute will be available
- Throwable exception = (Throwable) request.getAttribute("javax.servlet.error.exception"); 
-	if (exception != null) {
+	Throwable excThrowable = (Throwable) request.getAttribute("javax.servlet.error.exception"); 
+	if (excThrowable != null) {
 		if (exception instanceof ServletException) {
 			// It's a ServletException: we should extract the root cause
-			ServletException sex = (ServletException) exception;
+			ServletException sex = (ServletException) excThrowable;
 			Throwable rootCause = sex.getRootCause();
 			if (rootCause == null)
 				rootCause = sex;
