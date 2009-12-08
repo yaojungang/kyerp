@@ -53,7 +53,7 @@
 <form action="list.html" method="post" id="myForm">
 <input type="hidden" name="page" value="${pageView.currentpage}"/>
  <table width="98%" border="1" cellspacing="1" cellpadding="2" align="center">
-    <tr ><td colspan="12" align="right">
+    <tr ><td colspan="13" align="right">
      <%@ include file="/WEB-INF/pages/share/pager.jsp" %>
    </td></tr>
     <tr>
@@ -91,7 +91,7 @@
 </c:forEach>
     <!----------------------LOOP END------------------------------->
     <tr>
-      <td colspan="12" align="center"><table width="100%" border="0" cellspacing="1" cellpadding="3">
+      <td colspan="13" align="center"><table width="100%" border="0" cellspacing="1" cellpadding="3">
           <tr> 
             <td width="10%"><input type="checkbox" onclick="javascript:allSelect(this.form.ids)" name="allselectbox">全选</td>
               <td width="85%"><input type="button" class="frm_btn" value="删除" onclick="_action('allUnLock')"></td>

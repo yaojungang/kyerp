@@ -44,8 +44,8 @@ public class PaperOfMaterial extends Material {
 
 	public void setName() {
 
-		String paperNameString = this.getPaperWeight() + "克"
-				+ super.getBrand().getName() + this.paperName + "("
+		String paperNameString = "(" + this.getPaperWeight() + "克"
+				+ super.getBrand().getName() + ")" + this.paperName + "("
 				+ this.getPaperWidth() + "*" + this.getPaperHeight() + ")";
 		System.out.println(paperNameString);
 		super.setName(paperNameString);
