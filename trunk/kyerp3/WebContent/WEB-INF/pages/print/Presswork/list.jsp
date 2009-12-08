@@ -50,7 +50,7 @@
 
 <br />
 <form action="${ctx}/print/Presswork/list.html" method="post" id="myForm">
-<input type="hidden" name="page" value="${page}"/>
+<input type="hidden" name="page" value="${pageView.currentpage}"/>
  <table width="98%" border="1" cellspacing="1" cellpadding="2" align="center">
     <tr ><td colspan="12" align="right">
      <%@ include file="/WEB-INF/pages/share/pager.jsp" %>
