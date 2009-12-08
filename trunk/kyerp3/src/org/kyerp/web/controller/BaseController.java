@@ -13,7 +13,7 @@ public class BaseController {
 	public Integer	page;
 
 	public Integer getId() {
-		return id;
+		return id < 1 ? 1 : id;
 	}
 
 	public void setId(Integer id) {
@@ -21,6 +21,7 @@ public class BaseController {
 	}
 
 	public Integer getPage() {
+		page = null == page || page < 1 ? 1 : page;
 		return page;
 	}
 
