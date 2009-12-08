@@ -3,30 +3,17 @@
  */
 package org.kyerp.web.controller;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author y109 2009-12-8上午10:15:20
  */
-
+@Controller
 public class BaseController {
-	public Integer	id;
-	public Integer	page;
-
-	public Integer getId() {
-		return id < 1 ? 1 : id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getPage() {
-		page = null == page || page < 1 ? 1 : page;
-		return page;
-	}
-
-	public void setPage(Integer page) {
-		this.page = page;
+	@RequestMapping("/index.html")
+	private void index(ModelMap model) {
 	}
 
 }

@@ -63,7 +63,7 @@
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 	<!-- Spring 刷新Introspector防止内存泄露 -->
 	<listener>

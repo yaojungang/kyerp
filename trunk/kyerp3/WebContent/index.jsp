@@ -8,8 +8,8 @@
 </head>
 <body>
 <h1>KYERP3</h1>
-<p><a href="${ctx}/print/Presswork/list.html">presswork</a></p>
-<p><a href="${ctx}/print/PaperOfMaterial/list.html">PaperOfMaterial</a></p>
+<p><a href="${ctx}/print/Presswork/index.html">presswork</a></p>
+<p><a href="${ctx}/warehouse/index.html">物料管理</a></p>
 
 
 </body>

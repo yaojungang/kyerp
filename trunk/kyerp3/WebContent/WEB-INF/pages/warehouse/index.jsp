@@ -8,7 +8,8 @@
 </head>
 <body>
 <h1>物料管理首页</h1>
-<h2><a href="Brand/list.html">品牌管理</a></h2>
-<h2><a href="PaperOfMaterial/list.html">纸张管理</a></h2>
+<h2><a href="Brand/index.html">品牌管理</a></h2>
+<h2><a href="Supplier/index.html">供应商管理</a></h2>
+<h2><a href="PaperOfMaterial/index.html">纸张管理</a></h2>
 </body>
 </html>
