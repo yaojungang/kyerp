@@ -8,8 +8,8 @@
 </head>
 <body>
 <h1>KYERP3</h1>
-<p><a href="${ctx}/Print/Presswork/list.html">presswork</a></p>
-<p><a href="${ctx}/Print/PaperOfMaterial/list.html">PaperOfMaterial</a></p>
+<p><a href="${ctx}/print/Presswork/list.html">presswork</a></p>
+<p><a href="${ctx}/print/PaperOfMaterial/list.html">PaperOfMaterial</a></p>
 
 
 </body>
