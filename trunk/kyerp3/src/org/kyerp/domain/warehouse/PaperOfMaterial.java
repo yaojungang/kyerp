@@ -19,7 +19,7 @@ public class PaperOfMaterial extends Material {
 	private static final long	serialVersionUID	= -4449340515383717173L;
 	/** 纸张规格：正度、大度 */
 	private String				paperType;
-	/** 纸张(mm) */
+	/** 纸长(mm) */
 	private int					paperHeight;
 	/** 纸宽(mm) */
 	private int					paperWidth;
@@ -35,6 +35,13 @@ public class PaperOfMaterial extends Material {
 	private BigDecimal			squareMetrePrice;
 
 	public PaperOfMaterial() {
+	}
+
+	@Override
+	public void setName(String name) {
+		super.setName(this.getPaperWeight() + "g" + super.getBrand().getName()
+				+ "(" + this.getPaperWidth() + "*" + this.getPaperHeight()
+				+ ")");
 	}
 
 	public String getPaperType() {
