@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Paper</title>
+<title>供应商管理</title>
 <script language="JavaScript">
 <!--
  //到指定的分页页面
@@ -48,9 +48,9 @@
 </head>
 <body>
 
-<h1>纸张列表</h1>
-<h2><a href="add.html">添加纸张</a></h2>
-<form action="list.html" method="post" id="myForm">
+<h1>供应商管理</h1>
+<h2><a href="add.html">添加供应商</a></h2>
+<form action="index.html" method="post" id="myForm">
 <input type="hidden" name="page" value="${pageView.currentpage}"/>
  <table width="98%" border="1" cellspacing="1" cellpadding="2" align="center">
     <tr ><td colspan="12" align="right">
@@ -59,16 +59,7 @@
     <tr>
       <td width="4%"> <div align="center">选择</div></td>
       <td width="8%"> <div align="center">ID</div></td>
-      <td width="8%"> <div align="center">供应商</div></td>
       <td width="8%"> <div align="center">名称</div></td>
-      <td width="8%"> <div align="center">纸张规格</div></td>
-      <td width="8%"> <div align="center">纸长(mm)</div></td>
-      <td width="8%"> <div align="center">纸宽(mm)</div></td>
-      <td width="8%"> <div align="center">纸张大小</div></td>
-      <td width="8%"> <div align="center">纸张克重</div></td>
-      <td width="8%"> <div align="center">纸张吨价</div></td>
-      <td width="8%"> <div align="center">每张价格 </div></td>
-      <td width="8%"> <div align="center">每平米价格</div></td>
       <td> <div align="center">操作</div></td>
     </tr>
 <!---------------------------LOOP START------------------------------>
@@ -76,16 +67,7 @@
     <tr>
       <td> <div align="center"><input type="checkbox" name="ids" value="${entry.id}"></div></td>
       <td> <div align="center">${entry.id}</div></td>
-      <td> <div align="center">${entry.supplier.name }</div></td>
       <td> <div align="center">${entry.name }</div></td>
-      <td> <div align="center">${entry.paperType }</div></td>
-      <td> <div align="center">${entry.paperHeight }</div></td>
-      <td> <div align="center">${entry.paperWidth }</div></td>
-      <td> <div align="center">${entry.paperSize }</div></td>
-      <td> <div align="center">${entry.paperWeight }</div></td>
-      <td> <div align="center">${entry.tonnePrice }</div></td>
-      <td> <div align="center">${entry.price }</div></td>
-      <td> <div align="center">${entry.squareMetrePrice }</div></td>
       <td>编辑</td>
  </tr>
 </c:forEach>

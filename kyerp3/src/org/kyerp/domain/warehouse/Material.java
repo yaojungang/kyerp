@@ -41,14 +41,17 @@ public abstract class Material implements Serializable {
 	/** 材料品牌 */
 	@ManyToOne
 	private Brand				brand;
+	/** 供应商 */
+	@ManyToOne
+	private Supplier			supplier;
 	/** 材料单位 */
 	private String				module;
 	/** 材料数量 */
 	private Float				amount;
 	/** 建立时间 */
-	private Date				createTime;
+	protected Date				createTime;
 	/** 修改时间 */
-	private Date				updateTime;
+	protected Date				updateTime;
 
 	public Material() {
 	}
@@ -71,6 +74,14 @@ public abstract class Material implements Serializable {
 
 	public Date getCreateTime() {
 		return createTime;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
 
 	public void setCreateTime(Date createTime) {

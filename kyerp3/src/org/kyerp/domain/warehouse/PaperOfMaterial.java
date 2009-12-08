@@ -4,9 +4,12 @@
 package org.kyerp.domain.warehouse;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 /**
  * 库存：纸张
@@ -17,6 +20,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue("paper")
 public class PaperOfMaterial extends Material {
 	private static final long	serialVersionUID	= -4449340515383717173L;
+	/** 纸张名称 */
+	private String				paperName;
 	/** 纸张规格：正度、大度 */
 	private String				paperType;
 	/** 纸长(mm) */
@@ -37,11 +42,29 @@ public class PaperOfMaterial extends Material {
 	public PaperOfMaterial() {
 	}
 
+	public void setName() {
+
+		String paperNameString = this.getPaperWeight() + "克"
+				+ super.getBrand().getName() + this.paperName + "("
+				+ this.getPaperWidth() + "*" + this.getPaperHeight() + ")";
+		System.out.println(paperNameString);
+		super.setName(paperNameString);
+	}
+
+	/** 在对象新建前保存建立时间 */
 	@Override
-	public void setName(String name) {
-		super.setName(this.getPaperWeight() + "g" + super.getBrand().getName()
-				+ "(" + this.getPaperWidth() + "*" + this.getPaperHeight()
-				+ ")");
+	@PrePersist
+	public void prePersist() {
+		this.setName();
+		super.createTime = new Date();
+	}
+
+	/** 在对象更新前保存修改时间 */
+	@Override
+	@PreUpdate
+	void preUpdate() {
+		this.setName();
+		super.updateTime = new Date();
 	}
 
 	public String getPaperType() {
@@ -50,6 +73,14 @@ public class PaperOfMaterial extends Material {
 
 	public void setPaperType(String paperType) {
 		this.paperType = paperType;
+	}
+
+	public String getPaperName() {
+		return paperName;
+	}
+
+	public void setPaperName(String paperName) {
+		this.paperName = paperName;
 	}
 
 	public int getPaperHeight() {
