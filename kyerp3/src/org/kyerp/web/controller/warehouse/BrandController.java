@@ -1,5 +1,6 @@
 package org.kyerp.web.controller.warehouse;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 import javax.annotation.Resource;
@@ -48,5 +49,11 @@ public class BrandController {
 		brandService.save(brand);
 		return "redirect:index.html";
 
+	}
+
+	@RequestMapping("/warehouse/Brand/del.html")
+	public String del(Long[] ids) {
+		brandService.delete((Serializable[]) ids);
+		return "redirect:index.html";
 	}
 }

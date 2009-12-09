@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/Templates/default/">
+	<excludes>
+		<!-- 不应用模板的文件 -->
+		<pattern>/css/*</pattern>
+		<pattern>/js/*</pattern>
+		<pattern>/images/*</pattern>
+		<pattern>/*/noSkin_*</pattern>
+	</excludes>
+	<decorator name="print" page="printable.jsp">
+		<pattern>/*/*_print*</pattern>
+	</decorator>
+	<decorator name="main" page="main.jsp">
+		<pattern>/*</pattern>
+	</decorator>
+</decorators>

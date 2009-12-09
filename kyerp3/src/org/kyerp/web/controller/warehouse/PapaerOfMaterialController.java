@@ -3,6 +3,7 @@
  */
 package org.kyerp.web.controller.warehouse;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 import javax.annotation.Resource;
@@ -62,5 +63,11 @@ public class PapaerOfMaterialController {
 		paperOfMaterialService.save(paper);
 		return "redirect:index.html";
 
+	}
+
+	@RequestMapping("/warehouse/PaperOfMaterial/del.html")
+	public String del(Long[] ids) {
+		paperOfMaterialService.delete((Serializable[]) ids);
+		return "redirect:index.html";
 	}
 }

@@ -9,7 +9,9 @@
 <body>
 <h1>添加供应商</h1>
 <form action="save.html" method="post">
-<li><label>供应商名称</label><input type="text" name="name" /></li>
+<li><label>供应商简称</label><input type="text" name="name" /></li>
+<li><label>供应商简拼</label><input type="text" name="nameSpell" /></li>
+<li><label>供应商全称</label><input type="text" name="fullName" /></li>
 <input type="submit" value="提交">
 </form>
 </body>

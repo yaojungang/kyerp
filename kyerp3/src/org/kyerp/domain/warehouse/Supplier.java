@@ -25,12 +25,14 @@ public class Supplier implements Serializable {
 	private long				id;
 	/** 供应商简称 **/
 	private String				name;
+	/** 供应商简拼 **/
+	private String				nameSpell;
 	/** 供应商全称 **/
 	private String				fullName;
 	/** 是否可见 **/
 	private Boolean				visible				= true;
 	/** 是否列入合格供方名录 **/
-	private final Boolean		qualified			= true;
+	private final Boolean		qualified			= false;
 	@ManyToMany
 	private final List<Brand>	brands				= new ArrayList<Brand>();
 	@ManyToMany
@@ -86,6 +88,14 @@ public class Supplier implements Serializable {
 
 	public Date getCreateTime() {
 		return createTime;
+	}
+
+	public String getNameSpell() {
+		return nameSpell;
+	}
+
+	public void setNameSpell(String nameSpell) {
+		this.nameSpell = nameSpell;
 	}
 
 	public void setCreateTime(Date createTime) {
