@@ -18,7 +18,7 @@
 <ul>
  <li><a href="${ctx}/index.jsp">首页</a></li>
  <li>采购管理
-    <ul><li><a href="${ctx}/warehouse/EnteringMaterial/buyer-index.html" target="mainIframe">采购入库</a></li></ul>
+    <ul><li><a href="${ctx}/warehouse/BuyerOfEnteringMaterial/index.html" target="mainIframe">采购入库单</a></li></ul>
  </li>
  <li><a href="${ctx}/warehouse/index.html" target="mainIframe">物料管理</a>
  <ul>

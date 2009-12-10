@@ -4,7 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 
 import org.kyerp.domain.BaseDomain;
@@ -16,6 +21,12 @@ import org.kyerp.domain.org.Employee;
  * @author y109 2009-11-29下午11:24:25
  */
 @Entity
+/**继承映射策略*/
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+/**标识字段定义*/
+@DiscriminatorColumn(name = "enteringMaterial_type", discriminatorType = DiscriminatorType.STRING)
+/**该类的标识*/
+@DiscriminatorValue("enteringMaterial")
 public abstract class EnteringMaterial extends BaseDomain implements
 		Serializable {
 	private static final long				serialVersionUID	= 1L;
@@ -23,14 +34,8 @@ public abstract class EnteringMaterial extends BaseDomain implements
 	private Date							enteringTime;
 	/** 仓库名称 */
 	private Warehouse						warehouse;
-	/** 供应商 */
-	private Supplier						supplier;
-	/** 采购员 */
-	private Employee						buyer;
 	/** 库管员 */
 	private Employee						keeper;
-	/** 库管员确认时间 */
-	private Date							confirmTime;
 	/** 操作员 */
 	private Employee						operator;
 
@@ -41,6 +46,14 @@ public abstract class EnteringMaterial extends BaseDomain implements
 	public EnteringMaterial() {
 	}
 
+	public Date getEnteringTime() {
+		return enteringTime;
+	}
+
+	public void setEnteringTime(Date enteringTime) {
+		this.enteringTime = enteringTime;
+	}
+
 	public Warehouse getWarehouse() {
 		return warehouse;
 	}
@@ -49,44 +62,12 @@ public abstract class EnteringMaterial extends BaseDomain implements
 		this.warehouse = warehouse;
 	}
 
-	public Supplier getSupplier() {
-		return supplier;
-	}
-
-	public Date getConfirmTime() {
-		return confirmTime;
-	}
-
-	public void setConfirmTime(Date confirmTime) {
-		this.confirmTime = confirmTime;
-	}
-
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
-
-	public Employee getBuyer() {
-		return buyer;
-	}
-
-	public void setBuyer(Employee buyer) {
-		this.buyer = buyer;
-	}
-
 	public Employee getKeeper() {
 		return keeper;
 	}
 
 	public void setKeeper(Employee keeper) {
 		this.keeper = keeper;
-	}
-
-	public Date getEnteringTime() {
-		return enteringTime;
-	}
-
-	public void setEnteringTime(Date enteringTime) {
-		this.enteringTime = enteringTime;
 	}
 
 	public Employee getOperator() {
