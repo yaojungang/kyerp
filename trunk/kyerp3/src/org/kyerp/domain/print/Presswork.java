@@ -9,27 +9,19 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 
+import org.kyerp.domain.BaseDomain;
 import org.kyerp.domain.book.Order;
 import org.kyerp.domain.crm.Contact;
 import org.kyerp.domain.crm.Customer;
 import org.kyerp.domain.org.Employee;
 
-
 @Entity
-public class Presswork implements Serializable {
+public class Presswork extends BaseDomain implements Serializable {
 	private static final long				serialVersionUID		= -7784970638877997638L;
-	@Id
-	@GeneratedValue
-	/** Id*/
-	private long							id;
 	/** 所属订单 */
 	@OneToOne
 	private Order							order;
@@ -52,10 +44,6 @@ public class Presswork implements Serializable {
 	/** 联系人 */
 	@ManyToOne
 	private Contact							contact;
-	/** 建立时间 */
-	private Date							createTime;
-	/** 修改时间 */
-	private Date							updateTime;
 	/** 尺寸名称：如8开，32开 */
 	private String							sizeType;
 	/** 成品尺寸 */
@@ -97,26 +85,6 @@ public class Presswork implements Serializable {
 	private String							remark;
 
 	public Presswork() {
-	}
-
-	/** 在对象新建前保存建立时间 */
-	@PrePersist
-	public void prePersist() {
-		this.createTime = new Date();
-	}
-
-	/** 在对象更新前保存修改时间 */
-	@PreUpdate
-	void preUpdate() {
-		this.updateTime = new Date();
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public Order getOrder() {
@@ -165,22 +133,6 @@ public class Presswork implements Serializable {
 
 	public void setContact(Contact contact) {
 		this.contact = contact;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
 	}
 
 	public String getSizeType() {

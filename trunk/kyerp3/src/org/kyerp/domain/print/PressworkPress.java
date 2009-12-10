@@ -6,19 +6,14 @@ package org.kyerp.domain.print;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.kyerp.domain.BaseDomain;
 import org.kyerp.domain.warehouse.PlateOfMaterial;
 
-
 @Entity
-public class PressworkPress implements Serializable {
+public class PressworkPress extends BaseDomain implements Serializable {
 	private static final long	serialVersionUID	= -7784970638877997638L;
-	@Id
-	@GeneratedValue
-	private long				id;
 	/** 所属任务单 */
 	@ManyToOne
 	private Presswork			presswork;
@@ -40,14 +35,6 @@ public class PressworkPress implements Serializable {
 	private PressMachine		pressMachine;
 
 	public PressworkPress() {
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public Presswork getPresswork() {

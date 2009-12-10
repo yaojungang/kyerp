@@ -11,5 +11,7 @@
 <h2><a href="Brand/index.html">品牌管理</a></h2>
 <h2><a href="Supplier/index.html">供应商管理</a></h2>
 <h2><a href="PaperOfMaterial/index.html">纸张管理</a></h2>
+<h2><a href="PaperOfMaterial/index.html">纸张入库</a></h2>
+<h2><a href="PaperOfMaterial/index.html">纸张出库</a></h2>
 </body>
 </html>

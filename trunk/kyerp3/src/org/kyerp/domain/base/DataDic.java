@@ -6,22 +6,18 @@ package org.kyerp.domain.base;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import org.kyerp.domain.BaseDomain;
 
 /**
  * @author y109 2009-11-29下午02:00:07
  */
 @Entity
-public class DataDic implements Serializable {
+public class DataDic extends BaseDomain implements Serializable {
 	/**
 	 * 数据字典
 	 */
 	private static final long	serialVersionUID	= 5465515024216743529L;
-	/** id */
-	@Id
-	@GeneratedValue
-	private long				id;
 	/** 数据类型 */
 	private DateDicType			dateDicType;
 	/** 数据内容 */
@@ -34,14 +30,6 @@ public class DataDic implements Serializable {
 	private String				dictAllSpell;
 
 	public DataDic() {
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public DateDicType getDateDicType() {
