@@ -28,7 +28,7 @@
  }
  function _action(methodName){
   var form = document.getElementById("myForm");
-  form.action='${ctx}/print/Presswork/del.html';
+  form.action='del.html';
   form.submit();
  }
  function selectItem(items){
@@ -57,9 +57,10 @@
      <%@ include file="/WEB-INF/pages/share/pager.jsp" %>
    </td></tr>
     <tr>
-      <td width="4%"> <div align="center">选择</div></td>
-      <td width="8%"> <div align="center">ID</div></td>
-      <td width="8%"> <div align="center">名称</div></td>
+      <td> <div align="center">选择</div></td>
+      <td> <div align="center">ID</div></td>
+      <td> <div align="center">名称</div></td>
+      <td> <div align="center">简拼</div></td>
       <td> <div align="center">操作</div></td>
     </tr>
 <!---------------------------LOOP START------------------------------>
@@ -68,7 +69,8 @@
       <td> <div align="center"><input type="checkbox" name="ids" value="${entry.id}"></div></td>
       <td> <div align="center">${entry.id}</div></td>
       <td> <div align="center">${entry.name }</div></td>
-      <td>编辑</td>
+      <td> <div align="center">${entry.nameSpell }</div></td>
+      <td> <div align="center"><a href="edit.html?id=${entry.id}">编辑</a></div></td>
  </tr>
 </c:forEach>
     <!----------------------LOOP END------------------------------->

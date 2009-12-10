@@ -9,7 +9,8 @@
 <body>
 <h1>添加品牌</h1>
 <form action="save.html" method="post">
-<li><label>品牌名称</label><input type="text" name="name" /></li>
+<label>品牌名称</label><input type="text" name="name" /><br />
+<label>品牌名称</label><input type="text" name="nameSpell" /><br />
 <input type="submit" value="提交">
 </form>
 </body>

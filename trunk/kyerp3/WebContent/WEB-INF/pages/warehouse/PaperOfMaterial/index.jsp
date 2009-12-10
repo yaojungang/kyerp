@@ -61,7 +61,6 @@
     <tr>
       <td width="4%"> <div align="center">选择</div></td>
       <td width="8%"> <div align="center">ID</div></td>
-      <td width="8%"> <div align="center">供应商</div></td>
       <td width="8%"> <div align="center">名称</div></td>
       <td width="8%"> <div align="center">纸张规格</div></td>
       <td width="8%"> <div align="center">纸长(mm)</div></td>
@@ -78,7 +77,6 @@
     <tr>
       <td> <div align="center"><input type="checkbox" name="ids" value="${entry.id}"></div></td>
       <td> <div align="center">${entry.id}</div></td>
-      <td> <div align="center">${entry.supplier.name }</div></td>
       <td> <div align="center">${entry.name }</div></td>
       <td> <div align="center">${entry.paperType }</div></td>
       <td> <div align="center">${entry.paperHeight }</div></td>
@@ -88,7 +86,7 @@
       <td> <div align="center">${entry.tonnePrice }</div></td>
       <td> <div align="center">${entry.price }</div></td>
       <td> <div align="center">${entry.squareMetrePrice }</div></td>
-      <td>编辑</td>
+      <td> <div align="center"><a href="edit.html?id=${entry.id}">编辑</a></div></td>
  </tr>
 </c:forEach>
     <!----------------------LOOP END------------------------------->

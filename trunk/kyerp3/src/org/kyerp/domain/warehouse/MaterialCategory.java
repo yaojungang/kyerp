@@ -21,19 +21,18 @@ public class MaterialCategory extends BaseDomain implements Serializable {
 	private static final long		serialVersionUID		= -3328204953749595577L;
 	/** 类别名称 **/
 	private String					name;
-	/** 备注 **/
+	/** 编号 **/
+	private String					serialNumber;
+	/** 摘要 **/
 	private String					note;
 	/** 是否可见 **/
-	private final Boolean			visible					= true;
+	private Boolean					visible					= true;
 	/** 子类别 **/
 	@OneToMany(cascade = { CascadeType.REFRESH, CascadeType.REMOVE }, mappedBy = "parentMaterialCategory")
 	private List<MaterialCategory>	childMaterialCategories	= new ArrayList<MaterialCategory>();
 	/** 所属父类 **/
 	@ManyToOne(cascade = CascadeType.REFRESH)
 	private MaterialCategory		parentMaterialCategory;
-	/** 下属库存 **/
-	@OneToMany(mappedBy = "materialCategory")
-	private final List<Material>	material				= new ArrayList<Material>();
 
 	public MaterialCategory() {
 	}
@@ -50,6 +49,14 @@ public class MaterialCategory extends BaseDomain implements Serializable {
 		return note;
 	}
 
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
 	public void setNote(String note) {
 		this.note = note;
 	}
@@ -63,6 +70,10 @@ public class MaterialCategory extends BaseDomain implements Serializable {
 		this.parentMaterialCategory = parentMaterialCategory;
 	}
 
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
+	}
+
 	public Boolean getVisible() {
 		return visible;
 	}
@@ -74,10 +85,6 @@ public class MaterialCategory extends BaseDomain implements Serializable {
 
 	public List<MaterialCategory> getChildMaterialCategories() {
 		return childMaterialCategories;
-	}
-
-	public List<Material> getMaterial() {
-		return material;
 	}
 
 }

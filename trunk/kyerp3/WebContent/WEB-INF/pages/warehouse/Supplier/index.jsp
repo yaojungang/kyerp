@@ -57,10 +57,10 @@
      <%@ include file="/WEB-INF/pages/share/pager.jsp" %>
    </td></tr>
     <tr>
-      <td width="4%"> <div align="center">选择</div></td>
-      <td width="8%"> <div align="center">ID</div></td>
-      <td width="8%"> <div align="center">简称</div></td>
-      <td width="8%"> <div align="center">全称</div></td>
+      <td> <div align="center">选择</div></td>
+      <td> <div align="center">ID</div></td>
+      <td> <div align="center">简称</div></td>
+      <td> <div align="center">全称</div></td>
       <td> <div align="center">操作</div></td>
     </tr>
 <!---------------------------LOOP START------------------------------>
@@ -70,7 +70,7 @@
       <td> <div align="center">${entry.id}</div></td>
       <td> <div align="center">${entry.name }</div></td>
       <td> <div align="center">${entry.fullName }</div></td>
-      <td>编辑</td>
+      <td> <div align="center">编辑</div></td>
  </tr>
 </c:forEach>
     <!----------------------LOOP END------------------------------->
