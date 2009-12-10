@@ -30,7 +30,7 @@ public abstract class EnteringMaterial extends BaseDomain implements
 	/** 库管员 */
 	private Employee						keeper;
 	/** 库管员确认时间 */
-	private Date							checkTime;
+	private Date							confirmTime;
 	/** 操作员 */
 	private Employee						operator;
 
@@ -53,12 +53,12 @@ public abstract class EnteringMaterial extends BaseDomain implements
 		return supplier;
 	}
 
-	public Date getCheckTime() {
-		return checkTime;
+	public Date getConfirmTime() {
+		return confirmTime;
 	}
 
-	public void setCheckTime(Date checkTime) {
-		this.checkTime = checkTime;
+	public void setConfirmTime(Date confirmTime) {
+		this.confirmTime = confirmTime;
 	}
 
 	public void setSupplier(Supplier supplier) {
