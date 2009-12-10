@@ -34,23 +34,12 @@ public abstract class Material extends BaseDomain implements Serializable {
 	/** 材料品牌 */
 	@ManyToOne
 	private Brand				brand;
-	/** 供应商 */
-	@ManyToOne
-	private Supplier			supplier;
 	/** 材料单位 */
 	private String				module;
 	/** 材料数量 */
 	private Float				amount;
 
 	public Material() {
-	}
-
-	public Supplier getSupplier() {
-		return supplier;
-	}
-
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
 	}
 
 	public String getName() {

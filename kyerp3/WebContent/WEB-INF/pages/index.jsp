@@ -16,21 +16,18 @@
 
 <div id="menu_tree">
 <ul>
- <li><a href="${ctx}/index.jsp" target="mainIframe">首页</a></li>
+ <li><a href="${ctx}/index.jsp">首页</a></li>
+ <li>采购管理
+    <ul><li><a href="${ctx}/warehouse/EnteringMaterial/buyer-index.html" target="mainIframe">采购入库</a></li></ul>
+ </li>
  <li><a href="${ctx}/warehouse/index.html" target="mainIframe">物料管理</a>
  <ul>
-  <li><a href="${ctx}/warehouse/MaterialCategory/index.html"
-   target="mainIframe"
-  >材料类别管理</a></li>
-  <li><a href="${ctx}/warehouse/Supplier/index.html"
-   target="mainIframe"
-  >供应商管理</a></li>
-  <li><a href="${ctx}/warehouse/Brand/index.html"
-   target="mainIframe"
-  >品牌管理</a></li>
-  <li><a href="${ctx}/warehouse/PaperOfMaterial/index.html"
-   target="mainIframe"
-  >纸张管理</a></li>
+  <li><a href="${ctx}/warehouse/EnteringMaterial/index.html" target="mainIframe">入库单管理</a></li>
+  <li><a href="${ctx}/warehouse/DeliveryMaterial/index.html" target="mainIframe">出库单管理</a></li>
+  <li><a href="${ctx}/warehouse/MaterialCategory/index.html" target="mainIframe">材料类别管理</a></li>
+  <li><a href="${ctx}/warehouse/Supplier/index.html" target="mainIframe">供应商管理</a></li>
+  <li><a href="${ctx}/warehouse/Brand/index.html" target="mainIframe">品牌管理</a></li>
+  <li><a href="${ctx}/warehouse/PaperOfMaterial/index.html" target="mainIframe">纸张管理</a></li>
  </ul>
  </li>
  <li><a href="#" target="mainIframe">业务管理</a></li>

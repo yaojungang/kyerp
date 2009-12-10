@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 
 import org.kyerp.domain.base.views.QueryResult;
 
-
 public interface DAO<T> {
 	/**
 	 * 获取记录总数
@@ -71,6 +70,9 @@ public interface DAO<T> {
 			String wherejpql, Object[] queryParams,
 			LinkedHashMap<String, String> orderby);
 
+	public QueryResult<T> getScrollData(String wherejpql, Object[] queryParams,
+			LinkedHashMap<String, String> orderby);
+
 	public QueryResult<T> getScrollData(int firstindex, int maxresult,
 			String wherejpql, Object[] queryParams);
 
@@ -78,6 +80,8 @@ public interface DAO<T> {
 			LinkedHashMap<String, String> orderby);
 
 	public QueryResult<T> getScrollData(int firstindex, int maxresult);
+
+	public QueryResult<T> getScrollData(LinkedHashMap<String, String> orderby);
 
 	public QueryResult<T> getScrollData();
 }

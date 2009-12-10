@@ -59,7 +59,6 @@ public class PapaerOfMaterialController {
 	public String save(PaperOfMaterial paper, Long brandId, Long supplierId,
 			ModelMap model) {
 		paper.setBrand(brandService.find(brandId));
-		paper.setSupplier(supplierService.find(supplierId));
 		paperOfMaterialService.save(paper);
 		return "redirect:index.html";
 

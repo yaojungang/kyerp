@@ -17,7 +17,6 @@ import org.kyerp.utils.GenericsUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @SuppressWarnings("unchecked")
 @Transactional
 public abstract class DaoSupport<T> implements DAO<T> {
@@ -83,6 +82,17 @@ public abstract class DaoSupport<T> implements DAO<T> {
 	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 	public QueryResult<T> getScrollData() {
 		return getScrollData(-1, -1);
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
+	public QueryResult<T> getScrollData(String wherejpql, Object[] queryParams,
+			LinkedHashMap<String, String> orderby) {
+		return getScrollData(-1, -1, wherejpql, queryParams, orderby);
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
+	public QueryResult<T> getScrollData(LinkedHashMap<String, String> orderby) {
+		return getScrollData(-1, -1, orderby);
 	}
 
 	@Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)

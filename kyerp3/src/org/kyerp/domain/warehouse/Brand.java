@@ -17,8 +17,10 @@ import org.kyerp.domain.BaseDomain;
 @Entity
 public class Brand extends BaseDomain implements Serializable {
 	private static final long	serialVersionUID	= 1L;
-	/** 品牌名称 **/
+	/** 名称 **/
 	private String				name;
+	/** 简拼 **/
+	private String				nameSpell;
 	/** 是否可见 **/
 	private Boolean				visible				= true;
 	@OneToMany(mappedBy = "brand")
@@ -38,6 +40,14 @@ public class Brand extends BaseDomain implements Serializable {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getNameSpell() {
+		return nameSpell;
+	}
+
+	public void setNameSpell(String nameSpell) {
+		this.nameSpell = nameSpell;
 	}
 
 	public List<Material> getMaterials() {
