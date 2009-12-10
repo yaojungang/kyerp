@@ -26,7 +26,7 @@ public class DeliveryMaterial extends BaseDomain implements Serializable {
 	/** 领料车间 */
 	private Department						department;
 	/** 领料人员 */
-	private Employee						delivery;
+	private Employee						taker;
 	/** 库管员 */
 	private Employee						keeper;
 	/** 操作员 */
@@ -63,12 +63,12 @@ public class DeliveryMaterial extends BaseDomain implements Serializable {
 		this.department = department;
 	}
 
-	public Employee getDelivery() {
-		return delivery;
+	public Employee getTaker() {
+		return taker;
 	}
 
-	public void setDelivery(Employee delivery) {
-		this.delivery = delivery;
+	public void setTaker(Employee taker) {
+		this.taker = taker;
 	}
 
 	public Employee getKeeper() {
