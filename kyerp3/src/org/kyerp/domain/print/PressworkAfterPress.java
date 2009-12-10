@@ -6,9 +6,9 @@ package org.kyerp.domain.print;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import org.kyerp.domain.BaseDomain;
 
 /**
  * 印后项目
@@ -16,11 +16,8 @@ import javax.persistence.ManyToOne;
  * @author y109 2009-11-29下午10:46:20
  */
 @Entity
-public class PressworkAfterPress implements Serializable {
+public class PressworkAfterPress extends BaseDomain implements Serializable {
 	private static final long	serialVersionUID	= 3845835627705841650L;
-	@Id
-	@GeneratedValue
-	private long				id;
 	/** 所属任务单 */
 	@ManyToOne
 	private Presswork			presswork;
@@ -34,14 +31,6 @@ public class PressworkAfterPress implements Serializable {
 	private String				module;
 
 	public PressworkAfterPress() {
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public Presswork getPresswork() {

@@ -14,4 +14,9 @@ public class BaseController {
 	private void index(ModelMap model) {
 	}
 
+	@SuppressWarnings("unused")
+	@RequestMapping("/main.html")
+	private void main(ModelMap model) {
+	}
+
 }

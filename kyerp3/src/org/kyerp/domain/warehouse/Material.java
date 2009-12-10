@@ -1,19 +1,16 @@
 package org.kyerp.domain.warehouse;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+
+import org.kyerp.domain.BaseDomain;
 
 /**
  * 库存
@@ -27,12 +24,8 @@ import javax.persistence.PreUpdate;
 @DiscriminatorColumn(name = "material_type", discriminatorType = DiscriminatorType.STRING)
 /**该类的标识*/
 @DiscriminatorValue("material")
-public abstract class Material implements Serializable {
+public abstract class Material extends BaseDomain implements Serializable {
 	private static final long	serialVersionUID	= 1L;
-	@Id
-	@GeneratedValue
-	/** Id*/
-	private long				id;
 	/** 材料名称 **/
 	private String				name;
 	/** 材料类别 */
@@ -48,32 +41,8 @@ public abstract class Material implements Serializable {
 	private String				module;
 	/** 材料数量 */
 	private Float				amount;
-	/** 建立时间 */
-	protected Date				createTime;
-	/** 修改时间 */
-	protected Date				updateTime;
 
 	public Material() {
-	}
-
-	/** 在对象新建前保存建立时间 */
-	@PrePersist
-	public void prePersist() {
-		this.createTime = new Date();
-	}
-
-	/** 在对象更新前保存修改时间 */
-	@PreUpdate
-	void preUpdate() {
-		this.updateTime = new Date();
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
 	}
 
 	public Supplier getSupplier() {
@@ -82,22 +51,6 @@ public abstract class Material implements Serializable {
 
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getName() {

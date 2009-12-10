@@ -3,13 +3,11 @@ package org.kyerp.domain.print;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.kyerp.domain.BaseDomain;
 import org.kyerp.domain.base.MaterialFrom;
 import org.kyerp.domain.warehouse.PaperOfMaterial;
-
 
 /**
  * 任务单：开纸项目
@@ -17,11 +15,8 @@ import org.kyerp.domain.warehouse.PaperOfMaterial;
  * @author y109 2009-11-29下午09:56:12
  */
 @Entity
-public class PressworkPaper implements Serializable {
+public class PressworkPaper extends BaseDomain implements Serializable {
 	private static final long	serialVersionUID	= 1993485346483313604L;
-	@Id
-	@GeneratedValue
-	private long				id;
 	/** 所属任务单 */
 	@ManyToOne
 	private Presswork			presswork;
@@ -50,14 +45,6 @@ public class PressworkPaper implements Serializable {
 	private int					cutWidth;
 
 	public PressworkPaper() {
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public Presswork getPresswork() {

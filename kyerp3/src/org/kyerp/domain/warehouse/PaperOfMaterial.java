@@ -4,7 +4,6 @@
 package org.kyerp.domain.warehouse;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -56,15 +55,15 @@ public class PaperOfMaterial extends Material {
 	@PrePersist
 	public void prePersist() {
 		this.setName();
-		super.createTime = new Date();
+		super.prePersist();
 	}
 
 	/** 在对象更新前保存修改时间 */
-	@Override
 	@PreUpdate
-	void preUpdate() {
+	@Override
+	public void preUpdate() {
 		this.setName();
-		super.updateTime = new Date();
+		super.preUpdate();
 	}
 
 	public String getPaperType() {
