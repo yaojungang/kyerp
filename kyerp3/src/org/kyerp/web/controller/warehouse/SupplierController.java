@@ -29,6 +29,7 @@ public class SupplierController {
 		page = null == page || page < 1 ? 1 : page;
 		PageView<Supplier> pageView = new PageView<Supplier>(12, page);
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("nameSpell", "asc");
 		orderby.put("createTime", "desc");
 		QueryResult<Supplier> qureyResult = supplierService.getScrollData(
 				pageView.getFirstResult(), pageView.getMaxresult(), orderby);
