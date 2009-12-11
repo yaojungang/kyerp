@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 import org.kyerp.domain.crm.Customer;
 import org.kyerp.domain.org.Employee;
@@ -16,16 +17,19 @@ import org.kyerp.domain.org.Employee;
  */
 @Entity
 @DiscriminatorValue("customer")
-public abstract class CustomerOfEnteringMaterial extends EnteringMaterial
-		implements Serializable {
+public class CustomerOfEnteringMaterial extends EnteringMaterial implements
+		Serializable {
 	private static final long	serialVersionUID	= 1L;
 	/** 客户自备料入库单填单时间 */
 	private Date				inputTime;
 	/** 客户 */
+	@ManyToOne
 	private Customer			customer;
 	/** 收货人 */
+	@ManyToOne
 	private Employee			taker;
 	/** 客户自备料入库单填写人 */
+	@ManyToOne
 	private Employee			inputMan;
 
 	public CustomerOfEnteringMaterial() {
