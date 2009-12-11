@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title></title>
+<title>采购入库单-添加</title>
 </head>
 <body>
-<h1>BuyerOfEnteringMaterial</h1>
+<h1>采购入库单-添加</h1>
 <form action="save.html" method="post">
 <label>供应商</label><input type="text" name="supplier" /><br />
 <label>采购员</label><input type="text" name="buyerId" /><br />

@@ -25,7 +25,7 @@ public class MaterialCategoryController {
 	IMaterialCategoryService	materialCategoryService;
 
 	@RequestMapping("/warehouse/MaterialCategory/index.html")
-	public void list(ModelMap model, Integer page, Long id) {
+	public void index(ModelMap model, Integer page, Long id) {
 		page = null == page || page < 1 ? 1 : page;
 		PageView<MaterialCategory> pageView = new PageView<MaterialCategory>(
 				12, page);
@@ -35,10 +35,12 @@ public class MaterialCategoryController {
 		StringBuffer jpql = new StringBuffer("o.visible=?1");
 		List<Object> params = new ArrayList<Object>();
 		params.add(true);
-		if (null != id && id > 0) {
+		if (id != null && id > 0) {
 			jpql.append(" and o.parentMaterialCategory.id=?"
 					+ (params.size() + 1));
 			params.add(id);
+			model.addAttribute("navMcs", materialCategoryService
+					.getParentMaterialCategories(id));
 		} else {
 			jpql.append(" and o.parentMaterialCategory is null");
 		}
