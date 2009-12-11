@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 import org.kyerp.domain.org.Employee;
 
@@ -15,19 +16,28 @@ import org.kyerp.domain.org.Employee;
  */
 @Entity
 @DiscriminatorValue("buyer")
-public abstract class BuyerOfEnteringMaterial extends EnteringMaterial
-		implements Serializable {
+public class BuyerOfEnteringMaterial extends EnteringMaterial implements
+		Serializable {
 	private static final long	serialVersionUID	= 1L;
 	/** 采购入库单填单时间 */
 	private Date				inputTime;
 	/** 供应商 */
+	@ManyToOne
 	private Supplier			supplier;
 	/** 采购员 */
+	@ManyToOne
 	private Employee			buyer;
 	/** 采购入库单填写人 */
+	@ManyToOne
 	private Employee			inputMan;
 
 	public BuyerOfEnteringMaterial() {
+	}
+
+	@Override
+	public void prePersist() {
+		super.prePersist();
+		this.inputTime = new Date();
 	}
 
 	public Date getInputTime() {

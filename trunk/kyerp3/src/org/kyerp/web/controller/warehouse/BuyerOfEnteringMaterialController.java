@@ -51,14 +51,15 @@ public class BuyerOfEnteringMaterialController {
 	}
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/add.html")
-	public String add(BuyerOfEnteringMaterial entity, ModelMap model) {
-		buyerOfEnteringMaterialService.save(entity);
+	public String add(BuyerOfEnteringMaterial buyerOfEnteringMaterial,
+			Long supplierId, ModelMap model) {
+		buyerOfEnteringMaterial.setSupplier(supplierService.find(supplierId));
+		buyerOfEnteringMaterialService.save(buyerOfEnteringMaterial);
 		return "forward:index.html";
 	}
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/input.html")
 	public void input(ModelMap model) {
-
 	}
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/save.html")

@@ -10,6 +10,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.kyerp.domain.BaseDomain;
@@ -33,10 +34,13 @@ public abstract class EnteringMaterial extends BaseDomain implements
 	/** 入库时间 */
 	private Date							enteringTime;
 	/** 仓库名称 */
+	@ManyToOne
 	private Warehouse						warehouse;
 	/** 库管员 */
+	@ManyToOne
 	private Employee						keeper;
 	/** 操作员 */
+	@ManyToOne
 	private Employee						operator;
 
 	/** 入库单明细 **/
