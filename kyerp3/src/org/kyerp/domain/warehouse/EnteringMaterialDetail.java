@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import org.kyerp.domain.BaseDomain;
 
 /**
- * 入库单明细表
+ * 入库单明细项目
  * 
  * @author y109 2009-12-10下午08:16:39
  */
@@ -18,9 +18,14 @@ public class EnteringMaterialDetail extends BaseDomain implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 	@ManyToOne
 	private EnteringMaterial	enteringMaterial;
+	/** 供应商 */
+	@ManyToOne
+	private Supplier			supplier;
 	/** 材料 **/
 	@ManyToOne
 	private Material			material;
+	/** 批次号 */
+	private String				serialNumber;
 	/** 单位 */
 	private String				module;
 	/** 价格 */
@@ -59,12 +64,28 @@ public class EnteringMaterialDetail extends BaseDomain implements Serializable {
 		return price;
 	}
 
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
 	public Float getAmount() {
 		return amount;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
 
 	public void setAmount(Float amount) {

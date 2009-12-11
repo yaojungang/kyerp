@@ -21,9 +21,7 @@ public class BuyerOfEnteringMaterial extends EnteringMaterial implements
 	private static final long	serialVersionUID	= 1L;
 	/** 采购入库单填单时间 */
 	private Date				inputTime;
-	/** 供应商 */
-	@ManyToOne
-	private Supplier			supplier;
+
 	/** 采购员 */
 	@ManyToOne
 	private Employee			buyer;
@@ -46,14 +44,6 @@ public class BuyerOfEnteringMaterial extends EnteringMaterial implements
 
 	public void setInputTime(Date inputTime) {
 		this.inputTime = inputTime;
-	}
-
-	public Supplier getSupplier() {
-		return supplier;
-	}
-
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
 	}
 
 	public Employee getBuyer() {

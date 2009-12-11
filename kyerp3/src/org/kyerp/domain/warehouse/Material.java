@@ -1,6 +1,7 @@
 package org.kyerp.domain.warehouse;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -38,6 +39,8 @@ public abstract class Material extends BaseDomain implements Serializable {
 	private String				module;
 	/** 材料数量 */
 	private Float				amount;
+	/** 单价 */
+	private BigDecimal			price;
 
 	public Material() {
 	}
@@ -60,6 +63,14 @@ public abstract class Material extends BaseDomain implements Serializable {
 
 	public Float getAmount() {
 		return amount;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 	public void setAmount(Float amount) {

@@ -91,4 +91,12 @@ public abstract class EnteringMaterial extends BaseDomain implements
 		this.enteringMaterialDetails = enteringMaterialDetails;
 	}
 
+	/**
+	 * 添加入库明细项目
+	 */
+	public void addEnteringItem(EnteringMaterialDetail enteringMaterialDetail) {
+		this.enteringMaterialDetails.add(enteringMaterialDetail);
+		enteringMaterialDetail.setEnteringMaterial(this);
+	}
+
 }
