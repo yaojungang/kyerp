@@ -2,13 +2,16 @@ package org.kyerp.web.controller.warehouse;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.kyerp.domain.base.views.PageView;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.BuyerOfEnteringMaterial;
+import org.kyerp.domain.warehouse.Supplier;
 import org.kyerp.service.warehouse.IBuyerOfEnteringMaterialService;
+import org.kyerp.service.warehouse.ISupplierService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BuyerOfEnteringMaterialController {
 	@Resource(name = "buyerOfEnteringMaterialService")
 	IBuyerOfEnteringMaterialService	buyerOfEnteringMaterialService;
+	@Resource(name = "supplierService")
+	ISupplierService				supplierService;
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/index.html")
 	public void list(ModelMap model, Integer page) {
@@ -35,10 +40,20 @@ public class BuyerOfEnteringMaterialController {
 		model.addAttribute("pageView", pageView);
 	}
 
-	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/add.html")
-	public String add(ModelMap model) {
-		return "foward:input.html";
+	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/addUI.html")
+	public void addUI(ModelMap model) {
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("nameSpell", "asc");
+		orderby.put("createTime", "desc");
+		List<Supplier> suppliers = supplierService.getScrollData(orderby)
+				.getResultlist();
+		model.addAttribute("suppliers", suppliers);
+	}
 
+	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/add.html")
+	public String add(BuyerOfEnteringMaterial entity, ModelMap model) {
+		buyerOfEnteringMaterialService.save(entity);
+		return "forward:index.html";
 	}
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/input.html")
@@ -50,7 +65,7 @@ public class BuyerOfEnteringMaterialController {
 	public String save(BuyerOfEnteringMaterial buyerOfEnteringMaterial,
 			ModelMap model) {
 		buyerOfEnteringMaterialService.save(buyerOfEnteringMaterial);
-		return "redirect:index.html";
+		return "forward:index.html";
 
 	}
 

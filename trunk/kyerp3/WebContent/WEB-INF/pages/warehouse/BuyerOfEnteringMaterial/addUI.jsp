@@ -8,9 +8,15 @@
 </head>
 <body>
 <h1>采购入库单-添加</h1>
-<form action="save.html" method="post">
-<label>供应商</label><input type="text" name="supplier" /><br />
-<label>采购员</label><input type="text" name="buyerId" /><br />
+<form action="add.html" method="post">
+<label>供应商</label>
+<select name="supplierId">
+<c:forEach items="${suppliers}" var="s">
+<option value="${s.id}">${s.nameSpell} [${s.name}]</option>
+</c:forEach>
+</select>
+<br />
+
 <input type="submit" value="提交">
 </form>
 </body>
