@@ -50,7 +50,14 @@
 
 <h1>材料类别管理</h1>
 <h2><a href="add.html?parentId=${parentId}">添加</a></h2>
-<form action="list.html" method="post" id="myForm">
+<c:set var="navOut" value="" />
+<c:if test="${!empty navMcs}">
+<c:forEach items="${navMcs}" var="nav">
+<c:set var="navOut" value="&gt; <a href='index.html?id=${nav.id}'>${nav.name}</a> ${navOut}"/>
+</c:forEach>
+</c:if>
+<h5>导航：<a href="index.html">顶级分类</a><c:out value="${navOut}" escapeXml="false"/></h5>
+<form action="index.html" method="post" id="myForm">
 <input type="hidden" name="page" value="${pageView.currentpage}"/>
  <table width="98%" border="1" cellspacing="1" cellpadding="2" align="center">
     <tr ><td colspan="13" align="right">
