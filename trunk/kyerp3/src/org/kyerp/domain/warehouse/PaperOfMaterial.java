@@ -33,8 +33,6 @@ public class PaperOfMaterial extends Material {
 	private int					paperWeight;
 	/** 纸张吨价 */
 	private BigDecimal			tonnePrice;
-	/** 每张价格 */
-	private BigDecimal			price;
 	/** 每平米价格 */
 	private BigDecimal			squareMetrePrice;
 
@@ -120,14 +118,6 @@ public class PaperOfMaterial extends Material {
 
 	public void setTonnePrice(BigDecimal tonnePrice) {
 		this.tonnePrice = tonnePrice;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
 	}
 
 	public BigDecimal getSquareMetrePrice() {

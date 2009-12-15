@@ -10,7 +10,7 @@ import org.kyerp.domain.warehouse.Supplier;
  * 
  * @author y109 2009-12-11下午02:23:01
  */
-public class EnteringMaterialItem {
+public class EnteringMaterialCartItem {
 	/** 供应商 */
 	private Supplier	supplier;
 	/** 材料 **/
@@ -21,9 +21,19 @@ public class EnteringMaterialItem {
 	private BigDecimal	price;
 	/** 数量 */
 	private BigDecimal	amount;
+	/** 备注 */
+	private String		remark;
 
 	public Supplier getSupplier() {
 		return supplier;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public void setSupplier(Supplier supplier) {

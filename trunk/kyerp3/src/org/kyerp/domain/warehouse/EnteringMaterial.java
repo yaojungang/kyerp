@@ -28,24 +28,27 @@ import org.kyerp.domain.org.Employee;
 @DiscriminatorColumn(name = "enteringMaterial_type", discriminatorType = DiscriminatorType.STRING)
 /**该类的标识*/
 @DiscriminatorValue("enteringMaterial")
-public abstract class EnteringMaterial extends BaseDomain implements
-		Serializable {
-	private static final long				serialVersionUID	= 1L;
+public class EnteringMaterial extends BaseDomain implements Serializable {
+	private static final long	serialVersionUID	= 1L;
+	/** 入库单号 */
+	private String				serialNumber;
 	/** 入库时间 */
-	private Date							enteringTime;
+	private Date				enteringTime;
 	/** 仓库名称 */
 	@ManyToOne
-	private Warehouse						warehouse;
+	private Warehouse			warehouse;
 	/** 库管员 */
 	@ManyToOne
-	private Employee						keeper;
+	private Employee			keeper;
 	/** 操作员 */
 	@ManyToOne
-	private Employee						operator;
-
-	/** 入库单明细 **/
+	private Employee			operator;
+	/** 物料明细 **/
 	@OneToMany(mappedBy = "enteringMaterial")
-	private List<EnteringMaterialDetail>	enteringMaterialDetails;
+	private List<MaterialBatch>	materialBatchs;
+
+	/** 入库方式 */
+	/** 货位 */
 
 	public EnteringMaterial() {
 	}
@@ -82,21 +85,28 @@ public abstract class EnteringMaterial extends BaseDomain implements
 		this.operator = operator;
 	}
 
-	public List<EnteringMaterialDetail> getEnteringMaterialDetails() {
-		return enteringMaterialDetails;
+	public String getSerialNumber() {
+		return serialNumber;
 	}
 
-	public void setEnteringMaterialDetails(
-			List<EnteringMaterialDetail> enteringMaterialDetails) {
-		this.enteringMaterialDetails = enteringMaterialDetails;
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
+	public List<MaterialBatch> getMaterialBatchs() {
+		return materialBatchs;
+	}
+
+	public void setMaterialBatchs(List<MaterialBatch> materialBatchs) {
+		this.materialBatchs = materialBatchs;
 	}
 
 	/**
-	 * 添加入库明细项目
+	 * 添加物料批次项目
 	 */
-	public void addEnteringItem(EnteringMaterialDetail enteringMaterialDetail) {
-		this.enteringMaterialDetails.add(enteringMaterialDetail);
-		enteringMaterialDetail.setEnteringMaterial(this);
+	public void addEnteringItem(MaterialBatch materialBatch) {
+		this.materialBatchs.add(materialBatch);
+		materialBatch.setEnteringMaterial(this);
 	}
 
 }

@@ -59,10 +59,10 @@
     <tr>
       <td> <div align="center">选择</div></td>
       <td> <div align="center">ID</div></td>
+      <td> <div align="center">入库单号</div></td>
       <td> <div align="center">填单时间</div></td>
       <td> <div align="center">仓库</div></td>
       <td> <div align="center">库管员 </div></td>
-      <td> <div align="center">供应商</div></td>
       <td> <div align="center">确认时间</div></td>
       <td> <div align="center">操作</div></td>
     </tr>
@@ -71,10 +71,10 @@
     <tr>
       <td> <div align="center"><input type="checkbox" name="ids" value="${entry.id}"></div></td>
       <td> <div align="center">${entry.id}</div></td>
+      <td> <div align="center">${entry.serialNumber}</div></td>
       <td> <div align="center">${entry.inputTime}</div></td>
       <td> <div align="center">${entry.warehouse.name}</div></td>
       <td> <div align="center">${entry.keeper}</div></td>
-      <td> <div align="center">${entry.supplier.name}</div></td>
       <td> <div align="center">${entry.enteringTime}</div></td>
       <td> <div align="center"><a href="edit.html?id=${entry.id}">编辑</a></div></td>
  </tr>

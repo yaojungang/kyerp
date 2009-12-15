@@ -14,17 +14,17 @@ import org.kyerp.domain.warehouse.Warehouse;
  */
 public class EnteringMaterialCart {
 	/** 入库项 */
-	private List<EnteringMaterialItem>	items	= new ArrayList<EnteringMaterialItem>();
+	private List<EnteringMaterialCartItem>	items	= new ArrayList<EnteringMaterialCartItem>();
 	/** 采购员 */
 	private Employee					buyer;
 	/** 仓库名称 */
 	private Warehouse					warehouse;
 
-	public List<EnteringMaterialItem> getItems() {
+	public List<EnteringMaterialCartItem> getItems() {
 		return items;
 	}
 
-	public void setItems(List<EnteringMaterialItem> items) {
+	public void setItems(List<EnteringMaterialCartItem> items) {
 		this.items = items;
 	}
 
@@ -47,9 +47,9 @@ public class EnteringMaterialCart {
 	/**
 	 * 添加入库项
 	 */
-	public void add(EnteringMaterialItem item) {
+	public void add(EnteringMaterialCartItem item) {
 		if (this.items.contains(item)) {
-			for (EnteringMaterialItem it : this.items) {
+			for (EnteringMaterialCartItem it : this.items) {
 				if (it.equals(item)) {
 					it.setAmount(it.getAmount().add(new BigDecimal("1")));
 					break;
@@ -63,7 +63,7 @@ public class EnteringMaterialCart {
 	/**
 	 * 删除指定入库项目
 	 */
-	public void delete(EnteringMaterialItem item) {
+	public void delete(EnteringMaterialCartItem item) {
 		if (this.items.contains(item)) {
 			this.items.remove(item);
 		}
@@ -81,7 +81,7 @@ public class EnteringMaterialCart {
 	 */
 	public BigDecimal getTotalSellPrice() {
 		BigDecimal totalprice = new BigDecimal("0");
-		for (EnteringMaterialItem item : this.items) {
+		for (EnteringMaterialCartItem item : this.items) {
 			totalprice.add(item.getMaterial().getPrice().multiply(
 					item.getAmount()));
 		}
