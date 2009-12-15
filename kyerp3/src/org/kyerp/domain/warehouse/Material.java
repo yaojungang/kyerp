@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import org.kyerp.domain.BaseDomain;
 
 /**
- * 库存
+ * 库存材料档案
  * 
  * @author y109 2009-11-29下午11:24:25
  */
@@ -25,10 +25,14 @@ import org.kyerp.domain.BaseDomain;
 @DiscriminatorColumn(name = "material_type", discriminatorType = DiscriminatorType.STRING)
 /**该类的标识*/
 @DiscriminatorValue("material")
-public abstract class Material extends BaseDomain implements Serializable {
+public class Material extends BaseDomain implements Serializable {
 	private static final long	serialVersionUID	= 1L;
-	/** 材料名称 **/
+	/** 编号 **/
+	private String				serialNumber;
+	/** 名称 **/
 	private String				name;
+	/** 规格 **/
+	private String				specification;
 	/** 材料类别 */
 	@ManyToOne
 	private MaterialCategory	materialCategory;
@@ -71,6 +75,22 @@ public abstract class Material extends BaseDomain implements Serializable {
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+
+	public String getSpecification() {
+		return specification;
+	}
+
+	public void setSpecification(String specification) {
+		this.specification = specification;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 
 	public void setAmount(Float amount) {

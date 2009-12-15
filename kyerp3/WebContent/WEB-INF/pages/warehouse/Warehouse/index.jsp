@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>入库单管理</title>
+<title>仓库管理</title>
 <script language="JavaScript">
 <!--
  //到指定的分页页面
@@ -48,8 +48,8 @@
 </head>
 <body>
 
-<h1>入库单管理</h1>
-<h2><a href="add.html">添加入库单</a></h2>
+<h1>仓库管理</h1>
+<h2><a href="add.html">添加仓库</a></h2>
 <form action="index.html" method="post" id="myForm">
 <input type="hidden" name="page" value="${pageView.currentpage}"/>
  <table width="98%" border="1" cellspacing="1" cellpadding="2" align="center">
@@ -59,9 +59,8 @@
     <tr>
       <td> <div align="center">选择</div></td>
       <td> <div align="center">ID</div></td>
-      <td> <div align="center">入库时间</div></td>
-      <td> <div align="center">仓库</div></td>
-      <td> <div align="center">库管员 </div></td>
+      <td> <div align="center">编号</div></td>
+      <td> <div align="center">名称</div></td>
       <td> <div align="center">操作</div></td>
     </tr>
 <!---------------------------LOOP START------------------------------>
@@ -69,9 +68,8 @@
     <tr>
       <td> <div align="center"><input type="checkbox" name="ids" value="${entry.id}"></div></td>
       <td> <div align="center">${entry.id}</div></td>
-      <td> <div align="center">${entry.enteringTime}</div></td>
-      <td> <div align="center">${entry.warehouse.name}</div></td>
-      <td> <div align="center">${entry.keeper}</div></td>
+      <td> <div align="center">${entry.serialNumber}</div></td>
+      <td> <div align="center">${entry.name}</div></td>
       <td> <div align="center"><a href="edit.html?id=${entry.id}">编辑</a></div></td>
  </tr>
 </c:forEach>
