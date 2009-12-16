@@ -49,7 +49,7 @@
 <body>
 
 <h1>纸张列表</h1>
-<h2><a href="add.html">添加纸张</a></h2>
+<h2><a href="addUI.html">添加纸张</a></h2>
 <h2><a href="entering.html">纸张入库</a></h2>
 <h2><a href="delivery.html">纸张出库</a></h2>
 <form action="list.html" method="post" id="myForm">

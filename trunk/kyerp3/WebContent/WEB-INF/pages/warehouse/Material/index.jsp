@@ -49,7 +49,7 @@
 <body>
 
 <h1>物料档案管理</h1>
-<h2><a href="add.html">添加物料档案</a></h2>
+<h2><a href="addUI.html">添加物料档案</a></h2>
 <form action="index.html" method="post" id="myForm">
 <input type="hidden" name="page" value="${pageView.currentpage}"/>
  <table width="98%" border="1" cellspacing="1" cellpadding="2" align="center">

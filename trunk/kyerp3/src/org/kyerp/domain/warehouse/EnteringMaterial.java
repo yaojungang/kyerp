@@ -1,6 +1,7 @@
 package org.kyerp.domain.warehouse;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,7 @@ import org.kyerp.domain.org.Employee;
 public class EnteringMaterial extends BaseDomain implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 	/** 入库单号 */
-	private String				serialNumber;
+	private String				serialNumber		= "";
 	/** 入库时间 */
 	private Date				enteringTime;
 	/** 仓库名称 */
@@ -45,12 +46,13 @@ public class EnteringMaterial extends BaseDomain implements Serializable {
 	private Employee			operator;
 	/** 物料明细 **/
 	@OneToMany(mappedBy = "enteringMaterial")
-	private List<MaterialBatch>	materialBatchs;
+	private List<MaterialBatch>	materialBatchs		= new ArrayList<MaterialBatch>();
 
 	/** 入库方式 */
 	/** 货位 */
 
 	public EnteringMaterial() {
+		// materialBatchs.add(new MaterialBatch());
 	}
 
 	public Date getEnteringTime() {

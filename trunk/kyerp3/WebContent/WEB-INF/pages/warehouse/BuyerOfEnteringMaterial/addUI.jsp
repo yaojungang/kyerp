@@ -9,7 +9,7 @@
 <body>
 <h1>采购入库单-添加</h1>
 <form action="add.html" method="post">
-<label>库房</label><select name="warehouseId">
+<label>库房</label><select name="warehouse.id">
 <c:forEach items="${warehouses}" var="s">
 <option value="${s.id}">${s.serialNumber} [${s.name}]</option>
 </c:forEach>
@@ -27,25 +27,25 @@
     <td>金额</td>
     <td>备注</td>
   </tr>
-  <c:forEach items="${enteringMaterial.materialBatchs}" var="s" varStatus="loopStatus">
-  <spring:bind path="enteringMaterial.materialBatchs[${loopStatus.index}]">
+<c:forEach items="${buyerOfEnteringMaterial.materialBatchs}" var="s" varStatus="loopStatus">
+  <spring:bind path="buyerOfEnteringMaterial.materialBatchs[${loopStatus.index}]">
   <tr>
-    <td>${s.count}</td>
-    <td><input type="text" name="${s.experssion}.id" />${s.id}</td>
-    <td>${s.name}</td>
+    <td>${s.batchNumber}</td>
+    <td><input type="text" style="width:30px;" name="materialBatchs[${loopStatus.index}].material.id" value="${s.material.id}"/></td>
+    <td></td>
     <td>&nbsp;</td>
-    <td><select name="supplierId">
+    <td><select name="materialBatchs[${loopStatus.index}].supplier.id">
   <c:forEach items="${suppliers}" var="s">
   <option value="${s.id}">${s.nameSpell} [${s.name}]</option>
   </c:forEach>
   </select></td>
-    <td>${s.module}</td>
-    <td>${s.amount}</td>
-    <td>${s.price}</td>
+    <td><input type="text" style="width:30px;" name="materialBatchs[${loopStatus.index}].module" value="${s.module}"/></td>
+    <td><input type="text" style="width:30px;" name="materialBatchs[${loopStatus.index}].amount" value="${s.amount}"/></td>
+    <td><input type="text" style="width:30px;" name="materialBatchs[${loopStatus.index}].price" value="${s.price}"/></td>
     <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td><input type="text" style="width:30px;" name="materialBatchs[${loopStatus.index}].remark" value="${s.remark}"/></td>
   </tr>
-  </spring:bind>
+</spring:bind>
   </c:forEach>
 </table>
 <br />

@@ -13,7 +13,7 @@ public class EmployeeFamily implements java.io.Serializable {
 	@GeneratedValue
 	private long				id;
 	@ManyToOne
-	private Employee			employee;
+	private Employee			employee			= new Employee();
 
 	private String				name;
 

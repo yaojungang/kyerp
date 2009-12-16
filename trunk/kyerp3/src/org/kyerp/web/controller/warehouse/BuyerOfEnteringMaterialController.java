@@ -1,6 +1,7 @@
 package org.kyerp.web.controller.warehouse;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.kyerp.domain.base.views.PageView;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.BuyerOfEnteringMaterial;
-import org.kyerp.domain.warehouse.EnteringMaterial;
+import org.kyerp.domain.warehouse.MaterialBatch;
 import org.kyerp.domain.warehouse.Supplier;
 import org.kyerp.domain.warehouse.Warehouse;
 import org.kyerp.service.warehouse.IBuyerOfEnteringMaterialService;
@@ -21,12 +22,17 @@ import org.kyerp.service.warehouse.IWarehouseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.util.WebUtils;
 
 /**
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class BuyerOfEnteringMaterialController {
+@SessionAttributes("buyerOfEnteringMaterial")
+public class BuyerOfEnteringMaterialController extends SimpleFormController {
 	@Resource(name = "buyerOfEnteringMaterialService")
 	IBuyerOfEnteringMaterialService	buyerOfEnteringMaterialService;
 	@Resource(name = "supplierService")
@@ -53,7 +59,7 @@ public class BuyerOfEnteringMaterialController {
 	}
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/addUI.html")
-	public void addUI(ModelMap model) {
+	public void addUI(ModelMap model, HttpServletRequest request) {
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("nameSpell", "asc");
 		orderby.put("createTime", "desc");
@@ -61,28 +67,57 @@ public class BuyerOfEnteringMaterialController {
 				.getResultlist();
 		List<Warehouse> warehouses = warehouseService.getScrollData()
 				.getResultlist();
-		EnteringMaterial enteringMaterial = new EnteringMaterial();
-
+		BuyerOfEnteringMaterial buyerOfEnteringMaterial = (BuyerOfEnteringMaterial) WebUtils
+				.getSessionAttribute(request, "buyerOfEnteringMaterial");
 		model.addAttribute("suppliers", suppliers);
 		model.addAttribute("warehouses", warehouses);
-		model.addAttribute("enteringMaterial", enteringMaterial);
+		if (buyerOfEnteringMaterial != null) {
+			model.addAttribute("buyerOfEnteringMaterial",
+					buyerOfEnteringMaterial);
+		}
 	}
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/addToEnteringMaterial.html")
-	public String add(Long id, BuyerOfEnteringMaterial buyerOfEnteringMaterial,
-			ModelMap model, HttpServletRequest request) {
+	public String addToEnteringMaterial(Long id, ModelMap model,
+			HttpServletRequest request) {
+		BuyerOfEnteringMaterial buyerOfEnteringMaterial = (BuyerOfEnteringMaterial) WebUtils
+				.getSessionAttribute(request, "buyerOfEnteringMaterial");
+		if (buyerOfEnteringMaterial != null) {
+			MaterialBatch mb = new MaterialBatch();
+			mb.setMaterial(materialService.find(id));
+			buyerOfEnteringMaterial.getMaterialBatchs().add(mb);
+			model.addAttribute("buyerOfEnteringMaterial",
+					buyerOfEnteringMaterial);
+		} else {
+			buyerOfEnteringMaterial = new BuyerOfEnteringMaterial();
+			buyerOfEnteringMaterial.setWarehouse(new Warehouse());
+			List<MaterialBatch> materialBatchs = new ArrayList<MaterialBatch>();
+			MaterialBatch mb = new MaterialBatch();
+			mb.setMaterial(materialService.find(id));
+			materialBatchs.add(mb);
+			buyerOfEnteringMaterial.setMaterialBatchs(materialBatchs);
+		}
 
-		request.getSession().setAttribute("buyerOfEnteringMaterial",
-				buyerOfEnteringMaterial);
+		model.addAttribute("buyerOfEnteringMaterial", buyerOfEnteringMaterial);
 		return "forward:addUI.html";
 	}
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/add.html")
 	public String add(BuyerOfEnteringMaterial buyerOfEnteringMaterial,
-			Long warehouseId, ModelMap model) {
-		buyerOfEnteringMaterial
-				.setWarehouse(warehouseService.find(warehouseId));
+			ModelMap model, HttpServletRequest request, SessionStatus status) {
+
+		buyerOfEnteringMaterial.setWarehouse(warehouseService
+				.find(buyerOfEnteringMaterial.getWarehouse().getId()));
 		buyerOfEnteringMaterialService.save(buyerOfEnteringMaterial);
+
+		for (MaterialBatch mb : buyerOfEnteringMaterial.getMaterialBatchs()) {
+			mb.setMaterial(materialService.find(mb.getMaterial().getId()));
+			mb.setSupplier(supplierService.find(mb.getSupplier().getId()));
+			mb.setEnteringMaterial(buyerOfEnteringMaterial);
+			materialBatchService.save(mb);
+		}
+		status.setComplete();
+
 		return "forward:index.html";
 	}
 
