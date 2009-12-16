@@ -13,9 +13,6 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Employee implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long		serialVersionUID	= -6545298577393000755L;
 
 	@Id

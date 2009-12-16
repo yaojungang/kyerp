@@ -9,8 +9,6 @@
 <head>
 <title><decorator:title />-KYERP3</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="${ctx}/js/jquery.js"></script>
-<script type="text/javascript" src="${ctx}/js/common.js"></script>
 <link rel="stylesheet" href="${ctx}/css/reset.css" type="text/css" media="screen, projection">
 <link rel="stylesheet" href="${ctx}/css/grid.css" type="text/css" media="screen, projection">
 <link rel="stylesheet" href="${ctx}/css/type.css" type="text/css" media="screen, projection">
@@ -20,6 +18,11 @@
  <![endif]-->
 <link rel="stylesheet" href="${ctx}/css/page-layout.css" type="text/css" media="screen, projection">
 <link rel="stylesheet" href="${ctx}/css/web.css" type="text/css" media="screen, projection">
+
+<link rel="stylesheet" type="text/css" href="${ctx}/js/extjs/resources/css/ext-all.css">
+<script type="text/javascript" src="${ctx}/js/extjs/adapter/ext/ext-base.js"></script>
+<script type="text/javascript" src="${ctx}/js/extjs/ext-all-debug.js"></script>
+<script type="text/javascript" src="${ctx}/js/common.js"></script>
 <decorator:head />
 </head>
 <body class="kyerp">

@@ -20,21 +20,21 @@ import javax.persistence.PreUpdate;
 public class PaperOfMaterial extends Material {
 	private static final long	serialVersionUID	= -4449340515383717173L;
 	/** 纸张名称 */
-	private String				paperName;
+	private String				paperName			= "";
 	/** 纸张规格：正度、大度 */
-	private String				paperType;
+	private String				paperType			= "";
 	/** 纸长(mm) */
-	private int					paperHeight;
+	private int					paperHeight			= 0;
 	/** 纸宽(mm) */
-	private int					paperWidth;
+	private int					paperWidth			= 0;
 	/** 纸张大小：全开、对开、四开 */
-	private String				paperSize;
+	private String				paperSize			= "";
 	/** 纸张克重 */
-	private int					paperWeight;
+	private int					paperWeight			= 0;
 	/** 纸张吨价 */
-	private BigDecimal			tonnePrice;
+	private BigDecimal			tonnePrice			= new BigDecimal("0");
 	/** 每平米价格 */
-	private BigDecimal			squareMetrePrice;
+	private BigDecimal			squareMetrePrice	= new BigDecimal("0");
 
 	public PaperOfMaterial() {
 	}
@@ -53,6 +53,7 @@ public class PaperOfMaterial extends Material {
 	@PrePersist
 	public void prePersist() {
 		this.setName();
+		super.setSpecification(this.paperType);
 		super.prePersist();
 	}
 
@@ -61,6 +62,7 @@ public class PaperOfMaterial extends Material {
 	@Override
 	public void preUpdate() {
 		this.setName();
+		super.setSpecification(this.paperType);
 		super.preUpdate();
 	}
 

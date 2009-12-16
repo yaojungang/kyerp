@@ -9,24 +9,41 @@ import javax.annotation.Resource;
 
 import org.kyerp.domain.base.views.PageView;
 import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.warehouse.Brand;
 import org.kyerp.domain.warehouse.Material;
 import org.kyerp.domain.warehouse.MaterialCategory;
+import org.kyerp.domain.warehouse.Supplier;
+import org.kyerp.domain.warehouse.Warehouse;
+import org.kyerp.service.warehouse.IBrandService;
 import org.kyerp.service.warehouse.IMaterialCategoryService;
 import org.kyerp.service.warehouse.IMaterialService;
+import org.kyerp.service.warehouse.IPaperOfMaterialService;
+import org.kyerp.service.warehouse.ISupplierService;
+import org.kyerp.service.warehouse.IWarehouseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
+@SessionAttributes("material")
 public class MaterialController {
 	@Resource(name = "materialService")
 	IMaterialService			materialService;
 	@Resource(name = "materialCategoryService")
 	IMaterialCategoryService	materialCategoryService;
+	@Resource(name = "paperOfMaterialService")
+	IPaperOfMaterialService		paperOfMaterialService;
+	@Resource(name = "brandService")
+	IBrandService				brandService;
+	@Resource(name = "supplierService")
+	ISupplierService			supplierService;
+	@Resource(name = "warehouseService")
+	IWarehouseService			warehouseService;
 
 	@RequestMapping("/warehouse/Material/index.html")
 	public void list(ModelMap model, Integer page) {
@@ -40,12 +57,46 @@ public class MaterialController {
 		model.addAttribute("pageView", pageView);
 	}
 
-	@RequestMapping("/warehouse/Material/add.html")
-	public String add(ModelMap model) {
+	@RequestMapping("/warehouse/Material/addUI.html")
+	public void addUI(ModelMap model) {
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("nameSpell", "asc");
+		orderby.put("createTime", "desc");
+		List<Supplier> suppliers = supplierService.getScrollData(orderby)
+				.getResultlist();
+		List<Warehouse> warehouses = warehouseService.getScrollData()
+				.getResultlist();
+		List<Brand> brands = brandService.getScrollData().getResultlist();
 		model
 				.addAttribute("materialCategories", this
 						.getMaterialCategoryList());
-		return "forward:input.html";
+		model.addAttribute("suppliers", suppliers);
+		model.addAttribute("warehouses", warehouses);
+		model.addAttribute("brands", brands);
+
+		Material material = new Material();
+		MaterialCategory materialCategory = new MaterialCategory();
+		material.setMaterialCategory(materialCategory);
+		Brand brand = new Brand();
+		material.setBrand(brand);
+		Supplier supplier = new Supplier();
+		material.setSupplier(supplier);
+		Warehouse warehouse = new Warehouse();
+		material.setWarehouse(warehouse);
+		model.addAttribute("material", material);
+	}
+
+	@RequestMapping("/warehouse/Material/add.html")
+	public String add(Material material, ModelMap model) {
+		material.setMaterialCategory(materialCategoryService.find(material
+				.getMaterialCategory().getId()));
+		material.setBrand(brandService.find(material.getBrand().getId()));
+		material.setWarehouse(warehouseService.find(material.getWarehouse()
+				.getId()));
+		material.setSupplier(supplierService.find(material.getSupplier()
+				.getId()));
+		materialService.save(material);
+		return "redirect:index.html";
 
 	}
 
@@ -61,11 +112,6 @@ public class MaterialController {
 				.getScrollData(jpql.toString(), params.toArray(), orderby)
 				.getResultlist();
 		return materialCategories;
-	}
-
-	@RequestMapping("/warehouse/Material/input.html")
-	public void input(ModelMap model) {
-
 	}
 
 	@RequestMapping("/warehouse/Material/save.html")

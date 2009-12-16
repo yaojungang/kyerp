@@ -20,7 +20,7 @@ public class BuyerOfEnteringMaterial extends EnteringMaterial implements
 		Serializable {
 	private static final long	serialVersionUID	= 1L;
 	/** 采购入库单填单时间 */
-	private Date				inputTime;
+	private Date				inputTime			= new Date();
 
 	/** 采购员 */
 	@ManyToOne
