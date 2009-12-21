@@ -381,7 +381,7 @@ function show(id){
   <tr>
     <td width="40"><div align="center">类型</div></td>
     <td width="50">接活时间</td>
-    <td width="40">软片状态</td>
+    <td width="50">软片状态</td>
     <td>软片位置</td>
     <td>拼版人员</td>
     <td>晒版人员</td>
