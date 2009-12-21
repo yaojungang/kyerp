@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
+
+import org.kyerp.domain.base.views.ExtTreeNode;
 import org.kyerp.domain.base.views.PageView;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.MaterialCategory;
@@ -42,7 +45,7 @@ public class MaterialCategoryController {
 			model.addAttribute("navMcs", materialCategoryService
 					.getParentMaterialCategories(id));
 		} else {
-			jpql.append(" and o.parentMaterialCategory is null");
+			jpql.append(" and 1=1");
 		}
 		QueryResult<MaterialCategory> qureyResult = materialCategoryService
 				.getScrollData(pageView.getFirstResult(), pageView
@@ -65,6 +68,36 @@ public class MaterialCategoryController {
 				.getScrollData(jpql.toString(), params.toArray(), orderby)
 				.getResultlist();
 		return materialCategories;
+	}
+
+	@RequestMapping("/warehouse/MaterialCategory/jsonMaterialCategoryList.html")
+	public String jsonMaterialCategoryList(ModelMap model, Long node) {
+		List<ExtTreeNode> treeNodes = new ArrayList<ExtTreeNode>();
+		for (MaterialCategory mc : materialCategoryService
+				.getMaterialCategoriesByParentId(node)) {
+			ExtTreeNode treeNode = new ExtTreeNode();
+			treeNode.setId(mc.getId().toString());
+			treeNode.setText(mc.getName());
+			treeNode
+					.setHref("http://localhost:8080/kyerp3/warehouse/Material/index.html?id="
+							+ mc.getId());
+			// treeNode.setHrefTarget("_blank");
+			if (mc.getChildMaterialCategories().size() > 0) {
+				treeNode.setLeaf(false);
+			} else {
+				treeNode.setLeaf(true);
+			}
+			treeNodes.add(treeNode);
+		}
+		JSONArray jsonObject = JSONArray.fromObject(treeNodes);
+		String text = "";
+		try {
+			text = jsonObject.toString();
+		} catch (Exception e) {
+			text = "";
+		}
+		model.addAttribute("jsonText", text);
+		return "share/jsonTextView";
 	}
 
 	@RequestMapping("/warehouse/MaterialCategory/add.html")

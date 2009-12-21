@@ -23,6 +23,9 @@
 <script type="text/javascript" src="${ctx}/js/extjs/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="${ctx}/js/extjs/ext-all-debug.js"></script>
 <script type="text/javascript" src="${ctx}/js/common.js"></script>
+<script type="text/javascript">
+Ext.BLANK_IMAGE_URL = '${ctx}/js/extjs/resources/images/default/s.gif';
+</script>
 <decorator:head />
 </head>
 <body class="kyerp">
