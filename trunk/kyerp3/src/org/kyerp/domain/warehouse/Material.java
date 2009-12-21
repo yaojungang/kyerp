@@ -58,12 +58,22 @@ public class Material extends BaseDomain implements Serializable {
 	/** 默认供应商 */
 	@ManyToOne
 	private Supplier			supplier			= new Supplier();
+	/** 隐藏 */
+	private Boolean				visible				= true;
 
 	public Material() {
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public Boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
 	}
 
 	public Warehouse getWarehouse() {

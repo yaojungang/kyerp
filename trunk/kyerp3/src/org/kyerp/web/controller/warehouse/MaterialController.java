@@ -46,13 +46,23 @@ public class MaterialController {
 	IWarehouseService			warehouseService;
 
 	@RequestMapping("/warehouse/Material/index.html")
-	public void list(ModelMap model, Integer page) {
+	public void index(ModelMap model, Long id, Integer page) {
 		page = null == page || page < 1 ? 1 : page;
 		PageView<Material> pageView = new PageView<Material>(12, page);
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("createTime", "desc");
+		StringBuffer jpql = new StringBuffer("o.visible=?1");
+		List<Object> params = new ArrayList<Object>();
+		params.add(true);
+		if (id != null && id > 0) {
+			jpql.append(" and o.materialCategory.id=?" + (params.size() + 1));
+			params.add(id);
+		} else {
+			jpql.append(" and o.materialCategory is null");
+		}
 		QueryResult<Material> qureyResult = materialService.getScrollData(
-				pageView.getFirstResult(), pageView.getMaxresult(), orderby);
+				pageView.getFirstResult(), pageView.getMaxresult(), jpql
+						.toString(), params.toArray(), orderby);
 		pageView.setQueryResult(qureyResult);
 		model.addAttribute("pageView", pageView);
 	}

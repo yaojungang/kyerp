@@ -17,4 +17,6 @@ public interface IMaterialCategoryService extends DAO<MaterialCategory> {
 	/** 返回指定类的所有父类 */
 	public List<MaterialCategory> getParentMaterialCategories(Long id);
 
+	/** 返回指定Id父类下的所有子类 */
+	public List<MaterialCategory> getMaterialCategoriesByParentId(Long parentId);
 }

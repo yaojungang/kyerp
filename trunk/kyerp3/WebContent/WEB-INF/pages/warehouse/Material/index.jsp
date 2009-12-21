@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>物料档案管理</title>
+
 <script language="JavaScript">
 <!--
  //到指定的分页页面
@@ -45,10 +46,25 @@
  }
 //-->
 </script>
+<script language="javascript" src="${ctx}/js/MaterialCateTreePanel.js"></script>
+<script language="javascript">
+Ext.onReady(function(){ 
+ var _materialCategoryTreePanel = new MaterialCategoryTreePanel() ;
+ _materialCategoryTreePanel.applyToMarkup("materialCategoryTreePanel");
+ _materialCategoryTreePanel.root.expand();
+ _materialCategoryTreePanel.on("click", function(node){
+
+	});
+	 
+ 
+}) ;
+</script>
 </head>
 <body>
-
 <h1>物料档案管理</h1>
+<table width="100%">
+  <tr>
+<td valign="top" width="200"><div id="materialCategoryTreePanel">物料分类列表</div></td><td valign="top">
 <h2><a href="addUI.html">添加物料档案</a></h2>
 <form action="index.html" method="post" id="myForm">
 <input type="hidden" name="page" value="${pageView.currentpage}"/>
@@ -82,12 +98,14 @@
     <tr>
       <td colspan="12" align="center"><table width="100%" border="0" cellspacing="1" cellpadding="3">
           <tr> 
-            <td width="10%"><input type="checkbox" onclick="javascript:allSelect(this.form.ids)" name="allselectbox">全选</td>
-              <td width="85%"><input type="button" class="frm_btn" value="删除" onclick="_action('allUnLock')"></td>
+            <td width="10%"><input type="checkbox" onClick="javascript:allSelect(this.form.ids)" name="allselectbox">全选</td>
+              <td width="85%"><input type="button" class="frm_btn" value="删除" onClick="_action('allUnLock')"></td>
           </tr>
         </table></td>
     </tr>
   </table>
  </form>
+ </td>
+</tr></table>
 </body>
 </html>

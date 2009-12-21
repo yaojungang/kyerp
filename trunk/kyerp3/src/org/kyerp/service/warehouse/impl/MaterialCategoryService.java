@@ -4,6 +4,7 @@
 package org.kyerp.service.warehouse.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kyerp.dao.DaoSupport;
@@ -26,7 +27,32 @@ public class MaterialCategoryService extends DaoSupport<MaterialCategory>
 			mcs.add(mcParent);
 			mcParent = mcParent.getParentMaterialCategory();
 		}
-		System.out.println("getParentMaterialCategories:" + mcs.size());
 		return mcs;
+	}
+
+	/*
+	 * 
+	 * 
+	 * @seeorg.kyerp.service.warehouse.IMaterialCategoryService#
+	 * getMaterialCategoriesByParentId(java.lang.Long)
+	 */
+	@Override
+	public List<MaterialCategory> getMaterialCategoriesByParentId(Long parentId) {
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("serialNumber", "asc");
+		orderby.put("createTime", "asc");
+		StringBuffer jpql = new StringBuffer("o.visible=?1");
+		List<Object> params = new ArrayList<Object>();
+		params.add(true);
+		if (parentId != null && parentId > 0) {
+			jpql.append(" and o.parentMaterialCategory.id=?"
+					+ (params.size() + 1));
+			params.add(parentId);
+		} else {
+			jpql.append(" and o.parentMaterialCategory is null");
+		}
+		List<MaterialCategory> materialCategories = getScrollData(
+				jpql.toString(), params.toArray(), orderby).getResultlist();
+		return materialCategories;
 	}
 }

@@ -6,6 +6,7 @@
 		<pattern>/js/*</pattern>
 		<pattern>/images/*</pattern>
 		<pattern>/*/noSkin_*</pattern>
+		<pattern>/*/json*</pattern>
 	</excludes>
 	<decorator name="print" page="printable.jsp">
 		<pattern>/*/*_print*</pattern>
