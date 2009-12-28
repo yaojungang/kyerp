@@ -13,6 +13,7 @@
 <table width="98%" border="0" cellpadding="6" cellspacing="1"
 	bgcolor="#CCCCCC">
 	<tr align="center">
+        <td>序号</td>
 		<td width="85" bgcolor="#EEEEEE"><span class="From_item">任务单号</span></td>
 		<td bgcolor="#EEEEEE">印品名称</td>
 		<td bgcolor="#EEEEEE">类型</td>
@@ -22,6 +23,7 @@
 	<s:iterator value="#request['ListAFE']" id="afe" status="st">
 		<tr <s:if test="#st.even">style="background-color:#EAEAEA"</s:if>
 			<s:if test="#st.odd">style="background-color:#FFffff"</s:if>>
+           <td align="center"><s:property value="#st.index +1" /></td>
 			<td align="center"><s:property value="#afe.afBase.iso" /><s:property
 				value="#afe.afBase.afNo" /></td>
 			<td><a

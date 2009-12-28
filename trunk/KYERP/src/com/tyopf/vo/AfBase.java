@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tyopf.vo.qc.QYYTD82402;
+import com.tyopf.vo.qc.QYYTD82403;
 import com.tyopf.vo.qc.QYYTD82404;
 import com.tyopf.vo.qc.QYYTD82407;
 import com.tyopf.vo.qc.QYYTD82408;
@@ -26,6 +27,7 @@ public class AfBase {
 	private Set<AfDispose>			afDispose			= new HashSet<AfDispose>();
 	private Set<AfValuation>		AfValuation			= new HashSet<AfValuation>();
 	private Set<AfQualityProblem>	afQualityProblem	= new HashSet<AfQualityProblem>();
+	private Set<QYYTD82403>			QYYTD82403s			= new HashSet<QYYTD82403>();
 	private QYYTD82402				QYYTD82402;
 	private QYYTD82404				QYYTD82404;
 	private QYYTD82407				QYYTD82407;
@@ -111,12 +113,20 @@ public class AfBase {
 		return QYYTD82402;
 	}
 
+	public void setQYYTD82403s(Set<QYYTD82403> qYYTD82403s) {
+		QYYTD82403s = qYYTD82403s;
+	}
+
 	public void setQYYTD82402(QYYTD82402 qYYTD82402) {
 		QYYTD82402 = qYYTD82402;
 	}
 
 	public QYYTD82410 getQYYTD82410() {
 		return QYYTD82410;
+	}
+
+	public Set<QYYTD82403> getQYYTD82403s() {
+		return QYYTD82403s;
 	}
 
 	public void setQYYTD82410(QYYTD82410 qYYTD82410) {

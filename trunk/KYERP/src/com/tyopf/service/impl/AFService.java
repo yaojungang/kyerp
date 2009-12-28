@@ -18,9 +18,9 @@ import com.tyopf.vo.AfQualityProblemAttachment;
 import com.tyopf.vo.AfValuation;
 
 public class AFService implements IAFService {
-	protected IAFDAO afDAO;
-	private ISystemDAO systemDAO;
-	public AfValuation bjItem;	
+	protected IAFDAO	afDAO;
+	private ISystemDAO	systemDAO;
+	public AfValuation	bjItem;
 
 	public ISystemDAO getSystemDAO() {
 		return systemDAO;
@@ -246,8 +246,8 @@ public class AFService implements IAFService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<AfValuation> AFcal(long afId) {		
-		CalSK cal= new CalSK();
+	public List<AfValuation> AFcal(long afId) {
+		CalSK cal = new CalSK();
 		return cal.calSK(afDAO.getAFById(afId));
 	}
 
@@ -262,11 +262,13 @@ public class AFService implements IAFService {
 				currentPage, pageSize);
 	}
 
-	public List<AfElement> getAFEByMachine(String MachineName, int currentPage, int pageSize) {
+	public List<AfElement> getAFEByMachine(String MachineName, int currentPage,
+			int pageSize) {
 		return afDAO.getAFEByMachine(MachineName, currentPage, pageSize);
 	}
 
-	public List<AfElement> getAFEByType(String AFType, int currentPage, int pageSize) {
+	public List<AfElement> getAFEByType(String AFType, int currentPage,
+			int pageSize) {
 		return afDAO.getAFEByType(AFType, currentPage, pageSize);
 	}
 
@@ -306,12 +308,13 @@ public class AFService implements IAFService {
 		afDAO.saveAFE(afe);
 	}
 
-	public List<AfBase> getAFByYWandType(String YWName, String AFType, long StartAFNo, long EndAFNo) {
+	public List<AfBase> getAFByYWandType(String YWName, String AFType,
+			long StartAFNo, long EndAFNo) {
 		return afDAO.getAFByYWandType(YWName, AFType, StartAFNo, EndAFNo);
 	}
 
-
-	public List<AfBase> getAFByClientNoRange(String client, String AFType, long StartAFNo, long EndAFNo) {
+	public List<AfBase> getAFByClientNoRange(String client, String AFType,
+			long StartAFNo, long EndAFNo) {
 		return afDAO.getAFByClientNoRange(client, AFType, StartAFNo, EndAFNo);
 	}
 
@@ -319,12 +322,15 @@ public class AFService implements IAFService {
 		return afDAO.getMoneyByAFlist(aflist);
 	}
 
-	public List<AfBase> getAFByChejian(String ChejianName, String AFType, long StartAFNo, long EndAFNo) {
+	public List<AfBase> getAFByChejian(String ChejianName, String AFType,
+			long StartAFNo, long EndAFNo) {
 		return afDAO.getAFByChejian(ChejianName, AFType, StartAFNo, EndAFNo);
 	}
 
-	public List<AfValuation> getAFVByChejian(String YWName,String ChejianName, String AFType, long StartAFNo, long EndAFNo) {
-		return afDAO.getAFVByChejian(YWName,ChejianName, AFType, StartAFNo, EndAFNo);
+	public List<AfValuation> getAFVByChejian(String YWName, String ChejianName,
+			String AFType, long StartAFNo, long EndAFNo) {
+		return afDAO.getAFVByChejian(YWName, ChejianName, AFType, StartAFNo,
+				EndAFNo);
 	}
 
 	public double getMoneyByAFVlist(List<AfValuation> afvlist) {
@@ -338,7 +344,8 @@ public class AFService implements IAFService {
 	public ValueOfOutput getChart_ValueOfOutput(long SKStartAFNo,
 			long LHStartAFNo, long SKEndAFNo, long LHEndAFNo) {
 		Chart_ValueOfOutput cv = new Chart_ValueOfOutput();
-		return cv.getChart_ValueOfOutput(SKStartAFNo, LHStartAFNo, SKEndAFNo, LHEndAFNo);
+		return cv.getChart_ValueOfOutput(SKStartAFNo, LHStartAFNo, SKEndAFNo,
+				LHEndAFNo);
 	}
 
 	public List<AfBase> getAFinAFNoList(String AFNoList) {
@@ -351,7 +358,8 @@ public class AFService implements IAFService {
 
 	public List<AfBase> getAFByNoRangeItemContent(String AFType,
 			long StartAFNo, long EndAFNo, String Item, String Content) {
-		return afDAO.getAFByNoRangeItemContent(AFType, StartAFNo, EndAFNo, Item, Content);
+		return afDAO.getAFByNoRangeItemContent(AFType, StartAFNo, EndAFNo,
+				Item, Content);
 	}
 
 	public int getCountofProcessByType(String processType) {
@@ -449,7 +457,7 @@ public class AFService implements IAFService {
 	@Override
 	public void editAFE_PM(AfElement afe) {
 		AfElement afe0 = afDAO.getAFEById(afe.getAfEId());
-		
+
 		afe0.setFilmPlace(afe.getFilmPlace());
 		afe0.setPmstartTime(afe.getPmstartTime());
 		afe0.setPmfilmCheck(afe.getPmfilmCheck());
@@ -463,9 +471,15 @@ public class AFService implements IAFService {
 		afe0.setPmsaiMpa(afe.getPmsaiMpa());
 		afe0.setPmpushSampleTime(afe.getPmpushSampleTime());
 		afe0.setPmpushSampleMan(afe.getPmpushSampleMan());
-		
+
 		afDAO.saveAFE(afe0);
 	}
 
+	@Override
+	public List<AfElement> getAFEByEMachine(String clientName, String EMachine,
+			String AFType, long StartAFNo, long EndAFNo) {
+		return afDAO.getAFEByEMachine(clientName, EMachine, AFType, StartAFNo,
+				EndAFNo);
+	}
 
 }

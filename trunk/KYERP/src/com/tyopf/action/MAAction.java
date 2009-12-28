@@ -8,21 +8,24 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IAFService;
 import com.tyopf.service.Statistics.ValueOfOutput;
+import com.tyopf.util.Pager;
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.AfElement;
 import com.tyopf.vo.AfValuation;
 
 @SuppressWarnings("serial")
 public class MAAction extends ActionSupport {
-	protected IAFService afService;
+	protected IAFService	afService;
 
-	private long SKStartAFNo = 20081001;
-	private long LHStartAFNo = 20080671;
-	private long SKEndAFNo = 20081300;
-	private long LHEndAFNo = 20080800;
-	private String AFType = "SK";
-	private long StartAFNo = 20070001;
-	private long EndAFNo = 20079999;
+	private long			SKStartAFNo	= 20081001;
+	private long			LHStartAFNo	= 20080671;
+	private long			SKEndAFNo	= 20081300;
+	private long			LHEndAFNo	= 20080800;
+	private String			AFType		= "SK";
+	private long			StartAFNo	= 20090000;
+	private long			EndAFNo		= 20099999;
+	private String			EMachine	= "四色";
+	private String			clientName	= "清华大学出版社";
 
 	public String getAFType() {
 		return AFType;
@@ -38,6 +41,22 @@ public class MAAction extends ActionSupport {
 
 	public void setStartAFNo(long startAFNo) {
 		StartAFNo = startAFNo;
+	}
+
+	public String getEMachine() {
+		return EMachine;
+	}
+
+	public void setEMachine(String eMachine) {
+		EMachine = eMachine;
+	}
+
+	public String getClientName() {
+		return clientName;
+	}
+
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
 	}
 
 	public long getEndAFNo() {
@@ -88,6 +107,7 @@ public class MAAction extends ActionSupport {
 		this.afService = afService;
 	}
 
+	@Override
 	public String execute() throws Exception {
 		return SUCCESS;
 	}
@@ -122,19 +142,23 @@ public class MAAction extends ActionSupport {
 		for (Iterator it = afService.getAFByNoRange("SK", SKStartAFNo,
 				SKEndAFNo).iterator(); it.hasNext();) {
 			AfBase af = (AfBase) it.next();
-			if (null != af.getMoneyShould())
+			if (null != af.getMoneyShould()) {
 				SKMoneyShould = SKMoneyShould + af.getMoneyShould();
-			if (null != af.getMoneyFact())
+			}
+			if (null != af.getMoneyFact()) {
 				SKMoneyFact = SKMoneyFact + af.getMoneyFact();
+			}
 		}
 
 		for (Iterator it = afService.getAFByNoRange("LH", LHStartAFNo,
 				LHEndAFNo).iterator(); it.hasNext();) {
 			AfBase af = (AfBase) it.next();
-			if (null != af.getMoneyShould())
+			if (null != af.getMoneyShould()) {
 				LHMoneyShould = LHMoneyShould + af.getMoneyShould();
-			if (null != af.getMoneyFact())
+			}
+			if (null != af.getMoneyFact()) {
 				LHMoneyFact = LHMoneyFact + af.getMoneyFact();
+			}
 		}
 		request.put("SKMoneyShould", com.tyopf.util.MathTools.round(
 				SKMoneyShould, 2));
@@ -173,55 +197,77 @@ public class MAAction extends ActionSupport {
 		for (Iterator it = afService.getAFVByChejian("", "", "SK", SKStartAFNo,
 				SKEndAFNo).iterator(); it.hasNext();) {
 			AfValuation afv = (AfValuation) it.next();
-			if ("照排".equals(afv.getChejian()))
+			if ("照排".equals(afv.getChejian())) {
 				SKzp = SKzp + afv.getTotalAmount();
-			if ("制版车间".equals(afv.getChejian()))
+			}
+			if ("制版车间".equals(afv.getChejian())) {
 				SKzbcj = SKzbcj + afv.getTotalAmount();
-			if ("四色".equals(afv.getChejian()))
+			}
+			if ("四色".equals(afv.getChejian())) {
 				SKss = SKss + afv.getTotalAmount();
-			if ("双面".equals(afv.getChejian()))
+			}
+			if ("双面".equals(afv.getChejian())) {
 				SKsm = SKsm + afv.getTotalAmount();
-			if ("05".equals(afv.getChejian()))
+			}
+			if ("05".equals(afv.getChejian())) {
 				SK05 = SK05 + afv.getTotalAmount();
-			if ("02".equals(afv.getChejian()))
+			}
+			if ("02".equals(afv.getChejian())) {
 				SK02 = SK02 + afv.getTotalAmount();
-			if ("小制版".equals(afv.getChejian()))
+			}
+			if ("小制版".equals(afv.getChejian())) {
 				SKxzb = SKxzb + afv.getTotalAmount();
-			if ("装订".equals(afv.getChejian()))
+			}
+			if ("装订".equals(afv.getChejian())) {
 				SKzd = SKzd + afv.getTotalAmount();
-			if ("库房".equals(afv.getChejian()))
+			}
+			if ("库房".equals(afv.getChejian())) {
 				SKkf = SKkf + afv.getTotalAmount();
-			if ("外加工".equals(afv.getChejian()))
+			}
+			if ("外加工".equals(afv.getChejian())) {
 				SKwjg = SKwjg + afv.getTotalAmount();
-			if ("其它".equals(afv.getChejian()))
+			}
+			if ("其它".equals(afv.getChejian())) {
 				SKqt = SKqt + afv.getTotalAmount();
+			}
 		}
 
 		for (Iterator it = afService.getAFVByChejian("", "", "LH", LHStartAFNo,
 				LHEndAFNo).iterator(); it.hasNext();) {
 			AfValuation afv = (AfValuation) it.next();
-			if ("照排".equals(afv.getChejian()))
+			if ("照排".equals(afv.getChejian())) {
 				LHzp = LHzp + afv.getTotalAmount();
-			if ("制版车间".equals(afv.getChejian()))
+			}
+			if ("制版车间".equals(afv.getChejian())) {
 				LHzbcj = LHzbcj + afv.getTotalAmount();
-			if ("四色".equals(afv.getChejian()))
+			}
+			if ("四色".equals(afv.getChejian())) {
 				LHss = LHss + afv.getTotalAmount();
-			if ("双面".equals(afv.getChejian()))
+			}
+			if ("双面".equals(afv.getChejian())) {
 				LHsm = LHsm + afv.getTotalAmount();
-			if ("05".equals(afv.getChejian()))
+			}
+			if ("05".equals(afv.getChejian())) {
 				LH05 = LH05 + afv.getTotalAmount();
-			if ("02".equals(afv.getChejian()))
+			}
+			if ("02".equals(afv.getChejian())) {
 				LH02 = LH02 + afv.getTotalAmount();
-			if ("小制版".equals(afv.getChejian()))
+			}
+			if ("小制版".equals(afv.getChejian())) {
 				LHxzb = LHxzb + afv.getTotalAmount();
-			if ("装订".equals(afv.getChejian()))
+			}
+			if ("装订".equals(afv.getChejian())) {
 				LHzd = LHzd + afv.getTotalAmount();
-			if ("库房".equals(afv.getChejian()))
+			}
+			if ("库房".equals(afv.getChejian())) {
 				LHkf = LHkf + afv.getTotalAmount();
-			if ("外加工".equals(afv.getChejian()))
+			}
+			if ("外加工".equals(afv.getChejian())) {
 				LHwjg = LHwjg + afv.getTotalAmount();
-			if ("其它".equals(afv.getChejian()))
+			}
+			if ("其它".equals(afv.getChejian())) {
 				LHqt = LHqt + afv.getTotalAmount();
+			}
 		}
 
 		request.put("SKzp", com.tyopf.util.MathTools.round(SKzp, 2));
@@ -279,40 +325,52 @@ public class MAAction extends ActionSupport {
 				SKEndAFNo).iterator(); it.hasNext();) {
 			AfBase af = (AfBase) it.next();
 			if ("王秀云".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
+				if (null != af.getMoneyShould()) {
 					SKYWYShouldwxy = SKYWYShouldwxy + af.getMoneyShould();
-				if (null != af.getMoneyFact())
+				}
+				if (null != af.getMoneyFact()) {
 					SKYWYFactwxy = SKYWYFactwxy + af.getMoneyFact();
+				}
 			}
 			if ("杨爱荣".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
+				if (null != af.getMoneyShould()) {
 					SKYWYShouldyar = SKYWYShouldyar + af.getMoneyShould();
-				if (null != af.getMoneyFact())
+				}
+				if (null != af.getMoneyFact()) {
 					SKYWYFactyar = SKYWYFactyar + af.getMoneyFact();
+				}
 			}
 			if ("陈桂芝".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
+				if (null != af.getMoneyShould()) {
 					SKYWYShouldcgz = SKYWYShouldcgz + af.getMoneyShould();
-				if (null != af.getMoneyFact())
+				}
+				if (null != af.getMoneyFact()) {
 					SKYWYFactcgz = SKYWYFactcgz + af.getMoneyFact();
+				}
 			}
 			if ("孙玉萍".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
+				if (null != af.getMoneyShould()) {
 					SKYWYShouldsyp = SKYWYShouldsyp + af.getMoneyShould();
-				if (null != af.getMoneyFact())
+				}
+				if (null != af.getMoneyFact()) {
 					SKYWYFactsyp = SKYWYFactsyp + af.getMoneyFact();
+				}
 			}
 			if ("孙纪文".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
+				if (null != af.getMoneyShould()) {
 					SKYWYShouldsjw = SKYWYShouldsjw + af.getMoneyShould();
-				if (null != af.getMoneyFact())
+				}
+				if (null != af.getMoneyFact()) {
 					SKYWYFactsjw = SKYWYFactsjw + af.getMoneyFact();
+				}
 			}
 			if ("吴宝举".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
+				if (null != af.getMoneyShould()) {
 					SKYWYShouldwbj = SKYWYShouldwbj + af.getMoneyShould();
-				if (null != af.getMoneyFact())
+				}
+				if (null != af.getMoneyFact()) {
 					SKYWYFactwbj = SKYWYFactwbj + af.getMoneyFact();
+				}
 			}
 		}
 
@@ -320,34 +378,44 @@ public class MAAction extends ActionSupport {
 				LHEndAFNo).iterator(); it.hasNext();) {
 			AfBase af = (AfBase) it.next();
 			if ("王秀云".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
+				if (null != af.getMoneyShould()) {
 					LHYWYShouldwxy = LHYWYShouldwxy + af.getMoneyShould();
-				if (null != af.getMoneyFact())
+				}
+				if (null != af.getMoneyFact()) {
 					LHYWYFactwxy = LHYWYFactwxy + af.getMoneyFact();
+				}
 			}
 			if ("杨爱荣".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
+				if (null != af.getMoneyShould()) {
 					LHYWYShouldyar = LHYWYShouldyar + af.getMoneyShould();
-				if (null != af.getMoneyFact())
+				}
+				if (null != af.getMoneyFact()) {
 					LHYWYFactyar = LHYWYFactyar + af.getMoneyFact();
+				}
 			}
 			if ("陈桂芝".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
+				if (null != af.getMoneyShould()) {
 					LHYWYShouldcgz = LHYWYShouldcgz + af.getMoneyShould();
-				if (null != af.getMoneyFact())
+				}
+				if (null != af.getMoneyFact()) {
 					LHYWYFactcgz = LHYWYFactcgz + af.getMoneyFact();
+				}
 			}
 			if ("郭建红".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
+				if (null != af.getMoneyShould()) {
 					LHYWYShouldsyp = LHYWYShouldsyp + af.getMoneyShould();
-				if (null != af.getMoneyFact())
+				}
+				if (null != af.getMoneyFact()) {
 					LHYWYFactsyp = LHYWYFactsyp + af.getMoneyFact();
+				}
 			}
 			if ("孙纪文".equals(af.getCp())) {
-				if (null != af.getMoneyShould())
+				if (null != af.getMoneyShould()) {
 					LHYWYShouldsjw = LHYWYShouldsjw + af.getMoneyShould();
-				if (null != af.getMoneyFact())
+				}
+				if (null != af.getMoneyFact()) {
 					LHYWYFactsjw = LHYWYFactsjw + af.getMoneyFact();
+				}
 			}
 		}
 
@@ -405,21 +473,23 @@ public class MAAction extends ActionSupport {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String getValueOfOutputOfThisMonth() throws Exception{
-//		SKStartAFNo = 20081001;
-//		LHStartAFNo = 20080671;
-//		SKEndAFNo = 20081300;
-//		LHEndAFNo = 20080800;
-		ValueOfOutput ValueOfOutput = afService.getChart_ValueOfOutput(20081001, 20080671, 20081300, 20080800);
+	public String getValueOfOutputOfThisMonth() throws Exception {
+// SKStartAFNo = 20081001;
+// LHStartAFNo = 20080671;
+// SKEndAFNo = 20081300;
+// LHEndAFNo = 20080800;
+		ValueOfOutput ValueOfOutput = afService.getChart_ValueOfOutput(
+				20081001, 20080671, 20081300, 20080800);
 		Map request = (Map) ActionContext.getContext().get("request");
-		request.put("ValueOfOutput", ValueOfOutput);		
+		request.put("ValueOfOutput", ValueOfOutput);
 		return SUCCESS;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public String taizhang_input() throws Exception {
 		return SUCCESS;
 	}
+
 	@SuppressWarnings("unchecked")
 	public String taizhang() throws Exception {
 		List ListAF = afService.getAFByNoRange(AFType, StartAFNo, EndAFNo);
@@ -427,32 +497,45 @@ public class MAAction extends ActionSupport {
 		request.put("ListAF", ListAF);
 		return SUCCESS;
 	}
+
 	@SuppressWarnings("unchecked")
 	public String TjInput() throws Exception {
 		return SUCCESS;
 	}
+
 	@SuppressWarnings("unchecked")
 	public String Tj() throws Exception {
-		List<AfBase> ListAF = afService.getAFByNoRange(AFType, StartAFNo, EndAFNo);
+		List<AfBase> ListAF = afService.getAFByNoRange(AFType, StartAFNo,
+				EndAFNo);
 		long printAmount = 0;
 		double epsAmount = 0.0;
 		double paperAmount = 0.0;
-		for(AfBase af : ListAF){
+		for (AfBase af : ListAF) {
 			printAmount = printAmount + af.getAmount();
-			for(AfElement afe : af.getAfElement()){
+			for (AfElement afe : af.getAfElement()) {
 				epsAmount = epsAmount + afe.getEPs();
-				paperAmount = paperAmount + afe.getEReam()+afe.getEOvers();
+				paperAmount = paperAmount + afe.getEReam() + afe.getEOvers();
 			}
-			
+
 		}
-		
-		
+
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("ListAF", ListAF);
 		request.put("printAmount", printAmount);
-		request.put("epsAmount",com.tyopf.util.MathTools.round(epsAmount,2));
-		request.put("paperAmount",com.tyopf.util.MathTools.round(paperAmount,2));
+		request.put("epsAmount", com.tyopf.util.MathTools.round(epsAmount, 2));
+		request.put("paperAmount", com.tyopf.util.MathTools.round(paperAmount,
+				2));
 		return SUCCESS;
 	}
 
+	public String getAFEByEMachine() throws Exception {
+		List ListAFE = afService.getAFEByEMachine(clientName, EMachine, AFType,
+				StartAFNo, EndAFNo);
+		Pager AFpager = new Pager(1, ListAFE.size());
+		AFpager.setPageSize(ListAFE.size());
+		Map request = (Map) ActionContext.getContext().get("request");
+		request.put("ListAFE", ListAFE);
+		request.put("AFPager", AFpager);
+		return SUCCESS;
+	}
 }

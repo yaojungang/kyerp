@@ -27,7 +27,6 @@ import com.tyopf.vo.AfProcess;
 import com.tyopf.vo.AfQualityProblem;
 import com.tyopf.vo.AfQualityProblemAttachment;
 import com.tyopf.vo.AfValuation;
-import com.tyopf.vo.Employee;
 import com.tyopf.vo.User;
 
 public class AFDAO extends BaseDAO implements IAFDAO {
@@ -38,20 +37,24 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		if (af.getClass() != null) {
 			Map ClientSession = ActionContext.getContext().getSession();
 			User u = (User) ClientSession.get("user");
-			Logger logger=Logger.getLogger(this.getClass());
+			Logger logger = Logger.getLogger(this.getClass());
 			logger.info(u.getUsername() + " Read AF:" + af.getIso()
 					+ af.getAfNo());
-			if (!Hibernate.isInitialized(af.getAfElement()))
+			if (!Hibernate.isInitialized(af.getAfElement())) {
 				Hibernate.initialize(af.getAfElement());
-			if (!Hibernate.isInitialized(af.getAfDispose()))
+			}
+			if (!Hibernate.isInitialized(af.getAfDispose())) {
 				Hibernate.initialize(af.getAfDispose());
-			if (!Hibernate.isInitialized(af.getAfValuation()))
+			}
+			if (!Hibernate.isInitialized(af.getAfValuation())) {
 				Hibernate.initialize(af.getAfValuation());
-			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+			}
+			if (!Hibernate.isInitialized(af.getAfQualityProblem())) {
 				Hibernate.initialize(af.getAfQualityProblem());
-			if(null != af.getViewTimes()){
-				af.setViewTimes(af.getViewTimes()+1);
-			}else{
+			}
+			if (null != af.getViewTimes()) {
+				af.setViewTimes(af.getViewTimes() + 1);
+			} else {
 				af.setViewTimes(1);
 			}
 			session.saveOrUpdate(af);
@@ -107,10 +110,9 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		return af;
 	}
 
-
-	public List getAFs(int currentPage, int pageSize) {
+	public List<AfBase> getAFs(int currentPage, int pageSize) {
 		Session session = getSession();
-		List AFs = new ArrayList();
+		List<AfBase> AFs = new ArrayList<AfBase>();
 		Query query = session
 				.createQuery("from AfBase AF order by AF.afId desc");
 		int startRow = (currentPage - 1) * pageSize;
@@ -121,14 +123,18 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		AfBase af = new AfBase();
 		for (Iterator iterator = afList.iterator(); iterator.hasNext();) {
 			af = (AfBase) iterator.next();
-			if (!Hibernate.isInitialized(af.getAfElement()))
+			if (!Hibernate.isInitialized(af.getAfElement())) {
 				Hibernate.initialize(af.getAfElement());
-			if (!Hibernate.isInitialized(af.getAfDispose()))
+			}
+			if (!Hibernate.isInitialized(af.getAfDispose())) {
 				Hibernate.initialize(af.getAfDispose());
-			if (!Hibernate.isInitialized(af.getAfValuation()))
+			}
+			if (!Hibernate.isInitialized(af.getAfValuation())) {
 				Hibernate.initialize(af.getAfValuation());
-			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+			}
+			if (!Hibernate.isInitialized(af.getAfQualityProblem())) {
 				Hibernate.initialize(af.getAfQualityProblem());
+			}
 			AFs.add(af);
 		}
 		session.close();
@@ -169,12 +175,13 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 
 		return NextAFNo;
 	}
+
 	public int getNextAFTypeNo(String AfType) {
 		int NextAFTypeNo = 0;
 		Session session = getSession();
 		String hql = "from AfBase AF where AF.afType=? order by AF.afId desc";
 		Query query = session.createQuery(hql);
-		
+
 		query.setParameter(0, AfType);
 		query.setFirstResult(0);
 		query.setMaxResults(10);
@@ -227,14 +234,18 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		AfBase af = new AfBase();
 		for (Iterator iterator = afList.iterator(); iterator.hasNext();) {
 			af = (AfBase) iterator.next();
-			if (!Hibernate.isInitialized(af.getAfElement()))
+			if (!Hibernate.isInitialized(af.getAfElement())) {
 				Hibernate.initialize(af.getAfElement());
-			if (!Hibernate.isInitialized(af.getAfDispose()))
+			}
+			if (!Hibernate.isInitialized(af.getAfDispose())) {
 				Hibernate.initialize(af.getAfDispose());
-			if (!Hibernate.isInitialized(af.getAfValuation()))
+			}
+			if (!Hibernate.isInitialized(af.getAfValuation())) {
 				Hibernate.initialize(af.getAfValuation());
-			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+			}
+			if (!Hibernate.isInitialized(af.getAfQualityProblem())) {
 				Hibernate.initialize(af.getAfQualityProblem());
+			}
 			AFs.add(af);
 		}
 
@@ -280,14 +291,18 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		AfBase af = new AfBase();
 		for (Iterator iterator = afList.iterator(); iterator.hasNext();) {
 			af = (AfBase) iterator.next();
-			if (!Hibernate.isInitialized(af.getAfElement()))
+			if (!Hibernate.isInitialized(af.getAfElement())) {
 				Hibernate.initialize(af.getAfElement());
-			if (!Hibernate.isInitialized(af.getAfDispose()))
+			}
+			if (!Hibernate.isInitialized(af.getAfDispose())) {
 				Hibernate.initialize(af.getAfDispose());
-			if (!Hibernate.isInitialized(af.getAfValuation()))
+			}
+			if (!Hibernate.isInitialized(af.getAfValuation())) {
 				Hibernate.initialize(af.getAfValuation());
-			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+			}
+			if (!Hibernate.isInitialized(af.getAfQualityProblem())) {
 				Hibernate.initialize(af.getAfQualityProblem());
+			}
 			AFs.add(af);
 		}
 		session.close();
@@ -305,11 +320,12 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		session.close();
 		return AFs;
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<AfBase> getAFByYZNo(int YZNo) {
 		Session session = getSession();
 		Query query = session
-		.createQuery("from AfBase AF where AF.pcAf like :YZNo order by AF.afId desc");
+				.createQuery("from AfBase AF where AF.pcAf like :YZNo order by AF.afId desc");
 		query.setString("YZNo", "%" + YZNo + "%");
 		query.setCacheable(true);
 		List AFs = query.list();
@@ -325,7 +341,7 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		query.setString("Name", "%" + Name + "%");
 		Map ClientSession = ActionContext.getContext().getSession();
 		User u = (User) ClientSession.get("user");
-		Logger logger=Logger.getLogger(this.getClass());
+		Logger logger = Logger.getLogger(this.getClass());
 		logger.warn(u.getUsername() + "%" + Name + "%");
 		query.setCacheable(true);
 		List AFs = query.list();
@@ -558,7 +574,9 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		session.close();
 		return n;
 	}
-	public int getCountofNotFinishedAFEByItemMachine(String ItemName,String machine) {
+
+	public int getCountofNotFinishedAFEByItemMachine(String ItemName,
+			String machine) {
 		Session session = getSession();
 		Criteria criteria = session.createCriteria(AfElement.class);
 		criteria.add(Restrictions.isNull(ItemName));
@@ -740,14 +758,18 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		}
 
 		if (af.getClass() != null) {
-			if (!Hibernate.isInitialized(af.getAfElement()))
+			if (!Hibernate.isInitialized(af.getAfElement())) {
 				Hibernate.initialize(af.getAfElement());
-			if (!Hibernate.isInitialized(af.getAfDispose()))
+			}
+			if (!Hibernate.isInitialized(af.getAfDispose())) {
 				Hibernate.initialize(af.getAfDispose());
-			if (!Hibernate.isInitialized(af.getAfValuation()))
+			}
+			if (!Hibernate.isInitialized(af.getAfValuation())) {
 				Hibernate.initialize(af.getAfValuation());
-			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+			}
+			if (!Hibernate.isInitialized(af.getAfQualityProblem())) {
 				Hibernate.initialize(af.getAfQualityProblem());
+			}
 			session.saveOrUpdate(af);
 			session.close();
 			return af;
@@ -769,14 +791,18 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		List afList = criteria.list();
 		for (Iterator iterator = afList.iterator(); iterator.hasNext();) {
 			AfBase af = (AfBase) iterator.next();
-			if (!Hibernate.isInitialized(af.getAfElement()))
+			if (!Hibernate.isInitialized(af.getAfElement())) {
 				Hibernate.initialize(af.getAfElement());
-			if (!Hibernate.isInitialized(af.getAfDispose()))
+			}
+			if (!Hibernate.isInitialized(af.getAfDispose())) {
 				Hibernate.initialize(af.getAfDispose());
-			if (!Hibernate.isInitialized(af.getAfValuation()))
+			}
+			if (!Hibernate.isInitialized(af.getAfValuation())) {
 				Hibernate.initialize(af.getAfValuation());
-			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+			}
+			if (!Hibernate.isInitialized(af.getAfQualityProblem())) {
 				Hibernate.initialize(af.getAfQualityProblem());
+			}
 		}
 
 		session.close();
@@ -797,14 +823,18 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		List afList = criteria.list();
 		for (Iterator iterator = afList.iterator(); iterator.hasNext();) {
 			AfBase af = (AfBase) iterator.next();
-			if (!Hibernate.isInitialized(af.getAfElement()))
+			if (!Hibernate.isInitialized(af.getAfElement())) {
 				Hibernate.initialize(af.getAfElement());
-			if (!Hibernate.isInitialized(af.getAfDispose()))
+			}
+			if (!Hibernate.isInitialized(af.getAfDispose())) {
 				Hibernate.initialize(af.getAfDispose());
-			if (!Hibernate.isInitialized(af.getAfValuation()))
+			}
+			if (!Hibernate.isInitialized(af.getAfValuation())) {
 				Hibernate.initialize(af.getAfValuation());
-			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+			}
+			if (!Hibernate.isInitialized(af.getAfQualityProblem())) {
 				Hibernate.initialize(af.getAfQualityProblem());
+			}
 		}
 
 		session.close();
@@ -823,8 +853,9 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		List afList = criteria.list();
 		for (Iterator iterator = afList.iterator(); iterator.hasNext();) {
 			AfBase af = (AfBase) iterator.next();
-			if (null != af.getMoneyShould())
+			if (null != af.getMoneyShould()) {
 				moneyS = moneyS + new Double(af.getMoneyShould());
+			}
 		}
 		session.close();
 		return moneyS;
@@ -882,9 +913,10 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		Session session = getSession();
 		String queryString = "";
 		queryString = "from AfElement AFE order by AFE.afEId desc";
-		if (MachineName.length() > 0)
+		if (MachineName.length() > 0) {
 			queryString = "from AfElement AFE where AFE.EMachine like '%"
 					+ MachineName + "%' order by AFE.afEId desc";
+		}
 		Query query = session.createQuery(queryString);
 		int startRow = (currentPage - 1) * pageSize;
 		query.setFirstResult(startRow);
@@ -914,8 +946,9 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 	public int getCountofAFEbyMachine(String MachineName) {
 		Session session = getSession();
 		Criteria criteria = session.createCriteria(AfElement.class);
-		if (MachineName.length() > 0)
+		if (MachineName.length() > 0) {
 			criteria.add(Restrictions.eq("EMachine", MachineName));
+		}
 		criteria.setProjection(Projections.rowCount());
 		int n = ((Integer) criteria.list().get(0)).intValue();
 		session.close();
@@ -948,14 +981,18 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		AfBase af = new AfBase();
 		for (Iterator iterator = afList.iterator(); iterator.hasNext();) {
 			af = (AfBase) iterator.next();
-			if (!Hibernate.isInitialized(af.getAfElement()))
+			if (!Hibernate.isInitialized(af.getAfElement())) {
 				Hibernate.initialize(af.getAfElement());
-			if (!Hibernate.isInitialized(af.getAfDispose()))
+			}
+			if (!Hibernate.isInitialized(af.getAfDispose())) {
 				Hibernate.initialize(af.getAfDispose());
-			if (!Hibernate.isInitialized(af.getAfValuation()))
+			}
+			if (!Hibernate.isInitialized(af.getAfValuation())) {
 				Hibernate.initialize(af.getAfValuation());
-			if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+			}
+			if (!Hibernate.isInitialized(af.getAfQualityProblem())) {
 				Hibernate.initialize(af.getAfQualityProblem());
+			}
 			AFs.add(af);
 		}
 
@@ -1036,6 +1073,24 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		return afListget;
 	}
 
+	public List<AfElement> getAFEByEMachine(String clientName, String EMachine,
+			String AFType, long StartAFNo, long EndAFNo) {
+
+		Session session = getSession();
+		String hql = "from AfElement afe where afe.AfBase.client like:clientName and afe.EMachine like :EMachine and afe.AfBase.iso like :AFType and afe.AfBase.afNo >= "
+				+ StartAFNo + " and afe.AfBase.afNo <= " + EndAFNo;
+
+		Query query = session.createQuery(hql);
+		query.setString("clientName", "%" + clientName + "%");
+		query.setString("EMachine", "%" + EMachine + "%");
+		query.setString("AFType", "%" + AFType + "%");
+		List<AfElement> list = query.list();
+		System.out.println("hql:" + hql);
+		System.out.println("list size:" + list.size());
+		session.close();
+		return list;
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<AfValuation> getAFVByChejian(String YWName, String ChejianName,
 			String AFType, long StartAFNo, long EndAFNo) {
@@ -1087,8 +1142,9 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		Session session = getSession();
 		for (Iterator iterator = aflist.iterator(); iterator.hasNext();) {
 			AfBase af = (AfBase) iterator.next();
-			if (null != af.getMoneyShould())
+			if (null != af.getMoneyShould()) {
 				moneyS = moneyS + new Double(af.getMoneyShould());
+			}
 		}
 		session.close();
 		return moneyS;
@@ -1099,8 +1155,9 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		Session session = getSession();
 		for (Iterator iterator = afvlist.iterator(); iterator.hasNext();) {
 			AfValuation afv = (AfValuation) iterator.next();
-			if (afv.getTotalAmount() > 0)
+			if (afv.getTotalAmount() > 0) {
 				moneyV = moneyV + new Double(afv.getTotalAmount());
+			}
 		}
 		session.close();
 		return moneyV;
@@ -1111,8 +1168,9 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		Session session = getSession();
 		for (Iterator iterator = aflist.iterator(); iterator.hasNext();) {
 			AfBase af = (AfBase) iterator.next();
-			if (null != af.getMoneyFact())
+			if (null != af.getMoneyFact()) {
 				moneyG = moneyG + new Double(af.getMoneyFact());
+			}
 		}
 		session.close();
 		return moneyG;
@@ -1135,14 +1193,18 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 			AfBase af = new AfBase();
 			for (Iterator iterator = afList.iterator(); iterator.hasNext();) {
 				af = (AfBase) iterator.next();
-				if (!Hibernate.isInitialized(af.getAfElement()))
+				if (!Hibernate.isInitialized(af.getAfElement())) {
 					Hibernate.initialize(af.getAfElement());
-				if (!Hibernate.isInitialized(af.getAfDispose()))
+				}
+				if (!Hibernate.isInitialized(af.getAfDispose())) {
 					Hibernate.initialize(af.getAfDispose());
-				if (!Hibernate.isInitialized(af.getAfValuation()))
+				}
+				if (!Hibernate.isInitialized(af.getAfValuation())) {
 					Hibernate.initialize(af.getAfValuation());
-				if (!Hibernate.isInitialized(af.getAfQualityProblem()))
+				}
+				if (!Hibernate.isInitialized(af.getAfQualityProblem())) {
 					Hibernate.initialize(af.getAfQualityProblem());
+				}
 				AFs.add(af);
 			}
 
@@ -1158,7 +1220,7 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		String YZNoListToGet = "\'88888888888888\'";
 		for (int i = 0; i < ss.length; i++) {
 			YZNoListToGet = YZNoListToGet + ",\'" + ss[i] + "\'";
-			
+
 		}
 		Query query = session.createQuery("from AfBase af where af.pcAf in ("
 				+ YZNoListToGet + ") order by af.pcAf asc");
@@ -1195,7 +1257,7 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 
 		int startRow = (currentPage - 1) * pageSize;
 		query.setFirstResult(startRow);
-		
+
 		query.setMaxResults(pageSize);
 		query.setCacheable(true);
 		List processList = query.list();
@@ -1222,9 +1284,11 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		session.close();
 
 	}
+
 	public List<AfBase> searchAF(String searchOption, String searchValue) {
 		Session session = getSession();
-		Query query = session.createQuery("from AfBase af where af." + searchOption + " like :SearchValue order by af.afId desc");
+		Query query = session.createQuery("from AfBase af where af."
+				+ searchOption + " like :SearchValue order by af.afId desc");
 		query.setString("SearchValue", "%" + searchValue + "%");
 		List list = query.list();
 		session.close();
@@ -1234,11 +1298,13 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 	@Override
 	public AfQualityProblem getAFQPById(int id) {
 		Session session = getSession();
-		AfQualityProblem afqp = (AfQualityProblem) session.get(AfQualityProblem.class, id);
+		AfQualityProblem afqp = (AfQualityProblem) session.get(
+				AfQualityProblem.class, id);
 		if (afqp.getClass() != null) {
 			afqp.getAfBase();
-			if (!Hibernate.isInitialized(afqp.getAttachments()))
+			if (!Hibernate.isInitialized(afqp.getAttachments())) {
 				Hibernate.initialize(afqp.getAttachments());
+			}
 			session.close();
 			return afqp;
 		}
@@ -1249,7 +1315,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 	@Override
 	public List getAllQualityProblem(int currentPage, int pageSize) {
 		Session session = getSession();
-		Query query = session.createQuery("from AfQualityProblem QP order by QP.id desc");
+		Query query = session
+				.createQuery("from AfQualityProblem QP order by QP.id desc");
 		int startRow = (currentPage - 1) * pageSize;
 		query.setFirstResult(startRow);
 		query.setMaxResults(pageSize);
@@ -1272,11 +1339,12 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 	@Override
 	public void removeAfQualityProblem(int id) {
 		Session session = getSession();
-		AfQualityProblem qp = (AfQualityProblem) session.get(AfQualityProblem.class, id);
+		AfQualityProblem qp = (AfQualityProblem) session.get(
+				AfQualityProblem.class, id);
 		session.delete(qp);
 		session.flush();
 		session.close();
-		
+
 	}
 
 	@Override
@@ -1286,16 +1354,19 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		session.saveOrUpdate(afqp);
 		tx.commit();
 		session.flush();
-		session.close();		
+		session.close();
 	}
+
 	public AfQualityProblem getLastAfQualityProblem() {
 		Session session = getSession();
-		Query query = session.createQuery("from AfQualityProblem q order by q.id desc");
+		Query query = session
+				.createQuery("from AfQualityProblem q order by q.id desc");
 		AfQualityProblem q = new AfQualityProblem();
 		if (query.list().size() != 0) {
 			q = (AfQualityProblem) query.list().get(0);
-			if (!Hibernate.isInitialized(q.getAttachments()))
+			if (!Hibernate.isInitialized(q.getAttachments())) {
 				Hibernate.initialize(q.getAttachments());
+			}
 		}
 		session.saveOrUpdate(q);
 		session.close();
@@ -1309,6 +1380,7 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		tx.commit();
 		session.close();
 	}
+
 	public void delQPAttachment(AfQualityProblemAttachment qpa) {
 		Session session = getSession();
 		Transaction tx = session.beginTransaction();
@@ -1320,7 +1392,8 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 	@Override
 	public AfQualityProblemAttachment getAFQPAttachmentById(int id) {
 		Session session = getSession();
-		AfQualityProblemAttachment a = (AfQualityProblemAttachment) session.get(AfQualityProblemAttachment.class, id);
+		AfQualityProblemAttachment a = (AfQualityProblemAttachment) session
+				.get(AfQualityProblemAttachment.class, id);
 		if (a.getClass() != null) {
 			session.close();
 			return a;

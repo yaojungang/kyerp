@@ -119,5 +119,9 @@
 			method="getAFEs">
 			<result name="success">/MA/MASchedule.jsp</result>
 		</action>
+		<action name="taizhang" class="com.tyopf.action.AFAction"
+			method="getAFEs">
+			<result name="success">/PL/taizhang.jsp</result>
+		</action>
 	</package>
 </struts>

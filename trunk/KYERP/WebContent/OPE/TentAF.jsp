@@ -104,8 +104,9 @@ Ext.onReady(function(){
 		<tr>
 			<td width="180" align="right">业务类型：</td>
 			<td align="left"><select name="AFType" id="AFType">
-				<option value="SK">受控</option>
-				<option value="LH">零活</option>
+				<option value="SK">受控(SK)</option>
+	<option value="LH">零活(LH)</option>
+	<option value="FP">快印(FP)</option>
 			</select></td>
 		</tr>
 		<tr>
@@ -131,8 +132,9 @@ Ext.onReady(function(){
 		<tr>
 			<td width="180" align="right">业务类型：</td>
 			<td align="left"><select name="AFType" id="AFType">
-				<option value="SK">受控</option>
-				<option value="LH" selected="selected">零活</option>
+				<option value="SK">受控(SK)</option>
+	<option value="LH">零活(LH)</option>
+	<option value="FP">快印(FP)</option>
 			</select></td>
 		</tr>
 		<tr>
@@ -161,6 +163,7 @@ Ext.onReady(function(){
 			<td align="left"><select name="AFType" id="AFType">
 				<option value="SK">受控</option>
 				<option value="LH" selected="selected">零活</option>
+    <option value="FP">快印(FP)</option>
 			</select></td>
 		</tr>
 		<tr>
@@ -204,8 +207,9 @@ Ext.onReady(function(){
 		<tr>
 			<td width="180" align="right">业务类型：</td>
 			<td align="left"><select name="AFType" id="AFType">
-				<option value="SK">受控</option>
-				<option value="LH" selected="selected">零活</option>
+				<option value="SK">受控(SK)</option>
+	<option value="LH">零活(LH)</option>
+	<option value="FP">快印(FP)</option>
 			</select></td>
 		</tr>
 		<tr>
@@ -221,55 +225,6 @@ Ext.onReady(function(){
 	</table>
 </s:form> <br>
 <br>
-<h2>各月任务单号参考范围</h2>
-<table width="90%" border="1" cellpadding="6" cellspacing="0"
-	bordercolor="#000000">
-	<tr>
-		<td width="120" align="center">&nbsp;</td>
-		<td width="40%">受控任务单(SK)</td>
-		<td width="40%">零活任务单(LH)</td>
-	</tr>
-	<tr>
-		<td align="center">08年五月</td>
-		<td>20080801 — 20081000</td>
-		<td>20080546 — 20080670</td>
-	</tr>
-	<tr>
-		<td align="center">08年六月</td>
-		<td>20081001 — 20081300</td>
-		<td>20080671 — 20080800</td>
-	</tr>
-	<tr>
-		<td align="center">08年七月</td>
-		<td>20081301 — 20081550</td>
-		<td>20080801 — 20080910</td>
-	</tr>
-	<tr>
-		<td align="center">08年八月</td>
-		<td>20081551 — 2008</td>
-		<td>20080911 — 2008</td>
-	</tr>
-	<tr>
-		<td align="center">08年九月</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td align="center">08年十月</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td align="center">08年十一月</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td align="center">08年十二月</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-</table>
-相关数据来自业务室<br>
+
 </div>
 </html>
