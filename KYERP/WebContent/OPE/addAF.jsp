@@ -214,7 +214,7 @@
 							onclick="insertAtCaret(this.form.af_oq,this.value);" /></td>
 					</tr>
 					<tr>
-						<td><input id="z29" type=button value="正文29页上加黑框"
+						<td><input id="z30" type=button value="正文30页上加黑框"
 							onclick="insertAtCaret(this.form.af_oq,this.value);" /></td>
 					</tr>
 					<tr>

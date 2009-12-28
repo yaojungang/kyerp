@@ -57,6 +57,7 @@
 				<value>com/tyopf/vo/Paper.hbm.xml</value>
 
 				<value>com/tyopf/vo/qc/QYYTD82402.hbm.xml</value>
+				<value>com/tyopf/vo/qc/QYYTD82403.hbm.xml</value>
 				<value>com/tyopf/vo/qc/QYYTD82404.hbm.xml</value>
 				<value>com/tyopf/vo/qc/QYYTD82407.hbm.xml</value>
 				<value>com/tyopf/vo/qc/QYYTD82408.hbm.xml</value>

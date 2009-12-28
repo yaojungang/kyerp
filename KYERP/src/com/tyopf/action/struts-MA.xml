@@ -179,5 +179,9 @@
 			method="getAFs">
 			<result name="success">/MA/AFDetialList.jsp</result>
 		</action>
+		<action name="getAFEByEMachine" class="com.tyopf.action.MAAction"
+			method="getAFEByEMachine">
+			<result name="success">/MA/AFE_listAFE.jsp</result>
+		</action>
 	</package>
 </struts>

@@ -34,7 +34,7 @@ public interface IAFService {
 	public AfBase getAFByNo(String AFNo);
 
 	public int getNextAFNo(String AfType);
-	
+
 	public int getNextAFTypeNo(String AfType);
 
 	public List<String> getRecentColumnName(String columnName, int recentSize);
@@ -53,7 +53,7 @@ public interface IAFService {
 	public List<AfBase> getAFByDate(Date date);
 
 	public List<AfBase> getAFByAFNo(int AFNo);
-	
+
 	public List<AfBase> getAFByYZNo(int YZNo);
 
 	public List<AfBase> getAFByName(String Name);
@@ -80,7 +80,9 @@ public interface IAFService {
 
 	public List<AfElement> getNotFinishedAFEByItemMachine(String ItemName,
 			String Machine, int currentPage, int pageSize);
-	public int getCountofNotFinishedAFEByItemMachine(String ItemName,String machine);
+
+	public int getCountofNotFinishedAFEByItemMachine(String ItemName,
+			String machine);
 
 	public List<AfElement> getAFEByType(String AFType, int currentPage,
 			int pageSize);
@@ -110,7 +112,9 @@ public interface IAFService {
 			int EndAFNo);
 
 	public List getAllAFEs();
+
 	public int getCountofAllAFs();
+
 	public int getCountofAllAFEs();
 
 	public List getAFEs(int currentPage, int pageSize);
@@ -185,19 +189,31 @@ public interface IAFService {
 	public void saveAfProcess(AfProcess afp);
 
 	public void removeAfProcess(int afpId);
-	public void filmPlaceChange(long afEId,int filmPlace);
+
+	public void filmPlaceChange(long afEId, int filmPlace);
+
 	public List<AfBase> searchAF(String searchOption, String searchValue);
-	
-	public List getAllQualityProblem(int currentPage,int pageSize);
+
+	public List getAllQualityProblem(int currentPage, int pageSize);
+
 	public AfQualityProblem getAFQPById(int id);
+
 	public int getCountofAllQualityProblem();
+
 	public void saveAfQualityProblem(AfQualityProblem afqp);
+
 	public void removeAfQualityProblem(int id);
+
 	public AfQualityProblem getLastAfQualityProblem();
-	
+
 	public void saveQpa(AfQualityProblemAttachment qpa);
+
 	public void delQPAttachment(AfQualityProblemAttachment qpa);
-	
+
 	public AfQualityProblemAttachment getAFQPAttachmentById(int id);
+
 	public void editAFE_PM(AfElement afe);
+
+	public List<AfElement> getAFEByEMachine(String clientName, String EMachine,
+			String AFType, long StartAFNo, long EndAFNo);
 }
