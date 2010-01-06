@@ -1,5 +1,6 @@
 package com.tyopf.service.qc.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.tyopf.dao.qc.IQYYTD82402DAO;
@@ -9,16 +10,14 @@ import com.tyopf.vo.qc.QYYTD82402;
 /**
  * @author y109 2009-11-30下午03:30:21
  */
-public class QYYTD82402Service implements
-		IQYYTD82402Service {
+public class QYYTD82402Service implements IQYYTD82402Service {
 	private IQYYTD82402DAO	QYYTD82402DAO;
 
 	public IQYYTD82402DAO getQYYTD82402DAO() {
 		return QYYTD82402DAO;
 	}
 
-	public void setQYYTD82402DAO(
-			IQYYTD82402DAO QYYTD82402DAO) {
+	public void setQYYTD82402DAO(IQYYTD82402DAO QYYTD82402DAO) {
 		this.QYYTD82402DAO = QYYTD82402DAO;
 	}
 
@@ -28,10 +27,8 @@ public class QYYTD82402Service implements
 	}
 
 	@Override
-	public List<QYYTD82402> getList(int currentPage,
-			int pageSize) {
-		return this.QYYTD82402DAO.getList(currentPage,
-				pageSize);
+	public List<QYYTD82402> getList(int currentPage, int pageSize) {
+		return this.QYYTD82402DAO.getList(currentPage, pageSize);
 	}
 
 	@Override
@@ -47,6 +44,11 @@ public class QYYTD82402Service implements
 	@Override
 	public int getCountAll() {
 		return this.QYYTD82402DAO.getCountAll();
+	}
+
+	@Override
+	public List<QYYTD82402> getByDateRange(Date startDate, Date endDate) {
+		return this.QYYTD82402DAO.getByDateRange(startDate, endDate);
 	}
 
 }

@@ -373,6 +373,7 @@ function show(id){
 </table>
 </div>
 </div>
+<div class="tnoprint">
 <s:if test="#user.userType.equals('Admin') or 'PM-AF-FilmInput' in #userSystemFunctionList">
 <table width="750" border="1" align="center" cellpadding="6" cellspacing="0" bordercolor="#000000" style="BORDER-COLLAPSE: collapse;">
   <tr>
@@ -437,6 +438,7 @@ function show(id){
 </table>
 </s:if>
 </s:if>
+
 <p>
 <c:choose> 
 <c:when test="${null != af.QYYTD82402}"> 
@@ -497,6 +499,6 @@ function show(id){
 </c:otherwise> 
 </c:choose>
 </p>
-
+</div>
 </body>
 </html>

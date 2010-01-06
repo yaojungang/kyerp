@@ -5,8 +5,8 @@
 <struts>
 	<package name="QC" extends="struts-tyopf" namespace="/QC">
 		<action name="index" class="com.tyopf.action.QCAction" method="index">
-			<result name="success" type="redirect">
-				/QC/getQualityProblemList.action
+			<result name="success">
+				/QC/index.jsp
 			</result>
 		</action>
 		<action name="getQualityProblemList" class="com.tyopf.action.QCAction" method="getQualityProblemList">

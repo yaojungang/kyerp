@@ -68,42 +68,58 @@ function clearOption(selectID)
     <td height="40" align="left" valign="middle" bgcolor="#FFFFFF">${afBase.amount}</td>
     </tr>
   <tr>
-    <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">操作员</td>
-    <td height="40" align="left" valign="middle" bgcolor="#FFFFFF"><input name="ir.operators" id="operators" Style="width: 180px; text-align: left;" value="${ir.operators}" /> 
-      &nbsp;&nbsp;<select id="deptId" name="companyDept_id">
-        <option value="--">选择</option>
-        <s:iterator value="#session['DeptTree']" status="st">
-          <option value='<s:property value="id"/>'><s:property value="name" /></option>
-          </s:iterator>
-        </select><span id="divPeopleSelect"></span></td>
-  </tr>
-  <tr>
-    <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">巡检时间</td>
-    <td height="40" align="left" valign="middle" bgcolor="#FFFFFF"><input name="ir.examDate" type="text" id="examDate" value='<fmt:formatDate value="${ir.examDate}" pattern="yyyy-MM-dd HH:mm:ss" />' size="20" /> <img onclick="WdatePicker({el:'examDate',dateFmt:'yyyy-MM-dd H:mm:ss'})" src="${pageContext.request.contextPath}/Library/js/DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle"></td>
-  </tr>
-  <tr>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF">检验项目</td>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF"><span class="formText">检验结果</span></td>
     </tr>
   <tr>
     <td align="center" valign="middle" bgcolor="#FFFFFF">配页</td>
-    <td height="60" align="left" valign="middle" bgcolor="#FFFFFF"><input name="ir.examItem01" type="text" size="5" value="${ir.examItem01}"/></td>
+    <td height="60" align="left" valign="middle" bgcolor="#FFFFFF"><input id="examItem01" name="ir.examItem01" type="text" size="5" value="${ir.examItem01}"/>
+    &nbsp;&nbsp;<select id="examItem0100" name="examItem0100" onChange="document.getElementById('examItem01').value=this.options[this.selectedIndex].value">
+        <option value="--">选择</option>
+          <option value='合格'>合格</option>
+          <option value='不合格'>不合格</option>
+        </select>
+</td>
     </tr>
   <tr>
     <td align="center" valign="middle" bgcolor="#FFFFFF">折页</td>
-    <td height="60" align="left" valign="middle" bgcolor="#FFFFFF"><input name="ir.examItem02" type="text" id="examItem02" size="5" value="${ir.examItem02}" /></td>
+    <td height="60" align="left" valign="middle" bgcolor="#FFFFFF"><input name="ir.examItem02" type="text" id="examItem02" size="5" value="${ir.examItem02}" />
+    &nbsp;&nbsp;<select id="examItem0200" name="examItem0200" onChange="document.getElementById('examItem02').value=this.options[this.selectedIndex].value">
+        <option value="--">选择</option>
+          <option value='合格'>合格</option>
+          <option value='不合格'>不合格</option>
+        </select>
+    </td>
     </tr>
   <tr>
     <td align="center" valign="middle" bgcolor="#FFFFFF">骑马钉</td>
-    <td height="60" align="left" valign="middle" bgcolor="#FFFFFF"><input name="ir.examItem03" type="text" id="examItem03" size="5" value="${ir.examItem03}"/></td>
+    <td height="60" align="left" valign="middle" bgcolor="#FFFFFF"><input name="ir.examItem03" type="text" id="examItem03" size="5" value="${ir.examItem03}"/>
+    &nbsp;&nbsp;<select id="examItem0300" name="examItem0300" onChange="document.getElementById('examItem03').value=this.options[this.selectedIndex].value">
+        <option value="--">选择</option>
+          <option value='合格'>合格</option>
+          <option value='不合格'>不合格</option>
+        </select>
+    </td>
     </tr>
   <tr>
     <td align="center" valign="middle" bgcolor="#FFFFFF">胶订</td>
-    <td height="60" align="left" valign="middle" bgcolor="#FFFFFF"><input name="ir.examItem04" type="text" id="examItem04" size="5" value="${ir.examItem04}" /></td>
+    <td height="60" align="left" valign="middle" bgcolor="#FFFFFF"><input name="ir.examItem04" type="text" id="examItem04" size="5" value="${ir.examItem04}" />
+    &nbsp;&nbsp;<select id="examItem0400" name="examItem0400" onChange="document.getElementById('examItem04').value=this.options[this.selectedIndex].value">
+        <option value="--">选择</option>
+          <option value='合格'>合格</option>
+          <option value='不合格'>不合格</option>
+        </select>
+    </td>
     </tr>
   <tr>
     <td align="center" valign="middle" bgcolor="#FFFFFF">裁切成品</td>
-    <td height="60" align="left" valign="middle" bgcolor="#FFFFFF"><input name="ir.examItem05" type="text" id="examItem05" size="5" value="${ir.examItem05}" /></td>
+    <td height="60" align="left" valign="middle" bgcolor="#FFFFFF"><input name="ir.examItem05" type="text" id="examItem05" size="5" value="${ir.examItem05}" />
+    &nbsp;&nbsp;<select id="examItem0500" name="examItem0500" onChange="document.getElementById('examItem05').value=this.options[this.selectedIndex].value">
+        <option value="--">选择</option>
+          <option value='合格'>合格</option>
+          <option value='不合格'>不合格</option>
+        </select>
+    </td>
   </tr>
   <tr>
     <td height="40" align="center" valign="middle" bgcolor="#FFFFFF"><p><span class="formText">结论</span></p></td>

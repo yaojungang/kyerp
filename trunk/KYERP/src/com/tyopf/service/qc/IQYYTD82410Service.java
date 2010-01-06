@@ -1,5 +1,6 @@
 package com.tyopf.service.qc;
 
+import java.util.Date;
 import java.util.List;
 
 import com.tyopf.vo.qc.QYYTD82410;
@@ -15,4 +16,6 @@ public interface IQYYTD82410Service {
 	public List<QYYTD82410> getList(int currentPage, int pageSize);
 
 	public int getCountAll();
+
+	public List<QYYTD82410> getByDateRange(Date startDate, Date endDate);
 }

@@ -1,5 +1,6 @@
 package com.tyopf.service.qc.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.tyopf.dao.qc.impl.QYYTD82410DAO;
@@ -43,6 +44,11 @@ public class QYYTD82410Service implements IQYYTD82410Service {
 	@Override
 	public int getCountAll() {
 		return this.QYYTD82410DAO.getCountAll();
+	}
+
+	@Override
+	public List<QYYTD82410> getByDateRange(Date startDate, Date endDate) {
+		return this.QYYTD82410DAO.getByDateRange(startDate, endDate);
 	}
 
 }

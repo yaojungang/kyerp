@@ -1,5 +1,6 @@
 package com.tyopf.dao.qc;
 
+import java.util.Date;
 import java.util.List;
 
 import com.tyopf.vo.qc.QYYTD82409;
@@ -15,4 +16,6 @@ public interface IQYYTD82409DAO {
 	public List<QYYTD82409> getList(int currentPage, int pageSize);
 
 	public int getCountAll();
+
+	public List<QYYTD82409> getByDateRange(Date startDate, Date endDate);
 }
