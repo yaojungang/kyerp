@@ -34,5 +34,10 @@
 			<result name="success">/QC/QYYTD82408/noSkin_getPeople.jsp
 			</result>
 		</action>
+		<action name="noSkin_getByDateRange" class="com.tyopf.action.qc.QYYTD82408Action"
+			method="getByDateRange">
+			<result name="success">/QC/QYYTD82408/getByDateRange.jsp
+			</result>
+		</action>
 		</package>
 </struts>

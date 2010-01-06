@@ -1,7 +1,5 @@
 package com.tyopf.vo.qc;
 
-import java.util.Date;
-
 import com.tyopf.vo.AfBase;
 import com.tyopf.vo.Employee;
 
@@ -13,18 +11,9 @@ public class QYYTD82410 {
 	/** id */
 	private long		id;
 	/**
-	 * 操作员
-	 */
-	private String		operators;
-	/**
 	 * 任务单
 	 */
 	private AfBase		afBase;
-	/**
-	 * 检查时间
-	 */
-	private Date		examDate;
-
 	/**
 	 * 检验结果01-配页
 	 */
@@ -107,24 +96,8 @@ public class QYYTD82410 {
 		return examItem05;
 	}
 
-	public String getOperators() {
-		return operators;
-	}
-
-	public void setOperators(String operators) {
-		this.operators = operators;
-	}
-
 	public void setExamItem05(String examItem05) {
 		this.examItem05 = examItem05;
-	}
-
-	public Date getExamDate() {
-		return examDate;
-	}
-
-	public void setExamDate(Date examDate) {
-		this.examDate = examDate;
 	}
 
 	public String getExamResult() {

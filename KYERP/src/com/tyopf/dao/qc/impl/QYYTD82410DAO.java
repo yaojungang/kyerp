@@ -1,5 +1,6 @@
 package com.tyopf.dao.qc.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -51,6 +52,19 @@ public class QYYTD82410DAO extends BaseDAO implements IQYYTD82410DAO {
 		int n = ((Integer) criteria.list().get(0)).intValue();
 		session.close();
 		return n;
+	}
+
+	@Override
+	public List<QYYTD82410> getByDateRange(Date startDate, Date endDate) {
+		Session session = getSession();
+		Query query = session
+				.createQuery("from QYYTD82410 o where o.afBase.ad >=:startDate and o.afBase.ad <= :endDate order by o.id desc");
+		query.setDate("startDate", startDate);
+		query.setDate("endDate", endDate);
+		List<QYYTD82410> list = query.list();
+		session.close();
+		return list;
+
 	}
 
 }

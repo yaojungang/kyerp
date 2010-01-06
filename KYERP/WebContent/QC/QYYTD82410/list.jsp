@@ -7,14 +7,19 @@
 <title>QYYT-D-8.2.4-10-装订产品巡检记录</title>
 <link href="${pageContext.request.contextPath}/Library/css/ISOForm.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/Library/js/showPages.js"></script>
+<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/Library/js/DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 <h1>QYYT-D-8.2.4-10-装订产品巡检记录</h1>
+<div style="margin: 10px;">
+<form action="noSkin_getByDateRange.action" method="get">日期范围：
+<input id="startDate" name="startDate" size="8" /><img onclick="WdatePicker({el:'startDate',dateFmt:'yyyy-MM-dd'})" src="${pageContext.request.contextPath}/Library/js/DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle"> - 
+<input id="endDate" name="endDate" size="8" /><img onclick="WdatePicker({el:'endDate',dateFmt:'yyyy-MM-dd'})" src="${pageContext.request.contextPath}/Library/js/DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle">
+  <input type="submit" value="提交"/></form>
+</div>
 <table border="1" cellpadding="6" cellspacing="0">
 <tr>
   <td>ID</td>
-  <td>检查日期</td>
-  <td>操作员</td>
   <td>任务单号</td>
   <td>印品名称</td>  
   <td>数量</td>
@@ -30,8 +35,6 @@
 <c:forEach items="${list}" var="item">
  <tr>
    <td>${item.id}</td>
-   <td>${item.examDate}</td>
-   <td>${item.operators}</td>
    <td><a href="${pageContext.request.contextPath}/AF/AFInfo.action?afId=${item.afBase.afId}">${item.afBase.iso}${item.afBase.afNo}</a></td>
    <td>${item.afBase.presswork}</td>   
    <td>${item.afBase.amount}</td>   

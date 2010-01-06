@@ -7,7 +7,6 @@
 <title>QYYT-D-8.2.4-04-装订成品检验记录</title>
 <link href="${pageContext.request.contextPath}/Library/css/ISOForm.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/Library/js/showPages.js"></script>
-<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/Library/js/DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 <h1>QYYT-D-8.2.4-07-产成品检验记录</h1>

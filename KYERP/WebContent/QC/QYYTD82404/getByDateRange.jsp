@@ -6,32 +6,36 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>QYYT-D-8.2.4-04-装订成品检验记录</title>
 <link href="${pageContext.request.contextPath}/Library/css/ISOForm.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript"
+ src="${pageContext.request.contextPath}/Library/js/function.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/Library/js/showPages.js"></script>
 <script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/Library/js/DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/Library/js/table2excel.js"></script>
 </head>
 <body>
-<h1>QYYT-D-8.2.4-07-产成品检验记录</h1>
-<div style="margin: 10px;">
-<form action="noSkin_getByDateRange.action" method="get">日期范围：
-<input id="startDate" name="startDate" size="8" /><img onclick="WdatePicker({el:'startDate',dateFmt:'yyyy-MM-dd'})" src="${pageContext.request.contextPath}/Library/js/DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle"> - 
-<input id="endDate" name="endDate" size="8" /><img onclick="WdatePicker({el:'endDate',dateFmt:'yyyy-MM-dd'})" src="${pageContext.request.contextPath}/Library/js/DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle">
-  <input type="submit" value="提交"/></form>
-</div>
-<table border="1" cellpadding="6" cellspacing="0">
+
+<div id="div_print">
+<div class="height30"></div>
+<h1>装订成品检验记录</h1>
+<div align="left">QYYT-D-8.2.4-04</div>
+<table width="100%" border="1" align="center" cellpadding="0"
+ cellspacing="0" bordercolor="#000000" id="tableExcel0">
 <tr>
   <td>ID</td>
   <td>任务单号</td>
   <td>印品名称</td>  
+  <td>正品数</td>
   <td>不合格数</td>
-  <td>墨  色</td>
-  <td>文字印迹</td>
-  <td>套  印</td>
-  <td>外  观</td>
-  <td>封面、插页</td>
-  <td>书页与书贴</td>
-  <td>胶 粘  钉</td>
-  <td>铁丝平钉</td>
-  <td>骑 马  钉</td>
+  <td>毛样书</td>
+  <td>折页</td>
+  <td>配页</td>
+  <td>胶订</td>
+  <td>铁丝平订</td>
+  <td>骑马钉</td>
+  <td>锁线订</td>
+  <td>粘页机</td>
+  <td>三面切书<br/>
+    切纸机</td>
   <td>成品</td>
   <td>综合结论</td>
   <td>检验员</td>
@@ -41,6 +45,7 @@
    <td>${item.id}</td>
    <td><a href="${pageContext.request.contextPath}/AF/AFInfo.action?afId=${item.afBase.afId}">${item.afBase.iso}${item.afBase.afNo}</a></td>
    <td>${item.afBase.presswork}</td>   
+   <td>${item.qualifiedAmount}</td>
    <td>${item.unqualifiedAmount}</td>
    <td>${item.examItem01}</td>
    <td>${item.examItem02}</td>
@@ -57,14 +62,13 @@
  </tr>
 </c:forEach>
 </table>
-
-<script language="JavaScript">
-<!--
-var pg = new showPages('pg');
-pg.pageCount =${pager.totalPage};  // 定义总页数(必要)
-pg.argName = 'currentPage';  // 定义参数名(可选,默认为page)
-pg.printHtml(1);
-//-->
-</script>
+</div>
+<div align="center" style="padding: 20px;"><input name="b_print"
+ type="button" class="ipt" onClick="printdiv('div_print');"
+ value=" 打印报表 "> <input type="button"
+ onClick="javascript:talbe2excel_method1('div_print');" value="导出到EXCEL">
+<input type="button"
+ onClick="javascript:getXlsFromTbl('tableExcel0',null);" value="导出CVS文件">
+</div>
 </body>
 </html>

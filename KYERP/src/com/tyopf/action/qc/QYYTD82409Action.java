@@ -25,9 +25,27 @@ public class QYYTD82409Action extends ActionSupport {
 	private int					pageSize	= 50;
 	private int					id;
 	private QYYTD82409			ir;
+	private Date				startDate;
+	private Date				endDate;
 
 	public IQYYTD82409Service getIrs() {
 		return irs;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public ISystemService getSystemService() {
@@ -170,6 +188,13 @@ public class QYYTD82409Action extends ActionSupport {
 
 	public String remove() throws Exception {
 		irs.remove(id);
+		return SUCCESS;
+	}
+
+	public String getByDateRange() throws Exception {
+		List<QYYTD82409> list = irs.getByDateRange(startDate, endDate);
+		Map request = (Map) ActionContext.getContext().get("request");
+		request.put("list", list);
 		return SUCCESS;
 	}
 

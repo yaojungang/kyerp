@@ -1,6 +1,7 @@
 package com.tyopf.action.qc;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,15 +17,33 @@ import com.tyopf.vo.qc.QYYTD82407;
 @SuppressWarnings("serial")
 public class QYYTD82407Action extends ActionSupport {
 	private IQYYTD82407Service	irs;
-	private IAFService								afService;
-	private int										afId;
-	private int										currentPage	= 1;
-	private int										pageSize	= 50;
-	private int										id;
+	private IAFService			afService;
+	private int					afId;
+	private int					currentPage	= 1;
+	private int					pageSize	= 50;
+	private int					id;
 	private QYYTD82407			ir;
+	private Date				startDate;
+	private Date				endDate;
 
 	public IQYYTD82407Service getIrs() {
 		return irs;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public int getCurrentPage() {
@@ -67,8 +86,7 @@ public class QYYTD82407Action extends ActionSupport {
 		return irs;
 	}
 
-	public void setQYYTD82407Service(
-			IQYYTD82407Service QYYTD82407Service) {
+	public void setQYYTD82407Service(IQYYTD82407Service QYYTD82407Service) {
 		this.irs = QYYTD82407Service;
 	}
 
@@ -153,6 +171,13 @@ public class QYYTD82407Action extends ActionSupport {
 
 	public String remove() throws Exception {
 		irs.remove(id);
+		return SUCCESS;
+	}
+
+	public String getByDateRange() throws Exception {
+		List<QYYTD82407> list = irs.getByDateRange(startDate, endDate);
+		Map request = (Map) ActionContext.getContext().get("request");
+		request.put("list", list);
 		return SUCCESS;
 	}
 
