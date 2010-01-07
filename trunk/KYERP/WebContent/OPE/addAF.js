@@ -121,7 +121,7 @@ Ext.onReady(function(){
     var storeaf_pcAf = new Ext.data.SimpleStore({
     	fields:['value'],
     	expandData:true,
-    	data: ['YZ2009','YZ2008','TS09','TS08']
+    	data: ['YZ2010','YZ2009','YZ2008','TS10','TS09','TS08']
     });
     var comboaf_pcAf = new Ext.form.ComboBox({
     	store: storeaf_pcAf,

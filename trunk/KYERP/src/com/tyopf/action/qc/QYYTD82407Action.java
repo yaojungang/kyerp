@@ -124,6 +124,27 @@ public class QYYTD82407Action extends ActionSupport {
 		ir.setExamItem10("合格");
 		ir.setExamResult("合格");
 
+		int amount = new Integer(afBase.getAmount().toString());
+		if (amount >= 151 && amount <= 500) {
+			ir.setSampleAmount(13);
+			ir.setUnqualifiedStandNumber(2);
+		} else if (amount >= 501 && amount <= 1200) {
+			ir.setSampleAmount(20);
+			ir.setUnqualifiedStandNumber(3);
+		} else if (amount >= 1201 && amount <= 10000) {
+			ir.setSampleAmount(32);
+			ir.setUnqualifiedStandNumber(4);
+		} else if (amount >= 10001 && amount <= 35000) {
+			ir.setSampleAmount(50);
+			ir.setUnqualifiedStandNumber(6);
+		} else if (amount >= 35001 && amount <= 500000) {
+			ir.setSampleAmount(80);
+			ir.setUnqualifiedStandNumber(8);
+		} else if (amount >= 500001) {
+			ir.setSampleAmount(125);
+			ir.setUnqualifiedStandNumber(11);
+		}
+
 		request.put("afBase", afBase);
 		request.put("ir", ir);
 		return SUCCESS;
