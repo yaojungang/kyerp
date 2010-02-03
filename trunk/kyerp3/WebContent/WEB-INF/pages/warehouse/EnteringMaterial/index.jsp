@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>入库单管理</title>
+<title>入库管理</title>
 <script language="JavaScript">
 <!--
  //到指定的分页页面
@@ -48,7 +48,7 @@
 </head>
 <body>
 
-<h1>入库单管理</h1>
+<h1>入库管理</h1>
 <h2><a href="add.html">添加入库单</a></h2>
 <form action="index.html" method="post" id="myForm">
 <input type="hidden" name="page" value="${pageView.currentpage}"/>
