@@ -21,7 +21,7 @@ Ext.onReady(function(){
         proxy: new Ext.data.HttpProxy({url:'../OPE/jsongetPresswork.action'}),
         reader: new Ext.data.ArrayReader({},[
             {name:'presswork'},
-            {name:'seriesName'},
+            {name:'seriesName'}
         ])
     });
 	

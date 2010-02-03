@@ -482,4 +482,15 @@ public class AFService implements IAFService {
 				EndAFNo);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.tyopf.service.IAFService#updateOurBinding()
+	 */
+	@Override
+	public void updateOurBinding() {
+		afDAO.updateOurBinding();
+
+	}
+
 }

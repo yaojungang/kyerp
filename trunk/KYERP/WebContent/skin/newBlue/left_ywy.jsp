@@ -25,10 +25,6 @@
 		<td height="25" align="center"><a
 			href="getAFByYWY.action?YWName=sjw" target="_blank">孙纪文</a></td>
 	</tr>
-	<tr bgcolor="#FFFFFF">
-		<td height="25" align="center"><a
-			href="getAFByYWY.action?YWName=wbj" target="_blank">吴宝举</a></td>
-	</tr>
 </table>
 </body>
 </html>

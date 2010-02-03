@@ -216,4 +216,6 @@ public interface IAFService {
 
 	public List<AfElement> getAFEByEMachine(String clientName, String EMachine,
 			String AFType, long StartAFNo, long EndAFNo);
+
+	public void updateOurBinding();
 }

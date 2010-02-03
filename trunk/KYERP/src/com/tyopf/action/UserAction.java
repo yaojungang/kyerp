@@ -2,7 +2,6 @@ package com.tyopf.action;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -11,31 +10,30 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.tyopf.service.IHRService;
 import com.tyopf.service.ISystemService;
 import com.tyopf.service.IUserService;
-import com.tyopf.vo.CompanyDept;
 import com.tyopf.vo.Employee;
 import com.tyopf.vo.EmployeeFamily;
 import com.tyopf.vo.EmployeeResume;
-import com.tyopf.vo.Role;
 import com.tyopf.vo.User;
 
 @SuppressWarnings("serial")
 public class UserAction extends ActionSupport implements SessionAware {
-	protected User user;
-	protected IUserService userService;
-	protected ISystemService systemService;
-	protected IHRService hrService;
-	private String message;
-	private String userPassword;
-	private User user0;
-	private int id;
-	protected Map session ;
-	private Employee employee;
-	private List<EmployeeResume> resumes;
-	private List<EmployeeFamily> familys;
+	protected User					user;
+	protected IUserService			userService;
+	protected ISystemService		systemService;
+	protected IHRService			hrService;
+	private String					message;
+	private String					userPassword;
+	private User					user0;
+	private int						id;
+	protected Map					session;
+	private Employee				employee;
+	private List<EmployeeResume>	resumes;
+	private List<EmployeeFamily>	familys;
+
 	public void setSession(Map session) {
-		  this.session = session ;
+		this.session = session;
 	}
-	
+
 	public Employee getEmployee() {
 		return employee;
 	}
@@ -128,13 +126,14 @@ public class UserAction extends ActionSupport implements SessionAware {
 		this.id = id;
 	}
 
+	@Override
 	public String execute() throws Exception {
 		return SUCCESS;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public String index() throws Exception {
-		//Map session = ActionContext.getContext().getSession();
+		// Map session = ActionContext.getContext().getSession();
 		User user = (User) session.get("user");
 		Employee employee = (Employee) session.get("employee");
 		Map request = (Map) ActionContext.getContext().get("request");
@@ -143,19 +142,21 @@ public class UserAction extends ActionSupport implements SessionAware {
 		request.put("pageTitle", "个人资料");
 		return SUCCESS;
 	}
-	
+
 	public String ChangeMyPassword() throws Exception {
 		return SUCCESS;
 	}
+
 	@SuppressWarnings("unchecked")
 	public String MyInfo() throws Exception {
-		//Map session = ActionContext.getContext().getSession();
+		// Map session = ActionContext.getContext().getSession();
 		Employee employee = (Employee) session.get("employee");
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("Employee", employee);
-		request.put("pageTitle", employee.getRealname()+" 职工信息表");
+		request.put("pageTitle", employee.getRealname() + " 职工信息表");
 		return SUCCESS;
 	}
+
 	@SuppressWarnings("unchecked")
 	public String ChangeMyInfo() throws Exception {
 		Employee employee = (Employee) session.get("employee");
@@ -164,18 +165,20 @@ public class UserAction extends ActionSupport implements SessionAware {
 		request.put("pageTitle", "修改我的资料");
 		return SUCCESS;
 	}
+
 	@SuppressWarnings("unchecked")
 	public String ChangeMyInfo_save() throws Exception {
 		Employee employee0 = (Employee) session.get("employee");
 		User user0 = employee0.getUser();
 		employee.setId(employee0.getId());
 		user.setId(user0.getId());
-		
-		Employee employeeGet = userService.ChangeMyInfo_save(employee, user, resumes, familys);
+
+		Employee employeeGet = userService.ChangeMyInfo_save(employee, user,
+				resumes, familys);
 		Employee employeeDb = userService.getEmployeeById(employee.getId());
 		employeeGet.getFamily().add(new EmployeeFamily());
 		employeeGet.getFamily().add(new EmployeeFamily());
-		
+
 		employeeGet.getResume().add(new EmployeeResume());
 		employeeGet.getResume().add(new EmployeeResume());
 		Map request = (Map) ActionContext.getContext().get("request");
@@ -185,18 +188,17 @@ public class UserAction extends ActionSupport implements SessionAware {
 		session.put("employee", employeeDb);
 		return SUCCESS;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public String ChangeMyPassword_save() throws Exception {
-		//Map session = ActionContext.getContext().getSession();
+		// Map session = ActionContext.getContext().getSession();
 		User user = (User) session.get("user");
 		user0.setUsername(user.getUsername());
 		User oldUser = systemService.CheckLogin(user0);
 		if (null == oldUser) {
-			message = "原密码输入错误!";
+			message = "原密码错误!";
 			return ERROR;
-		}
-		else {
+		} else {
 			userService.ChangeMyPassword_save(user.getId(), userPassword);
 			session.remove("user");
 			session.remove("employee");

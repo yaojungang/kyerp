@@ -16,6 +16,7 @@
 <div class="pim2_secondMenu">
 <ul>
 	<li><form action="updateEmpNo.action"> <input type="submit" value="更新员工编号"> </form></li>
+	<li><a href="${pageContext.request.contextPath}/AF/updateOurBinding.action">更新本厂装订任务单</a></li>
 </ul>
 </div>
 

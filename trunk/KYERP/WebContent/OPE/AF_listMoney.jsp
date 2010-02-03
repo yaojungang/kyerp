@@ -23,10 +23,12 @@
 	bgcolor="#ffffff" id="tableExcel0">
 	<tr align="center">
 		<td width="40" bgcolor="#EEEEEE"><span class="From_item">序号</span></td>
+		<td width="80" bgcolor="#EEEEEE"><span class="From_item">日期</span></td>
 		<td width="80" bgcolor="#EEEEEE"><span class="From_item">任务单号</span></td>
 		<td bgcolor="#EEEEEE">印品名称</td>
 		<td width="50" bgcolor="#EEEEEE">业务员</td>
 		<td width="50" bgcolor="#EEEEEE">印数</td>
+		<td width="10" bgcolor="#EEEEEE">装订</td>
 		<td width="80" bgcolor="#EEEEEE">应收款</td>
 		<td width="80" bgcolor="#EEEEEE">实收款</td>
 	</tr>
@@ -34,6 +36,7 @@
 		<tr <s:if test="#st.even">style="background-color:#EAEAEA"</s:if>
 			<s:if test="#st.odd">style="background-color:#FFffff"</s:if>>
 			<td align="center"><s:property value="#st.index +1" /></td>
+			<td align="center"><s:date name="#af.ad" format="yyyy-MM-dd" nice="false" /></td>
 			<td height="19" align="center"><s:property value="#af.iso" /><s:property
 				value="#af.afNo" /></td>
 			<td><a
@@ -41,11 +44,12 @@
 				target="_blank"><s:property value="#af.presswork" /></a></td>
 			<td><s:property value="#af.cp" /></td>
 			<td><s:property value="#af.amount" /></td>
+			<td><s:if test="#af.ourbinding==1">1</s:if></td>
 			<td align="left"><s:if test="#af.moneyShould > 0">
 				<a href="CalAF.action?afId=<s:property value="#af.afId" />"
-					target="_blank">￥<s:property value="#af.moneyShould" /></a>
+					target="_blank"><s:property value="#af.moneyShould" /></a>
 			</s:if><s:elseif test="#af.moneyShould > 0">&nbsp;</s:elseif></td>
-			<td align="left"><s:if test="#af.moneyFact > 0">￥<s:property
+			<td align="left"><s:if test="#af.moneyFact > 0"><s:property
 					value="#af.moneyFact" />
 			</s:if><s:elseif test="#af.moneyFact > 0">&nbsp;</s:elseif></td>
 		</tr>
