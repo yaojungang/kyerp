@@ -36,12 +36,12 @@ document.all("page_left").style.display="";
 <ul>
  <li><a href="${ctx}/index.jsp">首页</a></li>
  <li>采购管理
-    <ul><li><a href="${ctx}/warehouse/BuyerOfEnteringMaterial/index.html" target="mainIframe">采购入库单</a></li></ul>
+    <ul><li><a href="${ctx}/warehouse/BuyerOfEnteringMaterial/index.html" target="mainIframe">采购入库</a></li></ul>
  </li>
  <li><a href="${ctx}/warehouse/index.html" target="mainIframe">物料管理</a>
  <ul>
-  <li><a href="${ctx}/warehouse/EnteringMaterial/index.html" target="mainIframe">入库单管理</a></li>
-  <li><a href="${ctx}/warehouse/DeliveryMaterial/index.html" target="mainIframe">出库单管理</a></li>
+  <li><a href="${ctx}/warehouse/EnteringMaterial/index.html" target="mainIframe">入库管理</a></li>
+  <li><a href="${ctx}/warehouse/DeliveryMaterial/index.html" target="mainIframe">出库管理</a></li>
   <li><a href="${ctx}/warehouse/MaterialCategory/index.html" target="mainIframe">物料类别管理</a></li>
   <li><a href="${ctx}/warehouse/Material/index.html" target="mainIframe">物料档案管理</a></li>
   <li><a href="${ctx}/warehouse/Supplier/index.html" target="mainIframe">供应商管理</a></li>
