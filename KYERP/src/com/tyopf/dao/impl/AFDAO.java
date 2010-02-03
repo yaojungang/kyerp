@@ -1401,4 +1401,28 @@ public class AFDAO extends BaseDAO implements IAFDAO {
 		session.close();
 		return null;
 	}
+
+	@Override
+	public void updateOurBinding() {
+		Session session = getSession();
+		System.out.println("AfDispose");
+		Query query = session
+				.createQuery("from AfDispose afd where afd.afDFactory like '本厂' and afd.afDItem like '胶订' ");
+		List<AfDispose> list = query.list();
+		int i = 0;
+		for (AfDispose afd : list) {
+			i++;
+			AfBase afBase = afd.getAfBase();
+			afBase.setOurbinding(1);
+			System.out.println("afBase:" + afBase.getAfId() + " name:"
+					+ afBase.getPresswork());
+
+			System.out
+					.println("i=" + i + " afd:" + afd.getAfDFactory()
+							+ " type:" + afd.getAfEType() + "type2:"
+							+ afd.getAfDItem());
+		}
+		session.flush();
+		session.close();
+	}
 }

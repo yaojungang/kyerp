@@ -875,4 +875,11 @@ public class AFAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	public String updateOurBinding() {
+		afService.updateOurBinding();
+		Map request = (Map) ActionContext.getContext().get("request");
+		request.put("message", "成功！");
+		return SUCCESS;
+	}
+
 }

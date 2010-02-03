@@ -206,4 +206,6 @@ public interface IAFDAO {
 	public void delQPAttachment(AfQualityProblemAttachment qpa);
 
 	public AfQualityProblemAttachment getAFQPAttachmentById(int id);
+
+	public void updateOurBinding();
 }

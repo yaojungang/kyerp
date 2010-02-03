@@ -268,7 +268,7 @@ function checkAF(){
 				</tr>
 				<tr>
 					<td align="center" bgcolor="#FFFFFF"><span class="item">制版日期</span></td>
-					<td width="12%" align="left" bgcolor="#FFFFFF"><input type="text" name="afes[<s:property value="#stat.index" />].EPlanPm" onClick="WdatePicker()" value='<s:date name="EPlanPress" format="yyyy-MM-dd" nice="false"/>' dataType="Date" msg="[制版日期]请填写一个日期" /></td>
+					<td width="12%" align="left" bgcolor="#FFFFFF"><input type="text" name="afes[<s:property value="#stat.index" />].EPlanPm" onClick="WdatePicker()" value='<s:date name="EPlanPress" format="yyyy-MM-dd" nice="false"/>' dataType="Require" msg="[制版日期]请填写一个日期" /></td>
 					<td width="8%" align="center" bgcolor="#FFFFFF"><span
 						class="item">印数</span></td>
 					<td width="8%" align="left" bgcolor="#FFFFFF"><input
@@ -296,7 +296,7 @@ function checkAF(){
 				</tr>
 				<tr>
 					<td align="center" bgcolor="#FFFFFF"><span class="item">印刷日期</span></td>
-					<td width="12%" align="left" bgcolor="#FFFFFF"><input type="text" name="afes[<s:property value="#stat.index" />].EPlanPress" onClick="WdatePicker()" value='<s:date name="EPlanPress" format="yyyy-MM-dd" nice="false"/>' dataType="Date" msg="[印刷日期]请填写一个日期" /></td>
+					<td width="12%" align="left" bgcolor="#FFFFFF"><input type="text" name="afes[<s:property value="#stat.index" />].EPlanPress" onClick="WdatePicker()" value='<s:date name="EPlanPress" format="yyyy-MM-dd" nice="false"/>' dataType="Require" msg="[印刷日期]请填写一个日期" /></td>
 					<td width="8%" align="center" bgcolor="#FFFFFF">&nbsp;</td>
 					<td width="8%" align="center" bgcolor="#FFFFFF">&nbsp;</td>
 					<td align="center" bgcolor="#FFFFFF"><span class="item">版数</span></td>
@@ -373,7 +373,7 @@ function checkAF(){
 	</tr>
 	<tr>
 		<td align="center" bgcolor="#FFFFFF"><span class="item">送货日期</span></td>
-		<td align="left" bgcolor="#FFFFFF"><span class="text"> <input value='<s:date name="#af.planDeliver" format="yyyy-MM-dd" nice="false"/>' name="af.planDeliver" dataType="Date" msg="[送货日期]请填写一个日期" onClick="WdatePicker()" /> </span></td>
+		<td align="left" bgcolor="#FFFFFF"><span class="text"> <input value='<s:date name="#af.planDeliver" format="yyyy-MM-dd" nice="false"/>' name="af.planDeliver" dataType="Require" msg="[送货日期]请填写一个日期" onClick="WdatePicker()" /> </span></td>
 		<td align="center" bgcolor="#FFFFFF"><span class="item">送货地点</span></td>
 		<td colspan="6" align="left" bgcolor="#FFFFFF"><span class="text">
 		<s:textfield name="af.deliverAddress" value="%{#af.deliverAddress}"

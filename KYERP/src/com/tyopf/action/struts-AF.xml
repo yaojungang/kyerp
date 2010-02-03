@@ -177,6 +177,10 @@
 			method="filmPlaceInput">
 			<result name="success">/Library/info/message.jsp</result>
 		</action>
+		<action name="updateOurBinding" class="com.tyopf.action.AFAction"
+			method="updateOurBinding">
+			<result name="success">/Library/info/message.jsp</result>
+		</action>
 
 	</package>
 </struts>
