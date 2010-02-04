@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="User" extends="struts-tyopf">
+		<action name="index" class="com.tyopf.action.UserAction"
+			method="index">
+			<result name="success">/User/index.jsp</result>
+		</action>
+		<action name="ChangeMyPassword" class="com.tyopf.action.UserAction"
+			method="ChangeMyPassword">
+			<result name="success">/User/ChangeMyPassword.jsp</result>
+		</action>
+		<action name="ChangeMyPassword_save" class="com.tyopf.action.UserAction"
+			method="ChangeMyPassword_save">
+			<result name="success">/login.jsp</result>
+			<result name="error">/User/ChangeMyPassword.jsp</result>
+		</action>
+		<action name="ChangeMyPhoto_save" class="com.tyopf.action.util.ChangeMyPhoto_save" method="execute">
+			<result name="success">/User/index.jsp</result>
+		</action>
+		<action name="MyInfo" class="com.tyopf.action.UserAction"
+			method="MyInfo">
+			<result name="success">/HR/EmployeeInfo.jsp</result>
+			<interceptor-ref name="PIMdefault">
+				<param name="checkFunctions">MyInfo</param>
+			</interceptor-ref>
+		</action>
+		<action name="ChangeMyInfo" class="com.tyopf.action.UserAction"
+			method="ChangeMyInfo">
+			<result name="success">/User/MyInfoInput.jsp</result>
+			<interceptor-ref name="PIMdefault">
+				<param name="checkFunctions">MyInfo</param>
+			</interceptor-ref>
+		</action>
+		<action name="ChangeMyInfo_save" class="com.tyopf.action.UserAction"
+			method="ChangeMyInfo_save">
+			<result name="success">/User/MyInfoInput.jsp</result>
+		</action>
+		
+	</package>
+</struts>

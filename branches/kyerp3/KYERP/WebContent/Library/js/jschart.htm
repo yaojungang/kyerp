@@ -1,0 +1,732 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<title></title>
+<STYLE>
+v\: * {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+</head>
+<body>
+<div id="c"></div>
+</body>
+</html>
+<script language="javascript">
+function PlutoVMLChart(pContainer,pCaption,pWidth,pHeight){
+if (!pContainer)
+{
+alert("Ҫ���ͳ��ͼƬ�Ķ������������ڣ�");
+return;
+}
+this.Container	= pContainer;
+this.Width		= (parseInt(pWidth) || 400) + "px";
+this.Height		= (parseInt(pHeight) || 400) + "px";
+this.Caption	= pCaption || "Pluto VML Chart";
+this.Shadow		= true;
+this.All		= [];
+this.BorderWidth= 0;
+this.BorderColor= "";
+this.Region		= null;
+this.CaptionObj	= null;
+this.ChartType	= 1;
+this.Is3D		= true;
+this.UseZ		= false;
+this.GridColor	= "#69f";
+this.CoordX		= 10000;
+this.CoordY		= 10000;
+this.AxisU		= 0.94;
+this.OriginX	= this.CoordX * (1 - this.AxisU);
+this.OriginY	= this.CoordY * this.AxisU;
+this.ScaleL		= this.CoordX * 0.01;
+this.Delta		= Math.sqrt(Math.pow(parseInt(this.Width) * 100 / this.CoordX,2) + Math.pow(parseInt(this.Height) * 100 / this.CoordY,2))
+this.BackDep	= this.Delta * 2.8;
+this.Opacity	= ".5";
+this.PolyLineC	= [];
+this.PolyLineN	= [];
+this.ShowDataTbl= true;
+this.DataTable	= null;
+this.AllowNegative = false;
+
+this.Direction	= 1;
+this.XStep		= this.CoordX * 0.08;
+this.YStep		= this.CoordX * 0.08;
+this.ZStep		= this.CoordX * 0.08;
+
+this.ZArc		= 60;
+this.XUnit		= "��";
+this.YUnit		= "��";
+this.ZUnit		= "��";
+
+this.X1			= this.CoordX * 2 / 3;
+this.X2			= this.OriginY;
+this.Y1			= this.OriginX;
+this.Y2			= this.CoordX * 0.1;
+this.Z1			= 0;
+this.Z2			= 0;
+this.BackgroundColor="";
+
+this.RandColor	= function()
+{
+return "rgb("+ parseInt( Math.random() * 255) +"," +parseInt( Math.random() * 255) +"," +parseInt( Math.random() * 255)+")";
+}
+
+this.LightColor	= function(color,offset)
+{
+color = color.replace("rgb(","").replace(")","").split(",")
+
+for(var i = 0 ; i < color.length ; i++)
+{
+color[i] = parseInt(color[i]) + offset + i * 40;
+
+if (color[i] < 0)
+color[i] = 0;
+
+if (color[i] > 255)
+color[i] = 255;
+}
+
+return "rgb(" + color.join(",") + ")";
+}
+
+this.ImgCoordToPageCoord = function (x1,y1)
+{
+return [Math.round(parseInt(y1) * parseInt(this.Height) / this.CoordY),Math.round(parseInt(x1) * parseInt(this.Width) / this.CoordX)];
+}
+}
+
+
+PlutoVMLChart.prototype.AddData		= function(sName,sTooltipText,arrValue,color){
+var oData	= new Object();
+oData.Name	= sName || "��Ŀ" + this.All.length;
+oData.Title	= sTooltipText || "None ToolTip";
+
+oData.Data	= arrValue;
+this.All[this.All.length]=oData;
+
+if (!color)
+oData.Color = this.RandColor();
+else
+oData.Color = "rgb(" + color + ")";
+}
+
+PlutoVMLChart.prototype.Clear		= function (){
+this.All.length=0;
+}
+
+
+PlutoVMLChart.prototype.Refresh		= function (){
+var arr = [];
+for(var i = 0 ; i < this.All.length ; i++)
+arr.push(this.All[i]);
+
+this.Clear();
+this.Container.innerHTML = "";
+this.All = arr;
+this.DrawBody();
+}
+
+PlutoVMLChart.prototype.DrawCake 	= function (){
+this.DrawRegion();
+
+var yTotal = 0;
+for(i=0;i<this.All.length;i++){
+yTotal += this.All[i].Data[0];
+}
+
+var w,h;
+var per = 0.9
+w = (this.X1 - this.OriginX) * per;
+h = (this.OriginY - this.Y2) * per;
+
+var oOval			= document.createElement("v:oval");
+oOval.style.width	= w + "px";
+oOval.style.height	= h + "px";
+oOval.style.top		= this.Y2 + (this.OriginY - this.Y2 - h) / 2 + "px";
+oOval.style.left	= this.OriginX + (this.X1 - this.OriginX - w) / 2 + "px";
+
+var vex				= document.createElement("v:extrusion");
+vex.on = "t";
+vex.type = "parallel";
+vex.backdepth = this.BackDep + "px";
+vex.color = "gray";
+vex.diffusity = "1.5";
+vex.metal = "t";
+vex.rotationangle = "180,180";
+vex.skewangle = "90";
+oOval.appendChild(vex);
+this.Region.appendChild(oOval);
+
+
+this.DrawDataTbl("aaaaaaa");
+if (this.DataTable && this.ShowDataTbl)
+{
+for (var i = 0 ; i < this.PolyLineN.length ; i++)
+{
+var objRow = this.DataTable.insertRow();
+var objCell = objRow.insertCell();
+objCell.style.backgroundColor = this.PolyLineC[i];
+objCell.style.width = "10px";
+objCell = objRow.insertCell();
+objCell.style.font = "icon";
+objCell.style.padding = "3px";
+objCell.innerText = this.PolyLineN[i];
+}
+}
+
+var mX=Math.pow(2,16) * 360;
+var startAngle=0;
+var endAngle=0;
+var pieAngle=0;
+var prePieAngle=0;
+
+for(i=0;i<this.All.length;i++){
+var s			= document.createElement("v:shape");
+s.style.width	= w + "px";
+s.style.height	= h + "px";
+s.style.top		= this.Y2 + (this.OriginY - this.Y2 - h) / 2 + "px";
+s.style.left	= this.OriginX + (this.X1 - this.OriginX - w) / 2 + "px";
+s.coordsize		= w + "," + h;
+s.strokecolor	= "white";
+
+var vPieId		= document.uniqueID;            
+s.id			= vPieId;
+
+pieAngle		= this.All[i].Data[0] / yTotal;
+startAngle		+= prePieAngle;
+prePieAngle		= pieAngle;
+endAngle		= pieAngle;
+
+s.path		= "M " + w/2 + "," + h/2 + " AE " + w/2 + "," + h/2 + " " + w/2 + "," + h/2 + " " + parseInt(mX * startAngle) +"," + parseInt(mX * endAngle) +" xe";
+s.title	= this.All[i].Name +"\n��ռ����"+ (endAngle * 100).toFixed(2) +"%\n��ϸ������" +this.All[i].Title;
+
+var objRow = this.DataTable.insertRow();
+var objCell = objRow.insertCell();
+objCell.style.backgroundColor = this.All[i].Color;
+objCell.style.width = "10px";
+objCell = objRow.insertCell();
+objCell.style.font = "icon";
+objCell.style.padding = "3px";
+objCell.innerText = this.All[i].Name;
+
+
+var objFill		= document.createElement("v:fill");
+objFill.rotate	= "t";
+objFill.focus	= "100%";
+objFill.type	= "gradient";
+objFill.angle	= parseInt( 360 * (startAngle + endAngle /2));
+s.appendChild(objFill);
+
+s.fillcolor		= this.All[i].Color;
+this.Region.appendChild(s);
+}
+}
+
+PlutoVMLChart.prototype.DrawSquare	= function (){
+this.DrawCoordinate();
+
+var r,f,e,t;
+
+var x = Math.floor(Math.abs(this.OriginX - this.X1) * this.AxisU / this.XStep);
+
+for(var i = 0 ; i < this.All.length ; i++)
+{
+r = document.createElement("v:rect");
+f = document.createElement("v:fill");
+e = document.createElement("v:extrusion");
+t = document.createElement("v:textbox");
+
+r.style.position= "absolute";
+r.style.left	= this.XStep * (i + .25) + this.OriginX + "px";
+r.style.top		= this.OriginY - this.All[i].Data[0] + "px";
+r.style.width	= this.XStep / 2 + "px";
+r.style.height	= this.All[i].Data[0] + "px";
+r.style.zIndex	= "200";
+r.title			= this.All[i].Title + "\n������" + this.All[i].Data[0]; 
+
+f.rotate		= "t";
+f.type			= "gradient";
+f.opacity		= this.Opacity;
+f.colors		= "0%" + this.All[i].Color;
+f.color2		= this.LightColor(this.All[i].Color,90);
+r.appendChild(f);
+
+e.on			= "t";
+e.backdepth		= this.BackDep + "px";
+e.color			= this.All[i].Color
+e.diffusity		= "1.2"
+r.appendChild(e);
+
+var posItem = this.ImgCoordToPageCoord(this.XStep * (i + .25) + this.OriginX + 100,this.OriginY - this.All[i].Data[0] - 400)
+t.style.position= "absolute";
+t.style.top		= posItem[0] + "px";
+t.style.left	= posItem[1] + "px";
+t.style.fontSize= "12px"
+t.style.zIndex	= 500;
+t.innerHTML		= this.All[i].Data[0];
+
+this.Region.appendChild(t);
+this.Region.appendChild(r);
+}
+}
+
+
+PlutoVMLChart.prototype.DrawPolyLine= function (){
+if (this.All.length == 0)
+return;
+
+this.DrawCoordinate();
+
+var i,j,l,to;
+
+if (this.PolyLineN.length == 0)
+for (i = 0 ; i < this.All[0].Data.length ; i++)
+{	
+this.PolyLineC.push(this.RandColor());
+this.PolyLineN.push("Item " + (i + 1))
+}
+
+to = this.OriginX + "," + this.OriginY;
+
+for (i = 0 ; i < this.All[0].Data.length ; i++)
+{
+for (j = 0 ; j < this.All.length ; j++ )
+{
+l = document.createElement("v:line");
+l.from	= to;
+l.to = (this.OriginX + this.XStep * j) + "," + (this.OriginY - this.All[j].Data[i]);
+to = l.to;
+l.strokeColor	= this.PolyLineC[i];
+var strokex = document.createElement("v:stroke")
+strokex.dashstyle="solid";
+strokex.endarrow = "oval";
+l.appendChild(strokex);
+this.Region.appendChild(l);
+}
+
+to = this.OriginX + "," + this.OriginY;
+}
+
+this.DrawDataTbl("��ɫ˵��");
+
+if (this.DataTable && this.ShowDataTbl)
+{
+for (var i = 0 ; i < this.PolyLineN.length ; i++)
+{
+var objRow = this.DataTable.insertRow();
+var objCell = objRow.insertCell();
+objCell.style.backgroundColor = this.PolyLineC[i];
+objCell.style.width = "10px";
+objCell = objRow.insertCell();
+objCell.style.font = "icon";
+objCell.style.padding = "3px";
+objCell.innerText = this.PolyLineN[i];
+}
+}
+}
+
+
+PlutoVMLChart.prototype.LineName	= function (obj){
+this.PolyLineC.length = 0;
+this.PolyLineN.length = 0;
+for(var i = 0 ; i < obj.length ; i++)
+{
+if (!obj[i][1] || obj[i][1] == "")
+this.PolyLineC.push(this.RandColor());
+else
+this.PolyLineC.push("rgb(" + obj[i][1] + ")");
+
+this.PolyLineN.push(obj[i][0]);
+}
+}
+PlutoVMLChart.prototype.DrawRegion	= function (){
+if (this.ShowDataTbl)
+this.X1	= this.CoordX * 2 / 3;
+else
+this.X1 = this.CoordX;
+
+var o			= document.createElement("v:group");
+o.style.width	= this.Width;
+o.style.height	= this.Height;
+o.coordsize		= this.CoordX + "," + this.CoordY;
+this.Region		= o;
+
+var Region			=document.createElement("v:rect");
+Region.style.width	= this.CoordX + "px";
+Region.style.height	= this.CoordY + "px";
+
+if(this.BorderWidth){
+Region.strokeweight = this.BorderWidth;
+}
+
+if(this.BorderColor){
+Region.strokecolor = this.BorderColor;
+}
+
+if(this.BackgroundColor){        
+Region.fillcolor = this.BackgroundColor;
+}
+
+if(this.Shadow){
+var vShadow		= document.createElement("v:shadow");
+vShadow.on		= "t";
+vShadow.color	= "graytext";
+vShadow.offset	= "4px,4px";
+Region.appendChild(vShadow);
+}
+
+if (this.Caption)
+{
+var vCaption=document.createElement("v:textbox");
+vCaption.style.fontSize="24px";        
+vCaption.style.height="24px"
+vCaption.style.fontWeight="bold";
+vCaption.innerHTML=this.Caption;
+vCaption.inset = "10px,10px,10px,10px";
+vCaption.style.textAlign="center";
+Region.appendChild(vCaption);
+}
+
+this.Region.appendChild(Region);
+this.Container.appendChild(this.Region);
+}
+
+
+PlutoVMLChart.prototype.DrawXYZ		= function (){
+
+var l	= document.createElement("v:line");
+l.from	= this.OriginX + "," + this.OriginY;
+l.to	= this.X1 + "," + this.X2;
+
+var arrow		= document.createElement("v:stroke");
+arrow.endArrow	= "classic";
+l.appendChild(arrow);
+l.style.zIndex = 100;
+this.Region.appendChild(l);
+
+if (this.XUnit)
+{
+var t			= document.createElement("v:textbox");
+var posItem		= this.ImgCoordToPageCoord(this.X1 + this.CoordX * 4 / parseInt(this.Width),this.X2 - this.CoordY * 4 / parseInt(this.Height))
+t.style.position= "absolute";
+t.style.top		= posItem[0] + "px";
+t.style.left	= posItem[1] + "px";
+t.style.fontSize= "12px"
+t.style.textAlign="left";
+t.style.width	= "40px";
+t.style.zIndex	= 500;
+t.innerHTML		= "(" + this.XUnit + ")";
+this.Region.appendChild(t);
+}
+
+l		= l.cloneNode();
+l.from	= this.OriginX + "," + this.OriginY;
+l.to	= this.Y1 + "," + this.Y2;
+
+arrow			= arrow.cloneNode();
+arrow.endArrow	= "classic";
+l.appendChild(arrow);
+l.style.zIndex = 100;
+this.Region.appendChild(l);
+
+if (this.YUnit)
+{
+var t			= document.createElement("v:textbox");
+var posItem		= this.ImgCoordToPageCoord(this.Y1 - this.CoordX * 17 / parseInt(this.Width),this.Y2 - this.CoordY * 10 / parseInt(this.Height))
+t.style.position= "absolute";
+t.style.top		= posItem[0] + "px";
+t.style.left	= posItem[1] + "px";
+t.style.fontSize= "12px"
+t.style.textAlign="center";
+t.style.width	= "40px";
+t.style.zIndex	= 500;
+t.innerHTML		= "(" + this.YUnit + ")";
+this.Region.appendChild(t);
+}
+
+if (this.UseZ)
+{
+this.Z2			= Math.abs(this.OriginY - this.Y2);
+this.Z1			= Math.abs(this.Z2 / (Math.tan(this.ZArc * Math.PI / 180)));
+
+if (this.Z1 > Math.abs(this.OriginX - this.X1))
+{
+this.Z1 = Math.abs(this.OriginX - this.X1)
+this.Z2 = this.Z1 * (Math.tan(this.ZArc * Math.PI / 180))
+}
+this.Z1			= this.Z1 + this.OriginX;
+this.Z2			= this.OriginY - this.Z2;
+
+l				= l.cloneNode();
+l.strokeColor	= "#6699FF";
+l.from			= this.OriginX + "," + this.OriginY;
+l.to			= this.Z1 + "," + this.Z2;
+arrow			= arrow.cloneNode();
+arrow.endArrow	= "classic";
+l.appendChild(arrow);
+l.style.zIndex = 100;
+this.Region.appendChild(l);
+}else{
+}
+
+l = document.createElement("v:polyline");
+l.points = this.OriginX + "," + this.OriginY;
+if (this.UseZ)
+{
+l.points += "," + this.Z1 + "," + this.Z2;
+}else{
+l.points += "," + this.Y1 + "," + this.Y2;
+}
+l.points += "," + this.X1 + "," + this.Y2 + "," + this.X1 + "," + this.X2;
+l.strokeColor = "transparent";
+l.stroked = "f";
+l.filled = "t";
+
+arrow = document.createElement("v:fill");
+arrow.type = "gradient";
+arrow.opacity = ".5";
+arrow.color = "white";
+arrow.color2 = "#9cf";
+arrow.angle = "135";
+l.appendChild(arrow);
+l.style.zIndex = 0;
+
+this.Region.appendChild(l);
+}
+
+
+PlutoVMLChart.prototype.DrawScale	= function (){
+var l;
+
+var x = Math.round(Math.abs(this.OriginX - this.X1) * this.AxisU / this.XStep);
+
+var posItem;
+
+for(var i = 0 ; i <= x ; i++)
+{
+l = document.createElement("v:line");
+l.from	= (this.OriginX + (this.XStep * i)) + "," + this.OriginY;
+l.to	= (this.OriginX + (this.XStep * i)) + "," + (this.OriginY +��this.ScaleL);
+this.Region.appendChild(l);
+
+if (this.UseZ)
+{
+xa = this.Z1 + (this.XStep * i)
+ya = this.Z2;
+l = document.createElement("v:line");
+l.from	= (this.OriginX + (this.XStep * i)) + "," + this.OriginY;
+if (xa > this.X1)
+{
+xa = this.X1;
+ya = this.X2-(this.X1 - (this.OriginX + this.XStep * i)) * Math.tan(this.ZArc * Math.PI / 180) ;
+ya = Math.abs(Math.floor(ya));
+}
+l.to = xa + "," + ya;
+l.strokeColor	= this.GridColor;
+this.Region.appendChild(l);
+}
+
+if (i < this.All.length)
+{
+posItem = this.ImgCoordToPageCoord(this.OriginX + (this.XStep * i) + this.CoordX * 6 / parseInt(this.Width),this.OriginY + this.ScaleL)
+
+var t			= document.createElement("v:textbox");
+t.style.position= "absolute";
+t.style.top		= posItem[0] + "px";
+t.style.left	= posItem[1] + "px";
+t.style.fontSize= "12px"
+t.style.zIndex	= 500;
+t.innerHTML		= this.All[i].Name;
+
+this.Region.appendChild(t);
+}
+}
+
+
+var offsetx = this.BackDep * this.CoordX / parseInt(this.Width) / 2;
+var offsety = this.BackDep * this.CoordY / parseInt(this.Height) / 2;
+var firstx = "";
+var firsty = "";
+x = Math.round(Math.abs(this.OriginY - this.Y2) * this.AxisU / this.YStep);
+for(var i = 0 ; i <= x ; i++)
+{
+if (this.UseZ)
+{
+l = document.createElement("v:line");
+l.from	= (this.OriginX + this.YStep / Math.tan(this.ZArc * Math.PI / 180) * i) + "," + (this.OriginY - (this.XStep * i));
+l.to = this.X1 + "," + (this.X2 - (this.XStep * i));
+l.strokeColor	= this.GridColor;
+this.Region.appendChild(l);
+}else if (this.ChartType == 3){
+if (i == 0)
+{
+firstx = this.OriginX + offsetx * Math.cos(Math.PI / 4);
+firsty = this.OriginY - (this.XStep * i) - offsety * Math.sin(Math.PI / 4);
+}
+l = document.createElement("v:polyline");
+l.points = this.OriginX + "," + (this.OriginY - (this.XStep * i)) + ",";
+l.points += (this.OriginX + offsetx * Math.cos(Math.PI / 4)) + "," + (this.OriginY - (this.XStep * i) - offsety * Math.sin(Math.PI / 4)) + ",";
+l.points += this.X1 + "," + (this.OriginY - (this.XStep * i) - offsety * Math.sin(Math.PI / 4));
+l.filled = "f";
+
+var strokex = document.createElement("v:stroke")
+strokex.dashstyle="shortdot";
+l.appendChild(strokex);
+
+l.strokeColor	= this.GridColor;
+this.Region.appendChild(l);
+}else if (this.ChartType == 2){
+l = document.createElement("v:line");
+l.from = this.OriginX + "," + (this.OriginY - (this.XStep * i));
+l.to = this.X1 + "," + (this.OriginY - (this.XStep * i));
+
+var strokex = document.createElement("v:stroke")
+strokex.dashstyle="shortdot";
+l.appendChild(strokex);
+
+l.strokeColor	= this.GridColor;
+this.Region.appendChild(l);
+}
+
+l = document.createElement("v:line");
+l.from	= this.OriginX + "," + (this.OriginY - (this.XStep * i));
+l.to	= (this.OriginX - this.ScaleL) + "," + (this.OriginY - (this.XStep * i));
+this.Region.appendChild(l);
+
+
+posItem = this.ImgCoordToPageCoord(this.OriginX - this.CoordX * 40 / parseInt(this.Width),this.OriginY - this.YStep * (i) + this.CoordY * 4 / parseInt(this.Height))
+
+var t			= document.createElement("v:textbox");
+t.style.position= "absolute";
+t.style.top		= posItem[0] + "px";
+t.style.left	= posItem[1] + "px";
+t.style.fontSize= "12px"
+t.style.textAlign="right";
+t.style.width	= "40px";
+t.style.zIndex	= 500;
+t.innerHTML		= this.YStep * i;
+this.Region.appendChild(t);
+}
+
+if (this.ChartType == 3)
+{
+l = document.createElement("v:line");
+l.from	= firstx + "," + firsty;
+l.to = firstx + "," + this.Y2;
+l.strokeColor	= this.GridColor;
+var strokex = document.createElement("v:stroke")
+strokex.dashstyle="shortdot";
+l.appendChild(strokex);
+this.Region.appendChild(l);
+}
+}
+
+
+PlutoVMLChart.prototype.DrawBody	= function (){
+switch(this.ChartType)
+{
+case 1:
+this.DrawCake();
+break;
+case 2:
+this.DrawPolyLine();
+break;
+case 3:
+this.DrawSquare();
+break;
+default:
+this.DrawCake();
+break;
+}
+}
+PlutoVMLChart.prototype.DrawDataTbl = function(vTotal) {
+
+var oTbl		= document.createElement("table");
+oTbl.cellPadding= 0;
+oTbl.cellSpacing= 5;
+oTbl.width		= "100%";
+this.DataTable	= oTbl;
+this.Region.appendChild(this.DataTable);
+
+if (vTotal)
+{
+var objRow		= this.DataTable.insertRow();
+var objCell		= objRow.insertCell();
+objCell.colSpan	= "2";
+
+objCell.style.backgroundColor = "black";
+objCell.style.padding = "5px";
+objCell.style.color = "window";
+objCell.style.font = "caption";
+objCell.innerText = vTotal;
+}
+
+var v			= document.createElement("v:rect");
+v.style.width	= this.CoordX / 3 - 1000 + "px";
+v.style.height	= Math.abs(this.X2 - this.Y2) + "px";
+v.style.top		= this.Y2 + "px";
+v.style.left	= this.X1 + this.CoordX * .05 + "px";
+v.strokeweight = "1px";
+var vShadow		= document.createElement("v:shadow");
+vShadow.on		= "t";
+vShadow.color	= "graytext";
+vShadow.offset	= "4px,4px";
+v.appendChild(vShadow);
+
+var t			= document.createElement("v:textbox");
+t.style.position= "absolute";
+t.style.fontSize= "12px";
+t.appendChild(this.DataTable);
+v.appendChild(t)
+this.Region.appendChild(v);
+}
+
+PlutoVMLChart.GetPosition			= function (obj){
+var x,y;
+x = 0;
+y = 0;
+
+while(obj.tagName.toLowerCase() != "body")
+{
+x += parseInt(obj.offsetLeft)
+y += parseInt(obj.offsetTop)
+obj = obj.parentElement
+}
+return [x,y]
+}
+
+
+PlutoVMLChart.prototype.DrawCoordinate = function(){
+this.DrawRegion();
+this.DrawXYZ();
+this.DrawScale();
+}
+
+
+function DrawPie(){
+var objPie= new PlutoVMLChart(document.getElementById("c"),"���ͳ��",900,600);
+//objPie.BackgroundColor="red";
+//��ɫ���� ��ʽ �� 3��10���Ƶ��ö��Ÿ������ַ�
+
+//��������ߣ���������ÿһ���ߵ���ƺ���ɫ
+objPie.AddData("����","�������˿�",[1000,1900,4200],"99,127,33");
+objPie.AddData("����","���µ��˿�",[2400,5200,2200]);
+objPie.AddData("����","������˿�",[3100,1300,6500]);
+objPie.AddData("����","�������˿�",[1600,500,4900]);
+objPie.AddData("����","������˿�",[1500,3500,5500]);
+objPie.AddData("����","���µ��˿�",[600 ,4000,2900]);
+objPie.AddData("����","���е��˿�",[6900,2900,1000]);
+//objPie.ChartType = 1;Ĭ��ֵ�����Բ�������ָ��
+objPie.DrawBody();
+
+objPie.ChartType = 3;
+objPie.DrawBody();
+
+objPie.ChartType = 2;
+objPie.DrawBody();
+
+//��ɫ�������ָ����Ҳ���Բ�Ҫ
+objPie.LineName([["��һ����",""],["�ڶ�����","99,127,33"],["��������","99,127,33"]]);
+objPie.DrawBody();
+}
+DrawPie()
+</script>

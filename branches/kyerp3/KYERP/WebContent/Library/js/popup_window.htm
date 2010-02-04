@@ -1,0 +1,235 @@
+<script type="text/javascript">
+var TBPopup = {};
+TBPopup.getPosXY = function(a, offset) {
+	var p = offset ? offset.slice(0) : [0,0],tn;
+	while (a) {
+		tn = a.tagName.toUpperCase();
+		p[0] += a.offsetLeft - (tn == "DIV" && a.scrollLeft ? a.scrollLeft : 0);
+		p[1] += a.offsetTop - (tn == "DIV" && a.scrollTop ? a.scrollTop : 0);
+		if (tn == "BODY") break;
+		a = a.offsetParent;
+	}
+	return p;
+}
+
+TBPopup.getWinSize = function(w) {
+	if (!w) w = window;
+	if (w.document.compatMode == 'CSS1Compat')
+		with (w.document.documentElement) return [clientWidth,clientHeight,scrollLeft,scrollTop];
+	else
+		with (w.document.body) return [clientWidth,clientHeight,scrollLeft,scrollTop];
+}
+
+TBPopup.checkContains = function(p, c) {
+	if (p.contains && c!=null)
+		return p.contains(c);
+	else {
+		while (c) {
+			if (c == p) return true;
+			c = c.parentNode;
+		}
+		return false;
+	}
+}
+
+TBPopup.stopEvent = function(ev) {
+	if (ev.stopPropagation)
+	{
+		ev.stopPropagation();
+		ev.preventDefault();
+	} else {
+		ev.cancelBubble = true;
+		ev.returnValue = false;
+	}
+}
+
+/**
+	config &Ecirc;&ocirc;&ETH;&Ocirc;&Euml;&micro;&Atilde;��
+
+	position: (string) [left|right|top|bottom]
+	width: (int) popup width 
+	height: (int) popup height
+	eventType: (string) [mouse|click] &Ecirc;���(�&Ograve;&AElig;&para;&macr;&acute;&yen;��&cent;&raquo;&sup1;&Ecirc;&Ccedil;&micro;&atilde;&raquo;��&acute;&yen;��&cent;
+	delay: (int) &Ecirc;���(�&Ograve;&AElig;&para;&macr;&acute;&yen;��&cent;&Ecirc;��&frac14;&auml;&Ntilde;&Oacute;&sup3;&Ugrave;
+	showCallback: (function) &Iuml;&Ocirc;&Ecirc;&frac34;&raquo;&Oslash;&micro;��&ordm;&macr;&Ecirc;&yacute;
+	hideCallback: (function) &Ograve;&thorn;&sup2;&Oslash;&raquo;&Oslash;&micro;��&ordm;&macr;&Ecirc;&yacute;
+ */
+TBPopup.connect = function(trigger, popup, config) {
+	var _popupShowTimeId, _popupHideTimeId;
+	var trigger = (typeof trigger == 'string')?document.getElementById(trigger):trigger;
+	var popup = (typeof popup == 'string')?document.getElementById(popup):popup;
+
+	var config = !config ? {} : config;
+	var pPosition = config.position || 'right';
+	var pDelay = config.delay || 200;
+	var pWidth = config.width || popup.offsetWidth;
+	var pHeight = config.height || popup.offsetHeight;
+	var offset = config.offset || [0,0];
+
+	var eventType = config.eventType || 'mouse';
+
+	var tbp = {
+		popup: popup,
+		trigger: trigger,
+		show: function() {
+			tbp.hide();
+			var pos = TBPopup.getPosXY(trigger, offset);
+			var wsize = TBPopup.getWinSize();
+			var tw = trigger.offsetWidth, th = trigger.offsetHeight;
+			var pw = pWidth, ph = pHeight;
+			var dw = wsize[0], dh = wsize[1], sl = wsize[2], st = wsize[3];
+			var l = pos[0], t = pos[1];
+			if (pPosition == 'left') {
+				l = pos[0]-pw;
+			}
+			else if (pPosition == 'right') {
+				l = pos[0]+tw;
+			} else if (pPosition == 'bottom') {
+				t = t+th;
+			} else if (pPosition == 'top') {
+				t = t-ph;
+				if (t < 0) t = 0;
+			}
+			if (t+ph-st > dh) {
+				t = dh+st-ph;
+				if (t < 0) {
+					t = 0;
+				}
+				else if (t+ph < pos[1]+th) {
+					t+=th;
+				}
+			}
+
+			popup.style.position = 'absolute';
+			popup.style.top = t + 'px';
+			popup.style.left = l + 'px';
+			popup.style.display = 'block';
+			if (config.showCallback)
+				config.showCallback.apply(tbp);	
+		},
+		hide: function() {
+			popup.style.display = 'none';
+			if (config.hideCallback)
+				config.hideCallback.apply(tbp);
+		},
+		
+		delayHide: function() {
+	        _popupHideTimeId = setTimeout(this.hide, pDelay);
+		}
+	};
+	
+	if (eventType == 'mouse') {
+		trigger.onmouseover = function(e) {
+			clearTimeout(_popupHideTimeId);
+			var ev = !e ? window.event : e;
+			var p = ev.target || ev.srcElement;
+			_popupShowTimeId = setTimeout(tbp.show, pDelay);		
+		};
+
+		trigger.onmouseout = function(e) {
+			clearTimeout(_popupShowTimeId);
+			var ev = !e ? window.event : e;
+			TBPopup.stopEvent(ev);
+			var rt = ev.toElement || ev.relatedTarget;
+			if (!TBPopup.checkContains(popup, rt))
+				tbp.delayHide();
+		};
+
+		if (!trigger.onclick) {
+			trigger.onclick = function(e) {
+				var ev = !e ? window.event : e;
+				TBPopup.stopEvent(ev);
+			};
+		}
+
+		popup.onmouseover = function(e) {
+			var ev = !e ? window.event : e;
+			TBPopup.stopEvent(ev);
+			clearTimeout(_popupHideTimeId);		
+		};
+
+		popup.onmouseout = trigger.onmouseout;
+	}
+	else if (eventType == 'click') {
+		trigger.onclick = function(e) {
+			popup.style.display == 'block'? tbp.hide() : tbp.show();
+			var ev = !e ? window.event : e;
+			TBPopup.stopEvent(ev);
+		};
+	}
+	return tbp;
+}
+</script>
+<body>
+<div id="SearchResultTable3">
+<table>
+	<tbody id="HBMainCA1351">
+		<tr>
+			<td><a href="/PIM2/AF/AFInfo.action?afId=4319" class="planeType">19204319431943194319</a></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<style type="text/css">
+#PlanePreview {
+	position: relative;
+	width: 390px !important;
+	width: 375px;
+	height: 410px;
+	display: none;
+}
+
+#PlaneInfo {
+	border: 2px solid #73ade7;
+	margin-left: 14px;
+	height: 100%;
+	background: #FFF
+		url( http://pics.taobao.com/bao/album/123/sk_loading.gif ) no-repeat
+		50% 50%;
+}
+
+#PlaneArrow {
+	position: absolute;
+	top: 25px;
+	left: 0;
+	width: 16px;
+	height: 16px;
+	background:
+		url(http://pics.taobao.com/bao/album/sys/et/flight_type_icon.gif)
+		no-repeat;
+}
+
+#PlaneFrame {
+	border: none;
+	width: 370px;
+	height: 410px;
+}
+</style>
+<div id="PlanePreview"><span id="PlaneArrow"></span>
+<div id="PlaneInfo"><iframe src="about:blank" id="PlaneFrame"
+	frameborder="0"></iframe></div>
+</div>
+<script type="text/javascript">
+var pts = document.getElementById('SearchResultTable3').getElementsByTagName('a');
+for (var i = 0; i < pts.length; i++) {
+	if (pts[i].className.indexOf('planeType') == -1) continue;
+	TBPopup.connect(pts[i], 'PlanePreview', {
+		position:'right',
+		width:380,
+		height:415,
+    	offset: [0, -10],
+    	showCallback: function() {
+			document.getElementById('PlaneFrame').style.display = 'none';
+    		var tt = TBPopup.getPosXY(this.trigger)[1];
+    		var pt = parseInt(this.popup.style.top);
+    		document.getElementById('PlaneArrow').style.top = (tt-pt) + 'px';
+		document.getElementById('PlaneFrame').src = '/PIM2/AF/AFInfo.action?afId=' + this.trigger.innerHTML ;
+	}
+	});
+}
+function planeLoadCallback() {
+	document.getElementById('PlaneFrame').style.display = 'block';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tyopf.vo.User" table="User">
+		<id name="id" type="int" column="id">
+			<generator class="native" />
+		</id>
+		<many-to-one name="employee" column="EID"
+			class="com.tyopf.vo.Employee" unique="true" lazy="proxy" fetch="join" cascade="none" />
+		<set name="roles" table="Users_Roles" lazy="true">
+			<key column="UserId" />
+			<many-to-many class="com.tyopf.vo.Role" column="RoleId" />
+		</set>
+		<property name="username" type="string">
+			<column name="Username" length="20"></column>
+		</property>
+		<property name="password" type="string">
+			<column name="Password" length="128"></column>
+		</property>
+		<property name="lastLoginIp" type="string">
+			<column name="LastLoginIp" length="12"></column>
+		</property>
+		<property name="lastLoginTime" type="timestamp">
+			<column name="LastLoginTime"></column>
+		</property>
+		<property name="url" type="string">
+			<column name="Url" length="50"></column>
+		</property>
+		<property name="userType" type="string">
+			<column name="UserType" length="10">
+			</column>
+		</property>
+		<property name="remark" type="string">
+			<column name="Remark"></column>
+		</property>
+		<property name="loginTimes" type="java.lang.Integer">
+            <column name="loginTimes">
+            </column>
+        </property>
+	</class>
+
+</hibernate-mapping>

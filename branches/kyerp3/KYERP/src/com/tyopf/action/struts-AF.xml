@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+ "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+ "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="AF" extends="struts-tyopf" namespace="/AF">
+		<action name="getAFByYWY" class="com.tyopf.action.AFAction"
+			method="getAFByYWY">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getRecentColumnName" class="com.tyopf.action.AFAction"
+			method="getRecentColumnName">
+			<result type="json">
+				<param name="root">columnNames</param>
+			</result>
+		</action>
+		<action name="getTodayAFs" class="com.tyopf.action.AFAction"
+			method="getTodayAFs">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getSKAFs" class="com.tyopf.action.AFAction"
+			method="getSKAFs">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getLHAFs" class="com.tyopf.action.AFAction"
+			method="getLHAFs">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getAllAFs" class="com.tyopf.action.AFAction"
+			method="getAFs">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="AFInfo" class="com.tyopf.action.AFAction" method="AFInfo">
+			<result name="success">/AF/${AFPage}Info.jsp
+			</result>
+		</action>
+		<action name="AFInfo_print" class="com.tyopf.action.AFAction"
+			method="AFInfo">
+			<result name="success">/AF/${AFPage}Info.jsp
+			</result>
+		</action>
+		<action name="getAFByNo" class="com.tyopf.action.AFAction"
+			method="getAFByNo">
+			<result name="success">/AF/AFInfo.jsp</result>
+		</action>
+		<action name="getAFByNoRange" class="com.tyopf.action.AFAction"
+			method="getAFByNoRange">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getAFEByMachine" class="com.tyopf.action.AFAction"
+			method="getAFEByMachine">
+			<result name="success">/AF/listAFE.jsp</result>
+		</action>
+
+		<action name="getCountofCoverByMachineAndAFNo" class="com.tyopf.action.AFAction"
+			method="getCountofCoverByMachineAndAFNo">
+			<result name="success">/AF/listAFE.jsp</result>
+		</action>
+
+		<action name="getAFByAFNo" class="com.tyopf.action.OPEAction"
+			method="getAFByAFNo">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getAFByName" class="com.tyopf.action.OPEAction"
+			method="getAFByName">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getAFByClient" class="com.tyopf.action.AFAction"
+			method="getAFByClient">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getAFByDate" class="com.tyopf.action.AFAction"
+			method="getAFByDate">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+
+
+		<action name="getAFByBindingFactory" class="com.tyopf.action.AFAction"
+			method="getAFByBindingFactory">
+			<result name="success">/AF/listAFD.jsp</result>
+		</action>
+		<action name="getTodayAFsForBindingFactory" class="com.tyopf.action.AFAction"
+			method="getTodayAFsForBindingFactory">
+			<result name="success">/AF/listAFD.jsp</result>
+		</action>
+		<action name="getFinishedAFEByItem" class="com.tyopf.action.AFAction"
+			method="getFinishedAFEByItem">
+			<result name="success">/AF/listAFE.jsp</result>
+		</action>
+		<action name="getNotFinishedAFEByItem" class="com.tyopf.action.AFAction"
+			method="getNotFinishedAFEByItem">
+			<result name="success">/AF/listAFE.jsp</result>
+		</action>
+		<action name="getNotFinishedAFEByItemMachine" class="com.tyopf.action.AFAction"
+			method="getNotFinishedAFEByItemMachine">
+			<result name="success">/AF/listAFE.jsp</result>
+		</action>
+
+		<action name="getFinishedAFD" class="com.tyopf.action.AFAction"
+			method="getFinishedAFD">
+			<result name="success">/AF/listAFD.jsp</result>
+		</action>
+		<action name="getNotFinishedAFD" class="com.tyopf.action.AFAction"
+			method="getNotFinishedAFD">
+			<result name="success">/AF/listAFD.jsp</result>
+		</action>
+
+		<action name="getFinishedDL" class="com.tyopf.action.AFAction"
+			method="getFinishedDL">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getNotFinishedDL" class="com.tyopf.action.AFAction"
+			method="getNotFinishedDL">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+
+		<action name="getTodayDL" class="com.tyopf.action.AFAction"
+			method="getTodayDL">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getTodayDL" class="com.tyopf.action.AFAction"
+			method="getTodayDL">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="searchAF" class="com.tyopf.action.AFAction"
+			method="searchAF">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+
+
+		<action name="getPrintAmount" class="com.tyopf.action.AFAction"
+			method="getPrintAmount">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getBookAmount" class="com.tyopf.action.AFAction"
+			method="getBookAmount">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getAFByMachine" class="com.tyopf.action.AFAction"
+			method="getAFByMachine">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getAFEByMachine" class="com.tyopf.action.AFAction"
+			method="getAFEByMachine">
+			<result name="success">/AF/listAFE.jsp</result>
+		</action>
+		<action name="getAFByYW" class="com.tyopf.action.AFAction"
+			method="getAFByYW">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getMyAF" class="com.tyopf.action.AFAction"
+			method="getMyAF">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getAFbyAFNoList" class="com.tyopf.action.AFAction"
+			method="getAFbyAFNoList">
+			<result name="success">/AF/listAF.jsp</result>
+		</action>
+		<action name="getAFList_input" class="com.tyopf.action.AFAction"
+			method="getAFList_input">
+			<result name="success">/AF/getAFList_input.jsp
+			</result>
+		</action>
+
+		<action name="jsongetAFByYWY" class="com.tyopf.action.AFAction"
+			method="getAFByYWY">
+			<result type="json">
+				<param name="root">ListAF</param>
+			</result>
+		</action>
+		<action name="YZNo2AFNo" class="com.tyopf.action.AFAction"
+			method="changeYZNo2AFNo">
+			<result name="success">/AF/YZNo2AFNo.jsp
+			</result>
+		</action>
+		<action name="noSkin_filmPlaceInput" class="com.tyopf.action.AFAction"
+			method="filmPlaceInput">
+			<result name="success">/Library/info/message.jsp</result>
+		</action>
+		<action name="updateOurBinding" class="com.tyopf.action.AFAction"
+			method="updateOurBinding">
+			<result name="success">/Library/info/message.jsp</result>
+		</action>
+
+	</package>
+</struts>

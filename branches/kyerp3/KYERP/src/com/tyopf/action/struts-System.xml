@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="System" extends="struts-tyopf" namespace="/System">
+		<action name="SystemAdmin" class="com.tyopf.action.SystemAction"
+			method="SystemAdmin">
+			<result name="success">/System/SystemAdmin.jsp</result>
+			<interceptor-ref name="PIMdefault" />
+			<interceptor-ref name="systemFunctionsInterceptor">
+				<param name="checkFunctions">System-Admin</param>
+			</interceptor-ref>
+		</action>
+		<action name="updateEmpNo" class="com.tyopf.action.SystemAction"
+			method="updateEmpNo">
+			<result name="success">/System/SystemAdmin.jsp</result>
+		</action>
+		<action name="DeptAdmin" class="com.tyopf.action.SystemAction"
+			method="DeptAdmin">
+			<result name="success">/System/DeptList.jsp</result>
+		</action>
+		<action name="AddDept" class="com.tyopf.action.SystemAction"
+			method="AddDept">
+			<result name="success">/System/DeptList.jsp</result>
+		</action>
+		<action name="EditDept" class="com.tyopf.action.SystemAction"
+			method="EditDept">
+			<result name="success">/System/DeptList.jsp</result>
+		</action>
+		<action name="RoleAdmin" class="com.tyopf.action.SystemAction"
+			method="RoleAdmin">
+			<result name="success">/System/RoleList.jsp</result>
+		</action>
+		<action name="SystemFunctionsAdmin" class="com.tyopf.action.SystemAction"
+			method="SystemFunctionsAdmin">
+			<result name="success">/System/SystemFunctionsList.jsp
+			</result>
+		</action>
+		<action name="AddSystemFunction_save" class="com.tyopf.action.SystemAction"
+			method="AddSystemFunction_save">
+			<result name="success">/System/SystemFunctionsList.jsp
+			</result>
+		</action>
+		<action name="EditSystemFunction_save" class="com.tyopf.action.SystemAction"
+			method="EditSystemFunction_save">
+			<result name="success">/System/SystemFunctionsList.jsp
+			</result>
+		</action>
+		<action name="AddRole" class="com.tyopf.action.SystemAction"
+			method="AddRole">
+			<result name="success">/System/RoleAdd.jsp</result>
+		</action>
+		<action name="EditRole" class="com.tyopf.action.SystemAction"
+			method="EditRole">
+			<result name="success">/System/RoleInput.jsp
+			</result>
+		</action>
+		<action name="AddRole_save" class="com.tyopf.action.SystemAction"
+			method="AddRole_save">
+			<result name="success">/System/RoleList.jsp</result>
+		</action>
+		<action name="EditRole_save" class="com.tyopf.action.SystemAction"
+			method="EditRole_save">
+			<result name="success">/System/RoleList.jsp</result>
+		</action>
+		<action name="MailSender" class="com.tyopf.action.SystemAction"
+			method="MailSender">
+			<result name="success">/System/MailSender.jsp</result>
+		</action>
+		<action name="FetionMsgSend" class="com.tyopf.action.SystemAction"
+			method="FetionMsgSend">
+			<result name="success">/System/FetionMsg.jsp</result>
+		</action>
+	</package>
+</struts>

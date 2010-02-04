@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		lazy-init="false">
+		<property name="locations">
+			<list>
+				<value>classpath:conf/db-erp.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQLDialect
+				hibernate.show_sql=false
+				hibernate.connection.useUnicode=true
+				hibernate.connection.characterEncoding=UTF-8
+				hibernate.hbm2ddl.auto=update
+     		 </value>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/tyopf/vo/SystemFunctions.hbm.xml</value>
+				<value>com/tyopf/vo/SystemModules.hbm.xml</value>
+				<value>com/tyopf/vo/CompanyDept.hbm.xml</value>
+				<value>com/tyopf/vo/CompanyPartner.hbm.xml</value>
+				<value>com/tyopf/vo/CompanySettings.hbm.xml</value>
+				<value>com/tyopf/vo/User.hbm.xml</value>
+				<value>com/tyopf/vo/Role.hbm.xml</value>
+				<value>com/tyopf/vo/Employee.hbm.xml</value>
+				<value>com/tyopf/vo/EmployeeFamily.hbm.xml</value>
+				<value>com/tyopf/vo/EmployeeResume.hbm.xml</value>
+				<value>com/tyopf/vo/AfBase.hbm.xml</value>
+				<value>com/tyopf/vo/AfElement.hbm.xml</value>
+				<value>com/tyopf/vo/AfDispose.hbm.xml</value>
+				<value>com/tyopf/vo/AfValuation.hbm.xml</value>
+				<value>com/tyopf/vo/AfMonthAfnoRange.hbm.xml</value>
+				<value>com/tyopf/vo/AfProcess.hbm.xml</value>
+				<value>com/tyopf/vo/AfQualityProblem.hbm.xml</value>
+				<value>com/tyopf/vo/AfQualityProblemAttachment.hbm.xml</value>
+				<value>com/tyopf/vo/ClientC.hbm.xml</value>
+				<value>com/tyopf/vo/ClientLm.hbm.xml</value>
+				<value>com/tyopf/vo/BindingFactory.hbm.xml</value>
+				<value>com/tyopf/vo/Paper.hbm.xml</value>
+
+				<value>com/tyopf/vo/qc/QYYTD82402.hbm.xml</value>
+				<value>com/tyopf/vo/qc/QYYTD82403.hbm.xml</value>
+				<value>com/tyopf/vo/qc/QYYTD82404.hbm.xml</value>
+				<value>com/tyopf/vo/qc/QYYTD82407.hbm.xml</value>
+				<value>com/tyopf/vo/qc/QYYTD82408.hbm.xml</value>
+				<value>com/tyopf/vo/qc/QYYTD82409.hbm.xml</value>
+				<value>com/tyopf/vo/qc/QYYTD82410.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="DAOProxy"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+		abstract="true">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="save*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="get*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+		<property name="target">
+			<ref local="baseDAO" />
+		</property>
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	<bean id="baseDAO" class="com.tyopf.dao.BaseDAO" abstract="true">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="systemDAO" class="com.tyopf.dao.impl.SystemDAO" parent="baseDAO">
+	</bean>
+	<bean id="userDAO" class="com.tyopf.dao.impl.UserDAO" parent="baseDAO">
+	</bean>
+	<bean id="afDAO" class="com.tyopf.dao.impl.AFDAO" parent="baseDAO">
+	</bean>
+	<bean id="clientDAO" class="com.tyopf.dao.impl.ClientDAO" parent="baseDAO">
+	</bean>
+	<bean id="wareHouseDAO" class="com.tyopf.dao.impl.WareHouseDAO"
+		parent="baseDAO">
+	</bean>
+	<bean id="bindingFactoryDAO" class="com.tyopf.dao.impl.BindingFactoryDAO"
+		parent="baseDAO">
+	</bean>
+
+	<bean id="systemService" class="com.tyopf.service.impl.SystemService">
+		<property name="systemDAO">
+			<ref bean="systemDAO" />
+		</property>
+		<property name="userDAO">
+			<ref bean="userDAO" />
+		</property>
+	</bean>
+	<bean id="hrService" class="com.tyopf.service.impl.HRService">
+		<property name="userDAO">
+			<ref bean="userDAO" />
+		</property>
+		<property name="systemDAO">
+			<ref bean="systemDAO" />
+		</property>
+	</bean>
+	<bean id="userService" class="com.tyopf.service.impl.UserService">
+		<property name="userDAO">
+			<ref bean="userDAO" />
+		</property>
+		<property name="systemDAO">
+			<ref bean="systemDAO" />
+		</property>
+	</bean>
+	<bean id="afService" class="com.tyopf.service.impl.AFService">
+		<property name="afDAO">
+			<ref bean="afDAO" />
+		</property>
+		<property name="systemDAO">
+			<ref bean="systemDAO" />
+		</property>
+	</bean>
+	<bean id="wareHouseService" class="com.tyopf.service.impl.WareHouseService">
+		<property name="wareHouseDAO">
+			<ref bean="wareHouseDAO" />
+		</property>
+		<property name="afDAO">
+			<ref bean="afDAO" />
+		</property>
+		<property name="systemDAO">
+			<ref bean="systemDAO" />
+		</property>
+	</bean>
+
+	<bean id="clientService" class="com.tyopf.service.impl.ClientService">
+		<property name="clientDAO">
+			<ref bean="clientDAO" />
+		</property>
+		<property name="systemDAO">
+			<ref bean="systemDAO" />
+		</property>
+	</bean>
+	<bean id="bindingFactoryService" class="com.tyopf.service.impl.BindingFactoryService">
+		<property name="bindingFactoryDAO">
+			<ref bean="bindingFactoryDAO" />
+		</property>
+	</bean>
+
+	<bean id="QYYTD82402DAO" class="com.tyopf.dao.qc.impl.QYYTD82402DAO"
+		parent="baseDAO"></bean>
+	<bean id="QYYTD82402Service" class="com.tyopf.service.qc.impl.QYYTD82402Service">
+		<property name="QYYTD82402DAO">
+			<ref bean="QYYTD82402DAO" />
+		</property>
+	</bean>
+	<bean id="QYYTD82404DAO" class="com.tyopf.dao.qc.impl.QYYTD82404DAO"
+		parent="baseDAO"></bean>
+	<bean id="QYYTD82404Service" class="com.tyopf.service.qc.impl.QYYTD82404Service">
+		<property name="QYYTD82404DAO">
+			<ref bean="QYYTD82404DAO" />
+		</property>
+	</bean>
+	<bean id="QYYTD82407DAO" class="com.tyopf.dao.qc.impl.QYYTD82407DAO"
+		parent="baseDAO"></bean>
+	<bean id="QYYTD82407Service" class="com.tyopf.service.qc.impl.QYYTD82407Service">
+		<property name="QYYTD82407DAO">
+			<ref bean="QYYTD82407DAO" />
+		</property>
+	</bean>
+	<bean id="QYYTD82408DAO" class="com.tyopf.dao.qc.impl.QYYTD82408DAO"
+		parent="baseDAO"></bean>
+	<bean id="QYYTD82408Service" class="com.tyopf.service.qc.impl.QYYTD82408Service">
+		<property name="QYYTD82408DAO">
+			<ref bean="QYYTD82408DAO" />
+		</property>
+	</bean>
+	<bean id="QYYTD82409DAO" class="com.tyopf.dao.qc.impl.QYYTD82409DAO"
+		parent="baseDAO"></bean>
+	<bean id="QYYTD82409Service" class="com.tyopf.service.qc.impl.QYYTD82409Service">
+		<property name="QYYTD82409DAO">
+			<ref bean="QYYTD82409DAO" />
+		</property>
+	</bean>
+	<bean id="QYYTD82410DAO" class="com.tyopf.dao.qc.impl.QYYTD82410DAO"
+		parent="baseDAO"></bean>
+	<bean id="QYYTD82410Service" class="com.tyopf.service.qc.impl.QYYTD82410Service">
+		<property name="QYYTD82410DAO">
+			<ref bean="QYYTD82410DAO" />
+		</property>
+	</bean>
+</beans>

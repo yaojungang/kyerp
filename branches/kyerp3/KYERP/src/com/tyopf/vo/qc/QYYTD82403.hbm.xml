@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tyopf.vo.qc.QYYTD82403">
+		<id name="id" type="long">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="afBase" class="com.tyopf.vo.AfBase"
+			column="AF_ID" lazy="false">
+		</many-to-one>
+		<property name="examdate" type="timestamp"></property>
+		<property name="daiShu" type="string">
+			<column name="daiShu" length="50"></column>
+		</property>
+		<property name="xiajishu" type="java.lang.Integer"></property>
+		<property name="qualifiedAmount" type="java.lang.Integer"></property>
+		<property name="unqualifiedAmount" type="java.lang.Integer"></property>
+		<property name="b1" type="java.lang.Integer"></property>
+		<property name="b2" type="java.lang.Integer"></property>
+		<property name="b3" type="java.lang.Integer"></property>
+		<property name="b4" type="java.lang.Integer"></property>
+		<property name="b5" type="java.lang.Integer"></property>
+		<property name="b6" type="java.lang.Integer"></property>
+		<property name="b7" type="java.lang.Integer"></property>
+		<property name="b8" type="java.lang.Integer"></property>
+		<property name="b9" type="java.lang.Integer"></property>
+		<property name="operators" type="string">
+			<column name="operators" length="200"></column>
+		</property>
+		<many-to-one name="examEmployee" class="com.tyopf.vo.Employee"
+			column="employee_id" lazy="false">
+		</many-to-one>
+		<property name="remark" type="string">
+			<column name="remark" length="200"></column>
+		</property>
+	</class>
+</hibernate-mapping>

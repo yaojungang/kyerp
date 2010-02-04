@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.tyopf.vo.AfQualityProblem" table="AF_QualityProblem">        
+        <id name="id" type="int">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="AfBase" class="com.tyopf.vo.AfBase"
+			column="AF_ID" lazy="false">
+		</many-to-one>
+		<set name="attachments" table="AF_QualityProblemAttachment" order-by="id asc"
+			cascade="all-delete-orphan" lazy="true" inverse="true">
+			<key column="afqpId" />
+			<one-to-many class="com.tyopf.vo.AfQualityProblemAttachment" />
+		</set>
+            <property name="afId" type="java.lang.Integer" insert="false" update="false">
+            <column name="AF_ID">
+            </column>
+        </property>
+            <property name="workshop" type="java.lang.Integer">
+                <column name="Workshop" />
+            </property>
+            <property name="personLiable" type="string">
+                <column name="PersonLiable" length="50" />
+            </property>
+            <property name="description" type="string">
+                <column name="Description" length="200" />
+            </property>
+            <property name="reason" type="string">
+                <column name="Reason" length="200" />
+            </property>
+            <property name="solution" type="string">
+                <column name="Solution" length="200" />
+            </property>
+            <property name="loss" type="string">
+                <column name="Loss" length="200" />
+            </property>
+            <property name="disposal" type="string">
+                <column name="Disposal" length="200" />
+            </property>
+            <property name="personOpinion" type="string">
+                <column name="PersonOpinion" length="200" />
+            </property>
+            <property name="verifyMan" type="string">
+                <column name="VerifyMan" length="50" />
+            </property>
+            <property name="inputMan" type="string">
+                <column name="InputMan" length="50" />
+            </property>
+            <property name="inputTime" type="timestamp">
+                <column name="InputTime" length="0" />
+            </property>
+            <property name="verifyTime" type="timestamp">
+                <column name="VerifyTime" length="0" />
+            </property>
+    </class>
+</hibernate-mapping>

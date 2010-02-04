@@ -1,0 +1,3 @@
+﻿中国;1314.4;;;http://en.wikipedia.org/wiki/China;点击查看中国
+印度;1120.4;;;http://en.wikipedia.org/wiki/India;点击查看印度
+姚俊刚;1234

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tyopf.vo.ClientC" table="Client_C">
+		<comment></comment>
+		<id name="CCId" type="long">
+			<column name="C_C_ID" />
+			<generator class="native" />
+		</id>
+
+		<set name="ClientLm" table="Client_LM" order-by="C_C_ID" cascade="all"
+			lazy="false">
+			<key column="C_C_ID" />
+			<one-to-many class="com.tyopf.vo.ClientLm" />
+		</set>
+		<property name="ywname" type="string">
+			<column name="YWName" length="20">
+			</column>
+		</property>
+
+		<property name="CCCom" type="string">
+			<column name="C_C_COM" length="50">
+			</column>
+		</property>
+		<property name="CCFax" type="string">
+			<column name="C_C_Fax" length="50">
+			</column>
+		</property>
+		<property name="CCAddress" type="string">
+			<column name="C_C_Address" length="50">
+			</column>
+		</property>
+		<property name="CCPc" type="string">
+			<column name="C_C_PC" length="50">
+			</column>
+		</property>
+		<property name="CCDa" type="string">
+			<column name="C_C_DA" length="50">
+			</column>
+		</property>
+		<property name="CCDt" type="string">
+			<column name="C_C_DT" length="50">
+			</column>
+		</property>
+		<property name="CCRemark" type="string">
+			<column name="C_C_Remark" length="50">
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>
