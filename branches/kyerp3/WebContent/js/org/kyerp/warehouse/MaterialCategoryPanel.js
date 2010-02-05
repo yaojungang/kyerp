@@ -2,7 +2,7 @@
 org.kyerp.warehouse.MaterialCategoryPanel_STORE_URL = "warehouse/MaterialCategory/jsonList.html";
 org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL = "warehouse/MaterialCategory/jsonTree.html";
 org.kyerp.warehouse.MaterialCategoryPanel_DATA_SAVE_URL = "warehouse/MaterialCategory/jsonSave.html";
-org.kyerp.warehouse.MaterialCategoryPanel_DATA_DELETE_URL = "warehouse/MaterialCategory/jsonTreeDelete.html";
+org.kyerp.warehouse.MaterialCategoryPanel_DATA_DELETE_URL = "warehouse/MaterialCategory/jsonDelete.html";
 /** ***************************************************************************** */
 org.kyerp.warehouse.MaterialCategoryFormPanel = Ext.extend(Ext.form.FormPanel,
 		{
@@ -150,7 +150,6 @@ org.kyerp.warehouse.MaterialCategoryInfoWindow = Ext.extend(Ext.Window, {
 				this.form.submit();
 			},
 			onCancelClick : function() {
-
 				this.close();
 			},
 			onSubmit : function(_form, _action, _values) {
@@ -220,14 +219,12 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.tree.TreePanel, {
 								handler : function() {
 									this.updateWin.show();
 									try {
-										// alert(this.menu["currentNode"].id);
 										this.updateWin
 												.load(this.menu["currentNode"].id);
 									} catch (_err) {
 										Ext.Msg.alert("修改失败", _err);
 										this.updateWin.close();
 									}
-
 								},
 								scope : this
 							}]
@@ -270,8 +267,13 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.tree.TreePanel, {
 			}
 		});
 		this.on("show", function() {
-					this.updateWin.form.materialCategoryStore.load();
-				}, scope = this);
+					this.updateWin.form.materialCategoryStore.load({
+								params : {
+									start : 0,
+									limit : 2000
+								}
+							});
+				}, this);
 	},
 	onContextmenu : function(_node, _e) {
 		this.menu["currentNode"] = _node;
@@ -286,10 +288,6 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.tree.TreePanel, {
 	},
 	onDeleteNode : function() {
 		Ext.Msg.confirm("系统提示", "你是否确定删除?", this.onDeleteNodeConfirm, this);
-	},
-	onUpdateNode : function() {
-		Ext.Msg.prompt("请输入新名称", "新名称", this.onUpdateNodePrompt, this, false,
-				this.menu["currentNode"].text);
 	},
 	onInsertNodePrompt : function(_btn, _text) {
 		if (_btn == "ok") {

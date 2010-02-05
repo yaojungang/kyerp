@@ -72,6 +72,10 @@ public class DepartmentController {
 			DepartmentGridRow r = new DepartmentGridRow();
 			r.setId(d.getId());
 			r.setName(d.getName());
+			if (null != d.getParentDepartment()) {
+				r.setParentDepartmentId(d.getParentDepartment().getId());
+				r.setParentDepartmentName(d.getParentDepartment().getName());
+			}
 			rows.add(r);
 		}
 		ExtGridList<DepartmentGridRow> departmentGrid = new ExtGridList<DepartmentGridRow>();
@@ -90,37 +94,26 @@ public class DepartmentController {
 		return "share/jsonTextView";
 	}
 
-	@RequestMapping("/org/Department/jsonTreeInsert.html")
-	public String insert(Long parentId, Department department, ModelMap model) {
-		if (null != department.getName()) {
-			department.setParentDepartment(departmentService.find(parentId));
+	@RequestMapping("/org/Department/jsonSave.html")
+	public String save(DepartmentGridRow r, ModelMap model) {
+		Department department = new Department();
+		if (null != r.getId() && r.getId() > 0) {
+			department = departmentService.find(r.getId());
+		}
+		department.setName(r.getName());
+		if (null != r.getParentDepartmentId() && r.getParentDepartmentId() > 0) {
+			department.setParentDepartment(departmentService.find(r
+					.getParentDepartmentId()));
+		}
+		if (null != r.getId() && r.getId() > 0) {
+			departmentService.update(department);
+		} else {
 			departmentService.save(department);
 		}
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("success", true);
-		long id = departmentService.findLast().getId();
-		jsonObject.put("id", id);
-		String text = "";
-		try {
-			text = jsonObject.toString();
-			System.out.println(text);
-		} catch (Exception e) {
-			text = "";
-		}
-		model.addAttribute("jsonText", text);
-		return "share/jsonTextView";
-	}
 
-	@RequestMapping("/org/Department/jsonUpdate.html")
-	public String update(Department department, ModelMap model) {
-		if (department.getId() > 0) {
-			Department d = departmentService.find(department.getId());
-			d.setName(department.getName());
-			departmentService.update(d);
-		}
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("success", true);
-		long id = department.getId() > 0 ? department.getId()
+		long id = null != r.getId() && r.getId() > 0 ? r.getId()
 				: departmentService.findLast().getId();
 		jsonObject.put("id", id);
 		String text = "";
@@ -134,7 +127,7 @@ public class DepartmentController {
 		return "share/jsonTextView";
 	}
 
-	@RequestMapping("/org/Department/jsonTreeDelete.html")
+	@RequestMapping("/org/Department/jsonDelete.html")
 	public String delete(ModelMap model, Long[] id) {
 		departmentService.delete((Serializable[]) id);
 		JSONObject jsonObject = new JSONObject();

@@ -124,7 +124,7 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 										emptyText : '',
 										name : 'unitId',
 										hiddenName : 'unitId',
-										editable : true,
+										editable : false,
 										mode : 'remote',
 										triggerAction : 'all',
 										valueField : 'id',

@@ -84,7 +84,7 @@ public class BuyerOfEnteringMaterialController {
 		if (buyerOfEnteringMaterial != null) {
 			MaterialBatch mb = new MaterialBatch();
 			mb.setMaterial(materialService.find(id));
-			buyerOfEnteringMaterial.getMaterialBatchs().add(mb);
+			buyerOfEnteringMaterial.getBatchs().add(mb);
 			model.addAttribute("buyerOfEnteringMaterial",
 					buyerOfEnteringMaterial);
 		} else {
@@ -94,7 +94,7 @@ public class BuyerOfEnteringMaterialController {
 			MaterialBatch mb = new MaterialBatch();
 			mb.setMaterial(materialService.find(id));
 			materialBatchs.add(mb);
-			buyerOfEnteringMaterial.setMaterialBatchs(materialBatchs);
+			buyerOfEnteringMaterial.setBatchs(materialBatchs);
 		}
 
 		model.addAttribute("buyerOfEnteringMaterial", buyerOfEnteringMaterial);
@@ -109,7 +109,7 @@ public class BuyerOfEnteringMaterialController {
 				.find(buyerOfEnteringMaterial.getWarehouse().getId()));
 		buyerOfEnteringMaterialService.save(buyerOfEnteringMaterial);
 
-		for (MaterialBatch mb : buyerOfEnteringMaterial.getMaterialBatchs()) {
+		for (MaterialBatch mb : buyerOfEnteringMaterial.getBatchs()) {
 			mb.setMaterial(materialService.find(mb.getMaterial().getId()));
 			mb.setSupplier(supplierService.find(mb.getSupplier().getId()));
 			mb.setEnteringMaterial(buyerOfEnteringMaterial);

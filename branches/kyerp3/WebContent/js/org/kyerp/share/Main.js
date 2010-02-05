@@ -154,6 +154,27 @@ Ext.onReady(function() {
 				})
 
 	});
+	var hrMenuTree = new Ext.tree.TreePanel({
+				border : false,
+				rootVisible : false,
+				iconCls : 'icon-application_go',
+				root : new Ext.tree.AsyncTreeNode({
+							text : "人力资源管理",
+							expanded : true,
+							children : [{
+										id : 'DepartmentPanel',
+										ns : 'org.kyerp.org',
+										text : '组织机构',
+										leaf : true
+									}, {
+										id : 'EmployeePanel',
+										ns : 'org.kyerp.org',
+										text : '职工档案',
+										leaf : true
+									}]
+						})
+
+			});
 	var securityMenuTree = new Ext.tree.TreePanel({
 				border : false,
 				rootVisible : false,
@@ -198,7 +219,7 @@ Ext.onReady(function() {
 	// leftMenu部分
 	var leftMenu = new org.kyerp.LeftMenu({
 				title : 'KYERP',
-				trees : [warehouseMenuTree, securityMenuTree]
+				trees : [warehouseMenuTree, hrMenuTree, securityMenuTree]
 			});
 	// 主工作区部分 MainTab
 	var mainTab = new org.kyerp.MainPanel({
@@ -228,15 +249,15 @@ Ext.onReady(function() {
 						columnWidth : .3,
 						style : 'padding:10px 10px 10px 10px',
 						items : [{
-									title : '个人信息',
-									html : '<iframe id="frame1" src="share/user.jsp" frameborder="0" width="100%" height="100%"></iframe>'
-								}, {
-									title : '即时贴',
-									html : ''
-								}, {
-									title : '在线用户',
-									html : ''
-								}]
+							title : '个人信息',
+							html : '<iframe id="frame1" src="share/user.jsp" frameborder="0" width="100%" height="100%"></iframe>'
+						}, {
+							title : '即时贴',
+							html : ''
+						}, {
+							title : '在线用户',
+							html : ''
+						}]
 					}]
 		}]
 	});

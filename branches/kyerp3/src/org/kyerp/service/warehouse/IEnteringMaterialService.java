@@ -12,5 +12,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface IEnteringMaterialService extends DAO<EnteringMaterial> {
+	public void saveEnteringMaterial(EnteringMaterial e);
 
 }

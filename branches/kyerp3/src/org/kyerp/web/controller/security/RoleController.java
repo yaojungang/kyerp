@@ -54,8 +54,11 @@ public class RoleController {
 			RoleExtGridRow rr = new RoleExtGridRow();
 			rr.setId(role.getId());
 			rr.setName(role.getName());
-			rr.setDepartmentId(role.getDepartment().getId());
-			rr.setDepartmentName(role.getDepartment().getName());
+			if (null != role.getDepartment()) {
+				rr.setDepartmentId(role.getDepartment().getId());
+				rr.setDepartmentName(role.getDepartment().getName());
+			}
+
 			if (null != role.getUsers() && role.getUsers().size() > 0) {
 				Long[] userIds = new Long[role.getUsers().size()];
 				String[] userNames = new String[role.getUsers().size()];

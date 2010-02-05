@@ -46,13 +46,12 @@ public class EnteringMaterial extends BaseDomain implements Serializable {
 	private Employee			operator;
 	/** 物料明细 **/
 	@OneToMany(mappedBy = "enteringMaterial")
-	private List<MaterialBatch>	materialBatchs		= new ArrayList<MaterialBatch>();
+	private List<MaterialBatch>	batchs				= new ArrayList<MaterialBatch>();
 
 	/** 入库方式 */
 	/** 货位 */
 
 	public EnteringMaterial() {
-		// materialBatchs.add(new MaterialBatch());
 	}
 
 	public Date getEnteringTime() {
@@ -95,19 +94,19 @@ public class EnteringMaterial extends BaseDomain implements Serializable {
 		this.serialNumber = serialNumber;
 	}
 
-	public List<MaterialBatch> getMaterialBatchs() {
-		return materialBatchs;
+	public List<MaterialBatch> getBatchs() {
+		return batchs;
 	}
 
-	public void setMaterialBatchs(List<MaterialBatch> materialBatchs) {
-		this.materialBatchs = materialBatchs;
+	public void setBatchs(List<MaterialBatch> batchs) {
+		this.batchs = batchs;
 	}
 
 	/**
 	 * 添加物料批次项目
 	 */
 	public void addEnteringItem(MaterialBatch materialBatch) {
-		this.materialBatchs.add(materialBatch);
+		this.batchs.add(materialBatch);
 		materialBatch.setEnteringMaterial(this);
 	}
 
