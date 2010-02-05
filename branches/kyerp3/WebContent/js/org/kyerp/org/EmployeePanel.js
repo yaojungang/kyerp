@@ -4,126 +4,123 @@ org.kyerp.org.EmployeePanel_SAVE_URL = "org/Employee/jsonSave.html";
 org.kyerp.org.EmployeePanel_DELETE_URL = "org/Employee/jsonDelete.html";
 /** ***************************************************************************** */
 org.kyerp.org.EmployeeFormPanel = Ext.extend(Ext.form.FormPanel, {
-			url : "",
-			userStore : null,
-			departmentStore : null,
-			departmentTree : null,
-			constructor : function(_cfg) {
-				if (_cfg == null)
-					_cfg = {};
-				Ext.apply(this, _cfg);
-				this.userStore = new Ext.data.Store({
-							url : 'security/User/jsonList.html',
-							reader : new Ext.data.JsonReader({
-										totalProperty : "totalProperty",
-										root : "rows",
-										id : "id"
-									}, new Ext.data.Record.create([{
-												name : "id",
-												type : "int"
-											}, {
-												name : "userName",
-												type : "string"
-											}]))
-						});
-				this.departmentStore = new Ext.data.Store({
-							url : org.kyerp.org.DepartmentPanel_STORE_URL,
-							reader : new Ext.data.JsonReader({
-										totalProperty : "totalProperty",
-										root : "rows",
-										id : "id"
-									}, new Ext.data.Record.create([{
-												name : "id",
-												type : "int"
-											}, {
-												name : "name",
-												type : "string"
-											}]))
-						});
-				this.departmentTree=new org.kyerp.org.DepartmentPanel(
-				{
-					autoHeight : true
+	url : "",
+	userStore : null,
+	departmentStore : null,
+	constructor : function(_cfg) {
+		if (_cfg == null)
+			_cfg = {};
+		Ext.apply(this, _cfg);
+		this.userStore = new Ext.data.Store({
+					url : 'security/User/jsonList.html',
+					reader : new Ext.data.JsonReader({
+								totalProperty : "totalProperty",
+								root : "rows",
+								id : "id"
+							}, new Ext.data.Record.create([{
+										name : "id",
+										type : "int"
+									}, {
+										name : "userName",
+										type : "string"
+									}]))
 				});
-				var _readOnly = this["readOnly"] == null
-						? false
-						: this["readOnly"];
-				org.kyerp.org.EmployeeFormPanel.superclass.constructor.call(
-						this, {
-							labelWidth : 80,
-							labelAlign : 'right',
-							defaultType : "textfield",
-							defaults : {
-								anchor : "90%",
-								msgTarget : 'side',
-								readOnly : _readOnly
-							},
-							baseCls : "x-plain",
-							items : [{
-										fieldLabel : "姓名",
-										allowBlank : false,
-										name : "name"
-									},new Ext.ux.ComboBoxTree({
-										fieldLabel : "所属部门",
-										tree : this.departmentTree,
+		this.departmentStore = new Ext.data.Store({
+					url : org.kyerp.org.DepartmentPanel_STORE_URL,
+					reader : new Ext.data.JsonReader({
+								totalProperty : "totalProperty",
+								root : "rows",
+								id : "id"
+							}, new Ext.data.Record.create([{
+										name : "id",
+										type : "int"
+									}, {
+										name : "name",
+										type : "string"
+									}]))
+				});
+		var _readOnly = this["readOnly"] == null ? false : this["readOnly"];
+		org.kyerp.org.EmployeeFormPanel.superclass.constructor.call(this, {
+					labelWidth : 80,
+					labelAlign : 'right',
+					defaultType : "textfield",
+					defaults : {
+						anchor : "90%",
+						msgTarget : 'side',
+						readOnly : _readOnly
+					},
+					baseCls : "x-plain",
+					items : [{
+								fieldLabel : "姓名",
+								allowBlank : false,
+								name : "name"
+							}, {
+								xtype : 'treecombobox',
+								name : 'departmentId',
+								hiddenName : 'departmentId',
+								fieldLabel : '部门',
+								editable : false,
+								mode : 'local',
+								displayField : 'name',
+								valueField : 'id',
+								triggerAction : 'all',
+								allowBlank : false,
+								treeUrl : org.kyerp.org.DepartmentPanel_TREE_URL,
+								rootText : 'root',
+								rootId : '0',
+								forceSelection : true,
+								rootVisible : false
+							}, new Ext.form.ComboBox({
+										fieldLabel : "关联用户",
+										store : this.userStore,
 										emptyText : '',
-										name : 'departmentId',
-										hiddenName : 'departmentId',
+										name : 'userId',
+										hiddenName : 'userId',
 										editable : false,
+										mode : 'remote',
+										pageSize : 20,
 										triggerAction : 'all',
 										valueField : 'id',
-										displayField : 'name',
+										displayField : 'userName',
 										readOnly : true,
 										allowBlank : false
-									}),new Ext.form.ComboBox({
-												fieldLabel : "关联用户",
-												store : this.userStore,
-												emptyText : '',
-												name : 'userId',
-												hiddenName : 'userId',
-												editable : false,
-												mode : 'remote',
-												triggerAction : 'all',
-												valueField : 'id',
-												displayField : 'userName',
-												readOnly : true,
-												allowBlank : false
-											})]
+									})]
+				});
+		this.addEvents("submit");
+	},
+	submit : function(_params) {
+		if (_params == null)
+			_params = {};
+		try {
+			if (this.url != "")
+				this.getForm().submit({
+							url : this.url,
+							params : _params,
+							success : this.onSubmit,
+							waitTitle : "数据传送",
+							waitMsg : "数据传送中,请稍候...",
+							scope : this
 						});
-				this.addEvents("submit");
-			},
-			submit : function(_params) {
-				if (_params == null)
-					_params = {};
-				try {
-					if (this.url != "")
-						this.getForm().submit({
-									url : this.url,
-									params : _params,
-									success : this.onSubmit,
-									waitTitle : "数据传送",
-									waitMsg : "数据传送中,请稍候...",
-									scope : this
-								});
 
-				} catch (_err) {
-				}
-			},
-			getValues : function() {
-				if (this.getForm().isValid())
-					return new Ext.data.Record(this.getForm().getValues());
-				else
-					throw Error("表单验证没有通过");
-			},
-			setValues : function(_r) {
-				this.getForm().loadRecord(_r);
-			},
-			reset : function() {
-				this.getForm().reset();
-			},
-			onSubmit : function(_form, _action) {
-				this.fireEvent("submit", this, _action, this.getValues());
-			}
-		});
+		} catch (_err) {
+		}
+	},
+	getValues : function() {
+		if (this.getForm().isValid())
+			return new Ext.data.Record(this.getForm().getValues());
+		else
+			throw Error("表单验证没有通过");
+	},
+	setValues : function(_r) {
+		this.getForm().loadRecord(_r);
+	},
+	reset : function() {
+		this.getForm().reset();
+	},
+	onSubmit : function(_form, _action) {
+		this.fireEvent("submit", this, _action, this.getValues());
+	}
+});
 /** ***************************************************************************** */
 org.kyerp.org.EmployeeInfoWindow = Ext.extend(Ext.Window, {
 			url : "",
@@ -209,7 +206,7 @@ org.kyerp.org.EmployeeUpdateWindow = Ext.extend(
 							id : _r.get("departmentId"),
 							text : _r.get("departmentName")
 						}));
-			
+
 			},
 			onSubmitClick : function() {
 				this.form.submit({
@@ -349,13 +346,7 @@ org.kyerp.org.EmployeePanel = Ext.extend(Ext.grid.GridPanel, {
 		this.updateWin.on("submit", this.onUpdateWinSubmit, this);
 		this.addEvents("rowselect");
 		this.on("show", function() {
-					this.insertWin.form.departmentStore.load({
-								params : {
-									start : 0,
-									limit : 2000
-								}
-							});
-					this.insertWin.form.userStore.load();
+					// this.insertWin.form.userStore.load();
 				}, this);
 	},
 	getSelected : function(_grid) {

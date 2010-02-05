@@ -201,7 +201,8 @@ org.kyerp.warehouse.SupplierPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : "fullName",
 										type : "string"
 									}, {
-										name : "qualified"
+										name : "qualified",
+										type : 'boolean'
 									}]))
 				});
 		org.kyerp.warehouse.SupplierPanel.superclass.constructor.call(this, {

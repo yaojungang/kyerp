@@ -55,26 +55,23 @@ org.kyerp.warehouse.MaterialCategoryFormPanel = Ext.extend(Ext.form.FormPanel,
 										fieldLabel : "名称",
 										allowBlank : false,
 										name : "name"
-									}, new Ext.ux.ComboBoxTree({
-										fieldLabel : "物料分类",
-										tree : {
-											xtype : 'treepanel',
-											rootVisible : false,
-											autoHeight : true,
-											loader : new Ext.tree.TreeLoader({
-												dataUrl : org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL
-											}),
-											root : new Ext.tree.AsyncTreeNode({
-														id : '0',
-														text : '物料分类'
-													})
-										},
+									}, {
+										xtype : 'treecombobox',
 										name : 'parentMaterialCategoryId',
 										hiddenName : 'parentMaterialCategoryId',
-										valueField : 'id',
+										fieldLabel : '物料分类',
+										editable : false,
+										mode : 'local',
 										displayField : 'name',
-										allowBlank : false
-									})]
+										valueField : 'id',
+										triggerAction : 'all',
+										allowBlank : false,
+										treeUrl : org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL,
+										rootText : 'root',
+										rootId : '0',
+										forceSelection : true,
+										rootVisible : false
+									}]
 						});
 				this.addEvents("submit");
 			},
