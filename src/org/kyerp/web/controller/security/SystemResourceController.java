@@ -47,9 +47,11 @@ public class SystemResourceController {
 			sg.setType(systemResource.getType());
 			sg.setContent(systemResource.getContent());
 			sg.setRemark(systemResource.getRemark());
-			sg.setSystemModuleId(systemResource.getSystemModule().getId());
-			sg.setSystemModuleName(systemResource.getSystemModule()
-					.getChineseName());
+			if (null != systemResource.getSystemModule()) {
+				sg.setSystemModuleId(systemResource.getSystemModule().getId());
+				sg.setSystemModuleName(systemResource.getSystemModule()
+						.getChineseName());
+			}
 			rows.add(sg);
 		}
 		ExtGridList<SystemResourceExtGridRow> sGrid = new ExtGridList<SystemResourceExtGridRow>();

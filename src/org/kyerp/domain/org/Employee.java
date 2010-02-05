@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -15,18 +16,17 @@ import org.kyerp.domain.security.User;
 @Entity
 public class Employee extends BaseDomain implements Serializable {
 	private static final long		serialVersionUID	= -6545298577393000755L;
-
+	private String					name;
 	@OneToOne
 	private User					user;
+	@ManyToOne
+	private Department				department;
+	private String					empNo;
 	@OneToMany(mappedBy = "employee")
 	private List<EmployeeResume>	resume				= new ArrayList<EmployeeResume>();
 	@OneToMany(mappedBy = "employee")
 	private List<EmployeeFamily>	family				= new ArrayList<EmployeeFamily>();
-	@OneToOne
-	private Department				companyDept;
-	private long					empNo;
 
-	private String					realname;
 	private String					email;
 	private String					totp;
 	private String					bz;
@@ -107,28 +107,28 @@ public class Employee extends BaseDomain implements Serializable {
 		this.family = family;
 	}
 
-	public long getEmpNo() {
+	public String getEmpNo() {
 		return empNo;
 	}
 
-	public void setEmpNo(long empNo) {
+	public void setEmpNo(String empNo) {
 		this.empNo = empNo;
 	}
 
-	public Department getCompanyDept() {
-		return companyDept;
+	public Department getDepartment() {
+		return department;
 	}
 
-	public void setCompanyDept(Department companyDept) {
-		this.companyDept = companyDept;
+	public void setDepartment(Department department) {
+		this.department = department;
 	}
 
-	public String getRealname() {
-		return realname;
+	public String getName() {
+		return name;
 	}
 
-	public void setRealname(String realname) {
-		this.realname = realname;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {

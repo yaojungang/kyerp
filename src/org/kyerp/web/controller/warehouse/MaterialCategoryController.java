@@ -135,7 +135,7 @@ public class MaterialCategoryController {
 		return "share/jsonTextView";
 	}
 
-	@RequestMapping("/warehouse/MaterialCategory/jsonTreeDelete.html")
+	@RequestMapping("/warehouse/MaterialCategory/jsonDelete.html")
 	public String delete(ModelMap model, Long[] id) {
 		materialCategoryService.delete((Serializable[]) id);
 		JSONObject jsonObject = new JSONObject();

@@ -53,15 +53,22 @@ public class SystemModuleController {
 
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/security/SystemModule/jsonSave.html")
-	public String save(SystemModule systemModule, ModelMap model) {
-		if (null != systemModule.getId() && systemModule.getId() > 0) {
-			systemModuleService.update(systemModule);
+	public String save(SystemModuleExtGridRow r, ModelMap model) {
+		SystemModule sm = new SystemModule();
+		if (null != r.getId() && r.getId() > 0) {
+			sm = systemModuleService.find(r.getId());
+		}
+		sm.setChineseName(r.getChineseName());
+		sm.setName(r.getName());
+		sm.setShortName(r.getShortName());
+		if (null != r.getId() && r.getId() > 0) {
+			systemModuleService.update(sm);
 		} else {
-			systemModuleService.save(systemModule);
+			systemModuleService.save(sm);
 		}
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("success", true);
-		long id = systemModule.getId() > 0 ? systemModule.getId()
+		long id = null != r.getId() && r.getId() > 0 ? r.getId()
 				: systemModuleService.findLast().getId();
 		jsonObject.put("id", id);
 		String text = "";

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.kyerp.domain.org.Department;
+import org.kyerp.domain.org.Employee;
 import org.kyerp.domain.security.Role;
 import org.kyerp.domain.security.SystemModule;
 import org.kyerp.domain.security.SystemResource;
@@ -13,6 +14,7 @@ import org.kyerp.domain.security.SystemResourceType;
 import org.kyerp.domain.security.User;
 import org.kyerp.domain.warehouse.MaterialCategory;
 import org.kyerp.service.org.IDepartmentService;
+import org.kyerp.service.org.IEmployeeService;
 import org.kyerp.service.security.IRoleService;
 import org.kyerp.service.security.ISystemModuleService;
 import org.kyerp.service.security.ISystemResourceService;
@@ -42,18 +44,22 @@ public class InstallController {
 	IRoleService				roleService;
 	@Autowired
 	IUserService				userService;
+	@Autowired
+	IEmployeeService			employeeService;
 
 	@RequestMapping("/install/install.html")
 	public String install(String orgName, Model model) {
 		StringBuffer messageBuffer = new StringBuffer();
+		messageBuffer.append(initSystemModule()).append("</ br>");
 		messageBuffer.append(initAdminUser("admin", "admin")).append("</ br>");
 		messageBuffer.append(initORG("北京市清华园胶印厂")).append("</ br>");
 		messageBuffer.append(initWarehouse()).append("</ br>");
+
 		model.addAttribute("jsonText", messageBuffer.toString());
 		return "share/jsonTextView";
 	};
 
-	public String initSystemModule(String orgName) {
+	public String initSystemModule() {
 		SystemModule sm1 = new SystemModule("ClientRelatiManagement", "客户关系管理",
 				"CRM");
 		SystemModule sm2 = new SystemModule("OperationsManagement", "业务销售管理",
@@ -69,6 +75,7 @@ public class InstallController {
 		SystemModule sm7 = new SystemModule("EquipmentManagement", "资产设备管理",
 				"EM");
 		SystemModule sm8 = new SystemModule("OfficeManagement", "办公自动化", "EM");
+		SystemModule sm9 = new SystemModule("SystemManagement", "系统管理", "SYS");
 		systemModuleService.save(sm1);
 		systemModuleService.save(sm2);
 		systemModuleService.save(sm3);
@@ -77,7 +84,8 @@ public class InstallController {
 		systemModuleService.save(sm6);
 		systemModuleService.save(sm7);
 		systemModuleService.save(sm8);
-		return "初始化组织名称成功！";
+		systemModuleService.save(sm9);
+		return "初始化系统模块成功！";
 	}
 
 	public String initORG(String orgName) {
@@ -99,6 +107,7 @@ public class InstallController {
 		sr.setName("管理员");
 		sr.setContent("ROLE_ADMIN");
 		sr.setType(SystemResourceType.ROLE);
+		sr.setSystemModule(systemModuleService.find(new Long(9)));
 		systemResourceService.save(sr);
 
 		Role r = new Role();
@@ -106,6 +115,7 @@ public class InstallController {
 		List<SystemResource> systemResources = new ArrayList<SystemResource>();
 		systemResources.add(sr);
 		r.setSystemResources(systemResources);
+		r.setDepartment(departmentService.find(new Long(1)));
 		roleService.save(r);
 
 		User u = new User();
@@ -115,6 +125,11 @@ public class InstallController {
 		roles.add(r);
 		u.setRoles(roles);
 		userService.save(u);
+
+		Employee e = new Employee();
+		e.setName("管理员");
+		e.setUser(u);
+		employeeService.save(e);
 
 		return "管理员初始化成功！";
 	}

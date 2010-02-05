@@ -1,76 +1,53 @@
 /** ***************************************************************************** */
-org.kyerp.security.RolePanel_STORE_URL = "security/Role/jsonList.html";
+org.kyerp.org.EmployeePanel_STORE_URL = "org/Employee/jsonList.html";
+org.kyerp.org.EmployeePanel_SAVE_URL = "org/Employee/jsonSave.html";
+org.kyerp.org.EmployeePanel_DELETE_URL = "org/Employee/jsonDelete.html";
 /** ***************************************************************************** */
-org.kyerp.security.RoleFormPanel = Ext.extend(Ext.form.FormPanel, {
+org.kyerp.org.EmployeeFormPanel = Ext.extend(Ext.form.FormPanel, {
 			url : "",
 			userStore : null,
 			departmentStore : null,
-			systemResourceStore : null,
+			departmentTree : null,
 			constructor : function(_cfg) {
 				if (_cfg == null)
 					_cfg = {};
 				Ext.apply(this, _cfg);
 				this.userStore = new Ext.data.Store({
-						url : 'security/User/jsonList.html',
-						reader : new Ext.data.JsonReader({
-									totalProperty : "totalProperty",
-									root : "rows",
-									id : "id"
-								}, new Ext.data.Record.create([{
-											name : "id",
-											type : "int"
-										}, {
-											name : "userName",
-											type : "string"
-										}]))
-					});
-				this.departmentStore =  new Ext.data.Store({
-						url : org.kyerp.org.DepartmentPanel_STORE_URL ,
-						reader : new Ext.data.JsonReader({
-									totalProperty : "totalProperty",
-									root : "rows",
-									id : "id"
-								}, new Ext.data.Record.create([{
-											name : "id",
-											type : "int"
-										}, {
-											name : "name",
-											type : "string"
-										}]))
-					});
-				this.systemResourceStore =  new Ext.data.Store({
-						url : org.kyerp.security.SystemResourcePanel_STORE_URL,
-						reader : new Ext.data.JsonReader({
-									totalProperty : "totalProperty",
-									root : "rows",
-									id : "id"
-								}, new Ext.data.Record.create([{
-											name : "id",
-											type : "int"
-										}, {
-											name : "name",
-											type : "string"
-										}, {
-											name : "content",
-											type : "string"
-										}, {
-											name : "type",
-											type : "string"
-										}, {
-											name : "remark",
-											type : "string"
-										}, {
-											name : "systemModuleId",
-											type : 'int'
-										}, {
-											name : "systemModuleName",
-											type : 'string'
-										}]))
-					});
+							url : 'security/User/jsonList.html',
+							reader : new Ext.data.JsonReader({
+										totalProperty : "totalProperty",
+										root : "rows",
+										id : "id"
+									}, new Ext.data.Record.create([{
+												name : "id",
+												type : "int"
+											}, {
+												name : "userName",
+												type : "string"
+											}]))
+						});
+				this.departmentStore = new Ext.data.Store({
+							url : org.kyerp.org.DepartmentPanel_STORE_URL,
+							reader : new Ext.data.JsonReader({
+										totalProperty : "totalProperty",
+										root : "rows",
+										id : "id"
+									}, new Ext.data.Record.create([{
+												name : "id",
+												type : "int"
+											}, {
+												name : "name",
+												type : "string"
+											}]))
+						});
+				this.departmentTree=new org.kyerp.org.DepartmentPanel(
+				{
+					autoHeight : true
+				});
 				var _readOnly = this["readOnly"] == null
 						? false
 						: this["readOnly"];
-				org.kyerp.security.RoleFormPanel.superclass.constructor.call(
+				org.kyerp.org.EmployeeFormPanel.superclass.constructor.call(
 						this, {
 							labelWidth : 80,
 							labelAlign : 'right',
@@ -81,68 +58,36 @@ org.kyerp.security.RoleFormPanel = Ext.extend(Ext.form.FormPanel, {
 								readOnly : _readOnly
 							},
 							baseCls : "x-plain",
-							items : [new Ext.form.ComboBox({
-												fieldLabel : "所属部门",
-												store : this.departmentStore,
+							items : [{
+										fieldLabel : "姓名",
+										allowBlank : false,
+										name : "name"
+									},new Ext.ux.ComboBoxTree({
+										fieldLabel : "所属部门",
+										tree : this.departmentTree,
+										emptyText : '',
+										name : 'departmentId',
+										hiddenName : 'departmentId',
+										editable : false,
+										triggerAction : 'all',
+										valueField : 'id',
+										displayField : 'name',
+										readOnly : true,
+										allowBlank : false
+									}),new Ext.form.ComboBox({
+												fieldLabel : "关联用户",
+												store : this.userStore,
 												emptyText : '',
-												name : 'departmentId',
-												hiddenName : 'departmentId',
+												name : 'userId',
+												hiddenName : 'userId',
 												editable : false,
 												mode : 'remote',
 												triggerAction : 'all',
 												valueField : 'id',
-												displayField : 'name',
+												displayField : 'userName',
 												readOnly : true,
 												allowBlank : false
-											}), {
-										fieldLabel : "名称",
-										allowBlank : false,
-										name : "name"
-									}, {
-										name : 'userIds',
-										xtype : 'lovcombo',
-										hiddenName : 'userIds',
-										store : this.userStore,
-										hideOnSelect : false,
-										triggerAction : 'all',
-										valueField : 'id',
-										displayField : 'userName',
-										mode : 'local',
-										allowBlank : false,
-										emptyText : '请选择',
-										fieldLabel : '关联用户',
-										beforeBlur : function() {
-										}
-									}, {
-										name : 'systemResourceIds',
-										xtype : 'lovcombo',
-										hiddenName : 'systemResourceIds',
-										store : this.systemResourceStore,
-										hideOnSelect : false,
-										triggerAction : 'all',
-										valueField : 'id',
-										displayField : 'name',
-										mode : 'local',
-										allowBlank : false,
-										emptyText : '请选择',
-										fieldLabel : '系统资源',
-										beforeBlur : function() {
-										}
-									}, {
-										fieldLabel : "备注",
-										allowBlank : false,
-										xtype : 'textarea',
-										name : "remark"
-									}, {
-										name : 'departmentName',
-										xtype : 'hidden'
-									}, {
-										name : 'userNames',
-										xtype : 'hidden'
-									}, {
-										name : 'systemResourceNames',
-										xtype : 'hidden'
-									}]
+											})]
 						});
 				this.addEvents("submit");
 			},
@@ -180,15 +125,15 @@ org.kyerp.security.RoleFormPanel = Ext.extend(Ext.form.FormPanel, {
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.security.RoleInfoWindow = Ext.extend(Ext.Window, {
+org.kyerp.org.EmployeeInfoWindow = Ext.extend(Ext.Window, {
 			url : "",
 			form : null,
 			constructor : function(_cfg) {
 				Ext.apply(this, _cfg);
-				this.form = new org.kyerp.security.RoleFormPanel({
+				this.form = new org.kyerp.org.EmployeeFormPanel({
 							url : this.url
 						});
-				org.kyerp.security.RoleInfoWindow.superclass.constructor.call(
+				org.kyerp.org.EmployeeInfoWindow.superclass.constructor.call(
 						this, {
 							plain : true,
 							width : 500,
@@ -232,11 +177,11 @@ org.kyerp.security.RoleInfoWindow = Ext.extend(Ext.Window, {
 
 		});
 /** ***************************************************************************** */
-org.kyerp.security.RoleInsertWindow = Ext.extend(
-		org.kyerp.security.RoleInfoWindow, {
+org.kyerp.org.EmployeeInsertWindow = Ext.extend(
+		org.kyerp.org.EmployeeInfoWindow, {
 			title : "添 加",
 			iconCls : 'icon-utils-s-add',
-			url : 'security/Role/jsonSave.html',
+			url : org.kyerp.org.EmployeePanel_SAVE_URL,
 			onSubmit : function(_form, _action, _values) {
 				var _data = _values.data;
 				Ext.apply(_data, {
@@ -251,18 +196,20 @@ org.kyerp.security.RoleInsertWindow = Ext.extend(
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.security.RoleUpdateWindow = Ext.extend(
-		org.kyerp.security.RoleInfoWindow, {
+org.kyerp.org.EmployeeUpdateWindow = Ext.extend(
+		org.kyerp.org.EmployeeInfoWindow, {
 			title : "修 改",
 			iconCls : 'icon-utils-s-edit',
-			url : 'security/Role/jsonSave.html',
+			url : org.kyerp.org.EmployeePanel_SAVE_URL,
 			pnId : "",
 			load : function(_r) {
 				this.form.setValues(_r);
 				this.pnId = _r.get("id");
-				// 设置 所属部门
-				// this.form.get(0).setValue(_r.get("departmentId"));
-				// this.form.get(2).setValue([1, 2]);
+				this.form.get(1).setValue(new Ext.tree.TreeNode({
+							id : _r.get("departmentId"),
+							text : _r.get("departmentName")
+						}));
+			
 			},
 			onSubmitClick : function() {
 				this.form.submit({
@@ -283,9 +230,9 @@ org.kyerp.security.RoleUpdateWindow = Ext.extend(
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
-	insertWin : new org.kyerp.security.RoleInsertWindow(),
-	updateWin : new org.kyerp.security.RoleUpdateWindow(),
+org.kyerp.org.EmployeePanel = Ext.extend(Ext.grid.GridPanel, {
+	insertWin : new org.kyerp.org.EmployeeInsertWindow(),
+	updateWin : new org.kyerp.org.EmployeeUpdateWindow(),
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
 		this["store"] = new Ext.data.Store({
@@ -294,7 +241,7 @@ org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
 							limit : 20
 						}
 					},
-					url : org.kyerp.security.RolePanel_STORE_URL,
+					url : org.kyerp.org.EmployeePanel_STORE_URL,
 					reader : new Ext.data.JsonReader({
 								totalProperty : "totalProperty",
 								root : "rows",
@@ -306,29 +253,20 @@ org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
 										name : "name",
 										type : "string"
 									}, {
-										name : "remark",
+										name : "userId",
+										type : "int"
+									}, {
+										name : "userName",
 										type : "string"
 									}, {
-										name : 'departmentId',
-										type : 'int'
+										name : "departmentId",
+										type : "int"
 									}, {
-										name : 'departmentName',
-										type : 'string'
-									}, {
-										name : 'userIds',
-										type : 'string'
-									}, {
-										name : 'userNames',
-										type : 'string'
-									}, {
-										name : 'systemResourceIds',
-										type : 'string'
-									}, {
-										name : 'systemResourceNames',
-										type : 'string'
+										name : "departmentName",
+										type : "string"
 									}]))
 				});
-		org.kyerp.security.RolePanel.superclass.constructor.call(this, {
+		org.kyerp.org.EmployeePanel.superclass.constructor.call(this, {
 					stripeRows : true,
 					tbar : [{
 								text : "添  加",
@@ -345,7 +283,7 @@ org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
 									try {
 										this.updateWin.load(this.getSelected());
 									} catch (_err) {
-										Ext.Msg.alert("系统提示", _err);
+										Ext.Msg.alert("修改失败", _err);
 										this.updateWin.close();
 									}
 								},
@@ -366,29 +304,18 @@ org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
 								width : 50,
 								menuDisabled : true
 							}, {
-								header : "名称",
+								header : "姓名",
 								dataIndex : "name",
-								width : 80,
 								menuDisabled : true
 							}, {
 								header : "部门",
 								dataIndex : "departmentName",
-								width : 100,
+								width : 120,
 								menuDisabled : true
 							}, {
-								header : "用户",
-								dataIndex : "userNames",
-								width : 180,
-								menuDisabled : true
-							}, {
-								header : "系统资源",
-								dataIndex : "systemResourceNames",
-								width : 280,
-								menuDisabled : true
-							}, {
-								header : "备注",
-								dataIndex : "remark",
-								width : 250,
+								header : "用户名",
+								dataIndex : "userName",
+								width : 150,
 								menuDisabled : true
 							}]),
 					selModel : new Ext.grid.RowSelectionModel({
@@ -403,7 +330,6 @@ org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
 									}
 								}
 							}),
-					// sm : new Ext.grid.CheckboxSelectionModel();
 					bbar : new Ext.PagingToolbar({
 								plugins : new Ext.ux.Andrie.pPageSize({
 											beforeText : '每页显示',
@@ -413,12 +339,7 @@ org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
 								store : this.store,
 								displayInfo : true,
 								displayMsg : '显示  {0} - {1} 条记录,共有 {2} 条记录',
-								emptyMsg : "没有数据",
-								items : ['-', '搜索',
-										new Ext.ux.form.SearchField({
-													store : this.store,
-													paramName : 'name'
-												})]
+								emptyMsg : "没有数据"
 							}),
 					loadMask : {
 						msg : '正在载入数据,请稍等...'
@@ -426,17 +347,16 @@ org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
 				});
 		this.insertWin.on("submit", this.onInsertWinSubmit, this);
 		this.updateWin.on("submit", this.onUpdateWinSubmit, this);
+		this.addEvents("rowselect");
 		this.on("show", function() {
-					this.updateWin.form.departmentStore.load({
+					this.insertWin.form.departmentStore.load({
 								params : {
 									start : 0,
 									limit : 2000
 								}
 							});
-					this.updateWin.form.userStore.load();
-					this.updateWin.form.systemResourceStore.load();
+					this.insertWin.form.userStore.load();
 				}, this);
-		this.addEvents("rowselect");
 	},
 	getSelected : function(_grid) {
 		var _sm = this.getSelectionModel();
@@ -462,7 +382,7 @@ org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
 		try {
 			var _sr = this.getSelected();
 			Ext.Ajax.request({
-						url : "security/Role/jsonDelete.html",
+						url : org.kyerp.org.EmployeePanel_DELETE_URL,
 						params : {
 							ids : _sr.get("id")
 						}
@@ -470,7 +390,7 @@ org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
 			this.getStore().remove(_sr);
 
 		} catch (_err) {
-			Ext.Msg.alert("系统提示", _err);
+			Ext.Msg.alert("删除失败", _err);
 		}
 	},
 	onInsertWinSubmit : function(_win, _r) {
@@ -487,5 +407,5 @@ org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
 		this.fireEvent("rowselect", _r);
 	}
 });
-
 /** ***************************************************************************** */
+
