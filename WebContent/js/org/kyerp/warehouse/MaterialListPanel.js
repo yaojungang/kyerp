@@ -9,7 +9,6 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 	supplierStore : null,
 	unitStore : null,
 	warehouseStore : null,
-	materialCategoryTree : null,
 	constructor : function(_cfg) {
 		if (_cfg == null)
 			_cfg = {};
@@ -42,7 +41,7 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 										type : "string"
 									}]))
 				});
-		this.unitStore =  new Ext.data.Store({
+		this.unitStore = new Ext.data.Store({
 					url : org.kyerp.warehouse.UnitPanel_STORE_URL,
 					reader : new Ext.data.JsonReader({
 								totalProperty : "totalProperty",
@@ -79,10 +78,6 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 										type : "string"
 									}]))
 				});
-		this.materialCategoryTree = new org.kyerp.warehouse.MaterialCategoryPanel(
-				{
-					autoHeight : true
-				});
 		var _readOnly = this["readOnly"] == null ? false : this["readOnly"];
 		org.kyerp.warehouse.MaterialListFormPanel.superclass.constructor.call(
 				this, {
@@ -95,86 +90,90 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 						msgTarget : 'side',
 						readOnly : _readOnly
 					},
-					items : [new Ext.ux.ComboBoxTree({
-										fieldLabel : "物料分类",
-										tree : this.materialCategoryTree,
-										emptyText : '',
-										name : 'materialCategoryId',
-										hiddenName : 'materialCategoryId',
-										editable : false,
-										triggerAction : 'all',
-										valueField : 'id',
-										displayField : 'name',
-										readOnly : true,
-										allowBlank : false
-									}), {
-								fieldLabel : "编号",
+					items : [{
+						xtype : 'treecombobox',
+						name : 'materialCategoryId',
+						hiddenName : 'materialCategoryId',
+						fieldLabel : '物料分类',
+						editable : false,
+						mode : 'local',
+						displayField : 'name',
+						valueField : 'id',
+						triggerAction : 'all',
+						allowBlank : false,
+						treeUrl : org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL,
+						rootText : 'root',
+						rootId : '0',
+						forceSelection : true,
+						rootVisible : false
+					}, {
+						fieldLabel : "编号",
+						allowBlank : false,
+						name : "serialNumber"
+					}, {
+						fieldLabel : "名称",
+						allowBlank : false,
+						name : "name"
+					}, {
+						fieldLabel : "规格",
+						name : "specification"
+					}, new Ext.form.ComboBox({
+								fieldLabel : "默认单位",
+								store : this.unitStore,
+								emptyText : '',
+								name : 'unitId',
+								hiddenName : 'unitId',
+								editable : false,
+								mode : 'remote',
+								triggerAction : 'all',
+								valueField : 'id',
+								displayField : 'name',
+								readOnly : true,
 								allowBlank : false,
-								name : "serialNumber"
-							}, {
-								fieldLabel : "名称",
+								pageSize : 5
+							}), new Ext.form.ComboBox({
+								fieldLabel : "品牌",
+								store : this.brandStore,
+								emptyText : '',
+								name : 'brandId',
+								hiddenName : 'brandId',
+								editable : false,
+								mode : 'remote',
+								triggerAction : 'all',
+								valueField : 'id',
+								displayField : 'name',
+								readOnly : true,
 								allowBlank : false,
-								name : "name"
-							}, {
-								fieldLabel : "规格",
-								name : "specification"
-							}, new Ext.form.ComboBox({
-										fieldLabel : "默认单位",
-										store : this.unitStore,
-										emptyText : '',
-										name : 'unitId',
-										hiddenName : 'unitId',
-										editable : false,
-										mode : 'remote',
-										triggerAction : 'all',
-										valueField : 'id',
-										displayField : 'name',
-										readOnly : true,
-										allowBlank : false,
-										pageSize: 5
-									}), new Ext.form.ComboBox({
-										fieldLabel : "品牌",
-										store : this.brandStore,
-										emptyText : '',
-										name : 'brandId',
-										hiddenName : 'brandId',
-										editable : false,
-										mode : 'remote',
-										triggerAction : 'all',
-										valueField : 'id',
-										displayField : 'name',
-										readOnly : true,
-										allowBlank : false,
-										pageSize: 20
-									}), new Ext.form.ComboBox({
-										fieldLabel : "默认供应商",
-										store : this.supplierStore,
-										emptyText : '',
-										name : 'supplierId',
-										hiddenName : 'supplierId',
-										editable : false,
-										mode : 'remote',
-										triggerAction : 'all',
-										valueField : 'id',
-										displayField : 'name',
-										readOnly : true,
-										allowBlank : false,
-										pageSize: 20
-									}), new Ext.form.ComboBox({
-										fieldLabel : "默认仓库",
-										store : this.warehouseStore,
-										emptyText : '',
-										name : 'warehouseId',
-										hiddenName : 'warehouseId',
-										editable : false,
-										mode : 'remote',
-										triggerAction : 'all',
-										valueField : 'id',
-										displayField : 'name',
-										readOnly : true,
-										allowBlank : false,
-										pageSize: 20
-									})]
+								pageSize : 20
+							}), new Ext.form.ComboBox({
+								fieldLabel : "默认供应商",
+								store : this.supplierStore,
+								emptyText : '',
+								name : 'supplierId',
+								hiddenName : 'supplierId',
+								editable : false,
+								mode : 'remote',
+								triggerAction : 'all',
+								valueField : 'id',
+								displayField : 'name',
+								readOnly : true,
+								allowBlank : false,
+								pageSize : 20
+							}), new Ext.form.ComboBox({
+								fieldLabel : "默认仓库",
+								store : this.warehouseStore,
+								emptyText : '',
+								name : 'warehouseId',
+								hiddenName : 'warehouseId',
+								editable : false,
+								mode : 'remote',
+								triggerAction : 'all',
+								valueField : 'id',
+								displayField : 'name',
+								readOnly : true,
+								allowBlank : false,
+								pageSize : 20
+							})]
 				});
 		this.addEvents("submit");
 	},
@@ -226,7 +225,7 @@ org.kyerp.warehouse.MaterialListInfoWindow = Ext.extend(Ext.Window, {
 									width : 500,
 									minWidth : 500,
 									minHeight : 300,
-									layout: 'fit',
+									layout : 'fit',
 									modal : true,
 									items : this.form,
 									closeAction : "hide",

@@ -220,8 +220,7 @@ org.kyerp.warehouse.EnteringMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : "serialNumber",
 										type : "string"
 									}, {
-										name : "enteringTime",
-										type : "date"
+										name : "enteringTime"
 									}, {
 										name : "warehouseId",
 										type : "int"
@@ -291,6 +290,7 @@ org.kyerp.warehouse.EnteringMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 							}, {
 								header : "入库时间",
 								dataIndex : "enteringTime",
+								renderer : renderDate('Y-m-d'),
 								menuDisabled : true
 							}, {
 								header : "仓库",
