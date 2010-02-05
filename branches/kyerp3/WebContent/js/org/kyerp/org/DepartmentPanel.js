@@ -33,40 +33,37 @@ org.kyerp.org.DepartmentFormPanel = Ext.extend(Ext.form.FormPanel, {
 				});
 		var _readOnly = this["readOnly"] == null ? false : this["readOnly"];
 		org.kyerp.org.DepartmentFormPanel.superclass.constructor.call(this, {
-			labelWidth : 80,
-			labelAlign : 'right',
-			defaultType : "textfield",
-			defaults : {
-				anchor : "90%",
-				msgTarget : 'side',
-				readOnly : _readOnly
-			},
-			baseCls : "x-plain",
-			items : [{
-						fieldLabel : "名称",
-						allowBlank : false,
-						name : "name"
-					}, new Ext.ux.ComboBoxTree({
-						fieldLabel : "上级部门",
-						tree : {
-							xtype : 'treepanel',
-							rootVisible : false,
-							autoHeight : true,
-							loader : new Ext.tree.TreeLoader({
-								dataUrl : org.kyerp.org.DepartmentPanel_TREE_URL
-							}),
-							root : new Ext.tree.AsyncTreeNode({
-										id : '0',
-										text : '上级部门'
-									})
-						},
-						name : 'parentDepartmentId',
-						hiddenName : 'parentDepartmentId',
-						valueField : 'id',
-						displayField : 'name',
-						allowBlank : false
-					})]
-		});
+					labelWidth : 80,
+					labelAlign : 'right',
+					defaultType : "textfield",
+					defaults : {
+						anchor : "90%",
+						msgTarget : 'side',
+						readOnly : _readOnly
+					},
+					baseCls : "x-plain",
+					items : [{
+								fieldLabel : "名称",
+								allowBlank : false,
+								name : "name"
+							}, {
+								xtype : 'treecombobox',
+								name : 'parentDepartmentId',
+								hiddenName : 'parentDepartmentId',
+								fieldLabel : '上级部门',
+								editable : false,
+								mode : 'local',
+								displayField : 'name',
+								valueField : 'id',
+								triggerAction : 'all',
+								allowBlank : false,
+								treeUrl : org.kyerp.org.DepartmentPanel_TREE_URL,
+								rootText : 'root',
+								rootId : '0',
+								forceSelection : true,
+								rootVisible : false
+							}]
+				});
 		this.addEvents("submit");
 	},
 	submit : function(_params) {
