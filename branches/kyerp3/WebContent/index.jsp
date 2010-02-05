@@ -15,12 +15,13 @@
 <!-- Extjs 自带插件 -->
 <link rel="stylesheet" type="text/css" href="js/ext/ux/css/ux-all.css" />
 <script type="text/javascript" src="js/ext/ux/ux-all-debug.js"></script>
+<!-- Extjs patch -->
+<script type="text/javascript" src="js/org/kyerp/share/ux/ComboBox-patch.js"></script>
 <!-- Extjs 自定义插件 -->
 <link rel="stylesheet" type="text/css" href="css/Ext.ux.form.LovCombo.css"/>
 <script type="text/javascript" src="js/org/kyerp/share/ux/Ext.ux.form.LovCombo.js"></script>
 <script type="text/javascript" src="js/org/kyerp/share/ux/pPageSize.js"></script>
-<script type="text/javascript" src="js/org/kyerp/share/ux/ComboBoxTree-min.js"></script>
-<script type="text/javascript" src="js/org/kyerp/share/ux/ContainerCombo.js"></script>
+<script type="text/javascript" src="js/org/kyerp/share/ux/TreeComboBox.js"></script>
 <!-- 自定义的文件 -->
 <link rel="stylesheet" type="text/css" href="css/ext-patch.css" />
 <link rel="stylesheet" type="text/css" href="css/ext-extend.css" />
