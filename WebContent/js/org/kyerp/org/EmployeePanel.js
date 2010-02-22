@@ -400,3 +400,11 @@ org.kyerp.org.EmployeePanel = Ext.extend(Ext.grid.GridPanel, {
 });
 /** ***************************************************************************** */
 
+
+Ext.extend(org.kyerp.module,{
+    init: function(){
+        this.body = new org.kyerp.org.EmployeePanel({border : false,bodyBorder : false});
+        this.main.add(this.body);
+        this.main.doLayout();  
+    }
+});

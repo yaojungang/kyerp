@@ -11,62 +11,65 @@ org.kyerp.security.RoleFormPanel = Ext.extend(Ext.form.FormPanel, {
 					_cfg = {};
 				Ext.apply(this, _cfg);
 				this.userStore = new Ext.data.Store({
-						url : 'security/User/jsonList.html',
-						reader : new Ext.data.JsonReader({
-									totalProperty : "totalProperty",
-									root : "rows",
-									id : "id"
-								}, new Ext.data.Record.create([{
-											name : "id",
-											type : "int"
-										}, {
-											name : "userName",
-											type : "string"
-										}]))
-					});
-				this.departmentStore =  new Ext.data.Store({
-						url : org.kyerp.org.DepartmentPanel_STORE_URL ,
-						reader : new Ext.data.JsonReader({
-									totalProperty : "totalProperty",
-									root : "rows",
-									id : "id"
-								}, new Ext.data.Record.create([{
-											name : "id",
-											type : "int"
-										}, {
-											name : "name",
-											type : "string"
-										}]))
-					});
-				this.systemResourceStore =  new Ext.data.Store({
-						url : org.kyerp.security.SystemResourcePanel_STORE_URL,
-						reader : new Ext.data.JsonReader({
-									totalProperty : "totalProperty",
-									root : "rows",
-									id : "id"
-								}, new Ext.data.Record.create([{
-											name : "id",
-											type : "int"
-										}, {
-											name : "name",
-											type : "string"
-										}, {
-											name : "content",
-											type : "string"
-										}, {
-											name : "type",
-											type : "string"
-										}, {
-											name : "remark",
-											type : "string"
-										}, {
-											name : "systemModuleId",
-											type : 'int'
-										}, {
-											name : "systemModuleName",
-											type : 'string'
-										}]))
-					});
+							url : 'security/User/jsonList.html',
+							autoLoad : true,
+							reader : new Ext.data.JsonReader({
+										totalProperty : "totalProperty",
+										root : "rows",
+										id : "id"
+									}, new Ext.data.Record.create([{
+												name : "id",
+												type : "int"
+											}, {
+												name : "userName",
+												type : "string"
+											}]))
+						});
+				this.departmentStore = new Ext.data.Store({
+							autoLoad : true,
+							url : 'org/Department/jsonList.html',
+							reader : new Ext.data.JsonReader({
+										totalProperty : "totalProperty",
+										root : "rows",
+										id : "id"
+									}, new Ext.data.Record.create([{
+												name : "id",
+												type : "int"
+											}, {
+												name : "name",
+												type : "string"
+											}]))
+						});
+				this.systemResourceStore = new Ext.data.Store({
+							autoLoad : true,
+							url : "security/SystemResource/jsonList.html",
+							reader : new Ext.data.JsonReader({
+										totalProperty : "totalProperty",
+										root : "rows",
+										id : "id"
+									}, new Ext.data.Record.create([{
+												name : "id",
+												type : "int"
+											}, {
+												name : "name",
+												type : "string"
+											}, {
+												name : "content",
+												type : "string"
+											}, {
+												name : "type",
+												type : "string"
+											}, {
+												name : "remark",
+												type : "string"
+											}, {
+												name : "systemModuleId",
+												type : 'int'
+											}, {
+												name : "systemModuleName",
+												type : 'string'
+											}]))
+						});
 				var _readOnly = this["readOnly"] == null
 						? false
 						: this["readOnly"];
@@ -81,20 +84,20 @@ org.kyerp.security.RoleFormPanel = Ext.extend(Ext.form.FormPanel, {
 								readOnly : _readOnly
 							},
 							baseCls : "x-plain",
-							items : [new Ext.form.ComboBox({
-												fieldLabel : "所属部门",
-												store : this.departmentStore,
-												emptyText : '',
-												name : 'departmentId',
-												hiddenName : 'departmentId',
-												editable : false,
-												mode : 'remote',
-												triggerAction : 'all',
-												valueField : 'id',
-												displayField : 'name',
-												readOnly : true,
-												allowBlank : false
-											}), {
+							items : [{
+										fieldLabel : "所属部门",
+										xtype : 'combo',
+										store : this.departmentStore,
+										emptyText : '',
+										name : 'departmentId',
+										hiddenName : 'departmentId',
+										editable : false,
+										mode : 'local',
+										triggerAction : 'all',
+										valueField : 'id',
+										displayField : 'name',
+										allowBlank : false
+									}, {
 										fieldLabel : "名称",
 										allowBlank : false,
 										name : "name"
@@ -489,3 +492,14 @@ org.kyerp.security.RolePanel = Ext.extend(Ext.grid.GridPanel, {
 });
 
 /** ***************************************************************************** */
+
+Ext.extend(org.kyerp.module, {
+			init : function() {
+				this.body = new org.kyerp.security.RolePanel({
+							border : false,
+							bodyBorder : false
+						});
+				this.main.add(this.body);
+				this.main.doLayout();
+			}
+		});

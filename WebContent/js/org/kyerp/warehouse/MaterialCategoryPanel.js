@@ -334,3 +334,10 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.tree.TreePanel, {
 
 });
 /** ***************************************************************************** */
+Ext.extend(org.kyerp.module,{
+    init: function(){
+        this.body = new org.kyerp.warehouse.MaterialCategoryPanel({border : false,bodyBorder : false});
+        this.main.add(this.body);
+        this.main.doLayout();  
+    }
+});

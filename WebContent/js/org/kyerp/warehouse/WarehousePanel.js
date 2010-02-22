@@ -323,4 +323,10 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.grid.GridPanel, {
 	}
 });
 /** ***************************************************************************** */
-
+Ext.extend(org.kyerp.module,{
+    init: function(){
+        this.body = new org.kyerp.warehouse.WarehousePanel({border : false,bodyBorder : false});
+        this.main.add(this.body);
+        this.main.doLayout();  
+    }
+});

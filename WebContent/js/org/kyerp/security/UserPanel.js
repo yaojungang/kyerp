@@ -4,7 +4,7 @@ org.kyerp.security.UserPanel_STORE_URL = "security/User/jsonList.html";
 org.kyerp.security.UserFormPanel = Ext.extend(Ext.form.FormPanel, {
 			url : "",
 			roleStore : new Ext.data.Store({
-						url : org.kyerp.security.RolePanel_STORE_URL,
+						url : 'security/Role/jsonList.html',
 						reader : new Ext.data.JsonReader({
 									totalProperty : "totalProperty",
 									root : "rows",
@@ -337,7 +337,7 @@ org.kyerp.security.UserPanel = Ext.extend(Ext.grid.GridPanel, {
 				});
 		this.insertWin.on("submit", this.onInsertWinSubmit, this);
 		this.updateWin.on("submit", this.onUpdateWinSubmit, this);
-		this.on("show", function() {
+		this.on("render", function() {
 					this.updateWin.form.roleStore.load();
 				}, this);
 		this.addEvents("rowselect");
@@ -393,3 +393,10 @@ org.kyerp.security.UserPanel = Ext.extend(Ext.grid.GridPanel, {
 });
 /** ***************************************************************************** */
 
+Ext.extend(org.kyerp.module,{
+    init: function(){
+        this.body = new org.kyerp.security.UserPanel({border : false,bodyBorder : false});
+        this.main.add(this.body);
+        this.main.doLayout();  
+    }
+});

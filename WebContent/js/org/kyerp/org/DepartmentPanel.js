@@ -334,3 +334,11 @@ org.kyerp.org.DepartmentPanel = Ext.extend(Ext.tree.TreePanel, {
 
 });
 /** ***************************************************************************** */
+
+Ext.extend(org.kyerp.module,{
+    init: function(){
+        this.body = new org.kyerp.org.DepartmentPanel({border : false,bodyBorder : false});
+        this.main.add(this.body);
+        this.main.doLayout();  
+    }
+});
