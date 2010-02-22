@@ -202,22 +202,11 @@ org.kyerp.warehouse.EnteringMaterialItems = Ext.extend(
 										})
 									}, {
 										header : '单位',
-										dataIndex : "unit",
-										editor : new Ext.form.ComboBox({
-													triggerAction : "all",
-													mode : "local",
-													displayField : "type",
-													readOnly : true,
-													store : new Ext.data.SimpleStore(
-															{
-																data : ["收入",
-																		"支出"],
-																expandData : true,
-																fields : ["type"]
-															})
-												})
+										width : 50,
+										dataIndex : "unit"
 									}, {
 										header : "数量",
+										width : 70,
 										dataIndex : "amount",
 										editor : new Ext.form.NumberField({
 													maxValue : 10000,
@@ -232,6 +221,7 @@ org.kyerp.warehouse.EnteringMaterialItems = Ext.extend(
 												})
 									}, {
 										header : "金额",
+										width : 80,
 										dataIndex : "money",
 										editor : new Ext.form.NumberField({
 													maxValue : 10000,
@@ -239,36 +229,13 @@ org.kyerp.warehouse.EnteringMaterialItems = Ext.extend(
 												})
 									}, {
 										header : '批号',
+										width : 90,
 										dataIndex : "serialNumber",
-										editor : new Ext.form.ComboBox({
-													triggerAction : "all",
-													mode : "local",
-													displayField : "type",
-													readOnly : true,
-													store : new Ext.data.SimpleStore(
-															{
-																data : ["收入",
-																		"支出"],
-																expandData : true,
-																fields : ["type"]
-															})
-												})
+										editor : new Ext.form.TextField()
 									}, {
 										header : '备注',
 										dataIndex : "remark",
-										editor : new Ext.form.ComboBox({
-													triggerAction : "all",
-													mode : "local",
-													displayField : "type",
-													readOnly : true,
-													store : new Ext.data.SimpleStore(
-															{
-																data : ["收入",
-																		"支出"],
-																expandData : true,
-																fields : ["type"]
-															})
-												})
+										editor : new Ext.form.TextField()
 									}]
 						});
 			},
