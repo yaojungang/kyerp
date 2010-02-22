@@ -36,7 +36,6 @@
 <script type="text/javascript" src="js/org/kyerp/share/ux/Ext.ux.form.DateTime.js"></script>
 <!-- 自定义的文件 -->
 <script type="text/javascript" src="js/org/kyerp/ns.js"></script>
-<div id="incluedJs"></div>
 <script type="text/javascript" src="js/org/kyerp/base.js"></script>
 </body>
 </html>
