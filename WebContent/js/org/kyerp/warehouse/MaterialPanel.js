@@ -9,22 +9,25 @@ org.kyerp.warehouse.MaterialPanel = Ext.extend(Ext.Panel, {
 		this.materialCategoryTree = new org.kyerp.warehouse.MaterialCategoryPanel(
 				{
 					title : '物料分类',
-					split : true,
 					region : 'west',
 					border : false,
+					split : true,
+					collapsible : true,
+					collapseMode : 'mini',
 					width : 150,
 					minSize : 100,
 					maxSize : 500,
-					collapseMode : 'mini',
-					autoScroll : true
+					autoScroll : true,
+					cmargins : '3 3 3 3'
 				});
 		this.materialList = new org.kyerp.warehouse.MaterialListPanel({
 					title : '库存明细',
-					region : 'center',
-					border : false
+					border : false,
+					region : 'center'
 				});
 		org.kyerp.warehouse.MaterialPanel.superclass.constructor.call(this, {
 					layout : 'border',
+					border : false,
 					defaults : {
 						collapsible : true,
 						split : true

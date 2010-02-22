@@ -40,7 +40,7 @@ org.kyerp.MainPanel = Ext.extend(Ext.TabPanel, {
 					n.ds.load({
 								params : {
 									start : 0,
-									limit : 10
+									limit : 20
 								}
 							});
 			},
@@ -54,9 +54,9 @@ org.kyerp.MainPanel = Ext.extend(Ext.TabPanel, {
 							// + Ext.util.Format.capitalize(node.id) + 'Panel';
 							+ node.id;
 					var ret = eval(pn);
-					// alert(pn);
+					//alert(pn);
 				}
-				// alert(ret);
+				 //alert(ret);
 				return ret;
 			},
 			addPanel : function(name, panel) {

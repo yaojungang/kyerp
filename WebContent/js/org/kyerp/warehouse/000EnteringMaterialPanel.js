@@ -85,81 +85,90 @@ org.kyerp.warehouse.EnteringMaterialFormPanel = Ext.extend(Ext.form.FormPanel,
 												type : 'string'
 											}]))
 						});
+				var _readOnly = this["readOnly"] == null
+						? false
+						: this["readOnly"];
 				org.kyerp.warehouse.EnteringMaterialFormPanel.superclass.constructor
 						.call(this, {
-							labelWidth : 60,
+							labelWidth : 80,
 							labelAlign : 'right',
 							defaultType : "textfield",
 							defaults : {
-								anchor : "100%",
-								msgTarget : 'side'
+								anchor : "98%",
+								msgTarget : 'side',
+								readOnly : _readOnly
 							},
 							baseCls : "x-plain",
-							items : [{
-								xtype : 'panel',
-								layout : 'column',
-								baseCls : "x-plain",
-								items : [{
-									columnWidth : .3,
-									xtype : 'panel',
-									layout : 'form',
-									baseCls : "x-plain",
-									labelAlign : 'right',
-									defaultType : "textfield",
-									defaults : {
-										anchor : '92%'
-									},
-									items : [{fieldLabel : '入库单号'}, {fieldLabel : '入库时间'}]
-								}, {
-									columnWidth : .3,
-									xtype : 'panel',
-									layout : 'form',
-									baseCls : "x-plain",
-									labelAlign : 'right',
-									defaultType : "textfield",
-									defaults : {
-										anchor : '92%'
-									},
-									items : [{fieldLabel : '经办人'}, {fieldLabel : '库管员'}]
-								}, {
-									columnWidth : .4,
-									xtype : 'panel',
-									layout : 'form',
-									baseCls : "x-plain",
-									labelAlign : 'right',
-									defaultType : "textfield",
-									defaults : {
-										anchor : '92%'
-									},
-									items : [{fieldLabel : '仓库名称'}, {fieldLabel : '入库类型'}]
-								}]
-							}, {
-								xtype : 'editorgrid',
-								//anchor : "100",
-								//title : '入库项目',
-								tbar : [{
-											text : "添  加",
-											iconCls : 'icon-utils-s-add',
-											handler : function() {
-											},
-											scope : this
-										}, "-", {
-											text : "修  改",
-											iconCls : 'icon-utils-s-edit',
-											handler : function() {
-											},
-											scope : this
-										}, "-", {
-											text : "删  除",
-											iconCls : 'icon-utils-s-delete',
-											handler : function() {
-												Ext.Msg.confirm("系统提示",
-														"你确定删除此记录吗?",
-														this.onRemove, this);
-											},
-											scope : this
-										}],
-								colModel : new Ext.grid.ColumnModel([{
+							items : [new Ext.form.ComboBox({
+												fieldLabel : "仓库",
+												store : this.warehouseStore,
+												emptyText : '',
+												name : 'warehouseId',
+												hiddenName : 'warehouseId',
+												editable : false,
+												resizable : true,
+												mode : 'local',
+												triggerAction : 'all',
+												valueField : 'id',
+												displayField : 'name',
+												readOnly : true,
+												allowBlank : false,
+												pageSize : 20
+											}), {
+										fieldLabel : '编号',
+										name : 'serialNumber',
+										allowBlank : true
+									}, {
+										fieldLabel : '入库时间',
+										xtype : 'datefield',
+										name : 'enteringTime',
+										format : 'Y-m-d'
+									}, new Ext.form.ComboBox({
+												fieldLabel : "入库项目1",
+												store : this.materialListStroe,
+												emptyText : '',
+												name : 'batchs[0].id',
+												hiddenName : 'batchs[0].id',
+												editable : true,
+												mode : 'local',
+												resizable : true,
+												triggerAction : 'all',
+												valueField : 'id',
+												displayField : 'name',
+												readOnly : true,
+												allowBlank : false,
+												pageSize : 20
+											}), {
+										fieldLabel : "项目1",
+										name : 'batchs[0].price'
+									},{
+										xtype : 'editorgrid',
+										anchor : "99%",
+										title : '入库项目',
+										tbar : [{
+													text : "添  加",
+													iconCls : 'icon-utils-s-add',
+													handler : function() {
+													},
+													scope : this
+												}, "-", {
+													text : "修  改",
+													iconCls : 'icon-utils-s-edit',
+													handler : function() {
+													},
+													scope : this
+												}, "-", {
+													text : "删  除",
+													iconCls : 'icon-utils-s-delete',
+													handler : function() {
+														Ext.Msg.confirm("系统提示",
+																"你确定删除此记录吗?",
+																this.onRemove,
+																this);
+													},
+													scope : this
+												}],
+										colModel : new Ext.grid.ColumnModel([{
 											header : "姓名",
 											editor : new Ext.form.TextField()
 										}, {
@@ -167,20 +176,21 @@ org.kyerp.warehouse.EnteringMaterialFormPanel = Ext.extend(Ext.form.FormPanel,
 										}, {
 											header : "性别"
 										}]),
-								store : new Ext.data.JsonStore({
-											data : [{
-														name : "陈治文",
-														age : 28,
-														sex : "男"
-													}, {
-														name : "张妍娜",
-														age : 25,
-														sex : "女"
-													}],
-											fields : ["name", "age", "sex"]
-										}),
-								autoHeight : true
-							}]
+										store : new Ext.data.JsonStore({
+													data : [{
+																name : "陈治文",
+																age : 28,
+																sex : "男"
+															}, {
+																name : "张妍娜",
+																age : 25,
+																sex : "女"
+															}],
+													fields : ["name", "age",
+															"sex"]
+												}),
+										autoHeight : true
+									}]
 						});
 				this.addEvents("submit");
 			},
@@ -229,14 +239,13 @@ org.kyerp.warehouse.EnteringMaterialInfoWindow = Ext.extend(Ext.Window, {
 				org.kyerp.warehouse.EnteringMaterialInfoWindow.superclass.constructor
 						.call(this, {
 									plain : true,
-									width : 730,
+									width : 680,
 									height : 450,
 									layout : 'fit',
 									minimizable : true,
 									maximizable : true,
 									modal : true,
 									items : this.form,
-									bodyStyle : 'padding:5 1 5 0',
 									closeAction : "hide",
 									buttons : [{
 												text : "确 定",
