@@ -17,24 +17,25 @@ import org.kyerp.domain.BaseDomain;
 public class MaterialBatch extends BaseDomain implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 	/** 批次号 */
-	private String				batchNumber			= "";
+	private String				batchNumber;
 	/** 物料 **/
 	@ManyToOne
-	private Material			material			= new Material();
+	private Material			material;
 	/** 入库单 */
 	@ManyToOne
-	private EnteringMaterial	enteringMaterial	= new EnteringMaterial();
+	private EnteringMaterial	enteringMaterial;
 	/** 供应商 */
 	@ManyToOne
-	private Supplier			supplier			= new Supplier();
+	private Supplier			supplier;
 	/** 单位 */
-	private String				module				= "";
+	@ManyToOne
+	private Unit				unit;
 	/** 数量 */
-	private Float				amount				= 0f;
+	private Float				amount;
 	/** 单价 */
-	private BigDecimal			price				= new BigDecimal("0");
+	private BigDecimal			price;
 	/** 备注 */
-	private String				remark				= "";
+	private String				remark;
 
 	public MaterialBatch() {
 	}
@@ -68,12 +69,12 @@ public class MaterialBatch extends BaseDomain implements Serializable {
 		this.supplier = supplier;
 	}
 
-	public String getModule() {
-		return module;
+	public Unit getUnit() {
+		return unit;
 	}
 
-	public void setModule(String module) {
-		this.module = module;
+	public void setUnit(Unit unit) {
+		this.unit = unit;
 	}
 
 	public Float getAmount() {

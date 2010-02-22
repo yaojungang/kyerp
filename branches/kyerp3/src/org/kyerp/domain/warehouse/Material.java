@@ -41,7 +41,6 @@ public class Material extends BaseDomain implements Serializable {
 	/** 品牌 */
 	@ManyToOne
 	private Brand				brand;
-	/***/
 	/** 单位 */
 	@ManyToOne
 	private Unit				unit;
