@@ -37,9 +37,6 @@ org.kyerp.warehouse.MaterialCategoryFormPanel = Ext.extend(Ext.form.FormPanel,
 												name : "visible"
 											}]))
 						});
-				var _readOnly = this["readOnly"] == null
-						? false
-						: this["readOnly"];
 				org.kyerp.warehouse.MaterialCategoryFormPanel.superclass.constructor
 						.call(this, {
 							labelWidth : 80,
@@ -47,8 +44,7 @@ org.kyerp.warehouse.MaterialCategoryFormPanel = Ext.extend(Ext.form.FormPanel,
 							defaultType : "textfield",
 							defaults : {
 								anchor : "90%",
-								msgTarget : 'side',
-								readOnly : _readOnly
+								msgTarget : 'side'
 							},
 							baseCls : "x-plain",
 							items : [{

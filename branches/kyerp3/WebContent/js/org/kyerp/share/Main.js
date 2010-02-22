@@ -7,7 +7,7 @@ Ext.onReady(function() {
 		region : 'north',
 		margins : '0 0 5 0',
 		border : false,
-		html : '<div style="background:#dfe8f6; height:39px;"><h1 style="color:black;padding:10px 10px 10px 10px">酷印通2010</h1></div>',
+		html : '<div style="background:#dfe8f6; height:39px;"><h1 style="color:black;padding:10px 10px 10px 20px">酷印通2010</h1></div>',
 		height : 39
 	});
 	// foot部分
@@ -17,7 +17,8 @@ Ext.onReady(function() {
 		bbar : [{
 			text : '开始',
 			iconCls : 'icon-plugin',
-			menu : new Ext.menu.Menu({
+			menu : {
+				xtype: 'menu',
 				items : [{
 					text : '关于系统',
 					iconCls : 'icon-cmp',
@@ -59,7 +60,9 @@ Ext.onReady(function() {
 						});
 					}
 				}]
-			})
+			}
+		},'-',{xtype : 'combo',
+		fieldLabel : 'test'
 		}]
 	});
 
@@ -82,7 +85,7 @@ Ext.onReady(function() {
 										}, {
 											id : "MaterialPanel",
 											ns : 'org.kyerp.warehouse',
-											text : "库存总账",
+											text : "库存档案",
 											leaf : true
 										}]
 							}, {
@@ -105,10 +108,27 @@ Ext.onReady(function() {
 											text : "品牌管理",
 											leaf : true
 										}, {
-											id : "SupplierPanel",
+											id : "BuyTypePanel",
+											ns : 'org.kyerp.warehouse',
+											text : "采购类型",
+											leaf : true
+										}, {
+											id : "SupplierManager",
 											ns : 'org.kyerp.warehouse',
 											text : "供应商",
-											leaf : true
+											expanded : true,
+											children : [{
+														id : "SupplierPanel",
+														text : "供应商档案",
+														ns : 'org.kyerp.warehouse',
+														leaf : true
+													}, {
+														id : "SupplierTypePanel",
+														text : "供应商分类",
+														ns : 'org.kyerp.warehouse',
+														leaf : true
+													}]
+
 										}]
 							}, {
 								id : "WarehouseManager",
@@ -135,25 +155,53 @@ Ext.onReady(function() {
 											ns : 'org.kyerp.warehouse',
 											leaf : true
 										}, {
-											id : "permissionType",
-											ns : 'org.kyerp.warehouse',
-											text : "缺货预警",
-											leaf : true
-										}, {
 											id : "WarehousePanel",
 											ns : 'org.kyerp.warehouse',
-											text : "库房管理",
+											text : "仓库档案",
 											leaf : true
 										}, {
 											id : "UnitPanel",
 											ns : 'org.kyerp.warehouse',
 											text : "计量单位",
 											leaf : true
+										}, {
+											id : "EnterOutPanel",
+											ns : 'org.kyerp.warehouse',
+											text : "收发类别",
+											leaf : true
 										}]
 							}]
 				})
 
 	});
+	var crmMenuTree = new Ext.tree.TreePanel({
+				border : false,
+				rootVisible : false,
+				iconCls : 'icon-application_go',
+				root : new Ext.tree.AsyncTreeNode({
+							text : "客户关系",
+							expanded : true,
+							children : [{
+										id : "ClientManager",
+										ns : 'org.kyerp.crm',
+										text : "客户管理",
+										expanded : true,
+										children : [{
+													id : "ClientPanel",
+													text : "客户档案",
+													ns : 'org.kyerp.crm',
+													leaf : true
+												}, {
+													id : "ClientTypePanel",
+													text : "客户分类",
+													ns : 'org.kyerp.crm',
+													leaf : true
+												}]
+
+									}]
+						})
+
+			});
 	var hrMenuTree = new Ext.tree.TreePanel({
 				border : false,
 				rootVisible : false,
@@ -185,7 +233,7 @@ Ext.onReady(function() {
 							children : [{
 										id : 'DepartmentPanel',
 										ns : 'org.kyerp.org',
-										text : '部门管理',
+										text : '部门档案',
 										leaf : true
 									}, {
 										id : 'RolePanel',
@@ -219,7 +267,8 @@ Ext.onReady(function() {
 	// leftMenu部分
 	var leftMenu = new org.kyerp.LeftMenu({
 				title : 'KYERP',
-				trees : [warehouseMenuTree, hrMenuTree, securityMenuTree]
+				trees : [warehouseMenuTree, crmMenuTree, hrMenuTree,
+						securityMenuTree]
 			});
 	// 主工作区部分 MainTab
 	var mainTab = new org.kyerp.MainPanel({

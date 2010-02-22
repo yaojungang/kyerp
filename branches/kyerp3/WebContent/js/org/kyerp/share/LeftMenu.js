@@ -11,24 +11,6 @@ org.kyerp.LeftMenu = function(config) {
 				iconCls :'icon-style-tab',
 				//不显示title
 				header : false,
-//				tbar : [{
-//								text : "添  加",
-//								iconCls : 'icon-utils-s-add',
-//								scope : this
-//							},'-',{
-//								text : "添  加",
-//								iconCls : 'icon-utils-s-add',
-//								scope : this
-//							}],
-//				bbar : [{
-//								text : "添  加",
-//								iconCls : 'icon-utils-s-add',
-//								scope : this
-//							},'-',{
-//								text : "添  加",
-//								iconCls : 'icon-utils-s-add',
-//								scope : this
-//							}],
 				defaults : {
 					border : false
 				},
