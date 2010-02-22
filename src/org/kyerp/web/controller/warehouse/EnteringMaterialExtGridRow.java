@@ -1,29 +1,64 @@
 package org.kyerp.web.controller.warehouse;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import org.kyerp.domain.warehouse.MaterialBatch;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 /**
  * @author y109 2010-2-4下午03:44:16
  */
 public class EnteringMaterialExtGridRow {
-	private Long	id;
+	private Long				id;
 	/** 入库单号 */
-	private String	serialNumber;
+	private String				serialNumber;
 	/** 入库时间 */
-	private Date	enteringTime;
+	@DateTimeFormat(iso = ISO.DATE)
+	private Date				enteringTime;
 	/** 仓库名称 */
-	private Long	warehouseId;
-	private String	warehouseName;
+	private Long				warehouseId;
+	private String				warehouseName;
 	/** 库管员 */
-	private Long	keeperId;
-	private String	keeperName;
+	private Long				keeperId;
+	private String				keeperName;
 	/** 操作员 */
-	private Long	operatorId;
-	private String	operatorName;
+	private Long				operatorId;
+	private String				operatorName;
 	/** 物料明细 **/
-	private String	batchIds;
+	private String				batchIds;
+	private String				batchNames;
+	private List<MaterialBatch>	batchs;
+
+	private List<MaterialBatch>	itemList	= new ArrayList<MaterialBatch>();
 
 	EnteringMaterialExtGridRow() {
+	}
+
+	public String getBatchNames() {
+		return batchNames;
+	}
+
+	public void setBatchNames(String batchNames) {
+		this.batchNames = batchNames;
+	}
+
+	public List<MaterialBatch> getBatchs() {
+		return batchs;
+	}
+
+	public void setBatchs(List<MaterialBatch> batchs) {
+		this.batchs = batchs;
+	}
+
+	public List<MaterialBatch> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(List<MaterialBatch> itemList) {
+		this.itemList = itemList;
 	}
 
 	public Long getId() {
