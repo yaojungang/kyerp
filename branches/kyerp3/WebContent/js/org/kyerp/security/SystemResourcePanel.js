@@ -430,4 +430,10 @@ org.kyerp.security.SystemResourcePanel = Ext.extend(Ext.grid.GridPanel, {
 	}
 });
 /** ***************************************************************************** */
-
+Ext.extend(org.kyerp.module,{
+    init: function(){
+        this.body = new org.kyerp.security.SystemResourcePanel({border : false,bodyBorder : false});
+        this.main.add(this.body);
+        this.main.doLayout();  
+    }
+});

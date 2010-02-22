@@ -1,17 +1,427 @@
+Ext.util.Format.comboRenderer = function(combo){
+     return function(value){
+         var record = combo.findRecord(combo.valueField, value);
+         return record ? record.get(combo.displayField) : combo.valueNotFoundText;    
+     }
+};
+
 /** ***************************************************************************** */
 org.kyerp.warehouse.EnteringMaterialPanel_STORE_URL = "warehouse/EnteringMaterial/jsonList.html";
 org.kyerp.warehouse.EnteringMaterialPanel_SAVE_URL = "warehouse/EnteringMaterial/jsonSave.html";
 org.kyerp.warehouse.EnteringMaterialPanel_DELETE_URL = "warehouse/EnteringMaterial/jsonDelete.html";
 /** ***************************************************************************** */
+org.kyerp.warehouse.EnteringMaterialItems = Ext.extend(
+		Ext.grid.EditorGridPanel, {
+			typeCmb : null,
+			inserted : [],
+			conn : new Ext.data.Connection(),
+			constructor : function() {
+				this.typeCmb = new Ext.form.ComboBox({
+							triggerAction : "all",
+							mode : "local",
+							displayField : "type",
+							value : "全部",
+							width : 70,
+							listeners : {
+								select : {
+									fn : this.onViewTypeSelect,
+									scope : this
+								}
+							},
+							store : new Ext.data.SimpleStore({
+										readOnly : true,
+										data : ["收入", "支出", "全部"],
+										expandData : true,
+										fields : ["type"]
+									})
+						});
+
+				org.kyerp.warehouse.EnteringMaterialItems.superclass.constructor
+						.call(this, {
+							autoHeight : true,
+							height : 300,
+							autoScroll : true,
+							sm : new Ext.grid.RowSelectionModel({
+										singleSelect : true
+									}),
+							tbar : [{
+										text : "保存",
+										handler : this.onSaveButtonClick,
+										scope : this
+									}, "-", {
+										text : "添加",
+										handler : this.onInsertButtonClick,
+										scope : this
+									}, "-", {
+										text : "删除",
+										handler : this.onRemoveButtonClick,
+										scope : this
+									}],
+							store : new Ext.data.SimpleStore(),
+							columns : [{
+										header : '品名型号',
+										dataIndex : "nameType",
+//										renderer : Ext.util.Format
+//												.comboRenderer(this.contentEl),
+										
+										editor : new Ext.form.ComboBox({
+											hiddenName : 'nameType',
+											typeAhead: true,
+											lazyRender : true,
+											pageSize : 20,
+											listWidth : 360,
+											valueField : 'id',
+											displayField : 'name',
+											mode : 'remote',
+											selectOnFocus:true,
+											allowBlank : false,
+											emptyText : '请选择',
+											triggerAction : 'all',
+											store : new Ext.data.Store({
+												autoLoad : true,
+												autoLoad : {
+													baseParams : {
+														limit : 20
+													}
+												},
+												url : "warehouse/Material/jsonList.html",
+												reader : new Ext.data.JsonReader(
+														{
+															totalProperty : "totalProperty",
+															root : "rows",
+															id : "id"
+														},
+														new Ext.data.Record.create([
+																{
+																	name : "id",
+																	type : "int"
+																}, {
+																	name : "serialNumber",
+																	type : "string"
+																}, {
+																	name : "name",
+																	type : "string"
+																}, {
+																	name : "amount",
+																	type : "int"
+																}, {
+																	name : "materialCategoryId",
+																	type : "int"
+																}, {
+																	name : "materialCategoryName",
+																	type : "string"
+																}, {
+																	name : 'specification',
+																	type : 'string'
+																}, {
+																	name : 'brandId',
+																	type : 'int'
+																}, {
+																	name : 'brandName',
+																	type : 'string'
+																}, {
+																	name : 'unitId',
+																	type : 'int'
+																}, {
+																	name : 'unitName',
+																	type : 'string'
+																}, {
+																	name : 'price',
+																	type : 'string'
+																}, {
+																	name : 'supplierId',
+																	type : 'int'
+																}, {
+																	name : 'supplierName',
+																	type : 'string'
+																}, {
+																	name : 'warehouseId',
+																	type : 'int'
+																}, {
+																	name : 'warehouseName',
+																	type : 'string'
+																}]))
+											})
+										})
+									}, {
+										header : "状态",
+										dataIndex : "status",
+										width : 50,
+										editor : new Ext.form.ComboBox({
+													triggerAction : "all",
+													mode : "local",
+													displayField : "type",
+													store : new Ext.data.SimpleStore(
+															{
+																data : ["收入",
+																		"支出"],
+																expandData : true,
+																fields : ["type"]
+															})
+												})
+									}, {
+										header : "仓库",
+										dataIndex : "warehouseId",
+										editor : new Ext.form.ComboBox({
+											hiddenName : 'warehouseId',
+											lazyRender : true,
+											pageSize : 20,
+											listWidth : 360,
+											valueField : 'id',
+											displayField : 'name',
+											mode : 'remote',
+											allowBlank : false,
+											emptyText : '请选择',
+											triggerAction : 'all',
+											displayField : "name",
+											store : new Ext.data.Store({
+												autoLoad : {
+													baseParams : {
+														limit : 20
+													}
+												},
+												url : "warehouse/Warehouse/jsonList.html",
+												reader : new Ext.data.JsonReader(
+														{
+															totalProperty : "totalProperty",
+															root : "rows",
+															id : "id"
+														},
+														new Ext.data.Record.create([
+																{
+																	name : "id",
+																	type : "int"
+																}, {
+																	name : "name",
+																	type : "string"
+																}, {
+																	name : "serialNumber",
+																	type : "string"
+																}]))
+											})
+										})
+									}, {
+										header : '单位',
+										dataIndex : "unit",
+										editor : new Ext.form.ComboBox({
+													triggerAction : "all",
+													mode : "local",
+													displayField : "type",
+													readOnly : true,
+													store : new Ext.data.SimpleStore(
+															{
+																data : ["收入",
+																		"支出"],
+																expandData : true,
+																fields : ["type"]
+															})
+												})
+									}, {
+										header : "数量",
+										dataIndex : "amount",
+										editor : new Ext.form.NumberField({
+													maxValue : 10000,
+													minValue : 1
+												})
+									}, {
+										header : "单价",
+										dataIndex : "price",
+										editor : new Ext.form.NumberField({
+													maxValue : 10000,
+													minValue : 1
+												})
+									}, {
+										header : "金额",
+										dataIndex : "money",
+										editor : new Ext.form.NumberField({
+													maxValue : 10000,
+													minValue : 1
+												})
+									}, {
+										header : '批号',
+										dataIndex : "serialNumber",
+										editor : new Ext.form.ComboBox({
+													triggerAction : "all",
+													mode : "local",
+													displayField : "type",
+													readOnly : true,
+													store : new Ext.data.SimpleStore(
+															{
+																data : ["收入",
+																		"支出"],
+																expandData : true,
+																fields : ["type"]
+															})
+												})
+									}, {
+										header : '备注',
+										dataIndex : "remark",
+										editor : new Ext.form.ComboBox({
+													triggerAction : "all",
+													mode : "local",
+													displayField : "type",
+													readOnly : true,
+													store : new Ext.data.SimpleStore(
+															{
+																data : ["收入",
+																		"支出"],
+																expandData : true,
+																fields : ["type"]
+															})
+												})
+									}]
+						});
+			},
+			onViewTypeSelect : function(_combo) {
+
+				var _type = _combo.getValue();
+
+				if (_type == "全部")
+
+					this.getStore().clearFilter();
+
+				else
+
+					this.getStore().filter("type", _combo.getValue());
+
+			},
+			onSaveButtonClick : function() {
+
+				var _m = this.getStore().modified;
+				// alert(Ext.util.JSON.encode(_m));
+				var _temp = [];
+
+				for (var _i = 0; _i < _m.length; _i++) {
+
+					if (_m[_i].get("id") == "")
+
+						continue;
+
+					var _data = {};
+
+					var _j = "";
+
+					for (_j in _m[_i].modified)
+
+						_data[_j] = _m[_i].get(_j);
+
+					_temp.push(Ext.apply(_data, {
+								id : _m[_i].get("id")
+							}));
+
+				}
+
+				for (var _i = 0; _i < this.inserted.length; _i++)
+
+					_temp.push(this.inserted[_i].data);
+
+				this.conn.on("requestcomplete", this.onSaveInsertData, this);
+
+				this.conn.request({
+					url : "http://localhost/extjstest/server/app/test/18/post.asp",
+					params : {
+						content : Ext.util.JSON.encode(_temp)
+					}
+				});
+				alert(Ext.util.JSON.encode(_temp));
+				this.getStore().commitChanges();
+
+				this.onViewTypeSelect(this.typeCmb);
+			},
+			onInsertButtonClick : function() {
+
+				var _rs = new Ext.data.Record({
+							id : "",
+							type : "",
+							money : 0
+						});
+
+				this.getStore().add(_rs);
+
+				_rs.set("type", "收入");
+
+				_rs.set("money", 1);
+
+				this.inserted.push(_rs);
+
+				this.startEditing(this.getStore().getCount() - 1, 0);
+			},
+			onSaveInsertData : function(_conn, _response) {
+
+				var _xml = _response.responseXML;
+
+				var _root = _xml.documentElement;
+
+				for (var _i = 0; _i < _root.childNodes.length; _i++) {
+
+					this.inserted[_i].set("id", _root.childNodes[_i].text);
+
+				}
+
+				this.inserted = [];
+			},
+			onRemoveButtonClick : function() {
+
+				var _sm = this.getSelectionModel();
+
+				try {
+
+					if (_sm.getCount() == 0)
+
+						throw Error("尚未选定一条记录");
+
+					Ext.Msg.confirm("系统询问", "你是否确认删除此条记录?",
+							this.onRemoveQuestion, this);
+
+				} catch (_err) {
+
+					Ext.Msg.alert("系统提示", _err.description);
+				}
+			},
+			onRemoveQuestion : function(_btn) {
+
+				if (_btn == "yes") {
+
+					var _rs = this.getSelectionModel().getSelected();
+
+					this.getStore().remove(_rs);
+
+					if (_rs.get("id") != "") {
+
+						this.conn.un("requestcomplete", this.onSaveInsertData,
+								this);
+
+						this.conn.request({
+							url : "http://localhost/extjstest/server/app/test/18/delete.asp",
+							params : {
+								id : _rs.get("id")
+							}
+						});
+
+					}
+
+					else {
+
+						this.inserted.remove(_rs);
+
+						this.getStore().modified.remove(_rs);
+
+					}
+
+				}
+			}
+		});
 org.kyerp.warehouse.EnteringMaterialFormPanel = Ext.extend(Ext.form.FormPanel,
 		{
 			url : "",
 			warehouseStore : null,
 			materialListStroe : null,
+			opeaItems : null,
 			constructor : function(_cfg) {
 				if (_cfg == null)
 					_cfg = {};
 				Ext.apply(this, _cfg);
+				this.opeaItems = new org.kyerp.warehouse.EnteringMaterialItems();
 				this.warehouseStore = new Ext.data.Store({
 							url : org.kyerp.warehouse.WarehousePanel_STORE_URL,
 							reader : new Ext.data.JsonReader({
@@ -100,87 +510,100 @@ org.kyerp.warehouse.EnteringMaterialFormPanel = Ext.extend(Ext.form.FormPanel,
 								layout : 'column',
 								baseCls : "x-plain",
 								items : [{
-									columnWidth : .3,
-									xtype : 'panel',
-									layout : 'form',
-									baseCls : "x-plain",
-									labelAlign : 'right',
-									defaultType : "textfield",
-									defaults : {
-										anchor : '92%'
-									},
-									items : [{fieldLabel : '入库单号'}, {fieldLabel : '入库时间'}]
-								}, {
-									columnWidth : .3,
-									xtype : 'panel',
-									layout : 'form',
-									baseCls : "x-plain",
-									labelAlign : 'right',
-									defaultType : "textfield",
-									defaults : {
-										anchor : '92%'
-									},
-									items : [{fieldLabel : '经办人'}, {fieldLabel : '库管员'}]
-								}, {
-									columnWidth : .4,
-									xtype : 'panel',
-									layout : 'form',
-									baseCls : "x-plain",
-									labelAlign : 'right',
-									defaultType : "textfield",
-									defaults : {
-										anchor : '92%'
-									},
-									items : [{fieldLabel : '仓库名称'}, {fieldLabel : '入库类型'}]
-								}]
-							}, {
-								xtype : 'editorgrid',
-								//anchor : "100",
-								//title : '入库项目',
-								tbar : [{
-											text : "添  加",
-											iconCls : 'icon-utils-s-add',
-											handler : function() {
+											columnWidth : .3,
+											xtype : 'panel',
+											layout : 'form',
+											baseCls : "x-plain",
+											labelAlign : 'right',
+											defaultType : "textfield",
+											defaults : {
+												anchor : '92%'
 											},
-											scope : this
-										}, "-", {
-											text : "修  改",
-											iconCls : 'icon-utils-s-edit',
-											handler : function() {
-											},
-											scope : this
-										}, "-", {
-											text : "删  除",
-											iconCls : 'icon-utils-s-delete',
-											handler : function() {
-												Ext.Msg.confirm("系统提示",
-														"你确定删除此记录吗?",
-														this.onRemove, this);
-											},
-											scope : this
-										}],
-								colModel : new Ext.grid.ColumnModel([{
-											header : "姓名",
-											editor : new Ext.form.TextField()
-										}, {
-											header : "年龄"
-										}, {
-											header : "性别"
-										}]),
-								store : new Ext.data.JsonStore({
-											data : [{
-														name : "陈治文",
-														age : 28,
-														sex : "男"
+											items : [{
+														fieldLabel : '入库类型'
 													}, {
-														name : "张妍娜",
-														age : 25,
-														sex : "女"
-													}],
-											fields : ["name", "age", "sex"]
-										}),
-								autoHeight : true
-							}]
+														fieldLabel : '联系人'
+													}, {
+														fieldLabel : '入库时间',
+														xtype : 'datefield',
+														format : 'Y-m-d'
+													}]
+										}, {
+											columnWidth : .25,
+											xtype : 'panel',
+											layout : 'form',
+											baseCls : "x-plain",
+											labelAlign : 'right',
+											defaultType : "textfield",
+											defaults : {
+												anchor : '92%'
+											},
+											items : [{
+														fieldLabel : '库管员'
+													}, {
+														fieldLabel : '联系电话'
+													}, {
+														fieldLabel : '负责人'
+													}]
+										}, {
+											columnWidth : .45,
+											xtype : 'panel',
+											layout : 'form',
+											baseCls : "x-plain",
+											labelAlign : 'right',
+											defaultType : "textfield",
+											defaults : {
+												anchor : '92%'
+											},
+											items : [{
+												fieldLabel : '供应商',
+												xtype : 'combo',
+												store : new Ext.data.Store({
+													autoLoad : {
+														baseParams : {
+															limit : 20
+														}
+													},
+													url : "warehouse/Supplier/jsonList.html",
+													reader : new Ext.data.JsonReader(
+															{
+																totalProperty : "totalProperty",
+																root : "rows",
+																id : "id"
+															},
+															new Ext.data.Record.create([
+																	{
+																		name : "id",
+																		type : "int"
+																	}, {
+																		name : "name",
+																		type : "string"
+																	}, {
+																		name : "nameSpell",
+																		type : "string"
+																	}, {
+																		name : "fullName",
+																		type : "string"
+																	}, {
+																		name : "qualified",
+																		type : 'boolean'
+																	}]))
+												}),
+												hiddenName : 'supplierId',
+												pageSize : 20,
+												valueField : 'id',
+												displayField : 'name',
+												mode : 'local',
+												allowBlank : false,
+												emptyText : '请选择',
+												triggerAction : 'all'
+											}, {
+												fieldLabel : '联系地址'
+											}, {
+												fieldLabel : '备注'
+											}]
+										}]
+							}, this.opeaItems]
 						});
 				this.addEvents("submit");
 			},
@@ -200,6 +623,48 @@ org.kyerp.warehouse.EnteringMaterialFormPanel = Ext.extend(Ext.form.FormPanel,
 
 				} catch (_err) {
 				}
+			},
+			onSaveButtonClick : function() {
+				var _m = this.getStore().modified;
+
+				var _temp = [];
+
+				for (var _i = 0; _i < _m.length; _i++) {
+
+					if (_m[_i].get("id") == "")
+
+						continue;
+
+					var _data = {};
+
+					var _j = "";
+
+					for (_j in _m[_i].modified)
+
+						_data[_j] = _m[_i].get(_j);
+
+					_temp.push(Ext.apply(_data, {
+								id : _m[_i].get("id")
+							}));
+
+				}
+
+				for (var _i = 0; _i < this.inserted.length; _i++)
+
+					_temp.push(this.inserted[_i].data);
+
+				this.conn.on("requestcomplete", this.onSaveInsertData, this);
+
+				this.conn.request({
+					url : "http://localhost/extjstest/server/app/test/18/post.asp",
+					params : {
+						content : Ext.util.JSON.encode(_temp)
+					}
+				});
+
+				this.getStore().commitChanges();
+
+				this.onViewTypeSelect(this.typeCmb);
 			},
 			getValues : function() {
 				if (this.getForm().isValid())
@@ -229,7 +694,7 @@ org.kyerp.warehouse.EnteringMaterialInfoWindow = Ext.extend(Ext.Window, {
 				org.kyerp.warehouse.EnteringMaterialInfoWindow.superclass.constructor
 						.call(this, {
 									plain : true,
-									width : 730,
+									width : 760,
 									height : 450,
 									layout : 'fit',
 									minimizable : true,
@@ -415,11 +880,6 @@ org.kyerp.warehouse.EnteringMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 							}],
 					enableColumnMove : false,
 					colModel : new Ext.grid.ColumnModel([this.expander, {
-								header : "ID",
-								align : "center",
-								width : 50,
-								menuDisabled : true
-							}, {
 								header : "编号",
 								dataIndex : "serialNumber",
 								width : 100,
@@ -529,3 +989,13 @@ org.kyerp.warehouse.EnteringMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 });
 /** ***************************************************************************** */
 
+Ext.extend(org.kyerp.module, {
+			init : function() {
+				this.body = new org.kyerp.warehouse.EnteringMaterialPanel({
+							border : false,
+							bodyBorder : false
+						});
+				this.main.add(this.body);
+				this.main.doLayout();
+			}
+		});
