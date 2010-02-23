@@ -18,9 +18,9 @@ public class EnteringMaterialExtGridRow {
 	/** 入库时间 */
 	@DateTimeFormat(iso = ISO.DATE)
 	private Date				enteringTime;
-	/** 仓库名称 */
-	private Long				warehouseId;
-	private String				warehouseName;
+	/** 供应商名称 */
+	private Long				supplierId;
+	private String				supplierName;
 	/** 库管员 */
 	private Long				keeperId;
 	private String				keeperName;
@@ -28,6 +28,8 @@ public class EnteringMaterialExtGridRow {
 	private Long				operatorId;
 	private String				operatorName;
 	/** 物料明细 **/
+	// 用于传递json序列
+	private String				opeItems;
 	private String				batchIds;
 	private String				batchNames;
 	private List<MaterialBatch>	batchs;
@@ -35,6 +37,14 @@ public class EnteringMaterialExtGridRow {
 	private List<MaterialBatch>	itemList	= new ArrayList<MaterialBatch>();
 
 	EnteringMaterialExtGridRow() {
+	}
+
+	public String getOpeItems() {
+		return opeItems;
+	}
+
+	public void setOpeItems(String opeItems) {
+		this.opeItems = opeItems;
 	}
 
 	public String getBatchNames() {
@@ -85,20 +95,20 @@ public class EnteringMaterialExtGridRow {
 		this.enteringTime = enteringTime;
 	}
 
-	public Long getWarehouseId() {
-		return warehouseId;
+	public Long getSupplierId() {
+		return supplierId;
 	}
 
-	public void setWarehouseId(Long warehouseId) {
-		this.warehouseId = warehouseId;
+	public void setSupplierId(Long supplierId) {
+		this.supplierId = supplierId;
 	}
 
-	public String getWarehouseName() {
-		return warehouseName;
+	public String getSupplierName() {
+		return supplierName;
 	}
 
-	public void setWarehouseName(String warehouseName) {
-		this.warehouseName = warehouseName;
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
 	}
 
 	public Long getKeeperId() {
