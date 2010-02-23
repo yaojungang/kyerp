@@ -1,7 +1,4 @@
-/** ***************************************************************************** */
-org.kyerp.warehouse.BrandPanel_STORE_URL = "warehouse/Brand/jsonList.html";
-org.kyerp.warehouse.BrandPanel_SAVE_URL = "warehouse/Brand/jsonSave.html";
-org.kyerp.warehouse.BrandPanel_DELETE_URL = "warehouse/Brand/jsonDelete.html";
+
 /** ***************************************************************************** */
 org.kyerp.warehouse.BrandFormPanel = Ext.extend(Ext.form.FormPanel, {
 			url : "",

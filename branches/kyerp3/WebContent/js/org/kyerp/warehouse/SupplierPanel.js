@@ -1,8 +1,4 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.SupplierPanel_STORE_URL = "warehouse/Supplier/jsonList.html";
-org.kyerp.warehouse.SupplierPanel_SAVE_URL = "warehouse/Supplier/jsonSave.html";
-org.kyerp.warehouse.SupplierPanel_DELETE_URL = "warehouse/Supplier/jsonDelete.html";
-/** ***************************************************************************** */
 org.kyerp.warehouse.SupplierFormPanel = Ext.extend(Ext.form.FormPanel, {
 			url : "",
 			constructor : function(_cfg) {
