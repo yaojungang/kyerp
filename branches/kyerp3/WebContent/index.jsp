@@ -34,6 +34,7 @@
 <script type="text/javascript" src="js/org/kyerp/share/ux/pPageSize.js"></script>
 <script type="text/javascript" src="js/org/kyerp/share/ux/TreeComboBox.js"></script>
 <script type="text/javascript" src="js/org/kyerp/share/ux/Ext.ux.form.DateTime.js"></script>
+<script type="text/javascript" src="js/org/kyerp/share/ux/Ext.ux.renderer.ComboRenderer.js"></script>
 <!-- 自定义的文件 -->
 <script type="text/javascript" src="js/org/kyerp/ns.js"></script>
 <script type="text/javascript" src="js/org/kyerp/base.js"></script>
