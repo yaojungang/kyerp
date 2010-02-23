@@ -27,6 +27,9 @@ public class MaterialBatch extends BaseDomain implements Serializable {
 	/** 供应商 */
 	@ManyToOne
 	private Supplier			supplier;
+	/* 仓库 */
+	@ManyToOne
+	private Warehouse			warehouse;
 	/** 单位 */
 	@ManyToOne
 	private Unit				unit;
@@ -34,6 +37,8 @@ public class MaterialBatch extends BaseDomain implements Serializable {
 	private Float				amount;
 	/** 单价 */
 	private BigDecimal			price;
+	/** 金额 */
+	private BigDecimal			money;
 	/** 备注 */
 	private String				remark;
 
@@ -43,6 +48,14 @@ public class MaterialBatch extends BaseDomain implements Serializable {
 	public MaterialBatch(String batchNumber) {
 		super();
 		this.batchNumber = batchNumber;
+	}
+
+	public BigDecimal getMoney() {
+		return money;
+	}
+
+	public void setMoney(BigDecimal money) {
+		this.money = money;
 	}
 
 	public String getBatchNumber() {
@@ -55,6 +68,14 @@ public class MaterialBatch extends BaseDomain implements Serializable {
 
 	public Material getMaterial() {
 		return material;
+	}
+
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
 	}
 
 	public void setMaterial(Material material) {
