@@ -89,7 +89,6 @@ public class BuyerOfEnteringMaterialController {
 					buyerOfEnteringMaterial);
 		} else {
 			buyerOfEnteringMaterial = new BuyerOfEnteringMaterial();
-			buyerOfEnteringMaterial.setWarehouse(new Warehouse());
 			List<MaterialBatch> materialBatchs = new ArrayList<MaterialBatch>();
 			MaterialBatch mb = new MaterialBatch();
 			mb.setMaterial(materialService.find(id));
@@ -105,8 +104,6 @@ public class BuyerOfEnteringMaterialController {
 	public String add(BuyerOfEnteringMaterial buyerOfEnteringMaterial,
 			ModelMap model, HttpServletRequest request, SessionStatus status) {
 
-		buyerOfEnteringMaterial.setWarehouse(warehouseService
-				.find(buyerOfEnteringMaterial.getWarehouse().getId()));
 		buyerOfEnteringMaterialService.save(buyerOfEnteringMaterial);
 
 		for (MaterialBatch mb : buyerOfEnteringMaterial.getBatchs()) {
