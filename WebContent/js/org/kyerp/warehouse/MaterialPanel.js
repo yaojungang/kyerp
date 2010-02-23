@@ -1,17 +1,6 @@
 //Ext.DomHelper.append(Ext.get('incluedJs'), {tag: 'script',type:'text/javascript',src:'js/org/kyerp/warehouse/MaterialCategoryPanel.js'});
 //Ext.DomHelper.append(Ext.get('incluedJs'), {tag: 'script',type:'text/javascript',src:'js/org/kyerp/warehouse/MaterialListPanel.js'});
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialPanel_STORE_URL = "warehouse/Material/jsonList.html";
-/** ***************************************************************************** */
-org.kyerp.warehouse.MaterialCategoryPanel_STORE_URL = "warehouse/MaterialCategory/jsonList.html";
-org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL = "warehouse/MaterialCategory/jsonTree.html";
-org.kyerp.warehouse.MaterialCategoryPanel_DATA_SAVE_URL = "warehouse/MaterialCategory/jsonSave.html";
-org.kyerp.warehouse.MaterialCategoryPanel_DATA_DELETE_URL = "warehouse/MaterialCategory/jsonDelete.html";
-/** ***************************************************************************** */
-org.kyerp.warehouse.MaterialListPanel_STORE_URL = "warehouse/Material/jsonList.html";
-org.kyerp.warehouse.MaterialListPanel_SAVE_URL = "warehouse/Material/jsonSave.html";
-org.kyerp.warehouse.MaterialListPanel_DELETE_URL = "warehouse/Material/jsonDelete.html";
-/** ***************************************************************************** */
 org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 	url : "",
 	brandStore : null,

@@ -229,6 +229,7 @@ Ext.form.Field.prototype.msgTarget = 'side';
 Ext.onReady(function() {
 	Ext.QuickTips.init();
 	Ext.lib.Ajax.defaultPostHeader += ";charset=utf-8";
+	Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 	kyerpApp = new org.kyerp.base();
 	setTimeout(function() {
 				Ext.get('loading').remove();
