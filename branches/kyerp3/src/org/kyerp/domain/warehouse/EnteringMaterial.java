@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -35,9 +36,9 @@ public class EnteringMaterial extends BaseDomain implements Serializable {
 	private String				serialNumber		= "";
 	/** 入库时间 */
 	private Date				enteringTime;
-	/** 仓库名称 */
+	/** 供应商名称 */
 	@ManyToOne
-	private Warehouse			warehouse;
+	private Supplier			Supplier;
 	/** 库管员 */
 	@ManyToOne
 	private Employee			keeper;
@@ -45,7 +46,8 @@ public class EnteringMaterial extends BaseDomain implements Serializable {
 	@ManyToOne
 	private Employee			operator;
 	/** 物料明细 **/
-	@OneToMany(mappedBy = "enteringMaterial")
+	@OneToMany(mappedBy = "enteringMaterial", cascade = { CascadeType.PERSIST,
+			CascadeType.REMOVE })
 	private List<MaterialBatch>	batchs				= new ArrayList<MaterialBatch>();
 
 	/** 入库方式 */
@@ -62,12 +64,12 @@ public class EnteringMaterial extends BaseDomain implements Serializable {
 		this.enteringTime = enteringTime;
 	}
 
-	public Warehouse getWarehouse() {
-		return warehouse;
+	public Supplier getSupplier() {
+		return Supplier;
 	}
 
-	public void setWarehouse(Warehouse warehouse) {
-		this.warehouse = warehouse;
+	public void setSupplier(Supplier supplier) {
+		Supplier = supplier;
 	}
 
 	public Employee getKeeper() {
