@@ -1,12 +1,14 @@
 package org.kyerp.web.controller.warehouse;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.kyerp.domain.base.views.ExtGridList;
@@ -16,6 +18,7 @@ import org.kyerp.domain.warehouse.MaterialBatch;
 import org.kyerp.service.warehouse.IEnteringMaterialService;
 import org.kyerp.service.warehouse.IMaterialBatchService;
 import org.kyerp.service.warehouse.IMaterialService;
+import org.kyerp.service.warehouse.ISupplierService;
 import org.kyerp.service.warehouse.IWarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -40,6 +43,8 @@ public class EnteringMaterialController {
 	IWarehouseService			warehouseService;
 	@Autowired
 	IMaterialBatchService		materialBatchService;
+	@Autowired
+	ISupplierService			supplierService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -64,9 +69,9 @@ public class EnteringMaterialController {
 			n.setId(o.getId());
 			n.setSerialNumber(o.getSerialNumber());
 			n.setEnteringTime(o.getEnteringTime());
-			if (null != o.getWarehouse()) {
-				n.setWarehouseId(o.getWarehouse().getId());
-				n.setWarehouseName(o.getWarehouse().getName());
+			if (null != o.getSupplier()) {
+				n.setSupplierId(o.getSupplier().getId());
+				n.setSupplierName(o.getSupplier().getName());
 			}
 			if (null != o.getKeeper()) {
 				n.setKeeperId(o.getKeeper().getId());
@@ -80,7 +85,7 @@ public class EnteringMaterialController {
 				StringBuffer mbIds = new StringBuffer();
 				StringBuffer mbNames = new StringBuffer();
 				for (MaterialBatch mBatch : o.getBatchs()) {
-					mbIds.append(mBatch.getId()).append(",");
+					mbIds.append(mBatch.getMaterial().getId()).append(",");
 					mbNames.append(mBatch.getMaterial().getName()).append(",");
 				}
 				mbIds.deleteCharAt(mbIds.length() - 1);
@@ -122,22 +127,43 @@ public class EnteringMaterialController {
 			enteringMaterial.setEnteringTime(row.getEnteringTime());
 		}
 		enteringMaterial.setSerialNumber(row.getSerialNumber());
-		if (null != row.getWarehouseId()) {
-			enteringMaterial.setWarehouse(warehouseService.find(row
-					.getWarehouseId()));
+		if (null != row.getSupplierId()) {
+			enteringMaterial.setSupplier(supplierService.find(row
+					.getSupplierId()));
 		}
 		if (null != row.getId() && row.getId() > 0) {
 			enteringMaterialService.update(enteringMaterial);
 		} else {
 			enteringMaterialService.saveEnteringMaterial(enteringMaterial);
 		}
-		if (null != row.getBatchs() && row.getBatchs().size() > 0) {
+		if (null != row.getOpeItems() && row.getOpeItems().length() > 0) {
 			List<MaterialBatch> mbs = new ArrayList<MaterialBatch>();
-			for (MaterialBatch b0 : row.getBatchs()) {
-				System.out.println("bid:" + b0.getId());
+			JSONArray jsonArray = new JSONArray();
+			JSONObject jsonObject = new JSONObject();
+			jsonArray = JSONArray.fromObject(row.getOpeItems());
+			for (int i = 0; i < jsonArray.size(); i++) {
 				MaterialBatch b = new MaterialBatch();
-				b.setMaterial(materialService.find(b0.getId()));
-				b.setPrice(b0.getPrice());
+				jsonObject = jsonArray.getJSONObject(i);
+				b.setMaterial(materialService.find(new Long(jsonObject
+						.getString("materialId"))));
+				b.setPrice(new BigDecimal(jsonObject.getString("price")));
+				b.setAmount(new Float(jsonObject.getString("amount")));
+				b
+						.setMoney(new BigDecimal(jsonObject.getString("price"))
+								.multiply(new BigDecimal(jsonObject
+										.getString("amount"))));
+				b.setWarehouse(warehouseService.find(jsonObject
+						.getLong("warehouseId")));
+				b
+						.setUnit(materialService.find(
+								new Long(jsonObject.getString("materialId")))
+								.getUnit());
+				if (null != jsonObject.getString("batchNumber")) {
+					b.setBatchNumber(jsonObject.getString("batchNumber"));
+				}
+				if (null != jsonObject.getString("remark")) {
+					b.setRemark(jsonObject.getString("remark"));
+				}
 				b.setEnteringMaterial(enteringMaterial);
 				materialBatchService.save(b);
 				mbs.add(b);
