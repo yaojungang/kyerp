@@ -237,21 +237,20 @@ org.kyerp.warehouse.EnteringMaterialItems = Ext.extend(
 			},
 			onInsertButtonClick : function() {
 				var _rs = new Ext.data.Record({
-							id : "",
-							materialId : "",
+							materialId : '',
 							unit : '',
 							price : 0,
 							amount : 1,
-							warehouseId : "",
+							warehouseId : '',
 							money : 0,
 							batchNumber : '',
 							remark : ''
 						});
 				_rs.set('price', 0);
 				_rs.set('amount', 1);
-				_rs.set("warehouseId", 1);
+				_rs.set('warehouseId', 1);
 				_rs.set("money", 0);
-				_rs.set('batchNumber', "");
+				_rs.set('batchNumber', '');
 				_rs.set('remark', '');
 				this.inserted.push(_rs);
 				this.getStore().add(_rs);
