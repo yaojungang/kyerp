@@ -18,7 +18,7 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/Library/js/ext/ext-all.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/Library/js/ext/source/locale/ext-lang-zh_CN.js"></script>
+	src="${pageContext.request.contextPath}/Library/js/ext/ext-lang-zh_CN.js"></script>
 <script type="text/javascript" src="addAF.js"></script>
 <script type="text/javascript">
   function addD(){

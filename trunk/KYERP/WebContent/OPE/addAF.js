@@ -35,7 +35,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
         displayField: 'value',
-        readOnly: true,
 		applyTo: 'comboYW'
     });
     var comboClient = new Ext.form.ComboBox({
@@ -48,7 +47,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'CCCom',
         displayField: 'CCCom',
-        readOnly: true,
         resizable:true,
         minListWidth:380,
         pageSize: 5,
@@ -62,7 +60,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'CLmLinkman',
         displayField: 'CLmLinkman',
-        readOnly: false,
 		applyTo: 'comboLinkman'
     });
     var comboTel = new Ext.form.ComboBox({
@@ -73,7 +70,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'CLmTel',
         displayField: 'CLmTel',
-        readOnly: false,
 		applyTo: 'comboTel'
     });
     var comboPresswork = new Ext.form.ComboBox({
@@ -86,7 +82,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'presswork',
         displayField: 'presswork',
-        readOnly: false,
         resizable:true,
         minListWidth:480,
 		applyTo: 'comboPresswork'
@@ -99,7 +94,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'seriesName',
         displayField: 'seriesName',
-        readOnly: false,
         resizable:true,
         minListWidth:480,
 		applyTo: 'comboSeriesName'
@@ -112,7 +106,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'CCAddress',
         displayField: 'CCAddress',
-        readOnly: false,
         resizable:true,
         minListWidth:480,
 		applyTo: 'comboSendPlace'
@@ -131,7 +124,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
         displayField: 'value',
-        readOnly: false,
         applyTo: 'af_pcAf'
     });
     
@@ -148,7 +140,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
         displayField: 'value',
-        readOnly: false,
         applyTo: 'af_isbn'
     });
 
@@ -166,7 +157,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
         displayField: 'value',
-        readOnly: false,
         applyTo: 'af_format'
     });
     
@@ -184,7 +174,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
         displayField: 'value',
-        readOnly: false,
         applyTo: 'af_fps'
     });
     
@@ -202,7 +191,6 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
         displayField: 'value',
-        readOnly: false,
         applyTo: 'af_edition'
     });
     
@@ -218,19 +206,18 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
 	    displayField: 'value',
-        readOnly: false,
         applyTo: 'af_bm'
     });
     var datepicker_planSendSample = new Ext.form.DateField({
     	format:"Y-m-d",
     	allowBlank:false,
-    	readOnly: true,
+    	value:new Date(),
     	applyTo: 'af_planSendSample'
     });
     var datepicker_planDeliver = new Ext.form.DateField({
     	format:"Y-m-d",
     	allowBlank:false,
-    	readOnly: true,
+    	value:new Date(),
     	applyTo: 'af_planDeliver'
     });
 

@@ -33,6 +33,7 @@
 		<pattern>/*/saveAF*</pattern>
 		<pattern>/*/editAF*</pattern>
 		<pattern>/*/addAF_Element_view*</pattern>
+		<pattern>/*/addAF.action*</pattern>
 	</decorator>
 	<decorator name="pages" page="pages.jsp" />
 	<decorator name="panel" page="panel.jsp" />
