@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.StrutsStatics;
+import org.jasig.cas.client.authentication.AttributePrincipal;
 
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
@@ -21,42 +22,40 @@ import com.tyopf.vo.Role;
 import com.tyopf.vo.SystemFunctions;
 import com.tyopf.vo.User;
 
-import edu.yale.its.tp.cas.client.filter.CASFilter;
-
 public class SystemFunctionsInterceptor extends AbstractInterceptor {
-	private static final long serialVersionUID = 2851203712084901130L;
-	private String checkFunctions;
-	private String message;
-	private UserDAO userDAO;
-	
+	private static final long	serialVersionUID	= 2851203712084901130L;
+	private String				checkFunctions;
+	private String				message;
+	private UserDAO				userDAO;
+
 	public String getCheckFunctions() {
 		return checkFunctions;
 	}
-	
+
 	public UserDAO getUserDAO() {
 		return userDAO;
 	}
-	
+
 	public void setUserDAO(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
-	
+
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
 	}
-	
+
 	public String getMessage() {
 		return message;
 	}
-	
+
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
+
 	public void setCheckFunctions(String checkFunctions) {
 		this.checkFunctions = checkFunctions;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
@@ -65,14 +64,34 @@ public class SystemFunctionsInterceptor extends AbstractInterceptor {
 		Map session = invocation.getInvocationContext().getSession();
 		Map request0 = (Map) invocation.getInvocationContext().get("request");
 		ActionContext actionContext = invocation.getInvocationContext();
-		HttpServletRequest request = (HttpServletRequest) actionContext.get(StrutsStatics.HTTP_REQUEST);
+		HttpServletRequest request = (HttpServletRequest) actionContext
+				.get(StrutsStatics.HTTP_REQUEST);
 		User user = (User) session.get("user");
 		if (null == user) {
+			String username = "";
 			// CAS Start
-			String username = (String) session.get(CASFilter.CAS_FILTER_USER);
+			// 2.x获取用户名的方法
+			// String username = (String)
+			// session.get(CASFilter.CAS_FILTER_USER);
+			// String username = (String) session
+			// .get("edu.yale.its.tp.cas.client.filter.user");
+			// 3.x 获取username的方法
+
+			AttributePrincipal principal = (AttributePrincipal) request
+					.getUserPrincipal();
+			request.getRemoteUser();
+			if (null != principal) {
+				username = principal.getName();
+				System.out.println("User:" + username + " Longing from CAS!");
+// Long orgnId = Long.parseLong(principal.getAttributes().get(
+// "orgnId").toString());
+			}
+
 			if (username.length() > 0) {
 				user = (User) userDAO.getUserByUsername(username);
-				if (null != user) logger.warn(user.getUsername() + " get User from CAS!");
+				if (null != user) {
+					logger.warn(user.getUsername() + " get User from CAS!");
+				}
 			}
 			// CAS End
 			if (null == user) {
@@ -82,29 +101,36 @@ public class SystemFunctionsInterceptor extends AbstractInterceptor {
 						if ("userId".equals(cookies[i].getName())) {
 							int userId = new Integer(cookies[i].getValue());
 							user = (User) userDAO.getUserById(userId);
-							if (null != user) logger.warn(user.getUsername() + " get User from cookie!");
+							if (null != user) {
+								logger.warn(user.getUsername()
+										+ " get User from cookie!");
+							}
 						}
 					}
 				}
 			}
 			if (null != user) {
 				logger.warn(user.getUsername() + " Login !");
-				user.setLastLoginIp(org.apache.struts2.ServletActionContext.getRequest().getRemoteAddr());
+				user.setLastLoginIp(org.apache.struts2.ServletActionContext
+						.getRequest().getRemoteAddr());
 				Set<Role> userRoles = user.getRoles();
 				List<String> userSystemFunctionList = new ArrayList<String>();
 				for (Role role : userRoles) {
-					for (SystemFunctions systemFunction : role.getSystemFunctions()) {
+					for (SystemFunctions systemFunction : role
+							.getSystemFunctions()) {
 						userSystemFunctionList.add(systemFunction.getName());
 					}
 				}
-				Employee e = userDAO.getEmployeeById(user.getEmployee().getId());
+				Employee e = userDAO
+						.getEmployeeById(user.getEmployee().getId());
 				session.put("user", user);
 				session.put("employee", e);
 				session.put("userSystemFunctionList", userSystemFunctionList);
 			}
 		}
 		if (null != user) {
-			List<String> userSystemFunctionList = (List<String>) session.get("userSystemFunctionList");
+			List<String> userSystemFunctionList = (List<String>) session
+					.get("userSystemFunctionList");
 			for (String systemfunction : userSystemFunctionList) {
 				if (checkFunctions.equals(systemfunction)) {
 					getAuth = true;
