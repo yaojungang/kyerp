@@ -31,85 +31,85 @@ import com.tyopf.vo.User;
 @SuppressWarnings("serial")
 public class OPEAction extends ActionSupport {
 
-	protected AfBase af;
+	protected AfBase					af;
 
-	protected IAFService afService;
+	protected IAFService				afService;
 
-	protected IClientService clientService;
+	protected IClientService			clientService;
 
-	protected IUserService userService;
+	protected IUserService				userService;
 
-	protected IBindingFactoryService bindingFactoryService;
+	protected IBindingFactoryService	bindingFactoryService;
 
-	protected AfElement afe;
+	protected AfElement					afe;
 
-	protected AfDispose afd;
+	protected AfDispose					afd;
 
-	private List<AfElement> afes;
+	private List<AfElement>				afes;
 
-	private List<AfDispose> afds;
+	private List<AfDispose>				afds;
 
-	private List<AfValuation> afvs;
+	private List<AfValuation>			afvs;
 
-	private List<AfValuation> bj;
+	private List<AfValuation>			bj;
 
-	private Integer moneyStatus;
+	private Integer						moneyStatus;
 
-	private Integer fapiaoStatus;
+	private Integer						fapiaoStatus;
 
-	private String moneyInputRemark;
+	private String						moneyInputRemark;
 
-	private String moneyRemark;
+	private String						moneyRemark;
 
-	private Integer currentPage = 1;
+	private Integer						currentPage		= 1;
 
-	private Timestamp moneyTime;
+	private Timestamp					moneyTime;
 
-	private Timestamp fapiaoTime;
+	private Timestamp					fapiaoTime;
 
-	private long afId;
+	private long						afId;
 
-	private String message;
+	private String						message;
 
-	private String AFType = "SK";
+	private String						AFType			= "SK";
 
-	private String AFPage = "Books";
+	private String						AFPage			= "Books";
 
-	private String pressworkName = "";
+	private String						pressworkName	= "";
 
-	private String AFNo = "";
+	private String						AFNo			= "";
 
-	private Integer intAFNo = 0;
-	private Integer intYZNo = 0;
-	private Integer recentSize = 100;
+	private Integer						intAFNo			= 0;
+	private Integer						intYZNo			= 0;
+	private Integer						recentSize		= 100;
 
-	private double moneyFact = 0;
+	private double						moneyFact		= 0;
 
-	private long StartAFNo = 20070001;
+	private long						StartAFNo		= 20070001;
 
-	private long EndAFNo = 20079999;
+	private long						EndAFNo			= 20079999;
 
-	private String YWName;
+	private String						YWName;
 
-	private String client;
+	private String						client;
 
-	private String moneyGiveMan;
+	private String						moneyGiveMan;
 
-	private String ChejianName;
+	private String						ChejianName;
 
-	private String columnName;
+	private String						columnName;
 
-	private String clientName;
+	private String						clientName;
 
-	private String linkmanName;
+	private String						linkmanName;
 
-	private List<String[]> columnNames;
+	private List<String[]>				columnNames;
 
-	private List<String[]> ywlist;
+	private List<String[]>				ywlist;
 
-	private List<ClientC> clientList;
+	private List<ClientC>				clientList;
 
-	private List<String[]> pressworklist;
+	private List<String[]>				pressworklist;
 
 	public List<ClientC> getClientList() {
 		return clientList;
@@ -511,6 +511,7 @@ public class OPEAction extends ActionSupport {
 		return SUCCESS;
 
 	}
+
 	@SuppressWarnings("unchecked")
 	public String getAFByYZNo() throws Exception {
 		List ListAF = afService.getAFByYZNo(intYZNo);
@@ -521,7 +522,7 @@ public class OPEAction extends ActionSupport {
 		request.put("ListAF", ListAF);
 		request.put("pageTitle", "按印制单号查询任务单");
 		return SUCCESS;
-		
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -534,7 +535,7 @@ public class OPEAction extends ActionSupport {
 		List bindingFactoryList = bindingFactoryService.getAllBindingFactorys();
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("bindingFactoryList", bindingFactoryList);
-		Logger logger=Logger.getLogger(this.getClass());
+		Logger logger = Logger.getLogger(this.getClass());
 		logger.warn(u.getUsername() + " Start a New AF !");
 		session.put("af", null);
 		return SUCCESS;
@@ -622,7 +623,7 @@ public class OPEAction extends ActionSupport {
 		session.put("af", af);
 		return SUCCESS;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public String FPAF_save() throws Exception {
 		Map session = ActionContext.getContext().getSession();
@@ -632,10 +633,12 @@ public class OPEAction extends ActionSupport {
 			for (Iterator iterator = afvs.iterator(); iterator.hasNext();) {
 				AfValuation afv = (AfValuation) iterator.next();
 
-				if ("零二".equals(afv.getChejian()))
+				if ("零二".equals(afv.getChejian())) {
 					afv.setChejian("02");
-				if ("零五".equals(afv.getChejian()))
+				}
+				if ("零五".equals(afv.getChejian())) {
 					afv.setChejian("05");
+				}
 
 				AfDispose afd = new AfDispose();
 				afd.setAfDItem(afv.getItemName());
@@ -677,22 +680,22 @@ public class OPEAction extends ActionSupport {
 		af.setLastModify(t);
 		// 保存任务单
 		afService.saveAF(af);
-		Logger logger=Logger.getLogger(this.getClass());
-		logger.warn(u.getUsername() + " save AF:" + af.getIso()
-				+ af.getAfNo());
+		Logger logger = Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername() + " save AF:" + af.getIso() + af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
 			Map request = (Map) ActionContext.getContext().get("request");
 			request.put("AFInfo", afg);
 			AFPage = afg.getAfType();
-			if ("Books".equals(afg.getAfType()) || "".equals(afg.getAfType()))
+			if ("Books".equals(afg.getAfType()) || "".equals(afg.getAfType())) {
 				AFPage = "AF";
+			}
 			return SUCCESS;
 		}
 		message = "获取任务单失败!";
 		return ERROR;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public String FPAddDispose_save() throws Exception {
 		Map session = ActionContext.getContext().getSession();
@@ -700,16 +703,18 @@ public class OPEAction extends ActionSupport {
 
 		Set afdSet = af.getAfDispose();
 		Set afvSet = af.getAfValuation();
-//		Set afdSet = new HashSet();
-//		Set afvSet = new HashSet();
+// Set afdSet = new HashSet();
+// Set afvSet = new HashSet();
 		if (afvs != null) {
 			for (Iterator iterator = afvs.iterator(); iterator.hasNext();) {
 				AfValuation afv = (AfValuation) iterator.next();
 
-				if ("零二".equals(afv.getChejian()))
+				if ("零二".equals(afv.getChejian())) {
 					afv.setChejian("02");
-				if ("零五".equals(afv.getChejian()))
+				}
+				if ("零五".equals(afv.getChejian())) {
 					afv.setChejian("05");
+				}
 
 				AfDispose afd = new AfDispose();
 				afd.setAfDItem(afv.getItemName());
@@ -751,16 +756,16 @@ public class OPEAction extends ActionSupport {
 		af.setLastModify(t);
 		// 保存任务单
 		afService.saveAF(af);
-		Logger logger=Logger.getLogger(this.getClass());
-		logger.warn(u.getUsername() + " save AF:" + af.getIso()
-				+ af.getAfNo());
+		Logger logger = Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername() + " save AF:" + af.getIso() + af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
 			Map request = (Map) ActionContext.getContext().get("request");
 			request.put("AFInfo", afg);
 			AFPage = afg.getAfType();
-			if ("Books".equals(afg.getAfType()) || "".equals(afg.getAfType()))
+			if ("Books".equals(afg.getAfType()) || "".equals(afg.getAfType())) {
 				AFPage = "AF";
+			}
 			return SUCCESS;
 		}
 		message = "获取任务单失败!";
@@ -819,20 +824,20 @@ public class OPEAction extends ActionSupport {
 		User u = (User) session.get("user");
 		af.setFmp(u.getEmployee().getRealname());
 		// 修改时间为当前
-		
+
 		af.setLastModify(t);
 		// 保存任务单
 		afService.saveAF(af);
-		Logger logger=Logger.getLogger(this.getClass());
-		logger.warn(u.getUsername() + " save AF:" + af.getIso()
-				+ af.getAfNo());
+		Logger logger = Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername() + " save AF:" + af.getIso() + af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
 			Map request = (Map) ActionContext.getContext().get("request");
 			request.put("AFInfo", afg);
 			AFPage = afg.getAfType();
-			if ("Books".equals(afg.getAfType()) || "".equals(afg.getAfType()))
+			if ("Books".equals(afg.getAfType()) || "".equals(afg.getAfType())) {
 				AFPage = "AF";
+			}
 			return SUCCESS;
 		}
 		message = "获取任务单失败!";
@@ -855,7 +860,7 @@ public class OPEAction extends ActionSupport {
 						.hasNext();) {
 					AfDispose afd = (AfDispose) iterator.next();
 					afService.removeAFD(afd.getAfDId());
-					
+
 				}
 			}
 		}
@@ -866,10 +871,12 @@ public class OPEAction extends ActionSupport {
 					AfDispose afd = new AfDispose();
 					afd.setAfEType("快印");
 					afd.setAfDItem(afv.getItemName());
-					if ("零二".equals(afv.getChejian()))
+					if ("零二".equals(afv.getChejian())) {
 						afv.setChejian("02");
-					if ("零五".equals(afv.getChejian()))
+					}
+					if ("零五".equals(afv.getChejian())) {
 						afv.setChejian("05");
+					}
 					afd.setAfDFactory(afv.getChejian());
 					afd.setAfDRemark(afv.getCalProcess());
 					afd.setAfDAmount(new Long(afv.getAmount()));
@@ -898,7 +905,7 @@ public class OPEAction extends ActionSupport {
 				if (!(null == afvs.getItemName() || "".equals(afvs
 						.getItemName().trim()))) {
 					moneyShould = moneyShould + afvs.getTotalAmount();
-					
+
 				}
 			}
 		}
@@ -914,40 +921,56 @@ public class OPEAction extends ActionSupport {
 		af.setMoneyInputMan("系统计价");
 		af.setMoneyInputTime(t);
 		af.setMoneyInputRemark("系统自动计价");
-		
+
 		// 保存任务单
 		afService.saveAF(af);
-		Logger logger=Logger.getLogger(this.getClass());
-		logger.warn(u.getUsername() + " save AF:" + af.getIso()
-				+ af.getAfNo());
+		Logger logger = Logger.getLogger(this.getClass());
+		logger.warn(u.getUsername() + " save AF:" + af.getIso() + af.getAfNo());
 		AfBase afg = (AfBase) afService.getAFById(af.getAfId());
 		if (afg != null) {
 			Map request = (Map) ActionContext.getContext().get("request");
 			request.put("AFInfo", afg);
 			AFPage = afg.getAfType();
-			if ("Books".equals(afg.getAfType()) || "".equals(afg.getAfType()))
+			if ("Books".equals(afg.getAfType()) || "".equals(afg.getAfType())) {
 				AFPage = "AF";
+			}
 			return SUCCESS;
 		}
 		message = "获取任务单失败!";
 		return ERROR;
 	}
 
+	// 转开任务单
 	@SuppressWarnings("unchecked")
 	public String ZK() throws Exception {
 		AfBase af = (AfBase) afService.getAFByNo(AFNo);
 		af.setAfId(0);
 		af.setAfNo(0);
-		Timestamp t = new Timestamp(new GregorianCalendar(TimeZone
-				.getTimeZone("GMT")).getTimeInMillis());
-		af.setAd(t);
-		af.setLastModify(t);
+		// 修改版次
+		if (null != af.getEdition()) {
+			String[] editon0 = null;
+			StringBuilder editionBuilder = new StringBuilder();
+			editon0 = af.getEdition().split("-");
+			editionBuilder.append(editon0[0]).append("-").append(
+					new Integer(editon0[1]) + 1);
+			af.setEdition(editionBuilder.toString());
+			System.out.println("New Editon:" + editionBuilder.toString());
+		}
+		// 设置开单时间
+		af.setAd(new Date());
+		// 设置最后修改时间
+		af.setLastModify(new Date());
+		// 设置元件
 		if (af.getAfElement() != null) {
 			for (Iterator iterator = af.getAfElement().iterator(); iterator
 					.hasNext();) {
 				AfElement afe = (AfElement) iterator.next();
-
+				// 设置ID为0
 				afe.setAfEId(0);
+				// 设置日期为当前时间
+				afe.setEPlanBp(new Date());
+				afe.setEPlanPm(new Date());
+				afe.setEPlanPress(new Date());
 			}
 		}
 		if (af.getAfDispose() != null) {
@@ -959,10 +982,13 @@ public class OPEAction extends ActionSupport {
 			}
 		}
 		if (af != null) {
-			// AfElement afe = new AfElement();
-			// AfDispose afd = new AfDispose();
-			// af.getAfElement().add(afe);
-			// af.getAfDispose().add(afd);
+			// 设置送样书时间和送货时间
+			af.setPlanSendSample(new Date());
+			af.setPlanDeliver(new Date());
+			// 设置接洽人
+			Map session = ActionContext.getContext().getSession();
+			User u = (User) session.get("user");
+			af.setCp(u.getEmployee().getRealname());
 			af.setMoneyFact(0.0);
 			af.setMoneyShould(0.0);
 			Map request = (Map) ActionContext.getContext().get("request");
@@ -994,7 +1020,7 @@ public class OPEAction extends ActionSupport {
 		af.getAfValuation().add(new AfValuation());
 		af.getAfValuation().add(new AfValuation());
 
-		Logger logger=Logger.getLogger(this.getClass());
+		Logger logger = Logger.getLogger(this.getClass());
 		logger.warn(af.getAfValuation());
 		Map request = (Map) ActionContext.getContext().get("request");
 		request.put("AFInfo", af);
@@ -1021,10 +1047,12 @@ public class OPEAction extends ActionSupport {
 		if (af != null) {
 			Timestamp t = new Timestamp(new GregorianCalendar(TimeZone
 					.getTimeZone("GMT")).getTimeInMillis());
-			if (af.getMoneyTime() == null)
+			if (af.getMoneyTime() == null) {
 				af.setMoneyTime(t);
-			if (af.getFapiaoTime() == null)
+			}
+			if (af.getFapiaoTime() == null) {
 				af.setFapiaoTime(t);
+			}
 			Map request = (Map) ActionContext.getContext().get("request");
 			request.put("AFInfo", af);
 			return SUCCESS;
@@ -1202,7 +1230,7 @@ public class OPEAction extends ActionSupport {
 	public String jsongetAllYW() throws Exception {
 		ywlist = new ArrayList<String[]>();
 		List ListYW = userService.getEmployeeByDeptId(3);
-		
+
 		for (Iterator it = ListYW.iterator(); it.hasNext();) {
 			Employee e = (Employee) it.next();
 			ywlist.add(new String[] { e.getRealname() });
