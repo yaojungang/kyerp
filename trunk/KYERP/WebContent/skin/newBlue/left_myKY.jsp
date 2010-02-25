@@ -21,7 +21,7 @@
 		<td align="center"><a href="${pageContext.request.contextPath}<s:property value = "#session.user.url" />">我的首页</a></td>
 	</tr>
 	<tr>
-		<td align="center"><a href="https://cas.tyopf.com:8443/cas/logout?url=http://www.tyopf.com">CAS注销</a></td>
+		<td align="center"><a href="http://cas.tyopf.com:8080/cas3/logout?url=http://www.tyopf.com">CAS注销</a></td>
 	</tr>
 </table>
 </body>
