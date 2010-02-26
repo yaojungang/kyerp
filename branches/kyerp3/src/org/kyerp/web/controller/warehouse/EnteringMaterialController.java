@@ -2,6 +2,7 @@ package org.kyerp.web.controller.warehouse;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +12,8 @@ import java.util.List;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kyerp.domain.base.views.ExtGridList;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.EnteringMaterial;
@@ -68,7 +71,10 @@ public class EnteringMaterialController {
 			EnteringMaterialExtGridRow n = new EnteringMaterialExtGridRow();
 			n.setId(o.getId());
 			n.setSerialNumber(o.getSerialNumber());
-			n.setEnteringTime(o.getEnteringTime());
+			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
+					"yyyy-MM-dd HH:mm:ss"));
+			n.setEnteringTime(DateFormatUtils.format(o.getEnteringTime(),
+					"yyyy-MM-dd"));
 			if (null != o.getSupplier()) {
 				n.setSupplierId(o.getSupplier().getId());
 				n.setSupplierName(o.getSupplier().getName());
@@ -92,7 +98,30 @@ public class EnteringMaterialController {
 				mbNames.deleteCharAt(mbNames.length() - 1);
 				n.setBatchIds(mbIds.toString());
 				n.setBatchNames(mbNames.toString());
+				// 设置optItems
+				List<EnteringMaterialOpeItemExtGridRow> opeRows = new ArrayList<EnteringMaterialOpeItemExtGridRow>();
+				for (MaterialBatch mb : o.getBatchs()) {
+					EnteringMaterialOpeItemExtGridRow opeRow = new EnteringMaterialOpeItemExtGridRow();
+					opeRow.setId(mb.getId());
+					opeRow.setMaterialId(mb.getMaterial().getId());
+					opeRow.setMaterialName(mb.getMaterial().getName());
+					opeRow.setAmount(mb.getAmount());
+					opeRow.setBatchNumber(mb.getBatchNumber());
+					opeRow.setMoney(new Float(mb.getMoney().toString()));
+					opeRow.setPrice(new Float(mb.getPrice().toString()));
+					opeRow.setRemark(mb.getRemark());
+					opeRow.setUnitId(mb.getUnit().getId());
+					opeRow.setUnitName(mb.getUnit().getName());
+					opeRow.setWarehouseId(mb.getWarehouse().getId());
+					opeRow.setWarehouseName(mb.getWarehouse().getName());
+
+					opeRows.add(opeRow);
+				}
+				JSONArray opeItems = new JSONArray();
+				opeItems = JSONArray.fromObject(opeRows);
+				n.setOpeItems(opeItems.toString());
 			}
+
 			rows.add(n);
 		}
 		ExtGridList<EnteringMaterialExtGridRow> mGrid = new ExtGridList<EnteringMaterialExtGridRow>();
@@ -116,17 +145,22 @@ public class EnteringMaterialController {
 
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/EnteringMaterial/jsonSave.html")
-	public String save(EnteringMaterialExtGridRow row, ModelMap model) {
+	public String save(EnteringMaterialExtGridRow row, ModelMap model)
+			throws ParseException {
 
 		EnteringMaterial enteringMaterial = new EnteringMaterial();
 		if (null != row.getId() && row.getId() > 0) {
 			enteringMaterial = enteringMaterialService.find(row.getId());
 		}
-
-		if (null != row.getEnteringTime()) {
-			enteringMaterial.setEnteringTime(row.getEnteringTime());
+		if (null != row.getSerialNumber()) {
+			enteringMaterial.setSerialNumber(row.getSerialNumber());
 		}
-		enteringMaterial.setSerialNumber(row.getSerialNumber());
+		if (null != row.getEnteringTime()) {
+			Date enDate = DateUtils.parseDate(row.getEnteringTime(),
+					new String[] { "yyyy-MM-dd" });
+			enteringMaterial.setEnteringTime(enDate);
+		}
+
 		if (null != row.getSupplierId()) {
 			enteringMaterial.setSupplier(supplierService.find(row
 					.getSupplierId()));
@@ -136,6 +170,7 @@ public class EnteringMaterialController {
 		} else {
 			enteringMaterialService.saveEnteringMaterial(enteringMaterial);
 		}
+		// 保存物料批次信息
 		if (null != row.getOpeItems() && row.getOpeItems().length() > 0) {
 			List<MaterialBatch> mbs = new ArrayList<MaterialBatch>();
 			JSONArray jsonArray = new JSONArray();
@@ -144,8 +179,12 @@ public class EnteringMaterialController {
 			for (int i = 0; i < jsonArray.size(); i++) {
 				MaterialBatch b = new MaterialBatch();
 				jsonObject = jsonArray.getJSONObject(i);
-				b.setMaterial(materialService.find(new Long(jsonObject
-						.getString("materialId"))));
+				String idString = jsonObject.getString("id");
+				if (null != idString && idString.length() > 0) {
+					b = materialBatchService.find(new Long(idString));
+				}
+				b.setMaterial(materialService.find(jsonObject
+						.getLong("materialId")));
 				b.setPrice(new BigDecimal(jsonObject.getString("price")));
 				b.setAmount(new Float(jsonObject.getString("amount")));
 				b
@@ -154,10 +193,11 @@ public class EnteringMaterialController {
 										.getString("amount"))));
 				b.setWarehouse(warehouseService.find(jsonObject
 						.getLong("warehouseId")));
-				b
-						.setUnit(materialService.find(
-								new Long(jsonObject.getString("materialId")))
-								.getUnit());
+				// 供应商为入库单的供应商
+				b.setSupplier(supplierService.find(row.getSupplierId()));
+				// 单位为默认单位
+				b.setUnit(materialService
+						.find(jsonObject.getLong("materialId")).getUnit());
 				if (null != jsonObject.getString("batchNumber")) {
 					b.setBatchNumber(jsonObject.getString("batchNumber"));
 				}
@@ -165,7 +205,12 @@ public class EnteringMaterialController {
 					b.setRemark(jsonObject.getString("remark"));
 				}
 				b.setEnteringMaterial(enteringMaterial);
-				materialBatchService.save(b);
+
+				if (null != idString && idString.length() > 0) {
+					materialBatchService.update(b);
+				} else {
+					materialBatchService.save(b);
+				}
 				mbs.add(b);
 			}
 			enteringMaterial.setBatchs(mbs);

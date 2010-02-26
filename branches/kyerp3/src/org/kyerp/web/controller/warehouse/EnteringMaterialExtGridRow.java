@@ -1,23 +1,20 @@
 package org.kyerp.web.controller.warehouse;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.kyerp.domain.warehouse.MaterialBatch;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 /**
  * @author y109 2010-2-4下午03:44:16
  */
 public class EnteringMaterialExtGridRow {
 	private Long				id;
+	private String				createTime;
 	/** 入库单号 */
 	private String				serialNumber;
 	/** 入库时间 */
-	@DateTimeFormat(iso = ISO.DATE)
-	private Date				enteringTime;
+	private String				enteringTime;
 	/** 供应商名称 */
 	private Long				supplierId;
 	private String				supplierName;
@@ -37,6 +34,14 @@ public class EnteringMaterialExtGridRow {
 	private List<MaterialBatch>	itemList	= new ArrayList<MaterialBatch>();
 
 	EnteringMaterialExtGridRow() {
+	}
+
+	public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 
 	public String getOpeItems() {
@@ -87,11 +92,11 @@ public class EnteringMaterialExtGridRow {
 		this.serialNumber = serialNumber;
 	}
 
-	public Date getEnteringTime() {
+	public String getEnteringTime() {
 		return enteringTime;
 	}
 
-	public void setEnteringTime(Date enteringTime) {
+	public void setEnteringTime(String enteringTime) {
 		this.enteringTime = enteringTime;
 	}
 
