@@ -1,6 +1,6 @@
 package org.kyerp.service.warehouse.impl;
 
-import java.util.Date;
+import java.text.ParseException;
 
 import org.kyerp.dao.DaoSupport;
 import org.kyerp.domain.warehouse.EnteringMaterial;
@@ -16,9 +16,16 @@ public class EnteringMaterialService extends DaoSupport<EnteringMaterial>
 		implements IEnteringMaterialService {
 
 	public void saveEnteringMaterial(EnteringMaterial e) {
-		e.setEnteringTime(new Date());
-		String jpql = "select count(o) from EnteringMaterial o where o.createTime>=?1";
-		e.setSerialNumber(SerialNumberHelper.buildSerialNumber(em, jpql));
+		// 如果没有填写单号则设置单号
+		if (null == e.getSerialNumber() || e.getSerialNumber().length() == 0) {
+			String jpql = "select count(o) from EnteringMaterial o where o.createTime>=?1";
+			try {
+				e.setSerialNumber(SerialNumberHelper
+						.buildSerialNumber(em, jpql));
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+		}
 		super.save(e);
 	}
 
