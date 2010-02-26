@@ -28,7 +28,6 @@
 <script type="text/javascript" src="js/ext/ux/ux-all-debug.js"></script>
 <!-- Extjs patch -->
 <script type="text/javascript" src="js/org/kyerp/share/ux/ComboBox-patch.js"></script>
-<script type="text/javascript" src="js/org/kyerp/share/ux/ExtDate.js"></script>
 <!-- Extjs 自定义插件 -->
 <script type="text/javascript" src="js/org/kyerp/share/ux/Ext.ux.form.LovCombo.js"></script>
 <script type="text/javascript" src="js/org/kyerp/share/ux/pPageSize.js"></script>
