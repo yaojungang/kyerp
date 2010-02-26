@@ -46,8 +46,7 @@ public class EnteringMaterial extends BaseDomain implements Serializable {
 	@ManyToOne
 	private Employee			operator;
 	/** 物料明细 **/
-	@OneToMany(mappedBy = "enteringMaterial", cascade = { CascadeType.PERSIST,
-			CascadeType.REMOVE })
+	@OneToMany(mappedBy = "enteringMaterial", cascade = { CascadeType.ALL })
 	private List<MaterialBatch>	batchs				= new ArrayList<MaterialBatch>();
 
 	/** 入库方式 */
