@@ -18,6 +18,7 @@ public class SerialNumberHelper {
 	 * 
 	 * @throws ParseException
 	 */
+
 	public static String buildSerialNumber(EntityManager em, String jpql)
 			throws ParseException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM");

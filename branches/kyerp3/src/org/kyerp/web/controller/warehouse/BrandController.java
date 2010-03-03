@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import net.sf.json.JSONObject;
 
 import org.kyerp.domain.base.views.ExtGridList;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.Brand;
 import org.kyerp.service.warehouse.IBrandService;
+import org.kyerp.web.controller.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,15 +23,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class BrandController {
-	@Resource(name = "brandService")
+public class BrandController extends BaseController {
+	@Autowired
 	IBrandService	brandService;
 
 	@RequestMapping("/warehouse/Brand/jsonList.html")
-	public String list(Model model, Integer start, Integer limit) {
+	public String list(Model model, Integer start, Integer limit)
+			throws Exception {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
-
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
 		QueryResult<Brand> queryResult = brandService.getScrollData(start,
@@ -61,6 +61,7 @@ public class BrandController {
 			text = "";
 		}
 		model.addAttribute("jsonText", text);
+		logger.info("test loggger");
 		return "share/jsonTextView";
 	}
 

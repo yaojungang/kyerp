@@ -14,6 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kyerp.domain.security.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -24,7 +25,6 @@ public class MySpecialAuthenticationFilter extends HttpServlet implements
 		Filter {
 
 	/*
-	 * (non-Javadoc)
 	 * 
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
 	 * javax.servlet.ServletResponse, javax.servlet.FilterChain)
@@ -33,15 +33,10 @@ public class MySpecialAuthenticationFilter extends HttpServlet implements
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain filterChain) throws IOException, ServletException {
 		// 判断用户是否登录
-// SecurityContextHolder.getContext()
-// .getAuthentication();
-// System.out.println("current User：" + currentUser.getUsername());
-		if (null != SecurityContextHolder.getContext().getAuthentication()) {
-			((HttpServletResponse) response).setHeader("sessionStatus", "YES");
-// ((HttpServletResponse) response).setHeader("serverMessage", "没有权限");
-// if(){
-//				
-// }
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		if (null != user) {
+			((HttpServletResponse) response).setHeader("LOGINED", "YES");
 		}
 		filterChain.doFilter(request, response);
 

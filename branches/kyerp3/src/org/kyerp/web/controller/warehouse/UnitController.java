@@ -13,6 +13,7 @@ import org.kyerp.domain.base.views.ExtGridList;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.Unit;
 import org.kyerp.service.warehouse.IUnitService;
+import org.kyerp.web.controller.BaseController;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class UnitController {
+public class UnitController extends BaseController {
 	@Resource(name = "unitService")
 	IUnitService	unitService;
 
@@ -31,7 +32,6 @@ public class UnitController {
 	public String list(Model model, Integer start, Integer limit) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
-
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
 		QueryResult<Unit> queryResult = unitService.getScrollData(start, limit,
