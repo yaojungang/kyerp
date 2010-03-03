@@ -21,7 +21,7 @@
 						text : "采购管理",
 						expanded : true,
 						children : [{
-									id : "BuyerApplicationPanel",
+									id : "PurchaseOrderPanel",
 									text : "采购申请",
 									ns : 'org.kyerp.warehouse',
 									leaf : true

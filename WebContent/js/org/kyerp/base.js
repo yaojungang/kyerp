@@ -14,13 +14,20 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 	init : function() {
 		this.tree = new Ext.tree.TreePanel({
 					region : 'west',
-					collapseMode : 'mini',
-					margins : '0 0 5 5',
+					title : '功能导航',
+					// header : false,
 					width : 200,
-					split : true,
 					minSize : 100,
 					maxSize : 300,
+					split : true,
+					collapsible : true,
+					margins : '0 0 5 5',
+					cmargins : '0 0 0 0',
+					rootVisible : false,
 					autoScroll : true,
+					animCollapse : false,
+					animate : false,
+					collapseMode : 'mini',
 					loader : new Ext.tree.TreeLoader({
 								url : 'js/org/kyerp/tree.js',
 								requestMethod : 'GET'
@@ -40,41 +47,87 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 			region : 'north',
 			margins : '0 0 5 0',
 			border : false,
-			html : '<div style="background:#dfe8f6; height:39px;"><h1 style="color:black;padding:10px 10px 10px 20px">酷印通2010</h1></div>',
+			html : '<div style="background:url(images/hd-bg.gif); height:39px;"><img src="images/logo.gif" /><div style="float:right;padding:10px 20px 0px 0px;color:#ffffff;">Version 3.0 bate</div></div>',
 			height : 39
 		});
 		// 首页
-		this.indexTab = new Ext.ux.Portal({
+		this.indexTab = {
+			xtype : 'portal',
 			title : '首页',
 			iconCls : 'icon-root-s',
 			items : [{
-						columnWidth : .7,
-						style : 'padding:10px 0 10px 10px',
-						items : [{
-									title : '公告通知',
-									layout : 'fit'
-								}, {
-									title : '今日任务单',
-									layout : 'fit'
-								}, {
-									title : '待完成生产任务',
-									html : ''
-								}]
-					}, {
-						columnWidth : .3,
-						style : 'padding:10px 10px 10px 10px',
-						items : [{
-							title : '个人信息',
-							html : '<iframe id="frame1" src="share/user.jsp" frameborder="0" width="100%" height="100%"></iframe>'
-						}, {
-							title : '即时贴',
-							html : ''
-						}, {
-							title : '在线用户',
-							html : ''
-						}]
-					}]
-		});
+				columnWidth : .5,
+				style : 'padding:10px 0 10px 10px',
+				defaults : {
+					bodyStyle : 'padding:10px',
+					tools : [{
+								id : 'close',
+								handler : function(e, target, panel) {
+									panel.ownerCt.remove(panel, true);
+								}
+							}]
+				},
+				items : [{
+					title : '清华大学焦点新闻',
+					html : '<iframe src="http://news.tsinghua.edu.cn/new/headnews.php" frameborder="0" width="100%" height="100%"></iframe>'
+				}, {
+					title : '清华大学重要公告',
+					html : '<iframe src="http://info.tsinghua.edu.cn/view/notice_beforelogin.htm" frameborder="0" width="100%" height="100%"></iframe>'
+				}, {
+					title : '清华大学最近七日信息汇总',
+					collapsed : true,
+					html : '<iframe src="http://oars.tsinghua.edu.cn/comm/news.nsf/portalpost?openview&count=10" frameborder="0" width="100%" height="100%"></iframe>'
+				}]
+			}, {
+				columnWidth : .5,
+				style : 'padding:10px 10px 10px 10px',
+				defaults : {
+					bodyStyle : 'padding:10px',
+					tools : [{
+								id : 'close',
+								handler : function(e, target, panel) {
+									panel.ownerCt.remove(panel, true);
+								}
+							}]
+				},
+				items : [{
+					title : '清华大学办公通知',
+					html : '<iframe src="http://oars.tsinghua.edu.cn/ztg/51029.nsf/portalpost?openview&count=10" frameborder="0" width="100%" height="100%"></iframe>'
+				}, {
+					title : '海报',
+					html : '<iframe src="http://oars.tsinghua.edu.cn/ztg/92390.nsf/portalpost?openview&count=10" frameborder="0" width="100%" height="100%"></iframe>'
+				}, {
+					title : '个人信息',
+					collapsed : true,
+					autoLoad : {
+						url : 'share/user.jsp'
+					},
+					scripts : true,
+					disableCaching : true
+				}]
+			}]
+		};
+		//logout function
+		this.logout = function() {
+				Ext.Msg.confirm('操作提示', '您确定要退出本系统?', function(btn) {
+							if ('yes' == btn) {
+								Ext.Ajax.request({
+											url : 'logout',
+											success : function() {
+												this.window.opener = null;
+												window.close();
+												if (!Ext.isIE) {
+													location = 'http://www.tyopf.com';
+												}
+											},
+											failure : function() {
+												Ext.Msg.alert("系统提示",
+														"退出时发生错误！");
+											}
+										});
+							}
+						});
+			}
 		// foot部分
 		this.pageFoot = new Ext.Panel({
 			region : 'south',
@@ -104,29 +157,14 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 					}, {
 						text : '退出系统',
 						iconCls : 'icon-application_go',
-						handler : function() {
-							Ext.Msg.confirm('操作提示', '您确定要退出本系统?',
-									function(btn) {
-										if ('yes' == btn) {
-											Ext.Ajax.request({
-												url : 'logout',
-												success : function() {
-													this.window.opener = null;
-													window.close();
-													if (!Ext.isIE) {
-														location = 'http://www.tyopf.com';
-													}
-												},
-												failure : function() {
-													Ext.Msg.alert("系统提示",
-															"退出时发生错误！");
-												}
-											});
-										}
-									});
-						}
+						handler : this.logout
 					}]
 				}
+			}, '->', '欢迎使用！', {
+				text : '修改密码'
+			}, {
+				text : '退出',
+				handler : this.logout
 			}]
 		});
 
@@ -151,7 +189,6 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 				});
 		this.loadMask = new Ext.LoadMask(this.body.body);
 	},
-
 	// 切换TabPanel标签方法
 	changeTab : function(p, t) {
 		// 如果存在相应树节点，就选中,否则就清空选择状态
@@ -173,14 +210,15 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 		var id = 'tab-' + node.id;
 		var tab = Ext.getCmp(id);
 		if (!tab) {
-			tab = this.body.add(new Ext.Panel({
+			tab = new Ext.Panel({
 						id : id,
 						title : node.text,
 						layout : 'fit',
 						border : false,
 						bodyBorder : false,
 						closable : true
-					}));
+					});
+			this.body.add(tab);
 			this.body.setActiveTab(tab);
 			// 加载模块
 			this.loadModel(node, tab);
@@ -191,6 +229,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 
 	// 加载模块方法(id:模块ID;tab:模块显示在哪里)
 	loadModel : function(node, tab) {
+		// alert(tab.getXTypes());
 		var url = "";
 		if (typeof node.attributes.ns != 'undefined') {
 			url = node.attributes.ns + ".";
@@ -216,7 +255,10 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 						},
 						failure : function() {
 							this.loadMask.hide();
-							Ext.Msg.alert('提示', '功能尚未实现，敬请期待！');
+							Ext.Msg.alert('提示', '[' + node.text
+											+ '] 尚未实现，敬请期待！');
+							// 关闭tab
+							this.body.remove(this.body.getActiveTab());
 						}
 					});
 		}
@@ -234,26 +276,23 @@ Ext.onReady(function() {
 	setTimeout(function() {
 				Ext.get('loading').remove();
 			}, 250);
+	// 超时重新登录
 	Ext.override(Ext.data.Connection, {
-				handleResponse : Ext.data.Connection.prototype.handleResponse
-						.createInterceptor(function(response) {
+		handleResponse : Ext.data.Connection.prototype.handleResponse
+				.createInterceptor(function(response) {
+							if (response.getResponseHeader("LOGINED") != "YES") {
+								Ext.Msg.alert('提示', '会话超时，请重新登录!', function(
+												btn, text) {
+											if (btn == 'ok') {
+												location.reload();
+											}
+										});
+							}
+							if ("311" == response.status) {
+								alert(response.status);
+							}
 
-									var sessionStatus = response
-											.getResponseHeader("sessionStatus");
-									if (sessionStatus != "YES") {
-										Ext.Msg.alert('提示', '会话超时，请重新登录!',
-												function(btn, text) {
-													if (btn == 'ok') {
-														location.reload();
-													}
-												});
-									}
-									var serverMessage = response
-											.getResponseHeader("serverMessage");
+						})
+	});
 
-									if (typeof(serverMessage) != "undefined") {
-										alert(serverMessage);
-									}
-								})
-			});
 });
