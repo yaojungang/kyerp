@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:sec="http://www.springframework.org/schema/security" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	http://www.springframework.org/schema/context   
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd   
+	http://www.springframework.org/schema/aop   
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd   
+	http://www.springframework.org/schema/tx   
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	
+	<bean name="jsonView" class="org.springframework.web.servlet.view.json.JsonView">
+		<property name="jsonErrors">
+			<list>
+				<ref bean="statusError" />
+				<ref bean="modelflagError" />
+			</list>
+		</property>
+	</bean>
+
+	<bean name="statusError" class="org.springframework.web.servlet.view.json.error.HttpStatusError">
+		<property name="errorCode" value="311" />
+	</bean>        
+	<bean name="modelflagError" class="org.springframework.web.servlet.view.json.error.ModelFlagError">
+		<property name="name" value="failure" />
+		<property name="value" value="true" />
+	</bean>
+</beans> 
