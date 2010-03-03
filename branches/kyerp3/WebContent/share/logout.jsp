@@ -8,5 +8,6 @@
 </head>
 <body>
 <a href="https://localhost:8443/cas/logout">CAS Logout</a>
+注销
 </body>
 </html>

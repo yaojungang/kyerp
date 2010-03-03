@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>酷印通3 - KYERP3</title>
+<title>酷印通印刷企业管理系统</title>
 <!-- Extjs库 -->
 <link rel="stylesheet" type="text/css" href="js/ext/resources/css/ext-all.css"/>
 <!-- Extjs 自带插件 -->
@@ -35,6 +35,7 @@
 <script type="text/javascript" src="js/org/kyerp/share/ux/Ext.ux.form.DateTime.js"></script>
 <script type="text/javascript" src="js/org/kyerp/share/ux/Ext.ux.renderer.ComboRenderer.js"></script>
 <!-- 自定义的文件 -->
+<script type="text/javascript" src="js/org/kyerp/share/Exception.js"></script>
 <script type="text/javascript" src="js/org/kyerp/ns.js"></script>
 <script type="text/javascript" src="js/org/kyerp/base.js"></script>
 </body>

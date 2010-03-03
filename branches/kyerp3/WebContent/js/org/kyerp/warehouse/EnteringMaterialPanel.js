@@ -603,29 +603,29 @@ org.kyerp.warehouse.EnteringMaterialInfoWindow = Ext.extend(Ext.Window, {
 					tbar : [{
 								text : '保存',
 								cls : 'x-btn-text-icon',
-								icon : '/trade/images/save.gif',
+								icon : 'images/ext-extend/icons/save.gif',
 								hidden : false,
 								handler : this.onSubmitClick,
 								scope : this
 							}, {
 								text : '提交审核',
 								cls : 'x-btn-text-icon',
-								icon : '/trade/images/user_female.png',
+								icon : 'images/ext-extend/icons/new/mbi_007.gif',
 								hidden : false
 							}, {
 								text : '返回编制',
 								cls : 'x-btn-text-icon',
-								icon : '/trade/images/user_edit.png',
+								icon : 'images/ext-extend/icons/order_edit.gif',
 								hidden : false
 							}, {
 								text : '审核',
 								cls : 'x-btn-text-icon',
-								icon : '/trade/images/user_female.png',
+								icon : 'images/ext-extend/icons/new/icon2_089.png',
 								hidden : false
 							}, {
 								text : '关闭',
 								cls : 'x-btn-text-icon',
-								icon : '/trade/images/cross.gif',
+								icon : 'images/ext-extend/icons/cross.gif',
 								handler : this.onCancelClick,
 								scope : this
 							}, '->', {
