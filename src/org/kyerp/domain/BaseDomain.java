@@ -2,6 +2,7 @@ package org.kyerp.domain;
 
 import java.util.Date;
 
+import javax.annotation.PreDestroy;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -35,6 +36,12 @@ public class BaseDomain {
 	@PreUpdate
 	public void preUpdate() {
 		this.updateTime = new Date();
+	}
+
+	/** 再对象删除前执行 */
+	@PreDestroy
+	public void preDestory() {
+
 	}
 
 	public Long getId() {
