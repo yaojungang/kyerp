@@ -2,6 +2,7 @@ package com.tyopf.action;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
@@ -946,6 +948,13 @@ public class OPEAction extends ActionSupport {
 		AfBase af = (AfBase) afService.getAFByNo(AFNo);
 		af.setAfId(0);
 		af.setAfNo(0);
+		// 修改印数
+		// af.setAmount(0L);
+		// 修改YZ单号
+		if (Pattern.compile("^YZ").matcher(af.getPcAf().toUpperCase()).find()) {
+			GregorianCalendar gc = new GregorianCalendar();
+			af.setPcAf("YZ" + gc.get(Calendar.YEAR));
+		}
 		// 修改版次
 		if (null != af.getEdition()) {
 			String[] editon0 = null;
@@ -954,7 +963,6 @@ public class OPEAction extends ActionSupport {
 			editionBuilder.append(editon0[0]).append("-").append(
 					new Integer(editon0[1]) + 1);
 			af.setEdition(editionBuilder.toString());
-			System.out.println("New Editon:" + editionBuilder.toString());
 		}
 		// 设置开单时间
 		af.setAd(new Date());
@@ -971,6 +979,9 @@ public class OPEAction extends ActionSupport {
 				afe.setEPlanBp(new Date());
 				afe.setEPlanPm(new Date());
 				afe.setEPlanPress(new Date());
+				// 设置指令数
+				afe.setEReam(0.0);
+				afe.setEOvers(0.0);
 			}
 		}
 		if (af.getAfDispose() != null) {
@@ -983,7 +994,7 @@ public class OPEAction extends ActionSupport {
 		}
 		if (af != null) {
 			// 设置送样书时间和送货时间
-			af.setPlanSendSample(new Date());
+			// af.setPlanSendSample(new Date());
 			af.setPlanDeliver(new Date());
 			// 设置接洽人
 			Map session = ActionContext.getContext().getSession();
