@@ -16,7 +16,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 					region : 'west',
 					title : '功能导航',
 					// header : false,
-					width : 200,
+					width : 150,
 					minSize : 100,
 					maxSize : 300,
 					split : true,
@@ -121,8 +121,9 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 												}
 											},
 											failure : function() {
-												Ext.Msg.alert("系统提示",
-														"退出时发生错误！");
+												location.reload();
+//												Ext.Msg.alert("系统提示",
+//														"退出时发生错误！");
 											}
 										});
 							}

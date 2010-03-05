@@ -36,3 +36,8 @@ org.kyerp.warehouse.WarehousePanel_STORE_URL = "warehouse/Warehouse/jsonList.htm
 org.kyerp.warehouse.WarehousePanel_SAVE_URL = "warehouse/Warehouse/jsonSave.html";
 org.kyerp.warehouse.WarehousePanel_DELETE_URL = "warehouse/Warehouse/jsonDelete.html";
 /** ***************************************************************************** */
+org.kyerp.warehouse.PurchaseOrderPanel_STORE_URL = "warehouse/PurchaseOrder/jsonList.html";
+org.kyerp.warehouse.PurchaseOrderPanel_SAVE_URL = "warehouse/PurchaseOrder/jsonSave.html";
+org.kyerp.warehouse.PurchaseOrderPanel_DELETE_URL = "warehouse/PurchaseOrder/jsonDelete.html";
+org.kyerp.warehouse.PurchaseOrderDetail_DELETE_URL = "warehouse/PurchaseOrderDetail/jsonDelete.html"
+/** ***************************************************************************** */
