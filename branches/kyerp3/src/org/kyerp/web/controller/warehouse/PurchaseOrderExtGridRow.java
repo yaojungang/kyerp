@@ -38,8 +38,18 @@ public class PurchaseOrderExtGridRow {
 	private String		statusString;
 	/** 明细 */
 	private String		details;
+	/** 到货日期 */
+	private String		arriveDate;
 
 	public PurchaseOrderExtGridRow() {
+	}
+
+	public String getArriveDate() {
+		return arriveDate;
+	}
+
+	public void setArriveDate(String arriveDate) {
+		this.arriveDate = arriveDate;
 	}
 
 	public Long getId() {

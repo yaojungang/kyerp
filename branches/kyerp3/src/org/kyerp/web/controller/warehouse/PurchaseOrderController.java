@@ -10,6 +10,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.PurchaseOrder;
 import org.kyerp.domain.warehouse.PurchaseOrderDetail;
@@ -107,6 +108,11 @@ public class PurchaseOrderController extends BaseController {
 			if (null != o.getBillCount()) {
 				n.setStatusString(o.getStatus().getName());
 			}
+			/** 到货日期 */
+			if (null != o.getArriveDate()) {
+				n.setArriveDate(DateFormatUtils.format(o.getArriveDate(),
+						"yyyy-MM-dd"));
+			}
 			/** 明细 */
 			if (null != o.getDetails() && o.getDetails().size() > 0) {
 				List<PurchaseOrderItemExtGridRow> itemRows = new ArrayList<PurchaseOrderItemExtGridRow>();
@@ -143,6 +149,8 @@ public class PurchaseOrderController extends BaseController {
 					if (null != detail.getBillCount()) {
 						row.setBillCount(detail.getBillCount());
 					}
+					/** 金额 */
+					row.setBillCost(detail.getBillCost());
 					/** 收货数量 */
 					if (null != detail.getRecvCount()) {
 						row.setRecvCount(detail.getRecvCount());
@@ -182,6 +190,16 @@ public class PurchaseOrderController extends BaseController {
 		if (null != row.getSerialNumber()) {
 			purchaseOrder.setSerialNumber(row.getSerialNumber());
 		}
+		// 保存填单日期
+		if (null != row.getWriteDate()) {
+			purchaseOrder.setWriteDate(DateUtils.parseDate(row.getWriteDate(),
+					new String[] { "yyyy-MM-dd" }));
+		}
+		// 保存到货时间
+		if (null != row.getArriveDate()) {
+			purchaseOrder.setArriveDate(DateUtils.parseDate(
+					row.getArriveDate(), new String[] { "yyyy-MM-dd" }));
+		}
 		// 保存填单人
 		// purchaseOrder.setWriteUser(user.getEmployee());
 		/** 供应商 */
@@ -190,7 +208,7 @@ public class PurchaseOrderController extends BaseController {
 					.setSupplier(supplierService.find(row.getSupplierId()));
 		}
 		// 保存备注
-		if (null != purchaseOrder.getRemark()) {
+		if (null != row.getRemark()) {
 			purchaseOrder.setRemark(row.getRemark());
 		}
 
@@ -233,15 +251,15 @@ public class PurchaseOrderController extends BaseController {
 				detail.setPurchaseOrder(purchaseOrder);
 
 				if (null != idString && idString.length() > 0) {
-					purchaseOrderDetailService
-							.updatePurchaseOrderDetail(detail);
+					purchaseOrderDetailService.update(detail);
 				} else {
-					purchaseOrderDetailService.savePurchaseOrderDetail(detail);
+					purchaseOrderDetailService.save(detail);
 				}
 				pods.add(detail);
 			}
 			purchaseOrder.setDetails(pods);
 		}
+		purchaseOrderService.update(purchaseOrder);
 		long id = purchaseOrder.getId() > 0 ? purchaseOrder.getId()
 				: purchaseOrderService.findLast().getId();
 		model.addAttribute("success", true);
@@ -253,6 +271,14 @@ public class PurchaseOrderController extends BaseController {
 	@RequestMapping("/warehouse/PurchaseOrder/jsonDelete.html")
 	public String delete(ModelMap model, Long[] ids) {
 		purchaseOrderService.delete((Serializable[]) ids);
+		model.addAttribute("success", true);
+		return "jsonView";
+	}
+
+	@Secured( { "ROLE_ADMIN" })
+	@RequestMapping("/warehouse/PurchaseOrderDetail/jsonDelete.html")
+	public String deleteDetail(ModelMap model, Long[] ids) {
+		purchaseOrderDetailService.delete((Serializable[]) ids);
 		model.addAttribute("success", true);
 		return "jsonView";
 	}
