@@ -80,16 +80,17 @@ function checkAFE(){
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
-			<option value="4">4</option>
+			<option value="4" selected="selected">4</option>
 			<option value="5">5</option>
 			<option value="6">6</option>
 			<option value="7">7</option>
 			<option value="8">8</option>
 		</select> &nbsp;墨色: <input name="afe.EColorFront" id="EColorFront"
-			Style="width: 180px; text-align: left;" value="无" /> &nbsp;&nbsp; <select
+			Style="width: 180px; text-align: left;" value="四色" /> &nbsp;&nbsp; <select
 			name="E_Paper00" class="wenbenkuang" id="E_Paper00"
 			onChange="(document.getElementById('EColorFront').value=this.options[this.selectedIndex].value)">
 			<option value="">选择墨色</option>
+			<option value="无">无</option>
 			<option value="黑色">黑色</option>
 			<option value="双色">双色</option>
 			<option value="四色">四色</option>
@@ -101,7 +102,7 @@ function checkAFE(){
 		<td align="right">背面墨色</td>
 		<td align="left">色数: <select name="afe.EColorBackN"
 			id="EColorBackN" class="wenbenkuang">
-			<option value="0">0</option>
+			<option value="0" selected="selected">0</option>
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
@@ -115,6 +116,7 @@ function checkAFE(){
 			name="EColorBack0" class="wenbenkuang" id="EColorBack0"
 			onChange="(document.getElementById('EColorBack').value=this.options[this.selectedIndex].value)">
 			<option value="">选择墨色</option>
+			<option value="无" selected="selected">无</option>
 			<option value="黑色">黑色</option>
 			<option value="双色">双色</option>
 			<option value="四色">四色</option>
@@ -126,13 +128,13 @@ function checkAFE(){
 		<td align="right">开本</td>
 		<td align="left"><input name="afe.EFormat" id="EFormat"
 			style="width: 80px; text-align: left;" dataType="Require"
-			msg="[开本]必须填写" /> <select name="EFormat00" class="wenbenkuang"
+			msg="[开本]必须填写" value="大8开" /> <select name="EFormat00" class="wenbenkuang"
 			id="EFormat00"
 			onChange="document.getElementById('EFormat').value=this.options[this.selectedIndex].value">
 			<option value="">开本</option>
 			<option value="异型">异型</option>
 			<option value="8开">8开</option>
-			<option value="大8开">大8开</option>
+			<option value="大8开" selected="selected">大8开</option>
 			<option value="16开">16开</option>
 			<option value="大16开">大16开</option>
 			<option value="32开">32开</option>
@@ -158,6 +160,8 @@ function checkAFE(){
 			<option value="">令重</option>
 			<option value="55g">55g</option>
 			<option value="60g">60g</option>
+			<option value="70g">70g</option>
+			<option value="105g">105g</option>
 			<option value="157g">157g</option>
 			<option value="200g">200g</option>
 			<option value="230g">230g</option>
@@ -169,6 +173,7 @@ function checkAFE(){
 			<option value="汇林">汇林</option>
 			<option value="紫兴">紫兴</option>
 			<option value="寿光">寿光</option>
+			<option value="东帆">东帆</option>
 		</select> <select name="E_Paper002" class="wenbenkuang" id="E_Paper002"
 			onChange="(document.getElementById('E_Paper').value=document.getElementById('E_Paper').value+this.options[this.selectedIndex].value)">
 			<option value="">胶/铜</option>
@@ -177,6 +182,7 @@ function checkAFE(){
 		</select> <select name="E_Paper003" class="wenbenkuang" id="E_Paper003"
 			onChange="(document.getElementById('E_Paper').value=document.getElementById('E_Paper').value+this.options[this.selectedIndex].value)">
 			<option value="">纸号</option>
+			<option value="DD2010">DD2010</option>
 			<option value="DD2009">DD2009</option>
 			<option value="DD2008">DD2008</option>
 			<option value="DD2007">DD2007</option>
@@ -187,7 +193,7 @@ function checkAFE(){
 		<td align="right">规格</td>
 		<td align="left"><input name="afe.ESs" id="ESs"
 			style="width: 90px; text-align: left;" dataType="Require"
-			msg="[规格]必须填写" /> <select name="ESs00" class="wenbenkuang"
+			msg="[规格]必须填写" value="889*1194" /> <select name="ESs00" class="wenbenkuang"
 			id="ESs00"
 			onChange="document.getElementById('ESs').value=this.options[this.selectedIndex].value">
 			<option value="">纸张规格</option>
@@ -201,7 +207,7 @@ function checkAFE(){
 	<tr>
 		<td align="right">印张</td>
 		<td align="left"><input name="afe.EPs" dataType="Double"
-			msg="[印张]请填数字" /></td>
+			msg="[印张]请填数字" value="0" /></td>
 	</tr>
 	<tr>
 		<td align="right">令数</td>
@@ -217,10 +223,10 @@ function checkAFE(){
 		<td align="right">印版类型</td>
 		<td align="left"><select name="afe.EPlateType" id="select">
 			<option value="2K">对开</option>
-			<option value="4K">四开</option>
+			<option value="4K" selected="selected">四开</option>
 			<option value="8K">八开</option>
 		</select> 版数: <input name="afe.EPlateAmount" dataType="Integer"
-			msg="[版数]请填一个整数" /></td>
+			msg="[版数]请填一个整数" value="4" /></td>
 	</tr>
 </table>
 <table>

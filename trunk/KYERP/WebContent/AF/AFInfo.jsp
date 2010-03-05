@@ -298,7 +298,6 @@ function show(id){
 			<tr>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">工艺类型</span></td>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">工艺名称</span></td>
-				<td align="center" bgcolor="#FFFFFF"><span class="item">数量</span></td>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">工厂</span></td>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">备注</span></td>
 			</tr>
@@ -308,8 +307,6 @@ function show(id){
 						value="afEType" /> </span></td>
 					<td bgcolor="#FFFFFF"><span class="text"> <s:property
 						value="afDItem" /> </span></td>
-					<td bgcolor="#FFFFFF"><span class="text"> <s:property
-						value="afDAmount" /> </span></td>
 					<td bgcolor="#FFFFFF"><span class="text"> <s:property
 						value="afDFactory" /> </span></td>
 					<td bgcolor="#FFFFFF"><span class="text"> <s:property

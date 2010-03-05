@@ -150,9 +150,9 @@ Ext.onReady(function(){
     });
     var comboaf_format = new Ext.form.ComboBox({
     	store: storeaf_format,
-        emptyText: '开本',
-        allowBlank: false,
-        blankText: '必须填写开本',
+        emptyText: '16开',
+        //allowBlank: false,
+        //blankText: '必须填写开本',
         mode: 'local',
         triggerAction: 'all',
         valueField: 'value',
@@ -167,9 +167,9 @@ Ext.onReady(function(){
     });
     var comboaf_fps = new Ext.form.ComboBox({
     	store: storeaf_fps,
-        emptyText: '成品尺寸',
-        allowBlank: false,
-        blankText: '必须填写成品尺寸',
+        emptyText: '185*260',
+        //allowBlank: false,
+        //blankText: '必须填写成品尺寸',
         mode: 'local',
         triggerAction: 'all',
         valueField: 'value',
@@ -185,8 +185,7 @@ Ext.onReady(function(){
     var comboaf_edition = new Ext.form.ComboBox({
     	store:storeaf_edition,
         emptyText: '1-1',
-        allowBlank: false,
-        blankText: '必须填写印次',
+        allowBlank: true,
         mode: 'local',
         triggerAction: 'all',
         valueField: 'value',
@@ -201,7 +200,7 @@ Ext.onReady(function(){
     });
     var comboaf_bm = new Ext.form.ComboBox({
     	store: storeaf_bm,
-        emptyText: '订法',
+        emptyText: '胶订',
         mode: 'local',
         triggerAction: 'all',
         valueField: 'value',
@@ -210,8 +209,7 @@ Ext.onReady(function(){
     });
     var datepicker_planSendSample = new Ext.form.DateField({
     	format:"Y-m-d",
-    	allowBlank:false,
-    	value:new Date(),
+    	allowBlank:true,
     	applyTo: 'af_planSendSample'
     });
     var datepicker_planDeliver = new Ext.form.DateField({
@@ -230,7 +228,7 @@ Ext.onReady(function(){
     comboClient.on('select', function(comboBox,record){
         var value = comboBox.getValue();
         storeLinkman.loadData(record.get('clientLm'));
-        comboSendPlace.setValue(record.get('CCDa'));
+        //comboSendPlace.setValue(record.get('CCDa'));
         
         storePresswork.load({params:{client:value}});
     });

@@ -251,17 +251,9 @@
 							<td><input name="afds[0].afDItem" dataType="Require"
 								msg="[工艺名称]必须填写" type="text" id="afDItem0" style="width: 81px" />
 							<s:select name="afDItemSelect0"
-								list="{'请选择工艺名称','覆亚膜','覆光膜','勒口','烫金','烫红','胶订','骑马订','三折页','胶订+铁钉','一折页','两折页','光边','打字','复印','出片'}"
+								list="{'请选择工艺名称','亚光膜','覆光膜','封面UV','勒口','烫金','烫红','胶订','骑马订','三折页','胶订+铁钉','一折页','两折页','光边','打字','复印','出片'}"
 								cssStyle="width: 91px;text-align:left;"
 								onchange="(document.getElementById('afDItem0').value=this.options[this.selectedIndex].value)" /></td>
-						</tr>
-						<tr>
-							<td width="131" align="right">数量</td>
-							<td><input name="afds[0].afDAmount" dataType="Integer"
-								msg="[数量]请填写整数" id="afdamount"
-								Style="width: 51px; text-align: left;"
-								onKeyUp="this.value=this.value.replace(/\D/g,'')"
-								onafterpaste="this.value=this.value.replace(/\D/g,'')" /></td>
 						</tr>
 						<tr>
 							<td width="131" align="right">厂家</td>
@@ -311,7 +303,7 @@
 			id="comboSendPlace" name="af.deliverAddress" style="width: 450px;" /></td>
 	</tr>
 	<tr>
-		<td align="right" bgcolor="#FFFFFF"><span class="From_item">送书时间:</span></td>
+		<td align="right" bgcolor="#FFFFFF"><span class="From_item">交货时间:</span></td>
 		<td align="left" bgcolor="#FFFFFF"><input name="af.planDeliver"
 			id="af_planDeliver"
 			value='<s:date name="#session['today']" format="yyyy-MM-dd" nice="false"/>' /></td>
