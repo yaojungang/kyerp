@@ -22,7 +22,7 @@ public class PurchaseOrderDetail extends BaseDomain implements Serializable {
 	/** 物料 */
 	@ManyToOne
 	private Material			material;
-	/** 总数量 */
+	/** 数量 */
 	private Integer				billCount;
 	/** 收货数量 */
 	private Integer				recvCount;
@@ -38,19 +38,29 @@ public class PurchaseOrderDetail extends BaseDomain implements Serializable {
 	}
 
 	/**
-	 * 商品明细更新时同时更新订单的总数量及总订单金额
+	 * 明细保存时同时更新订单的总数量及总订单金额
 	 */
-
 	@Override
-	public void preUpdate() {
+	public void postPersist() {
+		super.postPersist();
 		updatePurchase();
 	}
 
 	/**
-	 * 商品明细删除时同时更新订单的总数量及部订单金额
+	 * 明细更新时同时更新订单的总数量及总订单金额
+	 */
+	@Override
+	public void preUpdate() {
+		super.preUpdate();
+		updatePurchase();
+	}
+
+	/**
+	 * 明细删除时同时更新订单的总数量及部订单金额
 	 */
 	@Override
 	public void preDestory() {
+		super.preDestory();
 		updatePurchase();
 	}
 
@@ -73,14 +83,6 @@ public class PurchaseOrderDetail extends BaseDomain implements Serializable {
 
 	public PurchaseOrder getPurchaseOrder() {
 		return purchaseOrder;
-	}
-
-	public Unit getUnit() {
-		return unit;
-	}
-
-	public void setUnit(Unit unit) {
-		this.unit = unit;
 	}
 
 	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
@@ -111,6 +113,14 @@ public class PurchaseOrderDetail extends BaseDomain implements Serializable {
 		this.recvCount = recvCount;
 	}
 
+	public Unit getUnit() {
+		return unit;
+	}
+
+	public void setUnit(Unit unit) {
+		this.unit = unit;
+	}
+
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -125,6 +135,9 @@ public class PurchaseOrderDetail extends BaseDomain implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public void setBillCost(BigDecimal billCost) {
 	}
 
 }

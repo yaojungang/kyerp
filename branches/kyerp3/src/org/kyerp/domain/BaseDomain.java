@@ -6,6 +6,9 @@ import javax.annotation.PreDestroy;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PostPersist;
+import javax.persistence.PostRemove;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Version;
@@ -32,16 +35,30 @@ public class BaseDomain {
 		this.createTime = new Date();
 	}
 
+	/** 在实体成为持久实体后，调用该实体的 @PostPersist 回调方法 */
+	@PostPersist
+	public void postPersist() {
+	}
+
 	/** 在对象更新前保存修改时间 */
 	@PreUpdate
 	public void preUpdate() {
 		this.updateTime = new Date();
 	}
 
+	/** 在对实体数据进行了数据库更新操作后，调用实体的 @PostUpdate 回调方法 */
+	@PostUpdate
+	public void postUpdate() {
+	}
+
 	/** 再对象删除前执行 */
 	@PreDestroy
 	public void preDestory() {
+	}
 
+	/** 在删除实体后，调用该实体的 @PostRemove 回调方法 */
+	@PostRemove
+	public void postRemove() {
 	}
 
 	public Long getId() {
