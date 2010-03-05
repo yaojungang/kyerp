@@ -28,8 +28,18 @@ public class PurchaseOrderItemExtGridRow {
 	private BigDecimal	price;
 	/** 备注 */
 	private String		remark;
+	/** 金额 */
+	private BigDecimal	billCost;
 
 	public PurchaseOrderItemExtGridRow() {
+	}
+
+	public BigDecimal getBillCost() {
+		return billCost;
+	}
+
+	public void setBillCost(BigDecimal billCost) {
+		this.billCost = billCost;
 	}
 
 	public Long getId() {

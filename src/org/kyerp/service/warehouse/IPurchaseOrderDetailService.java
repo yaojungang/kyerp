@@ -9,7 +9,4 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface IPurchaseOrderDetailService extends DAO<PurchaseOrderDetail> {
-	void savePurchaseOrderDetail(PurchaseOrderDetail detail);
-
-	void updatePurchaseOrderDetail(PurchaseOrderDetail detail);
 }
