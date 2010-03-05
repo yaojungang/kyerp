@@ -1,6 +1,3 @@
-org.kyerp.warehouse.PurchaseOrderPanel_STORE_URL = "warehouse/PurchaseOrder/jsonList.html";
-org.kyerp.warehouse.PurchaseOrderPanel_SAVE_URL = "warehouse/PurchaseOrder/jsonSave.html";
-org.kyerp.warehouse.PurchaseOrderPanel_DELETE_URL = "warehouse/PurchaseOrder/jsonDelete.html";
 /** ***************************************************************************** */
 org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
 	inserted : [],
@@ -24,13 +21,12 @@ org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
 					emptyText : '请选择',
 					triggerAction : 'all',
 					store : new Ext.data.Store({
-								autoLoad : true,
 								autoLoad : {
 									baseParams : {
 										limit : 20
 									}
 								},
-								url : "warehouse/Material/jsonList.html",
+								url : org.kyerp.warehouse.MaterialListPanel_STORE_URL,
 								reader : new Ext.data.JsonReader({
 											totalProperty : "totalProperty",
 											root : "rows",
@@ -102,21 +98,32 @@ org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
 					store : new Ext.data.Store({
 								reader : new Ext.data.JsonReader({},
 										new Ext.data.Record.create([{
-													name : "id"
+													name : "id",
+													type : "int"
 												}, {
-													name : "billCount"
+													name : "billCount",
+													type : "int"
 												}, {
-													name : "materialId"
+													name : "billCost",
+													type : "float"
 												}, {
-													name : "materialName"
+													name : "materialId",
+													type : "int"
 												}, {
-													name : "unitId"
+													name : "materialName",
+													type : "string"
 												}, {
-													name : "unitName"
+													name : "unitId",
+													type : "int"
 												}, {
-													name : "price"
+													name : "unitName",
+													type : "string"
 												}, {
-													name : "remark"
+													name : "price",
+													type : "float"
+												}, {
+													name : "remark",
+													type : "string"
 												}])),
 								listeners : {}
 							}),
@@ -204,10 +211,7 @@ org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
 					unitId : '',
 					unitName : '',
 					price : 0,
-					amount : 1,
-					warehouseId : '',
-					money : 0,
-					batchNumber : '',
+					billCount : 1,
 					remark : ''
 				});
 		this.inserted.push(_rs);
@@ -245,7 +249,7 @@ org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
 			if (_rs.get("id") != "") {
 				this.conn.un("requestcomplete", this.onSaveInsertData, this);
 				this.conn.request({
-							url : "warehouse/MaterialBatch/jsonDelete.html",
+							url : org.kyerp.warehouse.PurchaseOrderDetail_DELETE_URL,
 							params : {
 								ids : _rs.get("id")
 							}
@@ -294,8 +298,8 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 								},
 								items : [{
 											fieldLabel : '单据编号',
-											name : 'serialNumber',
-											readOnly : true
+											xtype : "displayfield",
+											name : 'serialNumber'
 										}, {
 											fieldLabel : '单据日期',
 											xtype : 'datefield',
@@ -304,7 +308,7 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 													.format('Y-m-d')
 										}, {
 											fieldLabel : '到货时间',
-											name : 'enteringTime',
+											name : 'arriveDate',
 											xtype : 'datefield',
 											format : 'Y-m-d',
 											emptyText : new Date()
@@ -365,7 +369,7 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 															limit : 20
 														}
 													},
-													url : "warehouse/Supplier/jsonList.html",
+													url : org.kyerp.warehouse.SupplierPanel_STORE_URL,
 													reader : new Ext.data.JsonReader(
 															{
 																totalProperty : "totalProperty",
@@ -423,68 +427,63 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 						}]
 					}, {
 						region : 'south',
-						autoHeight : true,
+						// autoHeight : true,
+						height : 40,
+						frame : false,
+						border : false,
+						layout : {
+							type : "hbox",
+							aligh : "stretch",
+							pack : "start",
+							padding : 5
+						},
+						defaults : {
+							frame : false,
+							border : false,
+							layout : 'form',
+							labelWidth : 60,
+							labelAlign : 'right',
+							baseCls : "x-plain",
+							height : 40
+						},
 						items : [{
-									xtype : 'panel',
-									layout : 'column',
-									baseCls : "x-plain",
-									defaults : {
-										bodyStyle : 'padding:0 10px 10px 10px',
-										height : 30
-									},
+									flex : 1,
 									items : [{
-												xtype : 'panel',
-												layout : 'form',
-												baseCls : "x-plain",
-												labelAlign : 'right',
-												labelWidth : 60,
-												defaultType : "label",
-												items : [{
-															fieldLabel : '编制人'
-														}]
-											}, {
-												xtype : 'panel',
-												layout : 'form',
-												baseCls : "x-plain",
-												labelAlign : 'right',
-												labelWidth : 80,
-												defaultType : "label",
-												items : [{
-															fieldLabel : '编制时间',
-															id : 'createTime'
-														}]
-											}, {
-												xtype : 'panel',
-												layout : 'form',
-												labelWidth : 40,
-												baseCls : "x-plain",
-												labelAlign : 'right',
-												defaultType : "label",
-												items : [{
-															fieldLabel : '审核'
-														}]
-											}, {
-												xtype : 'panel',
-												layout : 'form',
-												labelWidth : 80,
-												baseCls : "x-plain",
-												labelAlign : 'right',
-												defaultType : "label",
-												items : [{
-															fieldLabel : '合计数量'
-														}]
-											}, {
-												xtype : 'panel',
-												layout : 'form',
-												labelWidth : 80,
-												baseCls : "x-plain",
-												labelAlign : 'right',
-												defaultType : "label",
-												items : [{
-															fieldLabel : '合计金额'
-														}]
+												xtype : "displayfield",
+												fieldLabel : '编制人',
+												name : "writeUserName"
+											}]
+								}, {
+									flex : 1.5,
+									items : [{
+												xtype : "displayfield",
+												fieldLabel : '编制时间',
+												name : "createTime",
+												id : "createTime"
+											}]
+								}, {
+									flex : 1,
+									items : [{
+												xtype : "displayfield",
+												fieldLabel : '审核',
+												name : "checkUserName"
+											}]
+								}, {
+									flex : 1,
+									items : [{
+												xtype : "displayfield",
+												fieldLabel : '合计数量',
+												name : "billCount"
+											}]
+								}, {
+									flex : 1,
+									items : [{
+												xtype : "displayfield",
+												fieldLabel : '合计金额',
+												name : "billCost"
 											}]
 								}]
+
 					}, {
 						region : 'center',
 						layout : 'fit',
@@ -511,6 +510,9 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 							url : this.url,
 							params : _params,
 							success : this.onSubmit,
+							failure : function(form, action) {
+								Ext.Msg.alert('警告', '系统错误');
+							},
 							waitTitle : "数据传送",
 							waitMsg : "数据传送中,请稍候...",
 							scope : this
@@ -527,8 +529,8 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 	},
 	setValues : function(_r) {
 		this.getForm().loadRecord(new Ext.data.Record(_r));
-		this.findById("createTime")
-				.setText(_r.createTime.format('Y-m-d H:i:s'));
+		this.findById("createTime").setValue(_r.createTime
+				.format('Y-m-d H:i:s'));
 		// 为detailsGrid设置值
 		this.detailsGrid.getStore().loadData(Ext.util.JSON.decode(_r.details),
 				false);
@@ -675,7 +677,7 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
 		this.expander = new Ext.ux.grid.RowExpander({
-					tpl : new Ext.Template('<p><b>入库产品编号:</b>')
+					tpl : new Ext.Template('<p><b>明细:</b>')
 				});
 		this["store"] = new Ext.data.Store({
 					autoLoad : {
@@ -706,25 +708,48 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 										type : "date",
 										dateFormat : "Y-m-d H:i:s"
 									}, {
-										name : "statusString"
+										name : "statusString",
+										type : "string"
 									}, {
 										name : "writeDate",
 										type : "date",
 										dateFormat : "Y-m-d H:i:s"
 									}, {
-										name : "billCount"
+										name : "arriveDate",
+										type : "date",
+										dateFormat : "Y-m-d"
 									}, {
-										name : "billCost"
+										name : "billCount",
+										type : "int"
 									}, {
-										name : "checkUserId"
+										name : "billCost",
+										type : "float",
+										convert : function(value) {
+											return "￥" + value + "元"
+										}
 									}, {
-										name : "checkUserName"
+										name : "checkUserId",
+										type : "int"
 									}, {
-										name : "writeUserId"
+										name : "checkUserName",
+										type : "string"
 									}, {
-										name : "writeUserName"
+										name : "writeUserId",
+										type : "int"
+									}, {
+										name : "writeUserName",
+										type : "string"
 									}, {
 										name : "details"
+									}, {
+										name : "supplierId",
+										type : "int"
+									}, {
+										name : "supplierName",
+										type : "string"
+									}, {
+										name : "remark",
+										type : "string"
 									}]))
 				});
 		org.kyerp.warehouse.PurchaseOrderPanel.superclass.constructor.call(
@@ -800,7 +825,6 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 								listeners : {
 									"rowselect" : {
 										fn : function(_sel, _index, _r) {
-
 											this.fireEvent("rowselect", _r);
 										},
 										scope : this
@@ -822,7 +846,6 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 						msg : '正在载入数据,请稍等...'
 					}
 				});
-		this.on("show", this.loadStore, this);
 		this.insertWin.on("submit", this.onInsertWinSubmit, this);
 		this.updateWin.on("submit", this.onUpdateWinSubmit, this);
 		this.addEvents("rowselect");
