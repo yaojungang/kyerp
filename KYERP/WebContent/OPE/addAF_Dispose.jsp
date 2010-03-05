@@ -30,12 +30,6 @@
 			onchange="(document.form1.afDItem0.value=this.options[this.selectedIndex].value)" /></td>
 	</tr>
 	<tr>
-		<td width="80" align="right" bgcolor="#FAFAFA">数量</td>
-		<td><input type="text" name="afd.afDAmount"
-			value="<s:property value="#af.amount"/>" dataType="Integer"
-			msg="[数量]请填写整数" /></td>
-	</tr>
-	<tr>
 		<td width="80" align="right" bgcolor="#FAFAFA">厂家</td>
 		<td><input name='afd.afDFactory' dataType="Require"
 			msg="[厂家]必须填写" type='text' class="wenbenkuang" id="bindingFactory0"

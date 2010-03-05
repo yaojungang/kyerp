@@ -270,12 +270,8 @@ function checkAF(){
 					<td align="center" bgcolor="#FFFFFF"><span class="item">制版日期</span></td>
 					<td width="12%" align="left" bgcolor="#FFFFFF"><input type="text" name="afes[<s:property value="#stat.index" />].EPlanPm" onClick="WdatePicker()" value='<s:date name="EPlanPress" format="yyyy-MM-dd" nice="false"/>' dataType="Require" msg="[制版日期]请填写一个日期" /></td>
 					<td width="8%" align="center" bgcolor="#FFFFFF"><span
-						class="item">印数</span></td>
-					<td width="8%" align="left" bgcolor="#FFFFFF"><input
-						type="text" size="3"
-						name="afes[<s:property value="#stat.index" />].EAmount"
-						value="<s:property value="EAmount"/>" dataType="Integer"
-						msg="[印数]请填写一个整数" /> <input type="hidden"
+						class="item"></span></td>
+					<td width="8%" align="left" bgcolor="#FFFFFF"><input type="hidden"
 						name="afes[<s:property value="#stat.index" />].EIdePm"
 						value="<s:property value="EIdePm"/>" /></td>
 					<td align="center" bgcolor="#FFFFFF"><span class="item">印版</span></td>
@@ -323,7 +319,6 @@ function checkAF(){
 			<tr>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">项目名称</span></td>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">工艺名称</span></td>
-				<td align="center" bgcolor="#FFFFFF"><span class="item">数量</span></td>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">工厂</span></td>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">备注</span></td>
 			</tr>
@@ -345,11 +340,6 @@ function checkAF(){
 						msg="[工艺名称]必须填写" /> </span></td>
 					<td bgcolor="#FFFFFF"><span class="text"> <input
 						type="text"
-						name="afds[<s:property value="#stat.index" />].afDAmount"
-						value="<s:property value="afDAmount"/>" dataType="Integer"
-						msg="[数量]请填写一个整数" /> </span></td>
-					<td bgcolor="#FFFFFF"><span class="text"> <input
-						type="text"
 						name="afds[<s:property value="#stat.index" />].afDFactory"
 						value="<s:property value="afDFactory"/>" /> </span></td>
 					<td bgcolor="#FFFFFF"><span class="text"> <input
@@ -369,10 +359,10 @@ function checkAF(){
 		<td align="center" bgcolor="#FFFFFF"><span class="item">送样书备注</span></td>
 		<td colspan="6" align="left" bgcolor="#FFFFFF"><span class="text">
 		<s:textfield name="af.remarkSendSample"
-			value="%{#af.remarkSendSample}" cssStyle="width:380px;" /></span></td>
+			value="%{#af.remarkSendSample}" cssStyle="width:580px;" /></span></td>
 	</tr>
 	<tr>
-		<td align="center" bgcolor="#FFFFFF"><span class="item">送货日期</span></td>
+		<td align="center" bgcolor="#FFFFFF"><span class="item">交货日期</span></td>
 		<td align="left" bgcolor="#FFFFFF"><span class="text"> <input value='<s:date name="#af.planDeliver" format="yyyy-MM-dd" nice="false"/>' name="af.planDeliver" dataType="Require" msg="[送货日期]请填写一个日期" onClick="WdatePicker()" /> </span></td>
 		<td align="center" bgcolor="#FFFFFF"><span class="item">送货地点</span></td>
 		<td colspan="6" align="left" bgcolor="#FFFFFF"><span class="text">
