@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 import org.kyerp.domain.BaseDomain;
 import org.kyerp.domain.security.User;
+import org.kyerp.web.controller.BaseController;
 
 /**
  * 采购申请单
@@ -46,6 +47,8 @@ public class PurchaseOrder extends BaseDomain implements Serializable {
 	private Date						checkDate;
 	/** 单据状态 */
 	private BillStatus					status;
+	/** 到货日期 */
+	private Date						arriveDate;
 
 	/** 明细 **/
 	@OneToMany(mappedBy = "purchaseOrder", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
@@ -54,8 +57,39 @@ public class PurchaseOrder extends BaseDomain implements Serializable {
 	public PurchaseOrder() {
 	}
 
+	@Override
+	public void prePersist() {
+		// 设置填单时间
+		// this.setWriteDate(new Date());
+		// 设置单据状态
+		this.setStatus(BillStatus.WRITING);
+		// 保存填单人
+		this.setWriteUser(BaseController.getCurrentUser());
+		super.prePersist();
+		this.preUpdate();
+	}
+
+	@Override
+	public void preUpdate() {
+		this.setBillCount(0);
+		this.setBillCost(new BigDecimal("0"));
+		for (PurchaseOrderDetail detail : this.getDetails()) {
+			this.setBillCount(this.getBillCount() + detail.getBillCount());
+			this.setBillCost(this.getBillCost().add(detail.getBillCost()));
+		}
+		super.preUpdate();
+	}
+
 	public String getSerialNumber() {
 		return serialNumber;
+	}
+
+	public Date getArriveDate() {
+		return arriveDate;
+	}
+
+	public void setArriveDate(Date arriveDate) {
+		this.arriveDate = arriveDate;
 	}
 
 	public void setSerialNumber(String serialNumber) {
