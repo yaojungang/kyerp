@@ -12,6 +12,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.warehouse.BillStatus;
 import org.kyerp.domain.warehouse.PurchaseOrder;
 import org.kyerp.domain.warehouse.PurchaseOrderDetail;
 import org.kyerp.service.security.IUserService;
@@ -19,6 +20,7 @@ import org.kyerp.service.warehouse.IMaterialService;
 import org.kyerp.service.warehouse.IPurchaseOrderDetailService;
 import org.kyerp.service.warehouse.IPurchaseOrderService;
 import org.kyerp.service.warehouse.ISupplierService;
+import org.kyerp.utils.WebUtil;
 import org.kyerp.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -105,9 +107,24 @@ public class PurchaseOrderController extends BaseController {
 						"yyyy-MM-dd HH:mm:ss"));
 			}
 			/** 单据状态 */
-			if (null != o.getBillCount()) {
+			if (null != o.getStatus()) {
+				n.setStatus(o.getStatus());
 				n.setStatusString(o.getStatus().getName());
 			}
+			/**
+			 * 能否编辑 只有本人可以编辑
+			 * */
+			if ("0".equals(WebUtil.getCurrentUser().getId())
+					|| (BillStatus.WRITING.equals(o.getStatus()) && o
+							.getWriteUser()
+							.getId()
+							.toString()
+							.equals(WebUtil.getCurrentUser().getId().toString()))) {
+				n.setEditAble("true");
+			} else {
+				n.setEditAble("false");
+			}
+
 			/** 到货日期 */
 			if (null != o.getArriveDate()) {
 				n.setArriveDate(DateFormatUtils.format(o.getArriveDate(),
@@ -235,9 +252,6 @@ public class PurchaseOrderController extends BaseController {
 						.getLong("materialId")));
 				detail.setPrice(new BigDecimal(jsonObject.getString("price")));
 
-				// 供应商为入库单的供应商
-// b.setSupplier(supplierService.find(row.getSupplierId()));
-
 				// 单位为物料单位
 				detail.setUnit(materialService.find(
 						jsonObject.getLong("materialId")).getUnit());
@@ -282,4 +296,52 @@ public class PurchaseOrderController extends BaseController {
 		model.addAttribute("success", true);
 		return "jsonView";
 	}
+
+	/**
+	 * 提交审核
+	 * 
+	 * @throws Exception
+	 */
+	@RequestMapping("/warehouse/PurchaseOrder/jsonPostForCheck.html")
+	public String postForCheck(ModelMap model, Long id) throws Exception {
+		PurchaseOrder purchaseOrder = purchaseOrderService.find(id);
+		purchaseOrder.setStatus(BillStatus.WAITING_FOR_CHECK);
+		purchaseOrderService.save(purchaseOrder);
+		model.addAttribute("success", true);
+		return "jsonView";
+	}
+
+	/**
+	 * 返回编制状态
+	 */
+	@RequestMapping("/warehouse/PurchaseOrder/jsonReturnForEdit.html")
+	public String returnForEdit(ModelMap model, Long id) throws Exception {
+		PurchaseOrder purchaseOrder = purchaseOrderService.find(id);
+		if (BillStatus.CHECKED == purchaseOrder.getStatus()) {
+			model.addAttribute("failure", true);
+			model.addAttribute("msg", "单据已经审核过，不能再修改。");
+		} else {
+			purchaseOrder.setStatus(BillStatus.WRITING);
+			purchaseOrderService.save(purchaseOrder);
+			model.addAttribute("success", true);
+		}
+		return "jsonView";
+	}
+
+	/**
+	 * 审核单据
+	 */
+	@RequestMapping("/warehouse/PurchaseOrder/jsonCheckBill.html")
+	public String checkBill(ModelMap model, Long id) throws Exception {
+		PurchaseOrder purchaseOrder = purchaseOrderService.find(id);
+		String result = purchaseOrderService.checkPurchaseOrder(purchaseOrder);
+		if (result.equals("success")) {
+			model.addAttribute("success", true);
+		} else {
+			model.addAttribute("failure", true);
+			model.addAttribute("msg", result);
+		}
+		return "jsonView";
+	}
+
 }

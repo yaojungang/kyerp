@@ -31,7 +31,6 @@ public class MaterialCategoryController {
 
 	@RequestMapping("/warehouse/MaterialCategory/jsonTree.html")
 	public String tree(Model model) {
-
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
 		QueryResult<MaterialCategory> queryResult = materialCategoryService
@@ -61,8 +60,6 @@ public class MaterialCategoryController {
 		model
 				.addAttribute("jsonText", r.modifyStr(r.getReturnStr()
 						.toString()));
-		System.out.println("jsonText"
-				+ r.modifyStr(r.getReturnStr().toString()));
 		return "share/jsonTextView";
 	}
 
