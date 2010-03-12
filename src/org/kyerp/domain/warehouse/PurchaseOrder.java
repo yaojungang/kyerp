@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 
 import org.kyerp.domain.BaseDomain;
 import org.kyerp.domain.security.User;
-import org.kyerp.web.controller.BaseController;
+import org.kyerp.utils.WebUtil;
 
 /**
  * 采购申请单
@@ -64,7 +64,7 @@ public class PurchaseOrder extends BaseDomain implements Serializable {
 		// 设置单据状态
 		this.setStatus(BillStatus.WRITING);
 		// 保存填单人
-		this.setWriteUser(BaseController.getCurrentUser());
+		this.setWriteUser(WebUtil.getCurrentUser());
 		super.prePersist();
 		this.preUpdate();
 	}
