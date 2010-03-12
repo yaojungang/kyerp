@@ -936,12 +936,6 @@ org.kyerp.warehouse.MaterialPanel = Ext.extend(Ext.Panel, {
 					},
 					items : [this.materialCategoryTree, this.materialList]
 				});
-		this.on("show", function() {
-					this.materialList.updateWin.form.brandStore.load();
-					this.materialList.updateWin.form.unitStore.load();
-					this.materialList.updateWin.form.warehouseStore.load();
-					this.materialList.updateWin.form.supplierStore.load();
-				}, this);
 		// 点击tree改变List的内容
 		this.materialCategoryTree.on("click", function(node) {
 					this.materialList.store.on('beforeload', function(thiz,
