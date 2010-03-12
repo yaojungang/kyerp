@@ -40,4 +40,7 @@ org.kyerp.warehouse.PurchaseOrderPanel_STORE_URL = "warehouse/PurchaseOrder/json
 org.kyerp.warehouse.PurchaseOrderPanel_SAVE_URL = "warehouse/PurchaseOrder/jsonSave.html";
 org.kyerp.warehouse.PurchaseOrderPanel_DELETE_URL = "warehouse/PurchaseOrder/jsonDelete.html";
 org.kyerp.warehouse.PurchaseOrderDetail_DELETE_URL = "warehouse/PurchaseOrderDetail/jsonDelete.html"
+org.kyerp.warehouse.PurchaseOrder_PostForCheck_URL = "warehouse/PurchaseOrder/jsonPostForCheck.html"
+org.kyerp.warehouse.PurchaseOrder_ReturnForEdit_URL = "warehouse/PurchaseOrder/jsonReturnForEdit.html"
+org.kyerp.warehouse.PurchaseOrder_CheckBill_URL = "warehouse/PurchaseOrder/jsonCheckBill.html"
 /** ***************************************************************************** */

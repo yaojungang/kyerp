@@ -17,6 +17,23 @@
 									leaf : true
 								}]
 					}, {
+						id : "SupplierManager",
+						ns : 'org.kyerp.warehouse',
+						text : "供应商",
+						expanded : true,
+						children : [{
+									id : "SupplierPanel",
+									text : "供应商档案",
+									ns : 'org.kyerp.warehouse',
+									leaf : true
+								}, {
+									id : "SupplierTypePanel",
+									text : "供应商类型",
+									ns : 'org.kyerp.warehouse',
+									leaf : true
+								}]
+
+					}, {
 						id : "BuyerManager",
 						text : "采购管理",
 						expanded : true,
@@ -40,23 +57,6 @@
 									ns : 'org.kyerp.warehouse',
 									text : "采购类型",
 									leaf : true
-								}, {
-									id : "SupplierManager",
-									ns : 'org.kyerp.warehouse',
-									text : "供应商",
-									expanded : false,
-									children : [{
-												id : "SupplierPanel",
-												text : "供应商档案",
-												ns : 'org.kyerp.warehouse',
-												leaf : true
-											}, {
-												id : "SupplierTypePanel",
-												text : "供应商分类",
-												ns : 'org.kyerp.warehouse',
-												leaf : true
-											}]
-
 								}]
 					}, {
 						id : "WarehouseManager",

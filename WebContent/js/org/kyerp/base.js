@@ -47,8 +47,8 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 			region : 'north',
 			margins : '0 0 5 0',
 			border : false,
-			html : '<div style="background:url(images/hd-bg.gif); height:39px;"><img src="images/logo.gif" /><div style="float:right;padding:10px 20px 0px 0px;color:#ffffff;">Version 3.0 bate</div></div>',
-			height : 39
+			height : 39,
+			html : '<div style="background:url(images/hd-bg.gif); height:39px;"><img src="images/logo.gif" /><div style="float:right;padding:10px 20px 0px 0px;color:#ffffff;">Version 3.0 bate</div></div>'			
 		});
 		// 首页
 		this.indexTab = {
@@ -288,12 +288,12 @@ Ext.onReady(function() {
 												location.reload();
 											}
 										});
-							}
+							};
 							if ("311" == response.status) {
 								alert(response.status);
 							}
-
 						})
 	});
-
+//Ext.DomHelper.append(Ext.getBody(), {tag: 'script',type:'text/javascript',src:'js/org/kyerp/warehouse/SelectSupplierWindow.js'});
+				
 });
