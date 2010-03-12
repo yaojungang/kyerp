@@ -40,6 +40,8 @@ public class PurchaseOrderExtGridRow {
 	private String		details;
 	/** 到货日期 */
 	private String		arriveDate;
+	/** 能否编辑 */
+	private String		editAble;
 
 	public PurchaseOrderExtGridRow() {
 	}
@@ -50,6 +52,14 @@ public class PurchaseOrderExtGridRow {
 
 	public void setArriveDate(String arriveDate) {
 		this.arriveDate = arriveDate;
+	}
+
+	public String getEditAble() {
+		return editAble;
+	}
+
+	public void setEditAble(String editAble) {
+		this.editAble = editAble;
 	}
 
 	public Long getId() {

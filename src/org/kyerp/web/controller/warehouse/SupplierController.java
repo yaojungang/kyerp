@@ -1,15 +1,16 @@
 package org.kyerp.web.controller.warehouse;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
-import javax.annotation.Resource;
-
-import net.sf.json.JSONObject;
-
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.Supplier;
 import org.kyerp.service.warehouse.ISupplierService;
+import org.kyerp.service.warehouse.ISupplierTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,80 +22,152 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class SupplierController {
-	@Resource(name = "supplierService")
-	ISupplierService	supplierService;
+	@Autowired
+	ISupplierService		supplierService;
+	@Autowired
+	ISupplierTypeService	supplierTypeService;
 
 	@RequestMapping("/warehouse/Supplier/jsonList.html")
-	public String list(Model model, Integer start, Integer limit) {
+	public String list(Model model, Integer start, Integer limit, Long typeId) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
-		QueryResult<Supplier> queryResult = supplierService.getScrollData(
-				start, limit, orderby);
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("start", start);
-		jsonObject.put("limit", limit);
-		jsonObject.put("totalProperty", queryResult.getTotalrecord());
-		jsonObject.put("rows", queryResult.getResultlist());
-
-		String text = "";
-		try {
-			text = jsonObject.toString();
-			System.out.println(text);
-		} catch (Exception e) {
-			text = "";
+		// build where jpql
+		StringBuffer wherejpql = new StringBuffer("");
+		List<Object> queryParams = new ArrayList<Object>();
+		wherejpql.append(" 1=?").append((queryParams.size() + 1));
+		queryParams.add(1);
+		// set parent id
+		if (null != typeId) {
+			wherejpql.append(" and parentSupplierType.id=?").append(
+					queryParams.size() + 1);
+			queryParams.add(typeId);
 		}
-		model.addAttribute("jsonText", text);
-		return "share/jsonTextView";
+		QueryResult<Supplier> queryResult = supplierService.getScrollData(
+				start, limit, wherejpql.toString(), queryParams.toArray(),
+				orderby);
+
+		List<SupplierExtGridRow> rows = new ArrayList<SupplierExtGridRow>();
+		for (Supplier o : queryResult.getResultlist()) {
+			SupplierExtGridRow n = new SupplierExtGridRow();
+			n.setId(o.getId());
+			/** 分类 */
+			if (null != o.getSupplierType()) {
+				n.setTypeId(o.getSupplierType().getId());
+				n.setTypeName(o.getSupplierType().getName());
+
+			}
+			/** 供应商简称 **/
+			n.setName(o.getName());
+			/** 供应商简拼 **/
+			n.setNameSpell(o.getNameSpell());
+			/** 供应商全称 **/
+			n.setFullName(o.getFullName());
+			/** 是否可见 **/
+			n.setVisible(o.getVisible());
+			/** 是否列入合格供方名录 **/
+			n.setQualified(o.getQualified());
+			/** 建立时间 */
+			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
+					"yyyy-MM-dd HH:mm:ss"));
+			/** 修改时间 */
+			if (null != o.getUpdateTime()) {
+				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(),
+						"yyyy-MM-dd HH:mm:ss"));
+			}
+			/** 供应商编码 */
+			n.setSerialNumber(o.getSerialNumber());
+
+			/** 备注 */
+			n.setRemark(o.getRemark());
+			/** 地址 */
+			n.setAddress(o.getAddress());
+			/** 邮编 */
+			n.setPostcode(o.getPostcode());
+			/** 电话 */
+			n.setPhone(o.getPhone());
+			/** 传真 */
+			n.setFax(o.getFax());
+			/** 网站 */
+			n.setWww(o.getWww());
+			/** 邮箱 */
+			n.setEmail(o.getEmail());
+			/** 助记码 */
+			n.setHelpCode(o.getHelpCode());
+			/** 应付款 */
+			n.setPayCost(o.getPayCost());
+			/** logo图片路径 如:/images/brand/2008/12/12/ooo.gif" **/
+			n.setLogopath(o.getLogopath());
+			rows.add(n);
+		}
+		model.addAttribute("totalProperty", queryResult.getTotalrecord());
+		model.addAttribute("rows", rows);
+		return "jsonView";
 	}
 
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/Supplier/jsonSave.html")
-	public String save(SupplierExtGridRow supplierRow, ModelMap model) {
-		Supplier supplier = new Supplier();
-		if (null != supplierRow.getId() && supplierRow.getId() > 0) {
-			supplier = supplierService.find(supplierRow.getId());
+	public String save(SupplierExtGridRow o, ModelMap model) {
+		Supplier n = new Supplier();
+		if (null != o.getId() && o.getId() > 0) {
+			n = supplierService.find(o.getId());
 		}
-		supplier.setName(supplierRow.getName());
-		supplier.setNameSpell(supplierRow.getNameSpell());
-		supplier.setFullName(supplierRow.getFullName());
-		if (null != supplierRow.getId() && supplierRow.getId() > 0) {
-			supplierService.update(supplier);
+		/** 分类 */
+		if (o.getTypeId() > 0) {
+			n.setSupplierType(supplierTypeService.find(o.getTypeId()));
+
+		}
+		/** 供应商简称 **/
+		n.setName(o.getName());
+		/** 供应商简拼 **/
+		n.setNameSpell(o.getNameSpell());
+		/** 供应商全称 **/
+		n.setFullName(o.getFullName());
+		/** 是否可见 **/
+		n.setVisible(o.getVisible());
+		/** 是否列入合格供方名录 **/
+		n.setQualified(o.getQualified());
+		/** 供应商编码 */
+		n.setSerialNumber(o.getSerialNumber());
+		/** 备注 */
+		n.setRemark(o.getRemark());
+		/** 地址 */
+		n.setAddress(o.getAddress());
+		/** 邮编 */
+		n.setPostcode(o.getPostcode());
+		/** 电话 */
+		n.setPhone(o.getPhone());
+		/** 传真 */
+		n.setFax(o.getFax());
+		/** 网站 */
+		n.setWww(o.getWww());
+		/** 邮箱 */
+		n.setEmail(o.getEmail());
+		/** 助记码 */
+		n.setHelpCode(o.getHelpCode());
+		/** 应付款 */
+		n.setPayCost(o.getPayCost());
+		/** logo图片路径 如:/images/brand/2008/12/12/ooo.gif" **/
+		n.setLogopath(o.getLogopath());
+		if (null != o.getId() && o.getId() > 0) {
+			supplierService.update(n);
 		} else {
-			supplierService.save(supplier);
+			supplierService.save(n);
 		}
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("success", true);
-		long id = supplier.getId() > 0 ? supplier.getId() : supplierService
-				.findLast().getId();
-		jsonObject.put("id", id);
-		String text = "";
-		try {
-			text = jsonObject.toString();
-			System.out.println(text);
-		} catch (Exception e) {
-			text = "";
-		}
-		model.addAttribute("jsonText", text);
-		return "share/jsonTextView";
+		long id = n.getId() > 0 ? n.getId() : supplierService.findLast()
+				.getId();
+		model.addAttribute("success", true);
+		model.addAttribute("id", id);
+		return "jsonView";
 	}
 
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/Supplier/jsonDelete.html")
 	public String delete(ModelMap model, Long[] ids) {
 		supplierService.delete((Serializable[]) ids);
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("success", true);
-		String text = "";
-		try {
-			text = jsonObject.toString();
-			System.out.println(text);
-		} catch (Exception e) {
-			text = "";
-		}
-		model.addAttribute("jsonText", text);
-		return "share/jsonTextView";
+		model.addAttribute("success", true);
+		return "jsonView";
 	}
 }
