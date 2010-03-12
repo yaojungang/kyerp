@@ -7,11 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kyerp.domain.security.User;
 import org.kyerp.service.security.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -34,11 +32,4 @@ public class BaseController {
 		binder.registerCustomEditor(Date.class, editor);
 	}
 
-	/*
-	 * 检测是否登录系统，并返回登录用户
-	 */
-	public static User getCurrentUser() {
-		return (User) SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal();
-	}
 }

@@ -8,12 +8,33 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kyerp.domain.org.Employee;
+import org.kyerp.domain.security.User;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 /**
  * 
  * @author Administrator
  * 
  */
 public class WebUtil {
+	/**
+	 * 获取登录员工
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static Employee getEmployee(HttpServletRequest request) {
+		return (Employee) request.getSession().getAttribute("employee");
+	}
+
+	/**
+	 * 获取登录用户
+	 */
+	public static User getCurrentUser() {
+		return (User) SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
+	}
 
 	/***
 	 * 获取URI的路径,如路径为http://www.babasport.com/action/post.htm?method=add,
@@ -105,9 +126,9 @@ public class WebUtil {
 
 		try {
 			String regEx_script = "<[\\s]*?script[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?script[\\s]*?>"; // 定义script的正则表达式{或<script[^>]*?>[\\s\\S]*?<\\/script>
-																										// }
+			// }
 			String regEx_style = "<[\\s]*?style[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?style[\\s]*?>"; // 定义style的正则表达式{或<style[^>]*?>[\\s\\S]*?<\\/style>
-																									// }
+			// }
 			String regEx_html = "<[^>]+>"; // 定义HTML标签的正则表达式
 			String patternStr = "\\s+";
 
