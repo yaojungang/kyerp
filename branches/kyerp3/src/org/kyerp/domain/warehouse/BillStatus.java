@@ -12,6 +12,12 @@ public enum BillStatus {
 			return "编制";
 		}
 	},
+	WAITING_FOR_CHECK {
+		@Override
+		public String getName() {
+			return "等待审核";
+		}
+	},
 	CHECKING {
 		@Override
 		public String getName() {
