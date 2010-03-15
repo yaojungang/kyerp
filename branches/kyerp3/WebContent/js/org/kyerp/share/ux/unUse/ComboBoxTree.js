@@ -1,90 +1,129 @@
-Ext.ux.ComboBoxTree = function(){
-	this.treeId = Ext.id()+'-tree';
-	this.maxHeight = arguments[0].maxHeight || arguments[0].height || this.maxHeight;
-	this.tpl = new Ext.Template('<tpl for="."><div style="height:'+this.maxHeight+'px"><div id="'+this.treeId+'"></div></div></tpl>');
-	this.store = new Ext.data.SimpleStore({fields:[],data:[[]]});
-	this.selectedClass = '';
-	this.mode = 'local';
-	this.triggerAction = 'all';
-	this.onSelect = Ext.emptyFn;
-	this.editable = false;
-	this.beforeBlur = Ext.emptyFn;
-	this.selectNodeModel = arguments[0].selectNodeModel || 'exceptRoot';
-	this.addEvents('afterchange');
-	Ext.ux.ComboBoxTree.superclass.constructor.apply(this, arguments);
-}
+/**
+ * 下拉树ComboBoxTree
+ * @extend Ext.form.ComboBox
+ * @xtype 'combotree'
+ * 
+ * @author stworthy
+ */
 
-Ext.extend(Ext.ux.ComboBoxTree,Ext.form.ComboBox, {
+/**
+ * ----------------------
+ * Demo ComboBoxTree
+ * ----------------------
+ */
+ /*-------------------------------------------------*
+	treecombo = {
+            xtype:'combotree',
+            fieldLabel:'所属部门',
+            name:'department_id',
+            allowUnLeafClick:false,
+            treeHeight:200,
+            url:'/myoa/department/getTrees',
+            onSelect:function(id){
+            }
+	}
+*-----------------------------------------------------*/
 
-	expand : function(){
-		Ext.ux.ComboBoxTree.superclass.expand.call(this);
-		if(this.tree.rendered){
-			return;
-		}
-
-		Ext.apply(this.tree,{height:this.maxHeight, width:(this.listWidth||this.width-(Ext.isIE?3:0))-2, border:false, autoScroll:true});
-		if(this.tree.xtype){
-			this.tree = Ext.ComponentMgr.create(this.tree, this.tree.xtype);
-		}
-		this.tree.render(this.treeId);
-		
-		var root = this.tree.getRootNode();
-		if(!root.isLoaded())
-			root.reload();
-
-		this.tree.on('click',function(node){
-			var selModel = this.selectNodeModel;
-			var isLeaf = node.isLeaf();
-			
-			if((node == root) && selModel != 'all'){
-				return;
-			}else if(selModel=='folder' && isLeaf){
-				return;
-			}else if(selModel=='leaf' && !isLeaf){
-				return;
-			}
-			
-			var oldNode = this.getNode();
-			if(this.fireEvent('beforeselect', this, node, oldNode) !== false) {
-				this.setValue(node);
-				this.collapse();
-
-				this.fireEvent('select', this, node, oldNode);
-				(oldNode !== node) ? this.fireEvent('afterchange', this, node, oldNode) : '';
-			}
-		}, this);
+ComboBoxTree = Ext.extend(Ext.form.ComboBox, {
+    treeHeight : 180,
+    allowUnLeafClick:false,
+    url:'',
+    setFieldValue:function(id,text){
+        this.setValue(text);
+        this.hiddenField.value = id;
     },
-    
-	setValue : function(node){
-		this.node = node;
-        var text = node.text;
-        this.lastSelectionText = text;
-        if(this.hiddenField){
-            this.hiddenField.value = node.id;
+    onSelect:function(id){
+        
+    },
+
+    store : new Ext.data.SimpleStore({
+            fields : [],
+            data : [[]]
+    }),
+
+    //Default
+    editable : false, // 禁止手写及联想功能
+    mode : 'local',
+    triggerAction : 'all',
+    maxHeight : 500,
+    selectedClass : '',
+    onSelect : Ext.emptyFn,
+    emptyText : '请选择...',
+
+    /**
+     * 初始化
+     * Init
+     */
+    initComponent : function() {
+        ComboBoxTree.superclass.initComponent.call(this);
+        this.tplId = Ext.id();
+        this.tpl = '<div id="' + this.tplId + '" style="height:' + this.treeHeight + 'px;overflow:hidden;"></div>';
+
+        var tree = new Ext.tree.TreePanel({
+            root:new Ext.tree.AsyncTreeNode({id:'0',text:''}),
+            loader:new Ext.tree.TreeLoader({dataUrl:this.url}),
+            autoScroll:true,
+            height:this.treeHeight,
+            rootVisible:false,
+            border:false
+        });
+        var combo = this;
+        tree.on('beforeload',function(node){
+            tree.loader.dataUrl = combo.url+'?parent_id='+node.id;
+        });
+        tree.on('click',function(node){
+            if (combo.allowUnLeafClick == true){
+                combo.setValue(node.text);
+                combo.hiddenField.value = node.id;
+                combo.collapse();
+                combo.onSelect(node.id);
+            }
+            else if (node.leaf == true){
+                combo.setValue(node.text);
+                combo.hiddenField.value = node.id;
+                combo.collapse();
+                combo.onSelect(node.id);
+            }
+        });
+        this.tree = tree;
+    },
+
+    /**
+     * ------------------
+     * 事件监听器 
+     * Listener
+     * ------------------
+     */
+    listeners : {
+        'expand' : {
+            fn: function() {
+                if (!this.tree.rendered && this.tplId) {
+                    this.tree.render(this.tplId);
+                    this.tree.root.expand();
+                    this.tree.root.select();
+                }
+                this.tree.show();
+            }
+        },
+        'render':{
+            fn:function(){
+                this.hiddenField = this.el.insertSibling({
+                    tag:'input',
+                    type:'hidden',
+                    name:this.getName()
+                },'before',true);
+                this.el.dom.removeAttribute('name');
+            }
         }
-        Ext.form.ComboBox.superclass.setValue.call(this, text);
-        this.value = node.id;
-    },
-    
-    getValue : function(){
-    	return typeof this.value != 'undefined' ? this.value : '';
-    },
-
-	getNode : function(){
-		return this.node;
-	},
-
-	clearValue : function(){
-		Ext.ux.ComboBoxTree.superclass.clearValue.call(this);
-        this.node = null;
-    },
-	
-	// private
-    destroy: function() {
-		Ext.ux.ComboBoxTree.superclass.destroy.call(this);
-		Ext.destroy([this.node,this.tree]);
-		delete this.node;
     }
 });
 
-Ext.reg('combotree', Ext.ux.ComboBoxTree);
+/**
+ * --------------------------------- 
+ * 将ComboBoxTree注册为Ext的组件,以便使用
+ * Ext的延迟渲染机制，xtype:'combotree' 
+ * ---------------------------------
+ */
+Ext.reg('combotree', ComboBoxTree);
+
+

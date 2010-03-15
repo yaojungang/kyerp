@@ -1,8 +1,4 @@
-/** ***************************************************************************** */
-org.kyerp.warehouse.SupplierTypePanel_TREE_URL = "warehouse/SupplierType/jsonTree.html";
-org.kyerp.warehouse.SupplierTypePanel_LIST_URL = "warehouse/SupplierType/jsonList.html";
-org.kyerp.warehouse.SupplierTypePanel_SAVE_URL = "warehouse/SupplierType/jsonSave.html";
-org.kyerp.warehouse.SupplierTypePanel_DELETE_URL = "warehouse/SupplierType/jsonDelete.html";
+
 /** ***************************************************************************** */
 org.kyerp.warehouse.SupplierTypeStore = new Ext.data.Store({
 			autoLoad : true,
