@@ -28,7 +28,8 @@ public class SupplierController {
 	ISupplierTypeService	supplierTypeService;
 
 	@RequestMapping("/warehouse/Supplier/jsonList.html")
-	public String list(Model model, Integer start, Integer limit, Long typeId) {
+	public String list(Model model, Integer start, Integer limit, Long typeId,
+			String query) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 
@@ -41,10 +42,42 @@ public class SupplierController {
 		queryParams.add(1);
 		// set parent id
 		if (null != typeId) {
-			wherejpql.append(" and parentSupplierType.id=?").append(
+			wherejpql.append(" and o.supplierType.id=?").append(
 					queryParams.size() + 1);
 			queryParams.add(typeId);
 		}
+		// set query
+		if (null != query && !query.equals("")) {
+			wherejpql.append(" and (o.fullName like ?").append(
+					queryParams.size() + 1);
+			queryParams.add("%" + query.trim() + "%");
+			// name
+			wherejpql.append(" or o.name like ?")
+					.append(queryParams.size() + 1);
+			queryParams.add("%" + query.trim() + "%");
+			// nameSpell
+			wherejpql.append(" or o.nameSpell like ?").append(
+					queryParams.size() + 1);
+			queryParams.add("%" + query.trim() + "%");
+			// remark
+			wherejpql.append(" or o.remark like ?").append(
+					queryParams.size() + 1);
+			queryParams.add("%" + query.trim() + "%");
+			// address
+			wherejpql.append(" or o.address like ?").append(
+					queryParams.size() + 1);
+			queryParams.add("%" + query.trim() + "%");
+			// phone
+			wherejpql.append(" or o.phone like ?").append(
+					queryParams.size() + 1);
+			queryParams.add("%" + query.trim() + "%");
+
+			wherejpql.append(" or o.serialNumber like ?").append(
+					queryParams.size() + 1).append(")");
+			queryParams.add("%" + query.trim() + "%");
+		}
+		System.out
+				.print(wherejpql.toString() + "  -  " + queryParams.toArray());
 		QueryResult<Supplier> queryResult = supplierService.getScrollData(
 				start, limit, wherejpql.toString(), queryParams.toArray(),
 				orderby);
