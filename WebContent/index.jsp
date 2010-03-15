@@ -22,7 +22,7 @@
 </div>
  <!-- Extjs库 -->
 <script type="text/javascript" src="js/ext/adapter/ext/ext-base.js"></script>
-<script type="text/javascript" src="js/ext/ext-all.js"></script>
+<script type="text/javascript" src="js/ext/ext-all-debug.js"></script>
 <script type="text/javascript" src="js/ext/ext-lang-zh_CN.js"></script>
 <!-- Extjs 自带插件 -->
 <script type="text/javascript" src="js/ext/ux/ux-all-debug.js"></script>

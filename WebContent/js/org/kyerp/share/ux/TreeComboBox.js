@@ -35,7 +35,7 @@ Ext.ux.form.TreeComboBox = Ext.extend(Ext.form.ComboBox, {
                 click : function(node) {
                   this.setValue(node);
                   this.collapse();
-                  this._onSelect();
+                  this._onSelect(node);
                 }
               }
             });

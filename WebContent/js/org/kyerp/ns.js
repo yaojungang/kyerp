@@ -28,6 +28,11 @@ org.kyerp.warehouse.SupplierPanel_STORE_URL = "warehouse/Supplier/jsonList.html"
 org.kyerp.warehouse.SupplierPanel_SAVE_URL = "warehouse/Supplier/jsonSave.html";
 org.kyerp.warehouse.SupplierPanel_DELETE_URL = "warehouse/Supplier/jsonDelete.html";
 /** ***************************************************************************** */
+org.kyerp.warehouse.SupplierTypePanel_TREE_URL = "warehouse/SupplierType/jsonTree.html";
+org.kyerp.warehouse.SupplierTypePanel_LIST_URL = "warehouse/SupplierType/jsonList.html";
+org.kyerp.warehouse.SupplierTypePanel_SAVE_URL = "warehouse/SupplierType/jsonSave.html";
+org.kyerp.warehouse.SupplierTypePanel_DELETE_URL = "warehouse/SupplierType/jsonDelete.html";
+/** ***************************************************************************** */
 org.kyerp.warehouse.UnitPanel_STORE_URL = "warehouse/Unit/jsonList.html";
 org.kyerp.warehouse.UnitPanel_SAVE_URL = "warehouse/Unit/jsonSave.html";
 org.kyerp.warehouse.UnitPanel_DELETE_URL = "warehouse/Unit/jsonDelete.html";
@@ -43,4 +48,5 @@ org.kyerp.warehouse.PurchaseOrderDetail_DELETE_URL = "warehouse/PurchaseOrderDet
 org.kyerp.warehouse.PurchaseOrder_PostForCheck_URL = "warehouse/PurchaseOrder/jsonPostForCheck.html"
 org.kyerp.warehouse.PurchaseOrder_ReturnForEdit_URL = "warehouse/PurchaseOrder/jsonReturnForEdit.html"
 org.kyerp.warehouse.PurchaseOrder_CheckBill_URL = "warehouse/PurchaseOrder/jsonCheckBill.html"
+
 /** ***************************************************************************** */

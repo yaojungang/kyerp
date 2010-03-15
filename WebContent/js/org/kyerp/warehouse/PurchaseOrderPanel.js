@@ -1007,14 +1007,16 @@ org.kyerp.warehouse.PurchaseOrderUpdateWindow = Ext.extend(
 		});
 /** ***************************************************************************** */
 org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
-	insertWin : new org.kyerp.warehouse.PurchaseOrderInsertWindow(),
-	updateWin : new org.kyerp.warehouse.PurchaseOrderUpdateWindow(),
+	insertWin : null,
+	updateWin : null,
 	expander : null,
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
 		this.expander = new Ext.ux.grid.RowExpander({
 					tpl : new Ext.Template('<p><b>明细:</b>')
 				});
+		this.insertWin = new org.kyerp.warehouse.PurchaseOrderInsertWindow();
+		this.updateWin = new org.kyerp.warehouse.PurchaseOrderUpdateWindow();
 		this["store"] = new Ext.data.Store({
 					autoLoad : {
 						baseParams : {
@@ -1105,6 +1107,7 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 								text : "修  改",
 								iconCls : 'icon-utils-s-edit',
 								handler : function() {
+									//alert("edit");
 									this.updateWin.show();
 									try {
 										this.updateWin.load(this.getSelected());
@@ -1226,10 +1229,12 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 		}
 	},
 	onInsertWinSubmit : function(_win, _r) {
-		this.insert(_r);
+		//this.insert(_r);
+		this.store.reload();
 	},
 	onUpdateWinSubmit : function(_win, _r) {
-		this.update(_r);
+		//this.update(_r);
+		this.store.reload();
 	},
 	onRemove : function(_btn) {
 		if (_btn == "yes")
