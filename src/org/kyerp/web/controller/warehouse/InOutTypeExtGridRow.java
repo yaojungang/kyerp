@@ -3,26 +3,26 @@ package org.kyerp.web.controller.warehouse;
 /**
  * @author y109 2010-3-9下午09:07:04
  */
-public class WarehouseExtGridRow {
+public class InOutTypeExtGridRow {
 	private Long	id;
 	/** 建立时间 */
 	private String	createTime;
 	/** 修改时间 */
 	private String	updateTime;
-	/** 类别名称 **/
+	/** 名称 **/
 	private String	name;
 	/** 编号 **/
 	private String	serialNumber;
 	/** 摘要 **/
 	private String	note;
 	/** 子类别 **/
-	private String	childWarehouseIds;
-	private String	childWarehouseNames;
+	private String	childInOutTypeIds;
+	private String	childInOutTypeNames;
 	/** 所属父类 **/
-	private long	parentWarehouseId;
-	private String	parentWarehouseName;
+	private long	parentInOutTypeId;
+	private String	parentInOutTypeName;
 
-	public WarehouseExtGridRow() {
+	public InOutTypeExtGridRow() {
 	}
 
 	public Long getId() {
@@ -73,36 +73,36 @@ public class WarehouseExtGridRow {
 		this.note = note;
 	}
 
-	public String getChildWarehouseIds() {
-		return childWarehouseIds;
+	public String getChildInOutTypeIds() {
+		return childInOutTypeIds;
 	}
 
-	public void setChildWarehouseIds(String childWarehouseIds) {
-		this.childWarehouseIds = childWarehouseIds;
+	public void setChildInOutTypeIds(String childInOutTypeIds) {
+		this.childInOutTypeIds = childInOutTypeIds;
 	}
 
-	public String getChildWarehouseNames() {
-		return childWarehouseNames;
+	public String getChildInOutTypeNames() {
+		return childInOutTypeNames;
 	}
 
-	public void setChildWarehouseNames(String childWarehouseNames) {
-		this.childWarehouseNames = childWarehouseNames;
+	public void setChildInOutTypeNames(String childInOutTypeNames) {
+		this.childInOutTypeNames = childInOutTypeNames;
 	}
 
-	public long getParentWarehouseId() {
-		return parentWarehouseId;
+	public long getParentInOutTypeId() {
+		return parentInOutTypeId;
 	}
 
-	public void setParentWarehouseId(long parentWarehouseId) {
-		this.parentWarehouseId = parentWarehouseId;
+	public void setParentInOutTypeId(long parentInOutTypeId) {
+		this.parentInOutTypeId = parentInOutTypeId;
 	}
 
-	public String getParentWarehouseName() {
-		return parentWarehouseName;
+	public String getParentInOutTypeName() {
+		return parentInOutTypeName;
 	}
 
-	public void setParentWarehouseName(String parentWarehouseName) {
-		this.parentWarehouseName = parentWarehouseName;
+	public void setParentInOutTypeName(String parentInOutTypeName) {
+		this.parentInOutTypeName = parentInOutTypeName;
 	}
 
 }

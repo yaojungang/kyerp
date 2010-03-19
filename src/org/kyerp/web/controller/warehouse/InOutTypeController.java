@@ -9,8 +9,8 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.kyerp.domain.base.views.ExtTreeNode;
 import org.kyerp.domain.base.views.ExtTreeRecursion;
 import org.kyerp.domain.base.views.QueryResult;
-import org.kyerp.domain.warehouse.MaterialCategory;
-import org.kyerp.service.warehouse.IMaterialCategoryService;
+import org.kyerp.domain.warehouse.InOutType;
+import org.kyerp.service.warehouse.IInOutTypeService;
 import org.kyerp.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class MaterialCategoryController extends BaseController {
+public class InOutTypeController extends BaseController {
 	@Autowired
-	IMaterialCategoryService	materialCategoryService;
+	IInOutTypeService	inOutTypeService;
 
-	@RequestMapping("/warehouse/MaterialCategory/jsonList.html")
+	@RequestMapping("/warehouse/InOutType/jsonList.html")
 	public String list(Long parentId, Integer start, Integer limit, Model model) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
@@ -42,16 +42,16 @@ public class MaterialCategoryController extends BaseController {
 		queryParams.add(1);
 		// set parent id
 		if (null != parentId) {
-			wherejpql.append(" and parentMaterialCategory.id=?").append(
+			wherejpql.append(" and parentInOutType.id=?").append(
 					queryParams.size() + 1);
 			queryParams.add(parentId);
 		}
-		QueryResult<MaterialCategory> queryResult = materialCategoryService
-				.getScrollData(start, limit, wherejpql.toString(), queryParams
-						.toArray(), orderby);
-		List<MaterialCategoryExtGridRow> rows = new ArrayList<MaterialCategoryExtGridRow>();
-		for (MaterialCategory o : queryResult.getResultlist()) {
-			MaterialCategoryExtGridRow n = new MaterialCategoryExtGridRow();
+		QueryResult<InOutType> queryResult = inOutTypeService.getScrollData(
+				start, limit, wherejpql.toString(), queryParams.toArray(),
+				orderby);
+		List<InOutTypeExtGridRow> rows = new ArrayList<InOutTypeExtGridRow>();
+		for (InOutType o : queryResult.getResultlist()) {
+			InOutTypeExtGridRow n = new InOutTypeExtGridRow();
 			n.setId(o.getId());
 			n.setName(o.getName());
 			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
@@ -65,14 +65,12 @@ public class MaterialCategoryController extends BaseController {
 			n.setSerialNumber(o.getSerialNumber());
 			n.setNote(o.getNote());
 			/** 父类 */
-			if (null != o.getParentMaterialCategory()) {
-				n.setParentMaterialCategoryId(o.getParentMaterialCategory()
-						.getId());
-				n.setParentMaterialCategoryName(o.getParentMaterialCategory()
-						.getName());
+			if (null != o.getParentInOutType()) {
+				n.setParentInOutTypeId(o.getParentInOutType().getId());
+				n.setParentInOutTypeName(o.getParentInOutType().getName());
 			} else {
-				n.setParentMaterialCategoryId(new Long(0));
-				n.setParentMaterialCategoryName("顶级分类");
+				n.setParentInOutTypeId(0);
+				n.setParentInOutTypeName("顶级分类");
 			}
 			rows.add(n);
 		}
@@ -82,27 +80,27 @@ public class MaterialCategoryController extends BaseController {
 		return "jsonView";
 	}
 
-	@RequestMapping("/warehouse/MaterialCategory/jsonTree.html")
+	@RequestMapping("/warehouse/InOutType/jsonTree.html")
 	public String tree(Model model) {
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
-		QueryResult<MaterialCategory> queryResult = materialCategoryService
+		QueryResult<InOutType> queryResult = inOutTypeService
 				.getScrollData(orderby);
 		List<ExtTreeNode> extTreeList = new ArrayList<ExtTreeNode>();
 		if (queryResult.getResultlist().size() == 0) {
-			MaterialCategory materialCategory = new MaterialCategory();
-			materialCategory.setName("物料分类");
-			materialCategoryService.save(materialCategory);
-			model.addAttribute("jsonText", "[{id:1,text:'物料分类',leaf:true}]");
+			InOutType inOutType = new InOutType();
+			inOutType.setName("收发类别");
+			inOutTypeService.save(inOutType);
+			model.addAttribute("jsonText", "[{id:1,text:'收发类别',leaf:true}]");
 		} else {
-			for (MaterialCategory d : queryResult.getResultlist()) {
+			for (InOutType d : queryResult.getResultlist()) {
 				ExtTreeNode node = new ExtTreeNode();
 				node.setId(new Integer(d.getId().toString()));
 				node.setText(d.getName());
-				if (null != d.getParentMaterialCategory()
-						&& d.getParentMaterialCategory().getId() > 0) {
-					node.setParentId(new Integer(d.getParentMaterialCategory()
-							.getId().toString()));
+				if (null != d.getParentInOutType()
+						&& d.getParentInOutType().getId() > 0) {
+					node.setParentId(new Integer(d.getParentInOutType().getId()
+							.toString()));
 				}
 				if (d.getId() == 1) {
 					node.setExpanded(true);
@@ -124,47 +122,42 @@ public class MaterialCategoryController extends BaseController {
 	}
 
 	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/MaterialCategory/jsonSave.html")
-	public String save(MaterialCategoryExtGridRow materialCategoryRow,
-			ModelMap model) {
-		MaterialCategory materialCategory = new MaterialCategory();
-		if (null != materialCategoryRow.getId()
-				&& materialCategoryRow.getId() > 0) {
-			materialCategory = materialCategoryService.find(materialCategoryRow
-					.getId());
+	@RequestMapping("/warehouse/InOutType/jsonSave.html")
+	public String save(InOutTypeExtGridRow inOutTypeRow, ModelMap model) {
+		InOutType inOutType = new InOutType();
+		if (null != inOutTypeRow.getId() && inOutTypeRow.getId() > 0) {
+			inOutType = inOutTypeService.find(inOutTypeRow.getId());
 		}
-		materialCategory.setName(materialCategoryRow.getName());
+		inOutType.setName(inOutTypeRow.getName());
 		// 设置父类
-		if (materialCategoryRow.getParentMaterialCategoryId() != 0) {
-			materialCategory.setParentMaterialCategory(materialCategoryService
-					.find(materialCategoryRow.getParentMaterialCategoryId()));
+		if (inOutTypeRow.getParentInOutTypeId() != 0) {
+			inOutType.setParentInOutType(inOutTypeService.find(inOutTypeRow
+					.getParentInOutTypeId()));
 		}
 		// 设置note
-		if (null != materialCategoryRow.getNote()) {
-			materialCategory.setNote(materialCategoryRow.getNote());
+		if (null != inOutTypeRow.getNote()) {
+			inOutType.setNote(inOutTypeRow.getNote());
 		}
 		// 设置序号
-		if (null != materialCategoryRow.getSerialNumber()) {
-			materialCategory.setSerialNumber(materialCategoryRow
-					.getSerialNumber());
+		if (null != inOutTypeRow.getSerialNumber()) {
+			inOutType.setSerialNumber(inOutTypeRow.getSerialNumber());
 		}
-		if (null != materialCategoryRow.getId()
-				&& materialCategoryRow.getId() > 0) {
-			materialCategoryService.update(materialCategory);
+		if (null != inOutTypeRow.getId() && inOutTypeRow.getId() > 0) {
+			inOutTypeService.update(inOutType);
 		} else {
-			materialCategoryService.save(materialCategory);
+			inOutTypeService.save(inOutType);
 		}
-		long id = materialCategory.getId() > 0 ? materialCategory.getId()
-				: materialCategoryService.findLast().getId();
+		long id = inOutType.getId() > 0 ? inOutType.getId() : inOutTypeService
+				.findLast().getId();
 		model.addAttribute("success", true);
 		model.addAttribute("id", id);
 		return "jsonView";
 	}
 
 	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/MaterialCategory/jsonDelete.html")
+	@RequestMapping("/warehouse/InOutType/jsonDelete.html")
 	public String delete(ModelMap model, Long[] ids) {
-		materialCategoryService.delete((Serializable[]) ids);
+		inOutTypeService.delete((Serializable[]) ids);
 		model.addAttribute("success", true);
 		return "jsonView";
 	}

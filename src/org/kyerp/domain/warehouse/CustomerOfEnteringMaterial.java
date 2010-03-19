@@ -7,7 +7,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-import org.kyerp.domain.crm.Customer;
+import org.kyerp.domain.crm.Client;
 import org.kyerp.domain.org.Employee;
 
 /**
@@ -24,7 +24,7 @@ public class CustomerOfEnteringMaterial extends EnteringMaterial implements
 	private Date				inputTime;
 	/** 客户 */
 	@ManyToOne
-	private Customer			customer;
+	private Client			customer;
 	/** 收货人 */
 	@ManyToOne
 	private Employee			taker;
@@ -43,11 +43,11 @@ public class CustomerOfEnteringMaterial extends EnteringMaterial implements
 		this.inputTime = inputTime;
 	}
 
-	public Customer getCustomer() {
+	public Client getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(Customer customer) {
+	public void setCustomer(Client customer) {
 		this.customer = customer;
 	}
 

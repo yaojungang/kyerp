@@ -1,11 +1,14 @@
 package org.kyerp.web.controller.warehouse;
 
-
 /**
  * @author y109 2010-2-2下午05:04:03
  */
 public class MaterialCategoryExtGridRow {
 	private Long	id;
+	/** 建立时间 */
+	private String	createTime;
+	/** 修改时间 */
+	private String	updateTime;
 	/** 类别名称 **/
 	private String	name;
 	/** 编号 **/
@@ -18,7 +21,7 @@ public class MaterialCategoryExtGridRow {
 	private String	childMaterialCategoryIds;
 	private String	childMaterialCategoryNames;
 	/** 所属父类 **/
-	private Long	parentMaterialCategoryId;
+	private long	parentMaterialCategoryId;
 	private String	parentMaterialCategoryName;
 
 	MaterialCategoryExtGridRow() {
@@ -54,6 +57,22 @@ public class MaterialCategoryExtGridRow {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
 	}
 
 	public Boolean getVisible() {

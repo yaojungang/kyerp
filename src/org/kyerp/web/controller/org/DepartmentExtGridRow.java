@@ -6,11 +6,17 @@ package org.kyerp.web.controller.org;
 /**
  * @author y109 2010-1-29下午04:14:45
  */
-public class DepartmentGridRow {
+public class DepartmentExtGridRow {
 	private Long	id;
 	private String	name;
+	/** 编号 **/
+	private String	serialNumber;
+	/** 建立时间 */
+	private String	createTime;
+	/** 修改时间 */
+	private String	updateTime;
 	/** 上级部门 **/
-	private Long	parentDepartmentId;
+	private long	parentDepartmentId;
 	private String	parentDepartmentName;
 	/** 下级部门 **/
 	private String	childDepartmentIds;
@@ -28,12 +34,35 @@ public class DepartmentGridRow {
 	/** 备注 */
 	private String	remark;
 
-	public DepartmentGridRow() {
-		// TODO Auto-generated constructor stub
+	public DepartmentExtGridRow() {
 	}
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
+	public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
 	}
 
 	public void setId(Long id) {
