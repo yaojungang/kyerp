@@ -1,36 +1,36 @@
 
 /** ***************************************************************************** */
-org.kyerp.warehouse.WarehouseStore = new Ext.data.Store({
+org.kyerp.warehouse.InOutTypeStore = new Ext.data.Store({
 			autoLoad : true,
 			proxy : new Ext.data.HttpProxy({
-						url : org.kyerp.warehouse.WarehousePanel_LIST_URL
+						url : org.kyerp.warehouse.InOutTypePanel_LIST_URL
 					}),
 			reader : new Ext.data.JsonReader({
 						totalProperty : "totalProperty",
 						root : "rows",
 						id : "id"
 					}, ['id', 'createTime', 'updateTime', 'name',
-							'serialNumber', 'note', 'childWarehouseIds',
-							'childWarehouseNames', 'parentWarehouseId',
-							'parentWarehouseName'])
+							'serialNumber', 'note', 'childInOutTypeIds',
+							'childInOutTypeNames', 'parentInOutTypeId',
+							'parentInOutTypeName'])
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.WarehouseTree = new Ext.tree.TreePanel({
-	title : '库房',
+org.kyerp.warehouse.InOutTypeTree = new Ext.tree.TreePanel({
+	title : '收发类别',
 	loader : new Ext.tree.TreeLoader({
-				dataUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL
+				dataUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL
 			}),
 	root : {
 		nodeType : 'async',
 		id : 'root',
-		text : '库房',
+		text : '收发类别',
 		expanded : true
 	},
 	tools : [{
 				id : 'refresh',
 				qtip : '刷新',
 				handler : function() {
-					org.kyerp.warehouse.WarehouseTree.getRootNode().reload();
+					org.kyerp.warehouse.InOutTypeTree.getRootNode().reload();
 				}
 			}],
 	rootVisible : false,
@@ -43,9 +43,9 @@ org.kyerp.warehouse.WarehouseTree = new Ext.tree.TreePanel({
 	}
 });
 /** ***************************************************************************** */
-org.kyerp.warehouse.WarehouseGrid = new Ext.grid.EditorGridPanel({
-			title : '库房资料',
-			store : org.kyerp.warehouse.WarehouseStore,
+org.kyerp.warehouse.InOutTypeGrid = new Ext.grid.EditorGridPanel({
+			title : '收发类别资料',
+			store : org.kyerp.warehouse.InOutTypeStore,
 			columns : [new Ext.grid.RowNumberer(), {
 						header : '编码',
 						width : 100,
@@ -73,7 +73,7 @@ org.kyerp.warehouse.WarehouseGrid = new Ext.grid.EditorGridPanel({
 									afterText : '条'
 								}),
 						pageSize : 20,
-						store : org.kyerp.warehouse.WarehouseStore,
+						store : org.kyerp.warehouse.InOutTypeStore,
 						displayInfo : true,
 						displayMsg : '显示  {0} - {1} 条记录,共有 {2} 条记录',
 						emptyMsg : "没有数据"
@@ -89,14 +89,14 @@ org.kyerp.warehouse.WarehouseGrid = new Ext.grid.EditorGridPanel({
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
+org.kyerp.warehouse.InOutTypePanel = Ext.extend(Ext.Panel, {
 	tree : null,
 	grid : null,
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this.tree = org.kyerp.warehouse.WarehouseTree;
-		this.grid = org.kyerp.warehouse.WarehouseGrid;
-		org.kyerp.warehouse.WarehousePanel.superclass.constructor.call(this,
+		this.tree = org.kyerp.warehouse.InOutTypeTree;
+		this.grid = org.kyerp.warehouse.InOutTypeGrid;
+		org.kyerp.warehouse.InOutTypePanel.superclass.constructor.call(this,
 				{
 					layout : 'border',
 					border : false,
@@ -110,7 +110,7 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 									text : '新增',
 									iconCls : 'icon-utils-s-add',
 									handler : function() {
-										this.createWarehouse();
+										this.createInOutType();
 									},
 									scope : this
 								}, '-', {
@@ -118,11 +118,11 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 									iconCls : 'icon-utils-s-delete',
 									handler : function() {
 										Ext.Msg.confirm("系统提示", "你确定删除此记录吗?",
-												this.onDeleteWarehouseClick,
+												this.onDeleteInOutTypeClick,
 												this);
 									},
 									scope : this
-								}, '->', '双击表格可以修改库房资料']
+								}, '->', '双击表格可以修改收发类别资料']
 					}, {
 						region : 'west',
 						layout : 'fit',
@@ -144,14 +144,14 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 		this.tree.on("click", function(node) {
 					node.expand();
 					node.select();
-					var store = org.kyerp.warehouse.WarehouseStore;
+					var store = org.kyerp.warehouse.InOutTypeStore;
 					store.setBaseParam("parentId", node.id);
 					store.load();
 				});
 		this.grid.on('afteredit', function(e) {
 					// alert(Ext.encode(e.record.data));
 					Ext.Ajax.request({
-								url : org.kyerp.warehouse.WarehousePanel_SAVE_URL,
+								url : org.kyerp.warehouse.InOutTypePanel_SAVE_URL,
 								params : {
 									id : e.record.data.id,
 									name : e.record.data.name,
@@ -161,7 +161,7 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 								method : 'POST',
 								success : function() {
 									e.record.commit(false);
-									var node = org.kyerp.warehouse.WarehouseTree
+									var node = org.kyerp.warehouse.InOutTypeTree
 											.getSelectionModel()
 											.getSelectedNode().findChild('id',
 													e.record.data.id);
@@ -172,27 +172,27 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 							});
 				});
 	},
-	createWarehouse : function() {
+	createInOutType : function() {
 		var node = this.tree.getSelectionModel().getSelectedNode();
 		if (node) {
 			Ext.Ajax.request({
-						url : org.kyerp.warehouse.WarehousePanel_SAVE_URL,
+						url : org.kyerp.warehouse.InOutTypePanel_SAVE_URL,
 						params : {
-							parentWarehouseId : node.id,
-							name : '新库房'
+							parentInOutTypeId : node.id,
+							name : '新收发类别'
 						},
 						success : function(response) {
 							var data = Ext.decode(response.responseText);
 							if (data.success) {
 								node.appendChild(new Ext.tree.TreeNode({
 											id : data.id,
-											text : data.warehouseExtGridRow.name,
+											text : data.inOutTypeExtGridRow.name,
 											leaf : true
 										}));
 								node.getUI().removeClass('x-tree-node-leaf');
 								node.getUI().addClass('x-tree-node-expanded');
 								node.expand();
-								org.kyerp.warehouse.WarehouseGrid.getStore()
+								org.kyerp.warehouse.InOutTypeGrid.getStore()
 										.reload();
 							} else {
 								Ext.MessageBox.alert('警告', data.msg);
@@ -202,13 +202,13 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 		}
 
 	},
-	onDeleteWarehouseClick : function(_btn) {
+	onDeleteInOutTypeClick : function(_btn) {
 		if (_btn == "yes") {
-			this.onDeleteWarehouse();
+			this.onDeleteInOutType();
 		}
 	},
 
-	onDeleteWarehouse : function() {
+	onDeleteInOutType : function() {
 		try {
 			var id;
 			// var rec = this.grid.getSelectionModel().getSelected();
@@ -220,13 +220,13 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 				id = node.id;
 			}
 			Ext.Ajax.request({
-						url : org.kyerp.warehouse.WarehousePanel_DELETE_URL
+						url : org.kyerp.warehouse.InOutTypePanel_DELETE_URL
 								+ "?ids=" + id,
 						method : 'POST',
 						success : function(response) {
 							var data = Ext.decode(response.responseText);
 							if (data.success) {
-								var snode = org.kyerp.warehouse.WarehouseTree
+								var snode = org.kyerp.warehouse.InOutTypeTree
 										.getSelectionModel().getSelectedNode();
 								if (snode.id == id) { // 当前树节点是要删除的节点
 									snode.remove();
@@ -234,9 +234,9 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 									var node = snode.findChild('id', id);
 									node.remove();
 								}
-								org.kyerp.warehouse.WarehouseGrid.getStore()
+								org.kyerp.warehouse.InOutTypeGrid.getStore()
 										.reload();
-								Ext.MessageBox.alert('警告', '删除库房资料完成。');
+								Ext.MessageBox.alert('警告', '删除收发类别资料完成。');
 							} else {
 								Ext.MessageBox.alert('警告', data.msg);
 							}
@@ -250,7 +250,7 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module, {
 			init : function() {
-				this.body = new org.kyerp.warehouse.WarehousePanel({
+				this.body = new org.kyerp.warehouse.InOutTypePanel({
 							border : false,
 							bodyBorder : false
 						});

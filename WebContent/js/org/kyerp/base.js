@@ -73,11 +73,11 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 					html : '<iframe src="http://news.tsinghua.edu.cn/new/headnews.php" frameborder="0" width="100%" height="100%"></iframe>'
 				}, {
 					title : '清华大学重要公告',
-					height:220,
+					height:200,
 					html : '<iframe src="http://info.tsinghua.edu.cn/view/notice_beforelogin.htm" frameborder="0" width="100%" height="100%"></iframe>'
 				}, {
 					title : '清华大学最近七日信息汇总',
-					height:220,
+					height:115,
 					collapsed : true,
 					html : '<iframe src="http://oars.tsinghua.edu.cn/comm/news.nsf/portalpost?openview&count=10" frameborder="0" width="100%" height="100%"></iframe>'
 				}]
@@ -99,11 +99,11 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 					html : '<iframe src="http://oars.tsinghua.edu.cn/ztg/51029.nsf/portalpost?openview&count=100" frameborder="0" width="100%" height="100%"></iframe>'
 				}, {
 					title : '海报',
-					height:220,
+					height:200,
 					html : '<iframe src="http://oars.tsinghua.edu.cn/ztg/92390.nsf/portalpost?openview&count=100" frameborder="0" width="100%" height="100%"></iframe>'
 				}, {
 					title : '个人信息',
-					height:220,
+					height:115,
 					collapsed : true,
 					autoLoad : {
 						url : 'share/user.jsp'
