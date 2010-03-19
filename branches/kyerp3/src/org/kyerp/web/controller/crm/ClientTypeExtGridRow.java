@@ -1,9 +1,9 @@
-package org.kyerp.web.controller.warehouse;
+package org.kyerp.web.controller.crm;
 
 /**
  * @author y109 2010-3-9下午09:07:04
  */
-public class WarehouseExtGridRow {
+public class ClientTypeExtGridRow {
 	private Long	id;
 	/** 建立时间 */
 	private String	createTime;
@@ -16,13 +16,14 @@ public class WarehouseExtGridRow {
 	/** 摘要 **/
 	private String	note;
 	/** 子类别 **/
-	private String	childWarehouseIds;
-	private String	childWarehouseNames;
+	private String	childClientTypeIds;
+	private String	childClientTypeNames;
 	/** 所属父类 **/
-	private long	parentWarehouseId;
-	private String	parentWarehouseName;
+	private long	parentClientTypeId;
+	private String	parentClientTypeName;
 
-	public WarehouseExtGridRow() {
+	public ClientTypeExtGridRow() {
+
 	}
 
 	public Long getId() {
@@ -73,36 +74,35 @@ public class WarehouseExtGridRow {
 		this.note = note;
 	}
 
-	public String getChildWarehouseIds() {
-		return childWarehouseIds;
+	public String getChildClientTypeIds() {
+		return childClientTypeIds;
 	}
 
-	public void setChildWarehouseIds(String childWarehouseIds) {
-		this.childWarehouseIds = childWarehouseIds;
+	public void setChildClientTypeIds(String childClientTypeIds) {
+		this.childClientTypeIds = childClientTypeIds;
 	}
 
-	public String getChildWarehouseNames() {
-		return childWarehouseNames;
+	public String getChildClientTypeNames() {
+		return childClientTypeNames;
 	}
 
-	public void setChildWarehouseNames(String childWarehouseNames) {
-		this.childWarehouseNames = childWarehouseNames;
+	public void setChildClientTypeNames(String childClientTypeNames) {
+		this.childClientTypeNames = childClientTypeNames;
 	}
 
-	public long getParentWarehouseId() {
-		return parentWarehouseId;
+	public long getParentClientTypeId() {
+		return parentClientTypeId;
 	}
 
-	public void setParentWarehouseId(long parentWarehouseId) {
-		this.parentWarehouseId = parentWarehouseId;
+	public void setParentClientTypeId(long parentClientTypeId) {
+		this.parentClientTypeId = parentClientTypeId;
 	}
 
-	public String getParentWarehouseName() {
-		return parentWarehouseName;
+	public String getParentClientTypeName() {
+		return parentClientTypeName;
 	}
 
-	public void setParentWarehouseName(String parentWarehouseName) {
-		this.parentWarehouseName = parentWarehouseName;
+	public void setParentClientTypeName(String parentClientTypeName) {
+		this.parentClientTypeName = parentClientTypeName;
 	}
-
 }

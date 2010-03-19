@@ -12,31 +12,35 @@ import javax.persistence.OneToMany;
 import org.kyerp.domain.BaseDomain;
 
 /**
- * 仓库信息表
+ * 收发类别
  * 
- * @author y109 2009-12-10下午08:02:27
+ * @author y109 2010-3-9下午09:00:33
  */
 @Entity
-public class Warehouse extends BaseDomain implements Serializable {
+public class InOutType extends BaseDomain implements Serializable {
 	private static final long	serialVersionUID	= 1L;
-	/** 仓库编号 */
-	private String				serialNumber;
-	/** 仓库名称 */
+	/** 名称 **/
 	private String				name;
+	/** 编号 **/
+	private String				serialNumber;
 	/** 摘要 **/
 	private String				note;
 	/** 子类别 **/
-	@OneToMany(cascade = { CascadeType.REFRESH, CascadeType.REMOVE }, mappedBy = "parentWarehouse")
-	private List<Warehouse>		childWarehouses		= new ArrayList<Warehouse>();
+	@OneToMany(cascade = { CascadeType.REFRESH, CascadeType.REMOVE }, mappedBy = "parentInOutType")
+	private List<InOutType>		childInOutTypes		= new ArrayList<InOutType>();
 	/** 所属父类 **/
 	@ManyToOne(cascade = CascadeType.REFRESH)
-	private Warehouse			parentWarehouse;
+	private InOutType			parentInOutType;
 
-	public Warehouse() {
+	public InOutType() {
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getSerialNumber() {
@@ -47,10 +51,6 @@ public class Warehouse extends BaseDomain implements Serializable {
 		this.serialNumber = serialNumber;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getNote() {
 		return note;
 	}
@@ -59,20 +59,20 @@ public class Warehouse extends BaseDomain implements Serializable {
 		this.note = note;
 	}
 
-	public List<Warehouse> getChildWarehouses() {
-		return childWarehouses;
+	public List<InOutType> getChildInOutTypes() {
+		return childInOutTypes;
 	}
 
-	public void setChildWarehouses(List<Warehouse> childWarehouses) {
-		this.childWarehouses = childWarehouses;
+	public void setChildInOutTypes(List<InOutType> childInOutTypes) {
+		this.childInOutTypes = childInOutTypes;
 	}
 
-	public Warehouse getParentWarehouse() {
-		return parentWarehouse;
+	public InOutType getParentInOutType() {
+		return parentInOutType;
 	}
 
-	public void setParentWarehouse(Warehouse parentWarehouse) {
-		this.parentWarehouse = parentWarehouse;
+	public void setParentInOutType(InOutType parentInOutType) {
+		this.parentInOutType = parentInOutType;
 	}
 
 }

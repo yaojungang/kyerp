@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 import org.kyerp.domain.base.PaymentWay;
 import org.kyerp.domain.crm.Contact;
-import org.kyerp.domain.crm.Customer;
+import org.kyerp.domain.crm.Client;
 import org.kyerp.domain.org.Employee;
 
 /**
@@ -97,7 +97,7 @@ public class Order implements Serializable {
 	private Date					finishDate;
 	/** 客户 */
 	@ManyToOne
-	private Customer				customer;
+	private Client				customer;
 	/** 联系人 */
 	@ManyToOne
 	private Contact					contact;
@@ -284,11 +284,11 @@ public class Order implements Serializable {
 		this.finishDate = finishDate;
 	}
 
-	public Customer getCustomer() {
+	public Client getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(Customer customer) {
+	public void setCustomer(Client customer) {
 		this.customer = customer;
 	}
 

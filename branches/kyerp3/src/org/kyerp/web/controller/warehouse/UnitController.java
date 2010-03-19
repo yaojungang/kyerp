@@ -5,15 +5,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import net.sf.json.JSONObject;
-
-import org.kyerp.domain.base.views.ExtGridList;
+import org.apache.commons.lang.time.DateFormatUtils;
+import org.kyerp.domain.base.views.ExtTreeNode;
+import org.kyerp.domain.base.views.ExtTreeRecursion;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.Unit;
 import org.kyerp.service.warehouse.IUnitService;
 import org.kyerp.web.controller.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,42 +24,97 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class UnitController extends BaseController {
-	@Resource(name = "unitService")
+	@Autowired
 	IUnitService	unitService;
 
 	@RequestMapping("/warehouse/Unit/jsonList.html")
-	public String list(Model model, Integer start, Integer limit) {
+	public String list(Long parentId, Integer start, Integer limit, Model model) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
+		parentId = null == parentId ? 1 : parentId;
+		// build order by
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
+		// build where jpql
+		StringBuffer wherejpql = new StringBuffer("");
+		List<Object> queryParams = new ArrayList<Object>();
+		wherejpql.append(" 1=?").append((queryParams.size() + 1));
+		queryParams.add(1);
+		// set parent id
+		if (null != parentId) {
+			wherejpql.append(" and parentUnit.id=?").append(
+					queryParams.size() + 1);
+			queryParams.add(parentId);
+		}
 		QueryResult<Unit> queryResult = unitService.getScrollData(start, limit,
-				orderby);
+				wherejpql.toString(), queryParams.toArray(), orderby);
 		List<UnitExtGridRow> rows = new ArrayList<UnitExtGridRow>();
-		for (Unit b : queryResult.getResultlist()) {
-			UnitExtGridRow nb = new UnitExtGridRow();
-			nb.setId(b.getId());
-			nb.setName(b.getName());
-			nb.setNameSpell(b.getNameSpell());
-			nb.setSerialNumber(b.getSerialNumber());
-			rows.add(nb);
+		for (Unit o : queryResult.getResultlist()) {
+			UnitExtGridRow n = new UnitExtGridRow();
+			n.setId(o.getId());
+			n.setName(o.getName());
+			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
+					"yyyy-MM-dd HH:mm:ss"));
+			/** 修改时间 */
+			if (null != o.getUpdateTime()) {
+				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(),
+						"yyyy-MM-dd HH:mm:ss"));
+			}
+			/** 申请单号 */
+			n.setSerialNumber(o.getSerialNumber());
+			n.setNote(o.getNote());
+			/** 父类 */
+			if (null != o.getParentUnit()) {
+				n.setParentUnitId(o.getParentUnit().getId());
+				n.setParentUnitName(o.getParentUnit().getName());
+			} else {
+				n.setParentUnitId(0);
+				n.setParentUnitName("顶级分类");
+			}
+			rows.add(n);
 		}
-		ExtGridList<UnitExtGridRow> mGrid = new ExtGridList<UnitExtGridRow>();
-		mGrid.setStart(start);
-		mGrid.setLimit(limit);
-		mGrid.setTotalProperty(queryResult.getTotalrecord());
-		mGrid.setRows(rows);
-		JSONObject jsonObject = JSONObject.fromObject(mGrid);
+		;
+		model.addAttribute("totalProperty", queryResult.getTotalrecord());
+		model.addAttribute("rows", rows);
+		return "jsonView";
+	}
 
-		String text = "";
+	@RequestMapping("/warehouse/Unit/jsonTree.html")
+	public String tree(Model model) {
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("id", "asc");
+		QueryResult<Unit> queryResult = unitService.getScrollData(orderby);
+		List<ExtTreeNode> extTreeList = new ArrayList<ExtTreeNode>();
+		if (queryResult.getResultlist().size() == 0) {
+			Unit unit = new Unit();
+			unit.setName("计量单位");
+			unitService.save(unit);
+			model.addAttribute("jsonText", "[{id:1,text:'计量单位',leaf:true}]");
+		} else {
+			for (Unit d : queryResult.getResultlist()) {
+				ExtTreeNode node = new ExtTreeNode();
+				node.setId(new Integer(d.getId().toString()));
+				node.setText(d.getName());
+				if (null != d.getParentUnit() && d.getParentUnit().getId() > 0) {
+					node.setParentId(new Integer(d.getParentUnit().getId()
+							.toString()));
+				}
+				if (d.getId() == 1) {
+					node.setExpanded(true);
+				} else {
+					node.setExpanded(false);
+				}
+				extTreeList.add(node);
+			}
 
-		try {
-			text = jsonObject.toString();
-			System.out.println(text);
-		} catch (Exception e) {
-			text = "";
+			ExtTreeRecursion r = new ExtTreeRecursion();
+			if (null != extTreeList && extTreeList.size() > 0) {
+				r.recursionFn(extTreeList, extTreeList.get(0));
+			}
+			String strTreeString = r.modifyStr(r.getReturnStr().toString());
+
+			model.addAttribute("jsonText", strTreeString);
 		}
-		model.addAttribute("jsonText", text);
 		return "share/jsonTextView";
 	}
 
@@ -72,42 +126,35 @@ public class UnitController extends BaseController {
 			unit = unitService.find(unitRow.getId());
 		}
 		unit.setName(unitRow.getName());
-		unit.setNameSpell(unitRow.getNameSpell());
+		// 设置父类
+		if (unitRow.getParentUnitId() != 0) {
+			unit.setParentUnit(unitService.find(unitRow.getParentUnitId()));
+		}
+		// 设置note
+		if (null != unitRow.getNote()) {
+			unit.setNote(unitRow.getNote());
+		}
+		// 设置序号
+		if (null != unitRow.getSerialNumber()) {
+			unit.setSerialNumber(unitRow.getSerialNumber());
+		}
 		if (null != unitRow.getId() && unitRow.getId() > 0) {
 			unitService.update(unit);
 		} else {
 			unitService.save(unit);
 		}
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("success", true);
 		long id = unit.getId() > 0 ? unit.getId() : unitService.findLast()
 				.getId();
-		jsonObject.put("id", id);
-		String text = "";
-		try {
-			text = jsonObject.toString();
-			System.out.println(text);
-		} catch (Exception e) {
-			text = "";
-		}
-		model.addAttribute("jsonText", text);
-		return "share/jsonTextView";
+		model.addAttribute("success", true);
+		model.addAttribute("id", id);
+		return "jsonView";
 	}
 
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/Unit/jsonDelete.html")
 	public String delete(ModelMap model, Long[] ids) {
 		unitService.delete((Serializable[]) ids);
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("success", true);
-		String text = "";
-		try {
-			text = jsonObject.toString();
-			System.out.println(text);
-		} catch (Exception e) {
-			text = "";
-		}
-		model.addAttribute("jsonText", text);
-		return "share/jsonTextView";
+		model.addAttribute("success", true);
+		return "jsonView";
 	}
 }

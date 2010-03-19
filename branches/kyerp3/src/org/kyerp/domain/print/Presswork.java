@@ -15,8 +15,8 @@ import javax.persistence.OneToOne;
 
 import org.kyerp.domain.BaseDomain;
 import org.kyerp.domain.book.Order;
+import org.kyerp.domain.crm.Client;
 import org.kyerp.domain.crm.Contact;
-import org.kyerp.domain.crm.Customer;
 import org.kyerp.domain.org.Employee;
 
 @Entity
@@ -40,7 +40,7 @@ public class Presswork extends BaseDomain implements Serializable {
 	private final List<PressworkAfterPress>	pressworkAfterPresses	= new ArrayList<PressworkAfterPress>();
 	/** 客户 */
 	@ManyToOne
-	private Customer						customer;
+	private Client							client;
 	/** 联系人 */
 	@ManyToOne
 	private Contact							contact;
@@ -119,12 +119,12 @@ public class Presswork extends BaseDomain implements Serializable {
 		this.pressworkPapers = pressworkPapers;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public Client getClient() {
+		return client;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 	public Contact getContact() {

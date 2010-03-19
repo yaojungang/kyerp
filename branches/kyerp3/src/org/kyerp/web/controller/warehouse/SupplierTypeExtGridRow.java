@@ -1,6 +1,5 @@
 package org.kyerp.web.controller.warehouse;
 
-
 /**
  * @author y109 2010-3-9下午09:07:04
  */
@@ -24,7 +23,6 @@ public class SupplierTypeExtGridRow {
 	private String	parentSupplierTypeName;
 
 	public SupplierTypeExtGridRow() {
-
 	}
 
 	public Long getId() {
@@ -106,4 +104,5 @@ public class SupplierTypeExtGridRow {
 	public void setParentSupplierTypeName(String parentSupplierTypeName) {
 		this.parentSupplierTypeName = parentSupplierTypeName;
 	}
+
 }

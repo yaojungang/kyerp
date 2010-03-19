@@ -21,6 +21,8 @@ public class Department extends BaseDomain implements Serializable {
 	private static final long		serialVersionUID	= -2976121492199875229L;
 	/** 名称 */
 	private String					name;
+	/** 编号 **/
+	private String					serialNumber;
 	/** 上级部门 **/
 	@ManyToOne(cascade = CascadeType.REFRESH)
 	private Department				parentDepartment;
@@ -41,6 +43,14 @@ public class Department extends BaseDomain implements Serializable {
 	private String					remark;
 
 	public Department() {
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 
 	public Department getParentDepartment() {
