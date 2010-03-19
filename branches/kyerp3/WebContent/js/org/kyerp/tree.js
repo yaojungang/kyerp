@@ -4,7 +4,7 @@
 			children : [{
 						id : "MaterialManager",
 						text : "物料管理",
-						expanded : true,
+						expanded : false,
 						children : [{
 									id : "MaterialCategoryPanel",
 									text : "物料分类",
@@ -20,7 +20,7 @@
 						id : "SupplierManager",
 						ns : 'org.kyerp.warehouse',
 						text : "供应商",
-						expanded : true,
+						expanded : false,
 						children : [{
 									id : "SupplierPanel",
 									text : "供应商档案",
@@ -43,19 +43,14 @@
 									ns : 'org.kyerp.warehouse',
 									leaf : true
 								}, {
-									id : "BuyerOfEnteringMaterialPanel",
+									id : "BuyerOfInStockPanel",
 									ns : 'org.kyerp.warehouse',
-									text : "采购入库",
+									text : "购货入库",
 									leaf : true
 								}, {
-									id : "BrandPanel",
+									id : "BuyerOfPayPanel",
 									ns : 'org.kyerp.warehouse',
-									text : "品牌管理",
-									leaf : true
-								}, {
-									id : "BuyTypePanel",
-									ns : 'org.kyerp.warehouse',
-									text : "采购类型",
+									text : "采购付款",
 									leaf : true
 								}]
 					}, {
@@ -63,19 +58,29 @@
 						text : "库存管理",
 						expanded : true,
 						children : [{
-									id : "EnteringMaterialPanel",
+									id : "StockPanel",
+									text : "库存状况",
 									ns : 'org.kyerp.warehouse',
-									text : "入库单",
 									leaf : true
 								}, {
-									id : "DeliveryMaterialPanel",
+									id : "InStockPanel",
 									ns : 'org.kyerp.warehouse',
-									text : "出库单",
+									text : "入库管理",
 									leaf : true
 								}, {
-									id : "MaterialDetailPanel",
-									text : "库存流水",
+									id : "OutStockPanel",
 									ns : 'org.kyerp.warehouse',
+									text : "出库管理",
+									leaf : true
+								}, {
+									id : "InventoryPanel",
+									ns : 'org.kyerp.warehouse',
+									text : "库存盘点",
+									leaf : true
+								}, {
+									id : "TransferPanel",
+									ns : 'org.kyerp.warehouse',
+									text : "仓库调拨",
 									leaf : true
 								}, {
 									id : "PaperOfMaterialPanel",
@@ -83,22 +88,74 @@
 									ns : 'org.kyerp.warehouse',
 									leaf : true
 								}, {
-									id : "WarehousePanel",
-									ns : 'org.kyerp.warehouse',
-									text : "仓库档案",
-									leaf : true
-								}, {
-									id : "UnitPanel",
-									ns : 'org.kyerp.warehouse',
-									text : "计量单位",
-									leaf : true
-								}, {
-									id : "EnterOutPanel",
-									ns : 'org.kyerp.warehouse',
-									text : "收发类别",
-									leaf : true
+									id : "WarehouseBasicInfo",
+									text : "基础资料",
+									expanded : false,
+									children : [{
+												id : "WarehousePanel",
+												ns : 'org.kyerp.warehouse',
+												text : "仓库资料",
+												leaf : true
+											}, {
+												id : "BrandPanel",
+												ns : 'org.kyerp.warehouse',
+												text : "品牌管理",
+												leaf : true
+											}, {
+												id : "UnitPanel",
+												ns : 'org.kyerp.warehouse',
+												text : "计量单位",
+												leaf : true
+											}, {
+												id : "InOutTypePanel",
+												ns : 'org.kyerp.warehouse',
+												text : "收发类别",
+												leaf : true
+											}]
 								}]
 					}]
+		}, {
+			id : "SellManager",
+			ns : 'org.kyerp.sell',
+			text : "业务管理",
+			expanded : false,
+			children : [{
+						text : "销售订单",
+						ns : 'org.kyerp.crm',
+						leaf : true
+					}, {
+						text : "发行管理",
+						ns : 'org.kyerp.crm',
+						leaf : true
+					}, {
+						text : "销售收款",
+						ns : 'org.kyerp.crm',
+						leaf : true
+					}, {
+						text : "销售统计",
+						ns : 'org.kyerp.crm',
+						leaf : true
+					}, {
+						text : "成品库管理",
+						ns : 'org.kyerp.crm',
+						leaf : true
+					}]
+
+		}, {
+			id : "MAManager",
+			ns : 'org.kyerp.sell',
+			text : "生产管理",
+			expanded : false,
+			children : [{
+						text : "生产任务",
+						ns : 'org.kyerp.crm',
+						leaf : true
+					}, {
+						text : "生产统计",
+						ns : 'org.kyerp.crm',
+						leaf : true
+					}]
+
 		}, {
 			id : "ClientManager",
 			ns : 'org.kyerp.crm',

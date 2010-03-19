@@ -293,12 +293,7 @@ org.kyerp.warehouse.BrandPanel = Ext.extend(Ext.grid.GridPanel, {
 	},
 	removeItem : function() {
 		try {
-			var _sr = this.getGridSelected : function(_grid) {
-		var _sm = this.getSelectionModel();
-		if (_sm.getCount() == 0)
-			throw Error("你尚未选定一条记录");
-		return _sm.getSelected();
-	},();
+			var _sr = this.getGridSelected ;
 			Ext.Ajax.request({
 						url : org.kyerp.warehouse.BrandPanel_DELETE_URL,
 						params : {

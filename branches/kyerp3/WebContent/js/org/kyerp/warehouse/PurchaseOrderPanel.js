@@ -1,524 +1,4 @@
 /** ***************************************************************************** */
-/*
- * 查询并选择供应商 依赖库：SearchField.js, ComboBoxTree.js
- * 
- * selectSupplier = new SelectSupplier({ el:'select-Supplier',
- * onSelect:function(rec){ alert(rec.data.short_name) selectSupplier.hide(); } })
- */
-org.kyerp.warehouse.supplierStore = new Ext.data.Store({
-			autoLoad : {
-				baseParams : {
-					limit : 20
-				}
-			},
-			autoLoad : true,
-			url : org.kyerp.warehouse.SupplierPanel_STORE_URL,
-			reader : new Ext.data.JsonReader({
-						totalProperty : "totalProperty",
-						root : "rows",
-						idProperty : "id"
-					}, new Ext.data.Record.create([{
-								name : "id",
-								type : "int"
-							}, {
-								name : "name",
-								type : "string"
-							}, {
-								name : "nameSpell",
-								type : "string"
-							}, {
-								name : "fullName",
-								type : "string"
-							}, {
-								name : "qualified",
-								type : 'boolean'
-							}]))
-		});
-/** ***************************************************************************** */
-org.kyerp.warehouse.SelectSupplierWindow = Ext.extend(Ext.Window, {
-			constructor : function(_cfg) {
-				if (_cfg == null)
-					_cfg = {};
-				Ext.apply(this, _cfg);
-				this.grid = new Ext.grid.GridPanel({
-							store : org.kyerp.warehouse.supplierStore,
-							columns : [new Ext.grid.RowNumberer(), {
-										header : "ID",
-										dataIndex : "id",
-										align : "center",
-										width : 50,
-										menuDisabled : true
-									}, {
-										header : "名称",
-										dataIndex : "name",
-										menuDisabled : true
-									}, {
-										header : "简拼",
-										dataIndex : "nameSpell",
-										width : 50,
-										menuDisabled : true
-									}, {
-										header : "全称",
-										dataIndex : "fullName",
-										width : 150,
-										menuDisabled : true
-									}, {
-										header : "合格供方",
-										dataIndex : "qualified",
-										menuDisabled : true
-									}],
-							bbar : new Ext.PagingToolbar({
-										pageSize : 20,
-										store : org.kyerp.warehouse.supplierStore,
-										displayInfo : true
-									}),
-							border : false
-						});
-				org.kyerp.warehouse.SelectSupplierWindow.superclass.constructor
-						.call(this, {
-									title : '选择供应商',
-									width : 600,
-									height : 400,
-									closeAction : 'hide',
-									modal : true,
-									layout : 'fit',
-									items : this.grid,
-									buttons : [{
-										text : '确定',
-										handler : function() {
-											var rec = this.grid
-													.getSelectionModel()
-													.getSelected();
-											if (rec && _cfg['onSelect']) {
-												_cfg['onSelect'](rec, this);
-											}
-										},
-										scope : this
-									}, {
-										text : '取消',
-										handler : function() {
-											this.hide()
-										},
-										scope : this
-									}]
-								});
-			}
-		});
-
-/** ***************************************************************************** */
-org.kyerp.warehouse.materialStore = new Ext.data.Store({
-			autoLoad : {
-				baseParams : {
-					limit : 20
-				}
-			},
-			url : org.kyerp.warehouse.MaterialListPanel_STORE_URL,
-			reader : new Ext.data.JsonReader({
-						totalProperty : "totalProperty",
-						root : "rows",
-						idProperty : "id"
-					}, new Ext.data.Record.create([{
-								name : "id",
-								type : "int"
-							}, {
-								name : "serialNumber",
-								type : "string"
-							}, {
-								name : "name",
-								type : "string"
-							}, {
-								name : "amount",
-								type : "int"
-							}, {
-								name : "materialCategoryId",
-								type : "int"
-							}, {
-								name : "materialCategoryName",
-								type : "string"
-							}, {
-								name : 'specification',
-								type : 'string'
-							}, {
-								name : 'brandId',
-								type : 'int'
-							}, {
-								name : 'brandName',
-								type : 'string'
-							}, {
-								name : 'unitId',
-								type : 'int'
-							}, {
-								name : 'unitName',
-								type : 'string'
-							}, {
-								name : 'price',
-								type : 'string'
-							}, {
-								name : 'supplierId',
-								type : 'int'
-							}, {
-								name : 'supplierName',
-								type : 'string'
-							}, {
-								name : 'warehouseId',
-								type : 'int'
-							}, {
-								name : 'warehouseName',
-								type : 'string'
-							}]))
-		});
-
-/** ***************************************************************************** */
-org.kyerp.warehouse.SelectMaterialWindow = Ext.extend(Ext.Window, {
-			constructor : function(_cfg) {
-				if (_cfg == null)
-					_cfg = {};
-				Ext.apply(this, _cfg);
-				this.grid = new Ext.grid.GridPanel({
-							store : org.kyerp.warehouse.materialStore,
-							columns : [new Ext.grid.RowNumberer(), {
-										header : "ID",
-										dataIndex : "id",
-										align : "center",
-										width : 50,
-										menuDisabled : true
-									}, {
-										header : "编号",
-										dataIndex : "serialNumber",
-										menuDisabled : true
-									}, {
-										header : "名称",
-										dataIndex : "name",
-										width : 150,
-										menuDisabled : true
-									}, {
-										header : "规格",
-										dataIndex : "specification",
-										width : 100,
-										menuDisabled : true
-									}, {
-										header : "单位",
-										dataIndex : "unitName",
-										width : 40,
-										menuDisabled : true
-									}, {
-										header : "价格",
-										dataIndex : "price",
-										width : 60,
-										menuDisabled : true
-									}, {
-										header : "库存数量",
-										dataIndex : "amount",
-										width : 60,
-										menuDisabled : true
-									}, {
-										header : "物料类别",
-										dataIndex : "materialCategoryName",
-										width : 80,
-										menuDisabled : true
-									}, {
-										header : "品牌",
-										dataIndex : "brandName",
-										width : 60,
-										menuDisabled : true
-									}, {
-										header : "供应商",
-										dataIndex : "supplierName",
-										width : 80,
-										menuDisabled : true
-									}, {
-										header : "默认仓库",
-										dataIndex : "warehouseName",
-										width : 80,
-										menuDisabled : true
-									}],
-							bbar : new Ext.PagingToolbar({
-										pageSize : 20,
-										store : org.kyerp.warehouse.materialStore,
-										displayInfo : true
-									}),
-							border : false
-						});
-				org.kyerp.warehouse.SelectMaterialWindow.superclass.constructor
-						.call(this, {
-									title : '选择物料',
-									width : 600,
-									height : 400,
-									closeAction : 'hide',
-									modal : true,
-									layout : 'fit',
-									items : this.grid,
-									buttons : [{
-										text : '确定',
-										handler : function() {
-											var rec = this.grid
-													.getSelectionModel()
-													.getSelected();
-											if (rec && _cfg['onSelect']) {
-												_cfg['onSelect'](rec, this);
-											}
-										},
-										scope : this
-									}, {
-										text : '取消',
-										handler : function() {
-											this.hide()
-										},
-										scope : this
-									}]
-								});
-			}
-		});
-
-/** ***************************************************************************** */
-org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
-	inserted : [],
-	materialCombo : null,
-	selectMaterialWindow : null,
-	conn : new Ext.data.Connection(),
-	constructor : function(_cfg) {
-		if (_cfg == null)
-			_cfg = {};
-		Ext.apply(this, _cfg);
-		this.selectMaterialWindow = new org.kyerp.warehouse.SelectMaterialWindow(
-				{
-					onSelect : function(rec, win) {
-						//alert(Ext.encode(rec.data));
-						win.hide();
-						//var _win = Ext.WindowMgr.getActive();
-						var _detailsGrid = Ext.WindowMgr.getActive().form.detailsGrid;
-						var _rs = new Ext.data.Record({
-									id : '',
-									materialId : '',
-									unitId : '',
-									unitName : '',
-									price : 0,
-									billCount : 1,
-									remark : ''
-								});
-							_rs.set("materialId",rec.data.id);
-							_rs.set("unitName",rec.data.unitName);
-							_rs.set("price",rec.data.price);
-							
-						_detailsGrid.inserted.push(_rs);
-						_detailsGrid.getStore().add(_rs);
-						// 选中加入的行
-						_detailsGrid.getSelectionModel().selectRow(_detailsGrid.getStore()
-								.getCount()
-								- 1);
-						_detailsGrid.fireEvent('rowclick', _detailsGrid, _detailsGrid.getStore()
-										.getCount()
-										- 1)
-						_detailsGrid.startEditing(_detailsGrid.getStore().getCount() - 1, 0);
-
-						// Ext.WindowMgr.getActive().form.form
-						// .findField('supplierId').setValue(rec.data.id);
-					}
-				});
-		this.materialCombo = new Ext.form.ComboBox({
-					hiddenName : 'materialId',
-					typeAhead : true,
-					lazyRender : true,
-					pageSize : 20,
-					listWidth : 360,
-					valueField : 'id',
-					displayField : 'name',
-					mode : 'remote',
-					selectOnFocus : true,
-					allowBlank : false,
-					emptyText : '请选择',
-					triggerAction : 'all',
-					store : org.kyerp.warehouse.materialStore,
-					listeners : {
-						select : function(comboBox) {
-							var value = comboBox.getValue();
-							var _rs = this.getSelectionModel().getSelected();
-							_data = comboBox.store.getById(value).data;
-							// alert(Ext.util.JSON.encode(_data));
-							_rs.set('unitName', _data.unitName);
-							_rs.set('price', _data.price);
-						},
-						scope : this
-					}
-				});
-		org.kyerp.warehouse.PurchaseOrderItems.superclass.constructor.call(
-				this, {
-					store : new Ext.data.Store({
-								reader : new Ext.data.JsonReader({},
-										new Ext.data.Record.create([{
-													name : "id",
-													type : "int"
-												}, {
-													name : "billCount",
-													type : "int"
-												}, {
-													name : "billCost",
-													type : "float"
-												}, {
-													name : "materialId",
-													type : "int"
-												}, {
-													name : "materialName",
-													type : "string"
-												}, {
-													name : "unitId",
-													type : "int"
-												}, {
-													name : "unitName",
-													type : "string"
-												}, {
-													name : "price",
-													type : "float"
-												}, {
-													name : "remark",
-													type : "string"
-												}]))
-							}),
-					autoScroll : true,
-					sm : new Ext.grid.RowSelectionModel({
-								singleSelect : true
-							}),
-					tbar : [{
-								text : "保存",
-								handler : this.onSaveButtonClick,
-								hidden:true,
-								scope : this
-							},{
-								text : "添加",
-								handler : this.onInsertButtonClick,
-								hidden:true,
-								scope : this
-							}, {
-								text : "加入物料",
-								iconCls : 'icon-utils-s-add',
-								handler : function() {
-									this.selectMaterialWindow.show();
-								},
-								scope : this
-							}, "-", {
-								text : "删除物料",
-								iconCls : 'icon-utils-s-delete',
-								handler : this.onRemoveButtonClick,
-								scope : this
-							} ,'->', '双击表格可以修改资料'],
-					columns : [new Ext.grid.RowNumberer(), {
-								header : '品名型号',
-								width : 150,
-								dataIndex : "materialId",
-								renderer : Ext.ux.renderer
-										.Combo(this.materialCombo),
-								editor : this.materialCombo
-							}, {
-								header : '单位',
-								width : 40,
-								dataIndex : "unitName"
-							}, {
-								header : "数量",
-								width : 70,
-								dataIndex : "billCount",
-								editor : new Ext.form.NumberField({
-											allowBlank : false
-										})
-							}, {
-								header : "单价",
-								width : 70,
-								dataIndex : "price",
-								editor : new Ext.form.NumberField({
-											allowBlank : false,
-											minValue : 0
-										})
-							}, {
-								header : "金额",
-								width : 80,
-								dataIndex : "billCost"
-							}, {
-								header : '备注',
-								dataIndex : "remark",
-								editor : new Ext.form.TextArea()
-							}]
-				});
-	},
-
-	onSaveButtonClick : function() {
-		var _m = this.getStore().modified;
-		var _temp = [];
-		for (var _i = 0; _i < _m.length; _i++) {
-			if (_m[_i].get("id") == "")
-				continue;
-			var _data = {};
-			var _j = "";
-			for (_j in _m[_i].modified)
-				_data[_j] = _m[_i].get(_j);
-			_temp.push(Ext.apply(_data, {
-						id : _m[_i].get("id")
-					}));
-
-		}
-		for (var _i = 0; _i < this.inserted.length; _i++)
-			_temp.push(this.inserted[_i].data);
-		alert("Data: " + Ext.util.JSON.encode(_temp));
-		this.getStore().commitChanges();
-
-	},
-	onInsertButtonClick : function() {
-		var _rs = new Ext.data.Record({
-					id : '',
-					materialId : '',
-					unitId : '',
-					unitName : '',
-					price : 0,
-					billCount : 1,
-					remark : ''
-				});
-		this.inserted.push(_rs);
-		this.getStore().add(_rs);
-		// 选中加入的行
-		this.getSelectionModel().selectRow(this.getStore().getCount() - 1);
-		this.fireEvent('rowclick', this, this.getStore().getCount() - 1)
-		this.startEditing(this.getStore().getCount() - 1, 0);
-	},
-	onSaveInsertData : function(_conn, _response) {
-		var _xml = _response.responseXML;
-		var _root = _xml.documentElement;
-		for (var _i = 0; _i < _root.childNodes.length; _i++) {
-			this.inserted[_i].set("id", _root.childNodes[_i].text);
-		}
-		this.inserted = [];
-	},
-	onRemoveButtonClick : function() {
-		var _sm = this.getSelectionModel();
-		try {
-			if (_sm.getCount() == 0)
-				throw Error("尚未选定一条记录");
-			Ext.Msg
-					.confirm("系统询问", "你是否确认删除此条记录?", this.onRemoveQuestion,
-							this);
-		} catch (_err) {
-			Ext.Msg.alert("系统提示", _err);
-		}
-	},
-	onRemoveQuestion : function(_btn) {
-		if (_btn == "yes") {
-			var _rs = this.getSelectionModel().getSelected();
-			this.getStore().remove(_rs);
-			if (_rs.get("id") != "") {
-				this.conn.un("requestcomplete", this.onSaveInsertData, this);
-				this.conn.request({
-							url : org.kyerp.warehouse.PurchaseOrderDetail_DELETE_URL,
-							params : {
-								ids : _rs.get("id")
-							}
-						});
-			} else {
-				this.inserted.remove(_rs);
-				this.getStore().modified.remove(_rs);
-			}
-		}
-	}
-});
-
-/** ***************************************************************************** */
-
 org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 	detailsGrid : null,
 	selectSupplierWindow : null,
@@ -627,7 +107,6 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 											baseCls : "x-plain",
 											items : {
 												fieldLabel : '供应商',
-												// id : 'supplierId',
 												xtype : 'combo',
 												anchor : '-3px',
 												msgTarget : 'qtip',
@@ -648,7 +127,6 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 										baseCls : "x-plain",
 										items : {
 											xtype : 'button',
-											id : 'btn-select-Supplier',
 											cls : 'x-btn-icon',
 											icon : 'images/ext-extend/icons/query.gif',
 											handler : this.onSelectSupplierClick,
@@ -734,6 +212,14 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 	submit : function(_params) {
 		var _opeItemStr = [];
 		var _s = this.detailsGrid.getStore();
+		if (_s.getCount() == 0) {
+			alert("请至少加入一条物料！");
+			return;
+		}
+		if (!this.getForm().isValid()) {
+			alert("表单验证没有通过!");
+			return;
+		}
 		_s.each(function(rec) {
 					_opeItemStr.push(rec.data);
 				})
@@ -747,7 +233,7 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 				this.getForm().submit({
 							url : this.url,
 							params : _params,
-							success : this.onSubmit,
+							success : this.onSubmitSuccess,
 							failure : function(form, action) {
 								Ext.Msg.alert('警告', '系统错误');
 							},
@@ -755,7 +241,6 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 							waitMsg : "数据传送中,请稍候...",
 							scope : this
 						});
-
 		} catch (_err) {
 		}
 	},
@@ -763,6 +248,7 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 		this.selectSupplierWindow.show();
 	},
 	getValues : function() {
+		// && this.detailsGrid.getStore().getCount() > 0
 		if (this.getForm().isValid())
 			return new Ext.data.Record(this.getForm().getValues());
 		else
@@ -786,7 +272,7 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 		this.detailsGrid.getStore().removeAll();
 		this.getForm().reset();
 	},
-	onSubmit : function(_form, _action) {
+	onSubmitSuccess : function(_form, _action) {
 		this.fireEvent("submit", this, _action, this.getValues());
 	},
 	onSubmitClick : function() {
@@ -857,16 +343,17 @@ org.kyerp.warehouse.PurchaseOrderInfoWindow = Ext.extend(Ext.Window, {
 								});
 
 				this.addEvents("submit");
-				this.form.on("submit", this.onSubmit, this);
+				this.addEvents("reloadStore");
+				this.form.on("submit", this.onSubmitSuccess, this);
 			},
-			onSubmit : function(_form, _action, _values) {
+			onSubmitSuccess : function(_form, _action, _values) {
+				this.form.reset();
+				this.hide();
 				try {
 					this.fireEvent("submit", this, _values);
 				} catch (_err) {
-					return _err;
+					return;
 				}
-				this.form.reset();
-				this.close();
 			},
 			onSubmitClick : function() {
 				this.form.submit();
@@ -876,18 +363,21 @@ org.kyerp.warehouse.PurchaseOrderInfoWindow = Ext.extend(Ext.Window, {
 			onPostForCheckClick : function() {
 				this.onPostForCheck();
 				this.onCancelClick();
+				this.fireEvent("reloadStore");
 			},
 			onReturnForEdit : function() {
 			},
 			onReturnForEditClick : function() {
 				this.onReturnForEdit();
 				this.onCancelClick();
+				this.fireEvent("reloadStore");
 			},
 			onCheckBill : function() {
 			},
 			onCheckBillClick : function() {
 				this.onCheckBill();
 				this.onCancelClick();
+				this.fireEvent("reloadStore");
 			},
 			onCancelClick : function() {
 				this.form.reset();
@@ -900,19 +390,7 @@ org.kyerp.warehouse.PurchaseOrderInsertWindow = Ext.extend(
 		org.kyerp.warehouse.PurchaseOrderInfoWindow, {
 			title : "添 加",
 			iconCls : 'icon-utils-s-add',
-			url : org.kyerp.warehouse.PurchaseOrderPanel_SAVE_URL,
-			onSubmit : function(_form, _action, _values) {
-				var _data = _values.data;
-				Ext.apply(_data, {
-							id : _action.result.id
-						});
-				try {
-					this.fireEvent("submit", this, new Ext.data.Record(_data));
-				} catch (_err) {
-					return;
-				}
-				this.close();
-			}
+			url : org.kyerp.warehouse.PurchaseOrderPanel_SAVE_URL
 		});
 /** ***************************************************************************** */
 org.kyerp.warehouse.PurchaseOrderUpdateWindow = Ext.extend(
@@ -947,18 +425,7 @@ org.kyerp.warehouse.PurchaseOrderUpdateWindow = Ext.extend(
 							id : this.pnId
 						});
 			},
-			onSubmit : function(_form, _action, _values) {
-				var _data = _values.data;
-				Ext.apply(_data, {
-							id : this.pnId
-						});
-				try {
-					this.fireEvent("submit", this, new Ext.data.Record(_data));
-				} catch (_err) {
-					return;
-				}
-				this.close();
-			},// 保存单据后提交审核
+			// 保存单据后提交审核
 			onPostForCheck : function(_r) {
 				Ext.Ajax.request({
 							url : org.kyerp.warehouse.PurchaseOrder_PostForCheck_URL
@@ -1107,7 +574,7 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 								text : "修  改",
 								iconCls : 'icon-utils-s-edit',
 								handler : function() {
-									//alert("edit");
+									// alert("edit");
 									this.updateWin.show();
 									try {
 										this.updateWin.load(this.getSelected());
@@ -1189,6 +656,7 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 				});
 		this.insertWin.on("submit", this.onInsertWinSubmit, this);
 		this.updateWin.on("submit", this.onUpdateWinSubmit, this);
+		this.updateWin.on("reloadStore", this.reloadStore, this);
 		this.addEvents("rowselect");
 	},
 	loadStore : function() {
@@ -1229,11 +697,11 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 		}
 	},
 	onInsertWinSubmit : function(_win, _r) {
-		//this.insert(_r);
+		// this.insert(_r);
 		this.store.reload();
 	},
 	onUpdateWinSubmit : function(_win, _r) {
-		//this.update(_r);
+		// this.update(_r);
 		this.store.reload();
 	},
 	onRemove : function(_btn) {
@@ -1242,11 +710,19 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 	},
 	onRowSelect : function(_sel, _index, _r) {
 		this.fireEvent("rowselect", _r);
+	},
+	reloadStore : function() {
+		this.store.reload();
 	}
 });
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module, {
 			init : function() {
+				require('SelectSupplierWindow.js;' + 'SelectMaterialWindow.js;'
+								+ 'PurchaseOrderItems.js', {
+							basedir : 'js/org/kyerp/warehouse'
+						});
+				// require('js/org/kyerp/warehouse/SelectSupplierWindow.js');
 				this.body = new org.kyerp.warehouse.PurchaseOrderPanel({
 							border : false,
 							bodyBorder : false
