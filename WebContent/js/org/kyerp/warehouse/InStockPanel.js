@@ -1,12 +1,12 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
+org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 	detailsGrid : null,
 	selectSupplierWindow : null,
 	constructor : function(_cfg) {
 		if (_cfg == null)
 			_cfg = {};
 		Ext.apply(this, _cfg);
-		this.detailsGrid = new org.kyerp.warehouse.PurchaseOrderItemsEditorGridPanel();
+		this.detailsGrid = new org.kyerp.warehouse.InStockItemsEditorGridPanel();
 		this.selectSupplierWindow = new org.kyerp.warehouse.SelectSupplierWindow(
 				{
 					onSelect : function(rec, supplierWin) {
@@ -15,7 +15,7 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 								.findField('supplierId').setValue(rec.data.id);
 					}
 				});
-		org.kyerp.warehouse.PurchaseOrderFormPanel.superclass.constructor.call(
+		org.kyerp.warehouse.InStockFormPanel.superclass.constructor.call(
 				this, {
 					layout : 'border',
 					border : false,
@@ -280,13 +280,13 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 	}
 });
 /** ***************************************************************************** */
-org.kyerp.warehouse.PurchaseOrderInfoWindow = Ext.extend(Ext.Window, {
+org.kyerp.warehouse.InStockInfoWindow = Ext.extend(Ext.Window, {
 			url : "",
 			form : null,
 			tb : null,
 			constructor : function(_cfg) {
 				Ext.apply(this, _cfg);
-				this.form = new org.kyerp.warehouse.PurchaseOrderFormPanel({
+				this.form = new org.kyerp.warehouse.InStockFormPanel({
 							url : this.url
 						});
 				this.tb = [{
@@ -327,7 +327,7 @@ org.kyerp.warehouse.PurchaseOrderInfoWindow = Ext.extend(Ext.Window, {
 							id : 'bill-status',
 							style : 'font-size:12px;color:red;padding-right:5px;'
 						}];
-				org.kyerp.warehouse.PurchaseOrderInfoWindow.superclass.constructor
+				org.kyerp.warehouse.InStockInfoWindow.superclass.constructor
 						.call(this, {
 									plain : true,
 									width : 760,
@@ -386,18 +386,18 @@ org.kyerp.warehouse.PurchaseOrderInfoWindow = Ext.extend(Ext.Window, {
 
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.PurchaseOrderInsertWindow = Ext.extend(
-		org.kyerp.warehouse.PurchaseOrderInfoWindow, {
+org.kyerp.warehouse.InStockInsertWindow = Ext.extend(
+		org.kyerp.warehouse.InStockInfoWindow, {
 			title : "添 加",
 			iconCls : 'icon-utils-s-add',
-			url : org.kyerp.warehouse.PurchaseOrderPanel_SAVE_URL
+			url : org.kyerp.warehouse.InStockPanel_SAVE_URL
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.PurchaseOrderUpdateWindow = Ext.extend(
-		org.kyerp.warehouse.PurchaseOrderInfoWindow, {
+org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
+		org.kyerp.warehouse.InStockInfoWindow, {
 			title : "修改",
 			iconCls : 'icon-utils-s-edit',
-			url : org.kyerp.warehouse.PurchaseOrderPanel_SAVE_URL,
+			url : org.kyerp.warehouse.InStockPanel_SAVE_URL,
 			pnId : "",
 			load : function(_r) {
 				this.form.setValues(_r.data);
@@ -428,7 +428,7 @@ org.kyerp.warehouse.PurchaseOrderUpdateWindow = Ext.extend(
 			// 保存单据后提交审核
 			onPostForCheck : function(_r) {
 				Ext.Ajax.request({
-							url : org.kyerp.warehouse.PurchaseOrder_PostForCheck_URL
+							url : org.kyerp.warehouse.InStock_PostForCheck_URL
 									+ "?id=" + this.pnId,
 							success : function(response) {
 								var data = Ext.util.JSON
@@ -443,7 +443,7 @@ org.kyerp.warehouse.PurchaseOrderUpdateWindow = Ext.extend(
 			},// 返回编制
 			onReturnForEdit : function(_r) {
 				Ext.Ajax.request({
-							url : org.kyerp.warehouse.PurchaseOrder_ReturnForEdit_URL
+							url : org.kyerp.warehouse.InStock_ReturnForEdit_URL
 									+ "?id=" + this.pnId,
 							success : function(response) {
 								var data = Ext.util.JSON
@@ -458,7 +458,7 @@ org.kyerp.warehouse.PurchaseOrderUpdateWindow = Ext.extend(
 			},// 审核
 			onCheckBill : function(_r) {
 				Ext.Ajax.request({
-							url : org.kyerp.warehouse.PurchaseOrder_CheckBill_URL
+							url : org.kyerp.warehouse.InStock_CheckBill_URL
 									+ "?id=" + this.pnId,
 							success : function(response) {
 								var data = Ext.util.JSON
@@ -473,7 +473,7 @@ org.kyerp.warehouse.PurchaseOrderUpdateWindow = Ext.extend(
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
+org.kyerp.warehouse.InStockPanel = Ext.extend(Ext.grid.GridPanel, {
 	insertWin : null,
 	updateWin : null,
 	expander : null,
@@ -482,8 +482,8 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 		this.expander = new Ext.ux.grid.RowExpander({
 					tpl : new Ext.Template('<p><b>明细:</b>')
 				});
-		this.insertWin = new org.kyerp.warehouse.PurchaseOrderInsertWindow();
-		this.updateWin = new org.kyerp.warehouse.PurchaseOrderUpdateWindow();
+		this.insertWin = new org.kyerp.warehouse.InStockInsertWindow();
+		this.updateWin = new org.kyerp.warehouse.InStockUpdateWindow();
 		this["store"] = new Ext.data.Store({
 					autoLoad : {
 						baseParams : {
@@ -497,7 +497,7 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 											+ data["exception.message"]);
 						}
 					},
-					url : org.kyerp.warehouse.PurchaseOrderPanel_STORE_URL,
+					url : org.kyerp.warehouse.InStockPanel_STORE_URL,
 					reader : new Ext.data.JsonReader({
 								totalProperty : "totalProperty",
 								root : "rows",
@@ -559,7 +559,7 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : "editAble"
 									}]))
 				});
-		org.kyerp.warehouse.PurchaseOrderPanel.superclass.constructor.call(
+		org.kyerp.warehouse.InStockPanel.superclass.constructor.call(
 				this, {
 					stripeRows : true,
 					plugins : this.expander,
@@ -610,11 +610,11 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 								header : '供应商',
 								dataIndex : 'supplierName'
 							}, {
-								header : "订单数量",
+								header : "数量",
 								dataIndex : "billCount",
 								menuDisabled : true
 							}, {
-								header : "订单金额",
+								header : "金额",
 								dataIndex : "billCost",
 								menuDisabled : true
 							}, {
@@ -685,7 +685,7 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 		try {
 			var _sr = this.getSelected();
 			Ext.Ajax.request({
-						url : org.kyerp.warehouse.PurchaseOrderPanel_DELETE_URL,
+						url : org.kyerp.warehouse.InStockPanel_DELETE_URL,
 						params : {
 							ids : _sr.get("id")
 						}
@@ -719,11 +719,11 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 Ext.extend(org.kyerp.module, {
 			init : function() {
 				require('SelectSupplierWindow.js;' + 'SelectMaterialWindow.js;'
-								+ 'PurchaseOrderItemsEditorGridPanel.js', {
+								+ 'InStockItemsEditorGridPanel.js', {
 							basedir : 'js/org/kyerp/warehouse'
 						});
 				// require('js/org/kyerp/warehouse/SelectSupplierWindow.js');
-				this.body = new org.kyerp.warehouse.PurchaseOrderPanel({
+				this.body = new org.kyerp.warehouse.InStockPanel({
 							border : false,
 							bodyBorder : false
 						});

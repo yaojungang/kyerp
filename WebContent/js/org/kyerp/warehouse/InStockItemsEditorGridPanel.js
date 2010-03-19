@@ -1,5 +1,5 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
+org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 	inserted : [],
 	materialCombo : null,
 	selectMaterialWindow : null,
@@ -21,7 +21,7 @@ org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
 									unitId : '',
 									unitName : '',
 									price : 0,
-									billCount : 1,
+									amount : 1,
 									remark : ''
 								});
 						_rs.set("materialId", rec.data.id);
@@ -70,7 +70,7 @@ org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
 						scope : this
 					}
 				});
-		org.kyerp.warehouse.PurchaseOrderItems.superclass.constructor.call(
+		org.kyerp.warehouse.InStockItemsEditorGridPanel.superclass.constructor.call(
 				this, {
 					store : new Ext.data.Store({
 								reader : new Ext.data.JsonReader({},
@@ -78,7 +78,7 @@ org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
 													name : "id",
 													type : "int"
 												}, {
-													name : "billCount",
+													name : "amount",
 													type : "int"
 												}, {
 													name : "billCost",
@@ -145,7 +145,7 @@ org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
 							}, {
 								header : "数量",
 								width : 70,
-								dataIndex : "billCount",
+								dataIndex : "amount",
 								editor : new Ext.form.NumberField({
 											allowBlank : false
 										})
@@ -197,7 +197,7 @@ org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
 					unitId : '',
 					unitName : '',
 					price : 0,
-					billCount : 1,
+					amount : 1,
 					remark : ''
 				});
 		this.inserted.push(_rs);
@@ -234,7 +234,7 @@ org.kyerp.warehouse.PurchaseOrderItems = Ext.extend(Ext.grid.EditorGridPanel, {
 			if (_rs.get("id") != "") {
 				this.conn.un("requestcomplete", this.onSaveInsertData, this);
 				this.conn.request({
-							url : org.kyerp.warehouse.PurchaseOrderDetail_DELETE_URL,
+							url : org.kyerp.warehouse.InStockDetail_DELETE_URL,
 							params : {
 								ids : _rs.get("id")
 							}

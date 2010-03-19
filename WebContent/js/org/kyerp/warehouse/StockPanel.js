@@ -1,5 +1,5 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialPanel = Ext.extend(Ext.Panel, {
+org.kyerp.warehouse.StockPanel = Ext.extend(Ext.Panel, {
 	materialCategoryTree : null,
 	materialList : null,
 	constructor : function(_cfg) {
@@ -18,12 +18,12 @@ org.kyerp.warehouse.MaterialPanel = Ext.extend(Ext.Panel, {
 					autoScroll : true,
 					cmargins : '3 3 3 3'
 				});
-		this.materialList = new org.kyerp.warehouse.MaterialListPanel({
+		this.materialList = new org.kyerp.warehouse.MaterialStockListPanel({
 					title : '库存明细',
 					border : false,
 					region : 'center'
 				});
-		org.kyerp.warehouse.MaterialPanel.superclass.constructor.call(this, {
+		org.kyerp.warehouse.StockPanel.superclass.constructor.call(this, {
 					layout : 'border',
 					border : false,
 					defaults : {
@@ -54,11 +54,10 @@ org.kyerp.warehouse.MaterialPanel = Ext.extend(Ext.Panel, {
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module,{
     init: function(){
-    	require('MaterialCategoryTreePanel.js;' + 'MaterialListPanel.js;'
-								+ 'PurchaseOrderItems.js', {
+    	require('MaterialCategoryTreePanel.js;' + 'MaterialStockListPanel.js', {
 							basedir : 'js/org/kyerp/warehouse'
 						});
-        this.body = new org.kyerp.warehouse.MaterialPanel({border : false,bodyBorder : false});
+        this.body = new org.kyerp.warehouse.StockPanel({border : false,bodyBorder : false});
         this.main.add(this.body);
         this.main.doLayout();  
     }
