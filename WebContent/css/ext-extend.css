@@ -1,4 +1,8 @@
 ﻿/**icons*/
+.icon-add-form {
+	background: url(../images/ext-extend/icons/form.png) no-repeat left
+		0px !important;
+}
 .icon-plugin {
 	background: url(../images/ext-extend/icons/plugin.gif) no-repeat left
 		0px !important;

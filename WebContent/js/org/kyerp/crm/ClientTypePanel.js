@@ -1,36 +1,36 @@
 
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialCategoryStore = new Ext.data.Store({
+org.kyerp.crm.ClientTypeStore = new Ext.data.Store({
 			autoLoad : true,
 			proxy : new Ext.data.HttpProxy({
-						url : org.kyerp.warehouse.MaterialCategoryPanel_LIST_URL
+						url : org.kyerp.crm.ClientTypePanel_LIST_URL
 					}),
 			reader : new Ext.data.JsonReader({
 						totalProperty : "totalProperty",
 						root : "rows",
 						id : "id"
 					}, ['id', 'createTime', 'updateTime', 'name',
-							'serialNumber', 'note', 'childMaterialCategoryIds',
-							'childMaterialCategoryNames', 'parentMaterialCategoryId',
-							'parentMaterialCategoryName'])
+							'serialNumber', 'note', 'childClientTypeIds',
+							'childClientTypeNames', 'parentClientTypeId',
+							'parentClientTypeName'])
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialCategoryTree = new Ext.tree.TreePanel({
-	title : '物料分类',
+org.kyerp.crm.ClientTypeTree = new Ext.tree.TreePanel({
+	title : '客户分类',
 	loader : new Ext.tree.TreeLoader({
-				dataUrl : org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL
+				dataUrl : org.kyerp.crm.ClientTypePanel_TREE_URL
 			}),
 	root : {
 		nodeType : 'async',
 		id : 'root',
-		text : '物料分类',
+		text : '客户分类',
 		expanded : true
 	},
 	tools : [{
 				id : 'refresh',
 				qtip : '刷新',
 				handler : function() {
-					org.kyerp.warehouse.MaterialCategoryTree.getRootNode().reload();
+					org.kyerp.crm.ClientTypeTree.getRootNode().reload();
 				}
 			}],
 	rootVisible : false,
@@ -43,9 +43,9 @@ org.kyerp.warehouse.MaterialCategoryTree = new Ext.tree.TreePanel({
 	}
 });
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialCategoryGrid = new Ext.grid.EditorGridPanel({
-			title : '物料分类资料',
-			store : org.kyerp.warehouse.MaterialCategoryStore,
+org.kyerp.crm.ClientTypeGrid = new Ext.grid.EditorGridPanel({
+			title : '客户分类资料',
+			store : org.kyerp.crm.ClientTypeStore,
 			columns : [new Ext.grid.RowNumberer(), {
 						header : '编码',
 						width : 100,
@@ -73,7 +73,7 @@ org.kyerp.warehouse.MaterialCategoryGrid = new Ext.grid.EditorGridPanel({
 									afterText : '条'
 								}),
 						pageSize : 20,
-						store : org.kyerp.warehouse.MaterialCategoryStore,
+						store : org.kyerp.crm.ClientTypeStore,
 						displayInfo : true,
 						displayMsg : '显示  {0} - {1} 条记录,共有 {2} 条记录',
 						emptyMsg : "没有数据"
@@ -89,14 +89,14 @@ org.kyerp.warehouse.MaterialCategoryGrid = new Ext.grid.EditorGridPanel({
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
+org.kyerp.crm.ClientTypePanel = Ext.extend(Ext.Panel, {
 	tree : null,
 	grid : null,
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this.tree = org.kyerp.warehouse.MaterialCategoryTree;
-		this.grid = org.kyerp.warehouse.MaterialCategoryGrid;
-		org.kyerp.warehouse.MaterialCategoryPanel.superclass.constructor.call(this,
+		this.tree = org.kyerp.crm.ClientTypeTree;
+		this.grid = org.kyerp.crm.ClientTypeGrid;
+		org.kyerp.crm.ClientTypePanel.superclass.constructor.call(this,
 				{
 					layout : 'border',
 					border : false,
@@ -110,7 +110,7 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 									text : '新增',
 									iconCls : 'icon-utils-s-add',
 									handler : function() {
-										this.createMaterialCategory();
+										this.createClientType();
 									},
 									scope : this
 								}, '-', {
@@ -118,11 +118,11 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 									iconCls : 'icon-utils-s-delete',
 									handler : function() {
 										Ext.Msg.confirm("系统提示", "你确定删除此记录吗?",
-												this.onDeleteMaterialCategoryClick,
+												this.onDeleteClientTypeClick,
 												this);
 									},
 									scope : this
-								}, '->', '双击表格可以修改物料分类资料']
+								}, '->', '双击表格可以修改客户分类资料']
 					}, {
 						region : 'west',
 						layout : 'fit',
@@ -144,14 +144,14 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 		this.tree.on("click", function(node) {
 					node.expand();
 					node.select();
-					var store = org.kyerp.warehouse.MaterialCategoryStore;
+					var store = org.kyerp.crm.ClientTypeStore;
 					store.setBaseParam("parentId", node.id);
 					store.load();
 				});
 		this.grid.on('afteredit', function(e) {
 					// alert(Ext.encode(e.record.data));
 					Ext.Ajax.request({
-								url : org.kyerp.warehouse.MaterialCategoryPanel_SAVE_URL,
+								url : org.kyerp.crm.ClientTypePanel_SAVE_URL,
 								params : {
 									id : e.record.data.id,
 									name : e.record.data.name,
@@ -161,7 +161,7 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 								method : 'POST',
 								success : function() {
 									e.record.commit(false);
-									var node = org.kyerp.warehouse.MaterialCategoryTree
+									var node = org.kyerp.crm.ClientTypeTree
 											.getSelectionModel()
 											.getSelectedNode().findChild('id',
 													e.record.data.id);
@@ -172,27 +172,27 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 							});
 				});
 	},
-	createMaterialCategory : function() {
+	createClientType : function() {
 		var node = this.tree.getSelectionModel().getSelectedNode();
 		if (node) {
 			Ext.Ajax.request({
-						url : org.kyerp.warehouse.MaterialCategoryPanel_SAVE_URL,
+						url : org.kyerp.crm.ClientTypePanel_SAVE_URL,
 						params : {
-							parentMaterialCategoryId : node.id,
-							name : '新物料分类'
+							parentClientTypeId : node.id,
+							name : '新客户分类'
 						},
 						success : function(response) {
 							var data = Ext.decode(response.responseText);
 							if (data.success) {
 								node.appendChild(new Ext.tree.TreeNode({
 											id : data.id,
-											text : data.materialCategoryExtGridRow.name,
+											text : data.clientTypeExtGridRow.name,
 											leaf : true
 										}));
 								node.getUI().removeClass('x-tree-node-leaf');
 								node.getUI().addClass('x-tree-node-expanded');
 								node.expand();
-								org.kyerp.warehouse.MaterialCategoryGrid.getStore()
+								org.kyerp.crm.ClientTypeGrid.getStore()
 										.reload();
 							} else {
 								Ext.MessageBox.alert('警告', data.msg);
@@ -202,13 +202,13 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 		}
 
 	},
-	onDeleteMaterialCategoryClick : function(_btn) {
+	onDeleteClientTypeClick : function(_btn) {
 		if (_btn == "yes") {
-			this.onDeleteMaterialCategory();
+			this.onDeleteClientType();
 		}
 	},
 
-	onDeleteMaterialCategory : function() {
+	onDeleteClientType : function() {
 		try {
 			var id;
 			// var rec = this.grid.getSelectionModel().getSelected();
@@ -220,13 +220,13 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 				id = node.id;
 			}
 			Ext.Ajax.request({
-						url : org.kyerp.warehouse.MaterialCategoryPanel_DELETE_URL
+						url : org.kyerp.crm.ClientTypePanel_DELETE_URL
 								+ "?ids=" + id,
 						method : 'POST',
 						success : function(response) {
 							var data = Ext.decode(response.responseText);
 							if (data.success) {
-								var snode = org.kyerp.warehouse.MaterialCategoryTree
+								var snode = org.kyerp.crm.ClientTypeTree
 										.getSelectionModel().getSelectedNode();
 								if (snode.id == id) { // 当前树节点是要删除的节点
 									snode.remove();
@@ -234,9 +234,9 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 									var node = snode.findChild('id', id);
 									node.remove();
 								}
-								org.kyerp.warehouse.MaterialCategoryGrid.getStore()
+								org.kyerp.crm.ClientTypeGrid.getStore()
 										.reload();
-								Ext.MessageBox.alert('警告', '删除物料分类资料完成。');
+								Ext.MessageBox.alert('警告', '删除客户分类资料完成。');
 							} else {
 								Ext.MessageBox.alert('警告', data.msg);
 							}
@@ -250,7 +250,7 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module, {
 			init : function() {
-				this.body = new org.kyerp.warehouse.MaterialCategoryPanel({
+				this.body = new org.kyerp.crm.ClientTypePanel({
 							border : false,
 							bodyBorder : false
 						});
