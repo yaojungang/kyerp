@@ -63,10 +63,21 @@ org.kyerp.warehouse.WarehousePanel_DELETE_URL = "warehouse/Warehouse/jsonDelete.
 org.kyerp.warehouse.PurchaseOrderPanel_STORE_URL = "warehouse/PurchaseOrder/jsonList.html";
 org.kyerp.warehouse.PurchaseOrderPanel_SAVE_URL = "warehouse/PurchaseOrder/jsonSave.html";
 org.kyerp.warehouse.PurchaseOrderPanel_DELETE_URL = "warehouse/PurchaseOrder/jsonDelete.html";
-org.kyerp.warehouse.PurchaseOrderDetail_DELETE_URL = "warehouse/PurchaseOrderDetail/jsonDelete.html"
-org.kyerp.warehouse.PurchaseOrder_PostForCheck_URL = "warehouse/PurchaseOrder/jsonPostForCheck.html"
-org.kyerp.warehouse.PurchaseOrder_ReturnForEdit_URL = "warehouse/PurchaseOrder/jsonReturnForEdit.html"
-org.kyerp.warehouse.PurchaseOrder_CheckBill_URL = "warehouse/PurchaseOrder/jsonCheckBill.html"
+org.kyerp.warehouse.PurchaseOrderDetail_DELETE_URL = "warehouse/PurchaseOrderDetail/jsonDelete.html";
+org.kyerp.warehouse.PurchaseOrder_PostForCheck_URL = "warehouse/PurchaseOrder/jsonPostForCheck.html";
+org.kyerp.warehouse.PurchaseOrder_ReturnForEdit_URL = "warehouse/PurchaseOrder/jsonReturnForEdit.html";
+org.kyerp.warehouse.PurchaseOrder_CheckBill_URL = "warehouse/PurchaseOrder/jsonCheckBill.html";
+/** ***************************************************************************** */
+org.kyerp.warehouse.MaterialStockListPanel_STORE_URL = "warehouse/Stock/jsonList.html";
+/** ***************************************************************************** */
+org.kyerp.warehouse.InStockPanel_STORE_URL = "warehouse/InStock/jsonList.html";
+org.kyerp.warehouse.InStockPanel_SAVE_URL = "warehouse/InStock/jsonSave.html";
+org.kyerp.warehouse.InStockPanel_DELETE_URL = "warehouse/InStock/jsonDelete.html";
+org.kyerp.warehouse.InStockDetail_DELETE_URL = "warehouse/InStockDetail/jsonDelete.html";
+org.kyerp.warehouse.InStock_PostForCheck_URL = "warehouse/InStock/jsonPostForCheck.html";
+org.kyerp.warehouse.InStock_ReturnForEdit_URL = "warehouse/InStock/jsonReturnForEdit.html";
+org.kyerp.warehouse.InStock_CheckBill_URL = "warehouse/InStock/jsonCheckBill.html";
+/** ***************************************************************************** */
 
 /** ***************************************************************************** */
 /** 客户管理模块 */

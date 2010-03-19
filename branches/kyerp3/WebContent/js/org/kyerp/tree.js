@@ -36,7 +36,7 @@
 					}, {
 						id : "BuyerManager",
 						text : "采购管理",
-						expanded : true,
+						expanded : false,
 						children : [{
 									id : "PurchaseOrderPanel",
 									text : "采购申请",
@@ -56,7 +56,7 @@
 					}, {
 						id : "WarehouseManager",
 						text : "库存管理",
-						expanded : false,
+						expanded : true,
 						children : [{
 									id : "StockPanel",
 									text : "库存状况",
