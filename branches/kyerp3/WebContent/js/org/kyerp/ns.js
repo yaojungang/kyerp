@@ -5,9 +5,26 @@ Ext.ns('org.kyerp.warehouse');
 Ext.ns('org.kyerp.crm');
 
 /** ***************************************************************************** */
-org.kyerp.warehouse.BrandPanel_STORE_URL = "warehouse/Brand/jsonList.html";
+/** 人力资源管理模块 */
+/** ***************************************************************************** */
+org.kyerp.org.DepartmentPanel_TREE_URL = "org/Department/jsonTree.html";
+org.kyerp.org.DepartmentPanel_LIST_URL = "org/Department/jsonList.html";
+org.kyerp.org.DepartmentPanel_SAVE_URL = "org/Department/jsonSave.html";
+org.kyerp.org.DepartmentPanel_DELETE_URL = "org/Department/jsonDelete.html";
+/** ***************************************************************************** */
+
+/** ***************************************************************************** */
+/** 库存管理模块 */
+/** ***************************************************************************** */
+org.kyerp.warehouse.BrandPanel_TREE_URL = "warehouse/Brand/jsonTree.html";
+org.kyerp.warehouse.BrandPanel_LIST_URL = "warehouse/Brand/jsonList.html";
 org.kyerp.warehouse.BrandPanel_SAVE_URL = "warehouse/Brand/jsonSave.html";
 org.kyerp.warehouse.BrandPanel_DELETE_URL = "warehouse/Brand/jsonDelete.html";
+/** ***************************************************************************** */
+org.kyerp.warehouse.UnitPanel_TREE_URL = "warehouse/Unit/jsonTree.html";
+org.kyerp.warehouse.UnitPanel_LIST_URL = "warehouse/Unit/jsonList.html";
+org.kyerp.warehouse.UnitPanel_SAVE_URL = "warehouse/Unit/jsonSave.html";
+org.kyerp.warehouse.UnitPanel_DELETE_URL = "warehouse/Unit/jsonDelete.html";
 /** ***************************************************************************** */
 org.kyerp.warehouse.EnteringMaterialPanel_STORE_URL = "warehouse/EnteringMaterial/jsonList.html";
 org.kyerp.warehouse.EnteringMaterialPanel_SAVE_URL = "warehouse/EnteringMaterial/jsonSave.html";
@@ -28,16 +45,18 @@ org.kyerp.warehouse.SupplierPanel_STORE_URL = "warehouse/Supplier/jsonList.html"
 org.kyerp.warehouse.SupplierPanel_SAVE_URL = "warehouse/Supplier/jsonSave.html";
 org.kyerp.warehouse.SupplierPanel_DELETE_URL = "warehouse/Supplier/jsonDelete.html";
 /** ***************************************************************************** */
+org.kyerp.warehouse.InOutTypePanel_TREE_URL = "warehouse/InOutType/jsonTree.html";
+org.kyerp.warehouse.InOutTypePanel_LIST_URL = "warehouse/InOutType/jsonList.html";
+org.kyerp.warehouse.InOutTypePanel_SAVE_URL = "warehouse/InOutType/jsonSave.html";
+org.kyerp.warehouse.InOutTypePanel_DELETE_URL = "warehouse/InOutType/jsonDelete.html";
+/** ***************************************************************************** */
 org.kyerp.warehouse.SupplierTypePanel_TREE_URL = "warehouse/SupplierType/jsonTree.html";
 org.kyerp.warehouse.SupplierTypePanel_LIST_URL = "warehouse/SupplierType/jsonList.html";
 org.kyerp.warehouse.SupplierTypePanel_SAVE_URL = "warehouse/SupplierType/jsonSave.html";
 org.kyerp.warehouse.SupplierTypePanel_DELETE_URL = "warehouse/SupplierType/jsonDelete.html";
 /** ***************************************************************************** */
-org.kyerp.warehouse.UnitPanel_STORE_URL = "warehouse/Unit/jsonList.html";
-org.kyerp.warehouse.UnitPanel_SAVE_URL = "warehouse/Unit/jsonSave.html";
-org.kyerp.warehouse.UnitPanel_DELETE_URL = "warehouse/Unit/jsonDelete.html";
-/** ***************************************************************************** */
-org.kyerp.warehouse.WarehousePanel_STORE_URL = "warehouse/Warehouse/jsonList.html";
+org.kyerp.warehouse.WarehousePanel_TREE_URL = "warehouse/Warehouse/jsonTree.html";
+org.kyerp.warehouse.WarehousePanel_LIST_URL = "warehouse/Warehouse/jsonList.html";
 org.kyerp.warehouse.WarehousePanel_SAVE_URL = "warehouse/Warehouse/jsonSave.html";
 org.kyerp.warehouse.WarehousePanel_DELETE_URL = "warehouse/Warehouse/jsonDelete.html";
 /** ***************************************************************************** */
@@ -50,6 +69,7 @@ org.kyerp.warehouse.PurchaseOrder_ReturnForEdit_URL = "warehouse/PurchaseOrder/j
 org.kyerp.warehouse.PurchaseOrder_CheckBill_URL = "warehouse/PurchaseOrder/jsonCheckBill.html"
 
 /** ***************************************************************************** */
+/** 客户管理模块 */
 /** ***************************************************************************** */
 org.kyerp.crm.ClientTypePanel_TREE_URL = "crm/ClientType/jsonTree.html";
 org.kyerp.crm.ClientTypePanel_LIST_URL = "crm/ClientType/jsonList.html";

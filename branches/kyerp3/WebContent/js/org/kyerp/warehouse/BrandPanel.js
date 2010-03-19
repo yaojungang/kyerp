@@ -1,331 +1,260 @@
 
 /** ***************************************************************************** */
-org.kyerp.warehouse.BrandFormPanel = Ext.extend(Ext.form.FormPanel, {
-			url : "",
-			constructor : function(_cfg) {
-				if (_cfg == null)
-					_cfg = {};
-				Ext.apply(this, _cfg);
-				var _readOnly = this["readOnly"] == null
-						? false
-						: this["readOnly"];
-				org.kyerp.warehouse.BrandFormPanel.superclass.constructor.call(
-						this, {
-							labelWidth : 80,
-							labelAlign : 'right',
-							defaultType : "textfield",
-							defaults : {
-								anchor : "90%",
-								msgTarget : 'side',
-								readOnly : _readOnly
-							},
-							baseCls : "x-plain",
-							items : [{
-										fieldLabel : "名称",
-										allowBlank : false,
-										name : "name"
-									}, {
-										fieldLabel : "简拼",
-										allowBlank : false,
-										name : "nameSpell"
-									}]
-						});
-				this.addEvents("submit");
-			},
-			submit : function(_params) {
-				if (_params == null)
-					_params = {};
-				try {
-					if (this.url != "")
-						this.getForm().submit({
-									url : this.url,
-									params : _params,
-									success : this.onSubmit,
-									waitTitle : "数据传送",
-									waitMsg : "数据传送中,请稍候...",
-									scope : this
-								});
-
-				} catch (_err) {
-				}
-			},
-			getValues : function() {
-				if (this.getForm().isValid())
-					return new Ext.data.Record(this.getForm().getValues());
-				else
-					throw Error("表单验证没有通过");
-			},
-			setValues : function(_r) {
-				this.getForm().loadRecord(_r);
-			},
-			reset : function() {
-				this.getForm().reset();
-			},
-			onSubmit : function(_form, _action) {
-				this.fireEvent("submit", this, _action, this.getValues());
-			}
+org.kyerp.warehouse.BrandStore = new Ext.data.Store({
+			autoLoad : true,
+			proxy : new Ext.data.HttpProxy({
+						url : org.kyerp.warehouse.BrandPanel_LIST_URL
+					}),
+			reader : new Ext.data.JsonReader({
+						totalProperty : "totalProperty",
+						root : "rows",
+						id : "id"
+					}, ['id', 'createTime', 'updateTime', 'name',
+							'serialNumber', 'note', 'childBrandIds',
+							'childBrandNames', 'parentBrandId',
+							'parentBrandName'])
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.BrandInfoWindow = Ext.extend(Ext.Window, {
-			url : "",
-			form : null,
-			constructor : function(_cfg) {
-				Ext.apply(this, _cfg);
-				this.form = new org.kyerp.warehouse.BrandFormPanel({
-							url : this.url
-						});
-				org.kyerp.warehouse.BrandInfoWindow.superclass.constructor
-						.call(this, {
-									plain : true,
-									width : 300,
-									modal : true,
-									items : this.form,
-									closeAction : "hide",
-									buttons : [{
-												text : "确 定",
-												handler : this.onSubmitClick,
-												scope : this
-											}, {
-												text : "取 消",
-												handler : this.onCancelClick,
-												scope : this
-											}]
-								});
-
-				this.addEvents("submit");
-				this.form.on("submit", this.onSubmit, this);
-			},
-			close : function() {
-				this.form.reset();
-				this.hide();
-			},
-			onSubmitClick : function() {
-				this.form.submit();
-			},
-			onCancelClick : function() {
-
-				this.close();
-			},
-			onSubmit : function(_form, _action, _values) {
-				try {
-					this.fireEvent("submit", this, _values);
-				} catch (_err) {
-					return;
-				}
-				this.close();
-			}
-
-		});
-/** ***************************************************************************** */
-org.kyerp.warehouse.BrandInsertWindow = Ext.extend(
-		org.kyerp.warehouse.BrandInfoWindow, {
-			title : "添 加",
-			iconCls : 'icon-utils-s-add',
-			url : org.kyerp.warehouse.BrandPanel_SAVE_URL,
-			onSubmit : function(_form, _action, _values) {
-				var _data = _values.data;
-				Ext.apply(_data, {
-							id : _action.result.id
-						});
-				try {
-					this.fireEvent("submit", this, new Ext.data.Record(_data));
-				} catch (_err) {
-					return;
-				}
-				this.close();
-			}
-		});
-/** ***************************************************************************** */
-org.kyerp.warehouse.BrandUpdateWindow = Ext.extend(
-		org.kyerp.warehouse.BrandInfoWindow, {
-			title : "修 改",
-			iconCls : 'icon-utils-s-edit',
-			url : org.kyerp.warehouse.BrandPanel_SAVE_URL,
-			pnId : "",
-			load : function(_r) {
-				this.form.setValues(_r);
-				this.pnId = _r.get("id");
-			},
-			onSubmitClick : function() {
-				this.form.submit({
-							id : this.pnId
-						});
-			},
-			onSubmit : function(_form, _action, _values) {
-				var _data = _values.data;
-				Ext.apply(_data, {
-							id : this.pnId
-						});
-				try {
-					this.fireEvent("submit", this, new Ext.data.Record(_data));
-				} catch (_err) {
-					return;
-				}
-				this.close();
-			}
-		});
-/** ***************************************************************************** */
-org.kyerp.warehouse.BrandPanel = Ext.extend(Ext.grid.GridPanel, {
-	insertWin : new org.kyerp.warehouse.BrandInsertWindow(),
-	updateWin : new org.kyerp.warehouse.BrandUpdateWindow(),
-	constructor : function(_cfg) {
-		Ext.apply(this, _cfg);
-		this["store"] = new Ext.data.Store({
-					autoLoad : {
-						baseParams : {
-							limit : 20
-						}
-					},
-					url : org.kyerp.warehouse.BrandPanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								id : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "name",
-										type : "string"
-									}, {
-										name : "nameSpell",
-										type : "string"
-									}, {
-										name : "visible"
-									}]))
-				});
-		org.kyerp.warehouse.BrandPanel.superclass.constructor.call(this, {
-					stripeRows : true,
-					tbar : [{
-								text : "添  加",
-								iconCls : 'icon-utils-s-add',
-								handler : function() {
-									this.insertWin.show();
-								},
-								scope : this
-							}, "-", {
-								text : "修  改",
-								iconCls : 'icon-utils-s-edit',
-								handler : function() {
-									this.updateWin.show();
-									try {
-										this.updateWin.load(this.getSelected());
-									} catch (_err) {
-										Ext.Msg.alert("修改失败", _err);
-										this.updateWin.close();
-									}
-								},
-								scope : this
-							}, "-", {
-								text : "删  除",
-								iconCls : 'icon-utils-s-delete',
-								handler : function() {
-									Ext.Msg.confirm("系统提示", "你确定删除此记录吗?",
-											this.onRemove, this);
-								},
-								scope : this
-							}],
-					enableColumnMove : false,
-					colModel : new Ext.grid.ColumnModel([{
-								header : "ID",
-								align : "center",
-								width : 50,
-								menuDisabled : true
-							}, {
-								header : "名称",
-								dataIndex : "name",
-								menuDisabled : true
-							}, {
-								header : "简拼",
-								dataIndex : "nameSpell",
-								width : 50,
-								menuDisabled : true
-							}, {
-								header : "可见",
-								dataIndex : "visible",
-								width : 150,
-								menuDisabled : true
-							}]),
-					selModel : new Ext.grid.RowSelectionModel({
-								singleSelect : true,
-								listeners : {
-									"rowselect" : {
-										fn : function(_sel, _index, _r) {
-
-											this.fireEvent("rowselect", _r);
-										},
-										scope : this
-									}
-								}
-							}),
-					bbar : new Ext.PagingToolbar({
-								plugins : new Ext.ux.Andrie.pPageSize({
-											beforeText : '每页显示',
-											afterText : '条'
-										}),
-								pageSize : 20,
-								store : this.store,
-								displayInfo : true,
-								displayMsg : '显示  {0} - {1} 条记录,共有 {2} 条记录',
-								emptyMsg : "没有数据"
-							}),
-					loadMask : {
-						msg : '正在载入数据,请稍等...'
-					}
-				});
-		this.insertWin.on("submit", this.onInsertWinSubmit, this);
-		this.updateWin.on("submit", this.onUpdateWinSubmit, this);
-		this.addEvents("rowselect");
+org.kyerp.warehouse.BrandTree = new Ext.tree.TreePanel({
+	title : '品牌',
+	loader : new Ext.tree.TreeLoader({
+				dataUrl : org.kyerp.warehouse.BrandPanel_TREE_URL
+			}),
+	root : {
+		nodeType : 'async',
+		id : 'root',
+		text : '品牌',
+		expanded : true
 	},
-	insert : function(_r) {
-		this.getStore().add(_r);
-	},
-	update : function(_r) {
-		try {
-			var _sr = this.getSelected();
-			var _data = _sr.data;
-			for (var _i in _data) {
-				_sr.set(_i, _r.get(_i));
-			}
-			_sr.commit();
-		} catch (_err) {
+	tools : [{
+				id : 'refresh',
+				qtip : '刷新',
+				handler : function() {
+					org.kyerp.warehouse.BrandTree.getRootNode().reload();
+				}
+			}],
+	rootVisible : false,
+	border : false,
+	autoScroll : true,
+	listeners : {
+		load : function(node) {
+			node.select();
 		}
-	},
-	removeItem : function() {
-		try {
-			var _sr = this.getGridSelected ;
-			Ext.Ajax.request({
-						url : org.kyerp.warehouse.BrandPanel_DELETE_URL,
-						params : {
-							ids : _sr.get("id")
-						}
-					});
-			this.getStore().remove(_sr);
-
-		} catch (_err) {
-			Ext.Msg.alert("删除失败", _err);
-		}
-	},
-	onInsertWinSubmit : function(_win, _r) {
-		this.insert(_r);
-	},
-	onUpdateWinSubmit : function(_win, _r) {
-		this.update(_r);
-	},
-	onRemove : function(_btn) {
-		if (_btn == "yes")
-			this.removeItem();
-	},
-	onRowSelect : function(_sel, _index, _r) {
-		this.fireEvent("rowselect", _r);
 	}
 });
 /** ***************************************************************************** */
+org.kyerp.warehouse.BrandGrid = new Ext.grid.EditorGridPanel({
+			title : '品牌资料',
+			store : org.kyerp.warehouse.BrandStore,
+			columns : [new Ext.grid.RowNumberer(), {
+						header : '编码',
+						width : 100,
+						sortable : true,
+						dataIndex : 'serialNumber',
+						editor : new Ext.form.TextField()
+					}, {
+						header : '名称',
+						width : 150,
+						sortable : true,
+						dataIndex : 'name',
+						editor : new Ext.form.TextField()
+					}, {
+						header : '说明',
+						width : 300,
+						sortable : true,
+						dataIndex : 'note',
+						editor : new Ext.form.TextField()
+					}],
+			border : false,
+			selModel : new Ext.grid.RowSelectionModel(),
+			bbar : new Ext.PagingToolbar({
+						plugins : new Ext.ux.Andrie.pPageSize({
+									beforeText : '每页显示',
+									afterText : '条'
+								}),
+						pageSize : 20,
+						store : org.kyerp.warehouse.BrandStore,
+						displayInfo : true,
+						displayMsg : '显示  {0} - {1} 条记录,共有 {2} 条记录',
+						emptyMsg : "没有数据"
+					}),
+			loadMask : {
+				msg : '正在载入数据,请稍等...'
+			},
+			getGridSelected : function(_grid) {
+				var _sm = this.getSelectionModel();
+				if (_sm.getCount() == 0)
+					throw Error("你尚未选定一条记录");
+				return _sm.getSelected();
+			}
+		});
+/** ***************************************************************************** */
+org.kyerp.warehouse.BrandPanel = Ext.extend(Ext.Panel, {
+	tree : null,
+	grid : null,
+	constructor : function(_cfg) {
+		Ext.apply(this, _cfg);
+		this.tree = org.kyerp.warehouse.BrandTree;
+		this.grid = org.kyerp.warehouse.BrandGrid;
+		org.kyerp.warehouse.BrandPanel.superclass.constructor.call(this,
+				{
+					layout : 'border',
+					border : false,
+					defaults : {
+						split : true
+					},
+					items : [{
+						region : 'north',
+						border : false,
+						tbar : [{
+									text : '新增',
+									iconCls : 'icon-utils-s-add',
+									handler : function() {
+										this.createBrand();
+									},
+									scope : this
+								}, '-', {
+									text : '删除',
+									iconCls : 'icon-utils-s-delete',
+									handler : function() {
+										Ext.Msg.confirm("系统提示", "你确定删除此记录吗?",
+												this.onDeleteBrandClick,
+												this);
+									},
+									scope : this
+								}, '->', '双击表格可以修改品牌资料']
+					}, {
+						region : 'west',
+						layout : 'fit',
+						width : 180,
+						split : true,
+						// collapsible : true,
+						collapseMode : 'mini',
+						autoScroll : true,
+						border : false,
+						items : this.tree
+					}, {
+						region : 'center',
+						layout : 'fit',
+						border : false,
+						items : this.grid
+					}]
+				});
+		// 点击tree改变List的内容
+		this.tree.on("click", function(node) {
+					node.expand();
+					node.select();
+					var store = org.kyerp.warehouse.BrandStore;
+					store.setBaseParam("parentId", node.id);
+					store.load();
+				});
+		this.grid.on('afteredit', function(e) {
+					// alert(Ext.encode(e.record.data));
+					Ext.Ajax.request({
+								url : org.kyerp.warehouse.BrandPanel_SAVE_URL,
+								params : {
+									id : e.record.data.id,
+									name : e.record.data.name,
+									note : e.record.data.note,
+									serialNumber : e.record.data.serialNumber
+								},
+								method : 'POST',
+								success : function() {
+									e.record.commit(false);
+									var node = org.kyerp.warehouse.BrandTree
+											.getSelectionModel()
+											.getSelectedNode().findChild('id',
+													e.record.data.id);
+									if (node) {
+										node.setText(e.record.data.name);
+									}
+								}
+							});
+				});
+	},
+	createBrand : function() {
+		var node = this.tree.getSelectionModel().getSelectedNode();
+		if (node) {
+			Ext.Ajax.request({
+						url : org.kyerp.warehouse.BrandPanel_SAVE_URL,
+						params : {
+							parentBrandId : node.id,
+							name : '新品牌'
+						},
+						success : function(response) {
+							var data = Ext.decode(response.responseText);
+							if (data.success) {
+								node.appendChild(new Ext.tree.TreeNode({
+											id : data.id,
+											text : data.brandExtGridRow.name,
+											leaf : true
+										}));
+								node.getUI().removeClass('x-tree-node-leaf');
+								node.getUI().addClass('x-tree-node-expanded');
+								node.expand();
+								org.kyerp.warehouse.BrandGrid.getStore()
+										.reload();
+							} else {
+								Ext.MessageBox.alert('警告', data.msg);
+							}
+						}
+					})
+		}
 
-Ext.extend(org.kyerp.module,{
-    init: function(){
-        this.body = new org.kyerp.warehouse.BrandPanel({border : false,bodyBorder : false});
-        this.main.add(this.body);
-        this.main.doLayout();  
-    }
+	},
+	onDeleteBrandClick : function(_btn) {
+		if (_btn == "yes") {
+			this.onDeleteBrand();
+		}
+	},
+
+	onDeleteBrand : function() {
+		try {
+			var id;
+			// var rec = this.grid.getSelectionModel().getSelected();
+			var rec = this.grid.getGridSelected()
+			if (rec) {
+				id = rec.data.id;
+			} else {
+				var node = this.tree.getSelectionModel().getSelectedNode();
+				id = node.id;
+			}
+			Ext.Ajax.request({
+						url : org.kyerp.warehouse.BrandPanel_DELETE_URL
+								+ "?ids=" + id,
+						method : 'POST',
+						success : function(response) {
+							var data = Ext.decode(response.responseText);
+							if (data.success) {
+								var snode = org.kyerp.warehouse.BrandTree
+										.getSelectionModel().getSelectedNode();
+								if (snode.id == id) { // 当前树节点是要删除的节点
+									snode.remove();
+								} else {
+									var node = snode.findChild('id', id);
+									node.remove();
+								}
+								org.kyerp.warehouse.BrandGrid.getStore()
+										.reload();
+								Ext.MessageBox.alert('警告', '删除品牌资料完成。');
+							} else {
+								Ext.MessageBox.alert('警告', data.msg);
+							}
+						}
+					})
+		} catch (_err) {
+			Ext.Msg.alert("删除失败", _err);
+		}
+	}
 });
+/** ***************************************************************************** */
+Ext.extend(org.kyerp.module, {
+			init : function() {
+				this.body = new org.kyerp.warehouse.BrandPanel({
+							border : false,
+							bodyBorder : false
+						});
+				this.main.add(this.body);
+				this.main.doLayout();
+			}
+		});

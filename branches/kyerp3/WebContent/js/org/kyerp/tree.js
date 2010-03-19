@@ -56,7 +56,7 @@
 					}, {
 						id : "WarehouseManager",
 						text : "库存管理",
-						expanded : true,
+						expanded : false,
 						children : [{
 									id : "StockPanel",
 									text : "库存状况",
@@ -87,7 +87,8 @@
 									text : "纸张管理",
 									ns : 'org.kyerp.warehouse',
 									leaf : true
-								}, {
+								}]
+					},{
 									id : "WarehouseBasicInfo",
 									text : "基础资料",
 									expanded : false,
@@ -113,7 +114,6 @@
 												leaf : true
 											}]
 								}]
-					}]
 		}, {
 			id : "SellManager",
 			ns : 'org.kyerp.sell',

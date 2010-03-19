@@ -1,344 +1,260 @@
-/** ***************************************************************************** */
-org.kyerp.org.DepartmentPanel_STORE_URL = "org/Department/jsonList.html";
-org.kyerp.org.DepartmentPanel_TREE_URL = "org/Department/jsonTree.html";
-org.kyerp.org.DepartmentPanel_DATA_SAVE_URL = "org/Department/jsonSave.html";
-org.kyerp.org.DepartmentPanel_DATA_DELETE_URL = "org/Department/jsonDelete.html";
-/** ***************************************************************************** */
-org.kyerp.org.DepartmentFormPanel = Ext.extend(Ext.form.FormPanel, {
-	url : "",
-	departmentStore : null,
-	constructor : function(_cfg) {
-		if (_cfg == null)
-			_cfg = {};
-		Ext.apply(this, _cfg);
-		this.departmentStore = new Ext.data.Store({
-					url : org.kyerp.org.DepartmentPanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								id : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "name",
-										type : "string"
-									}, {
-										name : "parentDepartmentId",
-										type : "int"
-									}, {
-										name : "parentDepartmentName",
-										type : "string"
-									}]))
-				});
-		var _readOnly = this["readOnly"] == null ? false : this["readOnly"];
-		org.kyerp.org.DepartmentFormPanel.superclass.constructor.call(this, {
-					labelWidth : 80,
-					labelAlign : 'right',
-					defaultType : "textfield",
-					defaults : {
-						anchor : "90%",
-						msgTarget : 'side',
-						readOnly : _readOnly
-					},
-					baseCls : "x-plain",
-					items : [{
-								fieldLabel : "名称",
-								allowBlank : false,
-								name : "name"
-							}, {
-								xtype : 'treecombobox',
-								name : 'parentDepartmentId',
-								hiddenName : 'parentDepartmentId',
-								fieldLabel : '上级部门',
-								editable : false,
-								mode : 'local',
-								displayField : 'name',
-								valueField : 'id',
-								triggerAction : 'all',
-								allowBlank : false,
-								treeUrl : org.kyerp.org.DepartmentPanel_TREE_URL,
-								rootText : 'root',
-								rootId : '0',
-								forceSelection : true,
-								rootVisible : false
-							}]
-				});
-		this.addEvents("submit");
-	},
-	submit : function(_params) {
-		if (_params == null)
-			_params = {};
-		try {
-			if (this.url != "")
-				this.getForm().submit({
-							url : this.url,
-							params : _params,
-							success : this.onSubmit,
-							waitTitle : "数据传送",
-							waitMsg : "数据传送中,请稍候...",
-							scope : this
-						});
 
-		} catch (_err) {
+/** ***************************************************************************** */
+org.kyerp.org.DepartmentStore = new Ext.data.Store({
+			autoLoad : true,
+			proxy : new Ext.data.HttpProxy({
+						url : org.kyerp.org.DepartmentPanel_LIST_URL
+					}),
+			reader : new Ext.data.JsonReader({
+						totalProperty : "totalProperty",
+						root : "rows",
+						id : "id"
+					}, ['id', 'createTime', 'updateTime', 'name',
+							'serialNumber', 'remark', 'childDepartmentIds',
+							'childDepartmentNames', 'parentDepartmentId',
+							'parentDepartmentName'])
+		});
+/** ***************************************************************************** */
+org.kyerp.org.DepartmentTree = new Ext.tree.TreePanel({
+	title : '部门',
+	loader : new Ext.tree.TreeLoader({
+				dataUrl : org.kyerp.org.DepartmentPanel_TREE_URL
+			}),
+	root : {
+		nodeType : 'async',
+		id : 'root',
+		text : '部门',
+		expanded : true
+	},
+	tools : [{
+				id : 'refresh',
+				qtip : '刷新',
+				handler : function() {
+					org.kyerp.org.DepartmentTree.getRootNode().reload();
+				}
+			}],
+	rootVisible : false,
+	border : false,
+	autoScroll : true,
+	listeners : {
+		load : function(node) {
+			node.select();
 		}
-	},
-	getValues : function() {
-		if (this.getForm().isValid())
-			return new Ext.data.Record(this.getForm().getValues());
-		else
-			throw Error("表单验证没有通过");
-	},
-	setValues : function(_r) {
-		this.getForm().loadRecord(_r);
-	},
-	reset : function() {
-		this.getForm().reset();
-	},
-	onSubmit : function(_form, _action) {
-		this.fireEvent("submit", this, _action, this.getValues());
 	}
 });
 /** ***************************************************************************** */
-org.kyerp.org.DepartmentInfoWindow = Ext.extend(Ext.Window, {
-			url : "",
-			form : null,
-			constructor : function(_cfg) {
-				Ext.apply(this, _cfg);
-				this.form = new org.kyerp.org.DepartmentFormPanel({
-							url : this.url
-						});
-				org.kyerp.org.DepartmentInfoWindow.superclass.constructor.call(
-						this, {
-							plain : true,
-							width : 500,
-							modal : true,
-							items : this.form,
-							layout : 'fit',
-							closeAction : "hide",
-							buttons : [{
-										text : "确 定",
-										handler : this.onSubmitClick,
-										scope : this
-									}, {
-										text : "取 消",
-										handler : this.onCancelClick,
-										scope : this
-									}]
-						});
-
-				this.addEvents("submit");
-				this.form.on("submit", this.onSubmit, this);
+org.kyerp.org.DepartmentGrid = new Ext.grid.EditorGridPanel({
+			title : '部门资料',
+			store : org.kyerp.org.DepartmentStore,
+			columns : [new Ext.grid.RowNumberer(), {
+						header : '编码',
+						width : 100,
+						sortable : true,
+						dataIndex : 'serialNumber',
+						editor : new Ext.form.TextField()
+					}, {
+						header : '名称',
+						width : 150,
+						sortable : true,
+						dataIndex : 'name',
+						editor : new Ext.form.TextField()
+					}, {
+						header : '说明',
+						width : 300,
+						sortable : true,
+						dataIndex : 'remark',
+						editor : new Ext.form.TextField()
+					}],
+			border : false,
+			selModel : new Ext.grid.RowSelectionModel(),
+			bbar : new Ext.PagingToolbar({
+						plugins : new Ext.ux.Andrie.pPageSize({
+									beforeText : '每页显示',
+									afterText : '条'
+								}),
+						pageSize : 20,
+						store : org.kyerp.org.DepartmentStore,
+						displayInfo : true,
+						displayMsg : '显示  {0} - {1} 条记录,共有 {2} 条记录',
+						emptyMsg : "没有数据"
+					}),
+			loadMask : {
+				msg : '正在载入数据,请稍等...'
 			},
-			close : function() {
-				this.form.reset();
-				this.hide();
-			},
-			onSubmitClick : function() {
-				this.form.submit();
-			},
-			onCancelClick : function() {
-
-				this.close();
-			},
-			onSubmit : function(_form, _action, _values) {
-				try {
-					this.fireEvent("submit", this, _values);
-				} catch (_err) {
-					return;
-				}
-				this.close();
-			}
-
-		});
-/** ***************************************************************************** */
-org.kyerp.org.DepartmentUpdateWindow = Ext.extend(
-		org.kyerp.org.DepartmentInfoWindow, {
-			title : "修 改",
-			iconCls : 'icon-utils-s-edit',
-			url : org.kyerp.org.DepartmentPanel_DATA_SAVE_URL,
-			pnId : "",
-			load : function(_id) {
-				this.pnId = _id;
-				_r = this.form.departmentStore.getById(_id);
-				this.form.setValues(_r);
-				this.form.get(1).setValue(new Ext.tree.TreeNode({
-							id : _r.get("parentDepartmentId"),
-							text : _r.get("parentDepartmentName")
-						}));
-			},
-			onSubmitClick : function() {
-				this.form.submit({
-							id : this.pnId
-						});
-			},
-			onSubmit : function(_form, _action, _values) {
-				var _data = _values.data;
-				Ext.apply(_data, {
-							id : this.pnId
-						});
-				try {
-					this.fireEvent("submit", this, new Ext.data.Record(_data));
-				} catch (_err) {
-					return;
-				}
-				this.close();
+			getGridSelected : function(_grid) {
+				var _sm = this.getSelectionModel();
+				if (_sm.getCount() == 0)
+					throw Error("你尚未选定一条记录");
+				return _sm.getSelected();
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.org.DepartmentPanel = Ext.extend(Ext.tree.TreePanel, {
-	menu : null,
-	updateWin : null,
+org.kyerp.org.DepartmentPanel = Ext.extend(Ext.Panel, {
+	tree : null,
+	grid : null,
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this.menu = new Ext.menu.Menu({
-					items : [{
-								text : "添加",
-								iconCls : 'icon-utils-s-add',
-								handler : this.onInsertNode,
-								scope : this
-							}, {
-								text : "删除",
-								iconCls : 'icon-utils-s-delete',
-								handler : this.onDeleteNode,
-								scope : this
-							}, {
-								text : "修改",
-								iconCls : 'icon-utils-s-edit',
-								handler : function() {
-									this.updateWin.show();
-									try {
-										this.updateWin
-												.load(this.menu["currentNode"].id);
-									} catch (_err) {
-										Ext.Msg.alert("修改失败", _err);
-										this.updateWin.close();
-									}
-								},
-								scope : this
-							}]
-				});
-		this.updateWin = new org.kyerp.org.DepartmentUpdateWindow();
-		org.kyerp.org.DepartmentPanel.superclass.constructor.call(this, {
-					rootVisible : false,
-					enableDD : true,// 是否支持拖拽效果
-					containerScroll : true,// 是否支持滚动条
-					dataUrl : org.kyerp.org.DepartmentPanel_TREE_URL,
-					tools : [{
-								id : 'refresh',
-								qtip : '刷新',
-								handler : function() {
-									this.getRootNode().reload();
-								},
-								scope : this
-							}],
-					listeners : {
-						"contextmenu" : {
-							fn : this.onContextmenu,
-							scope : this
-						}
+		this.tree = org.kyerp.org.DepartmentTree;
+		this.grid = org.kyerp.org.DepartmentGrid;
+		org.kyerp.org.DepartmentPanel.superclass.constructor.call(this,
+				{
+					layout : 'border',
+					border : false,
+					defaults : {
+						split : true
 					},
-					root : new Ext.tree.AsyncTreeNode({
-								text : "组织机构",
-								id : "0",
-								expanded : true
-							})
+					items : [{
+						region : 'north',
+						border : false,
+						tbar : [{
+									text : '新增',
+									iconCls : 'icon-utils-s-add',
+									handler : function() {
+										this.createDepartment();
+									},
+									scope : this
+								}, '-', {
+									text : '删除',
+									iconCls : 'icon-utils-s-delete',
+									handler : function() {
+										Ext.Msg.confirm("系统提示", "你确定删除此记录吗?",
+												this.onDeleteDepartmentClick,
+												this);
+									},
+									scope : this
+								}, '->', '双击表格可以修改部门资料']
+					}, {
+						region : 'west',
+						layout : 'fit',
+						width : 180,
+						split : true,
+						// collapsible : true,
+						collapseMode : 'mini',
+						autoScroll : true,
+						border : false,
+						items : this.tree
+					}, {
+						region : 'center',
+						layout : 'fit',
+						border : false,
+						items : this.grid
+					}]
 				});
-		this.on('nodedrop', function(e) {
-			if (e.point == 'append') {
-				alert('当前"' + e.dropNode.text + '"被"' + e.target.text + '"录取！');
-			} else if (e.point == 'above') {
-				alert('当前"' + e.dropNode.text + '"放在了"' + e.target.text
-						+ '"上面！');
-			} else if (e.point == 'below') {
-				alert('当前"' + e.dropNode.text + '"放在了"' + e.target.text
-						+ '"下面！');
-			}
-		});
-		this.on("show", function() {
-					this.updateWin.form.departmentStore.load({
+		// 点击tree改变List的内容
+		this.tree.on("click", function(node) {
+					node.expand();
+					node.select();
+					var store = org.kyerp.org.DepartmentStore;
+					store.setBaseParam("parentId", node.id);
+					store.load();
+				});
+		this.grid.on('afteredit', function(e) {
+					// alert(Ext.encode(e.record.data));
+					Ext.Ajax.request({
+								url : org.kyerp.org.DepartmentPanel_SAVE_URL,
 								params : {
-									start : 0,
-									limit : 2000
+									id : e.record.data.id,
+									name : e.record.data.name,
+									note : e.record.data.note,
+									serialNumber : e.record.data.serialNumber
+								},
+								method : 'POST',
+								success : function() {
+									e.record.commit(false);
+									var node = org.kyerp.org.DepartmentTree
+											.getSelectionModel()
+											.getSelectedNode().findChild('id',
+													e.record.data.id);
+									if (node) {
+										node.setText(e.record.data.name);
+									}
 								}
 							});
-				}, this);
+				});
 	},
-	onContextmenu : function(_node, _e) {
-		this.menu["currentNode"] = _node;
-		if (_node.id == "0" || _node.id == "1" || !_node.leaf)
-			this.menu.items.itemAt(1).setDisabled(true);
-		else
-			this.menu.items.itemAt(1).setDisabled(false);
-		this.menu.showAt(_e.getXY());
-	},
-	onInsertNode : function() {
-		Ext.Msg.prompt("请输入名称", "名称", this.onInsertNodePrompt, this);
-	},
-	onDeleteNode : function() {
-		Ext.Msg.confirm("系统提示", "你是否确定删除?", this.onDeleteNodeConfirm, this);
-	},
-	onUpdateNode : function() {
-		Ext.Msg.prompt("请输入新名称", "新名称", this.onUpdateNodePrompt, this, false,
-				this.menu["currentNode"].text);
-	},
-	onInsertNodePrompt : function(_btn, _text) {
-		if (_btn == "ok") {
-			var _parent = this.menu["currentNode"]
-					? this.menu["currentNode"]
-					: this.root;
-			_parent.leaf = false;
-			var _node = new Ext.tree.AsyncTreeNode({
-						text : _text,
-						leaf : true,
-						id : Ext.id()
-					});
+	createDepartment : function() {
+		var node = this.tree.getSelectionModel().getSelectedNode();
+		if (node) {
 			Ext.Ajax.request({
-						url : org.kyerp.org.DepartmentPanel_DATA_INSERT_URL,
+						url : org.kyerp.org.DepartmentPanel_SAVE_URL,
 						params : {
-							parentId : _parent.id,
-							name : _node.text
-						}
-					});
-			_parent.appendChild(_node);
-			// this.root.reload();
-		}
-	},
-	onUpdateNodePrompt : function(_btn, _text) {
-		if (_btn == "ok") {
-			if (this.menu["currentNode"].text != _text.trim()) {
-				this.menu["currentNode"].setText(_text);
-				Ext.Ajax.request({
-							url : org.kyerp.org.DepartmentPanel_DATA_UPDATE_URL,
-							params : {
-								id : this.menu["currentNode"].id,
-								name : this.menu["currentNode"].text
+							parentDepartmentId : node.id,
+							name : '新部门'
+						},
+						success : function(response) {
+							var data = Ext.decode(response.responseText);
+							if (data.success) {
+								node.appendChild(new Ext.tree.TreeNode({
+											id : data.id,
+											text : data.departmentExtGridRow.name,
+											leaf : true
+										}));
+								node.getUI().removeClass('x-tree-node-leaf');
+								node.getUI().addClass('x-tree-node-expanded');
+								node.expand();
+								org.kyerp.org.DepartmentGrid.getStore()
+										.reload();
+							} else {
+								Ext.MessageBox.alert('警告', data.msg);
 							}
-						});
-			}
+						}
+					})
+		}
+
+	},
+	onDeleteDepartmentClick : function(_btn) {
+		if (_btn == "yes") {
+			this.onDeleteDepartment();
 		}
 	},
-	onDeleteNodeConfirm : function(_btn) {
-		if (_btn == "yes") {
-			var _node = this.menu["currentNode"];
+
+	onDeleteDepartment : function() {
+		try {
+			var id;
+			// var rec = this.grid.getSelectionModel().getSelected();
+			var rec = this.grid.getGridSelected()
+			if (rec) {
+				id = rec.data.id;
+			} else {
+				var node = this.tree.getSelectionModel().getSelectedNode();
+				id = node.id;
+			}
 			Ext.Ajax.request({
-						url : org.kyerp.org.DepartmentPanel_DATA_DELETE_URL,
-						params : {
-							id : _node.id
+						url : org.kyerp.org.DepartmentPanel_DELETE_URL
+								+ "?ids=" + id,
+						method : 'POST',
+						success : function(response) {
+							var data = Ext.decode(response.responseText);
+							if (data.success) {
+								var snode = org.kyerp.org.DepartmentTree
+										.getSelectionModel().getSelectedNode();
+								if (snode.id == id) { // 当前树节点是要删除的节点
+									snode.remove();
+								} else {
+									var node = snode.findChild('id', id);
+									node.remove();
+								}
+								org.kyerp.org.DepartmentGrid.getStore()
+										.reload();
+								Ext.MessageBox.alert('警告', '删除部门资料完成。');
+							} else {
+								Ext.MessageBox.alert('警告', data.msg);
+							}
 						}
-					});
-			_node.remove();
-			this.root.reload();
+					})
+		} catch (_err) {
+			Ext.Msg.alert("删除失败", _err);
 		}
 	}
-
 });
 /** ***************************************************************************** */
-
-Ext.extend(org.kyerp.module,{
-    init: function(){
-        this.body = new org.kyerp.org.DepartmentPanel({border : false,bodyBorder : false});
-        this.main.add(this.body);
-        this.main.doLayout();  
-    }
-});
+Ext.extend(org.kyerp.module, {
+			init : function() {
+				this.body = new org.kyerp.org.DepartmentPanel({
+							border : false,
+							bodyBorder : false
+						});
+				this.main.add(this.body);
+				this.main.doLayout();
+			}
+		});
