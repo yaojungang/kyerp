@@ -10,7 +10,7 @@ org.kyerp.warehouse.InOutTypeStore = new Ext.data.Store({
 						root : "rows",
 						id : "id"
 					}, ['id', 'createTime', 'updateTime', 'name',
-							'serialNumber', 'note', 'childInOutTypeIds',
+							'serialNumber', 'inOutMark','note', 'childInOutTypeIds',
 							'childInOutTypeNames', 'parentInOutTypeId',
 							'parentInOutTypeName'])
 		});
@@ -59,6 +59,12 @@ org.kyerp.warehouse.InOutTypeGrid = new Ext.grid.EditorGridPanel({
 						dataIndex : 'name',
 						editor : new Ext.form.TextField()
 					}, {
+						header : '进出标记',
+						width : 80,
+						sortable : true,
+						dataIndex : 'inOutMark',
+						editor : new Ext.form.TextField()
+					},{
 						header : '说明',
 						width : 300,
 						sortable : true,
@@ -155,6 +161,7 @@ org.kyerp.warehouse.InOutTypePanel = Ext.extend(Ext.Panel, {
 								params : {
 									id : e.record.data.id,
 									name : e.record.data.name,
+									inOutMark : e.record.data.inOutMark,
 									note : e.record.data.note,
 									serialNumber : e.record.data.serialNumber
 								},

@@ -15,8 +15,8 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 								.findField('supplierId').setValue(rec.data.id);
 					}
 				});
-		org.kyerp.warehouse.InStockFormPanel.superclass.constructor.call(
-				this, {
+		org.kyerp.warehouse.InStockFormPanel.superclass.constructor.call(this,
+				{
 					layout : 'border',
 					border : false,
 					defaults : {
@@ -73,7 +73,23 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									anchor : '-20px'
 								},
 								items : [{
-											fieldLabel : '申请类型'
+											fieldLabel : '收发类型',
+											xtype : 'treecombobox',
+											name : 'inOutTypeId',
+											hiddenName : 'inOutTypeId',
+											editable : false,
+											width:250,
+											mode : 'local',
+											displayField : 'name',
+											valueField : 'id',
+											triggerAction : 'all',
+											allowBlank : false,
+											rootText : 'root',
+											rootId : '0',
+											forceSelection : true,
+											rootVisible : false,
+											treeUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL
+										
 										}, {
 											fieldLabel : '申请部门'
 										}, {
@@ -174,8 +190,7 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '编制时间',
-												name : "createTime",
-												id : "createTime"
+												name : "createTime"
 											}]
 								}, {
 									flex : 1,
@@ -261,7 +276,7 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 			// this.onCancelClick();
 		} else {
 			// 设置createTime 的显示格式
-			this.findById("createTime").setValue(_r.createTime
+			this.getForm().findField("createTime").setValue(_r.createTime
 					.format('Y-m-d H:i:s'));
 			// 为detailsGrid设置值
 			this.detailsGrid.getStore().loadData(
@@ -553,14 +568,17 @@ org.kyerp.warehouse.InStockPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : "supplierName",
 										type : "string"
 									}, {
+										name : "inOutTypeId"
+									}, {
+										name : "inOutTypeName"
+									}, {
 										name : "remark",
 										type : "string"
 									}, {
 										name : "editAble"
 									}]))
 				});
-		org.kyerp.warehouse.InStockPanel.superclass.constructor.call(
-				this, {
+		org.kyerp.warehouse.InStockPanel.superclass.constructor.call(this, {
 					stripeRows : true,
 					plugins : this.expander,
 					tbar : [{
@@ -606,6 +624,9 @@ org.kyerp.warehouse.InStockPanel = Ext.extend(Ext.grid.GridPanel, {
 										.dateRenderer('Y-m-d'),
 								width : 100,
 								menuDisabled : true
+							}, {
+								header : '收发类型',
+								dataIndex : 'inOutTypeName'
 							}, {
 								header : '供应商',
 								dataIndex : 'supplierName'
