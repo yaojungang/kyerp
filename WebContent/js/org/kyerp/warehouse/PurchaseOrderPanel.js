@@ -174,8 +174,7 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '编制时间',
-												name : "createTime",
-												id : "createTime"
+												name : "createTime"
 											}]
 								}, {
 									flex : 1,
@@ -261,8 +260,8 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 			// this.onCancelClick();
 		} else {
 			// 设置createTime 的显示格式
-			this.findById("createTime").setValue(_r.createTime
-					.format('Y-m-d H:i:s'));
+			 this.getForm().findField("createTime").setValue(_r.createTime
+			 .format('Y-m-d H:i:s'));
 			// 为detailsGrid设置值
 			this.detailsGrid.getStore().loadData(
 					Ext.util.JSON.decode(_r.details), false);

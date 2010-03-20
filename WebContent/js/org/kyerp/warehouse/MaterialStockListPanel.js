@@ -1,7 +1,69 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialStockListPanel = Ext.extend(Ext.grid.GridPanel, {
+org.kyerp.warehouse.MaterialStockListPanelViewWindow = Ext.extend(Ext.Window, {
+	grid : null,
+	store : null,
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
+		this.store = new Ext.data.Store({
+					reader : new Ext.data.JsonReader(
+							{},
+							new Ext.data.Record.create(['id', 'createTime',
+									'updateTime', 'batchNumber',
+									'warehouseName', 'amount','unitName', 'price', 'cost']))
+				});
+		this.grid = new Ext.grid.GridPanel({
+					border : false,
+					region : 'center',
+					store : this.store,
+					selModel : new Ext.grid.RowSelectionModel(),
+					columns : [new Ext.grid.RowNumberer(), {
+								header : '批次号',
+								width : 100,
+								dataIndex : 'batchNumber'
+							}, {
+								header : '仓库',
+								width : 100,
+								dataIndex : 'warehouseName'
+							}, {
+								header : '单位',
+								dataIndex : 'unitName'
+							}, {
+								header : '单价',
+								dataIndex : 'price'
+							}, {
+								header : '数量',
+								dataIndex : 'amount'
+							}, {
+								header : '金额',
+								dataIndex : 'cost'
+							}]
+				});
+		org.kyerp.warehouse.MaterialStockListPanelViewWindow.superclass.constructor
+				.call(this, {
+							title : "查看",
+							width : 700,
+							height : 250,
+							layout : 'border',
+							border : false,
+							iconCls : 'icon-utils-s-view',
+							closeAction : 'hide',
+							items : [this.grid]
+						});
+	}
+});
+/** ***************************************************************************** */
+org.kyerp.warehouse.MaterialStockListPanel = Ext.extend(Ext.grid.GridPanel, {
+	expander : null,
+	viewWin : null,
+	constructor : function(_cfg) {
+		Ext.apply(this, _cfg);
+		this.expander = new Ext.ux.grid.RowExpander({
+					lazyRender : true,
+					tpl : new Ext.XTemplate('<p><b>明细:</b></p>',
+							'<tpl for=".">', '{materialName}=={details}',
+							'<tpl for="details">', '{materialName}', '</tpl>',
+							'</tpl>')
+				});
 		this["store"] = new Ext.data.Store({
 					autoLoad : {
 						baseParams : {
@@ -28,8 +90,7 @@ org.kyerp.warehouse.MaterialStockListPanel = Ext.extend(Ext.grid.GridPanel, {
 										type : "date",
 										dateFormat : "Y-m-d H:i:s"
 									}, {
-										name : "amount",
-										type : "int"
+										name : "totalAmount"
 									}, {
 										name : "materialId",
 										type : "int"
@@ -46,19 +107,18 @@ org.kyerp.warehouse.MaterialStockListPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : 'price',
 										type : 'string'
 									}, {
-										name : 'cost',
-										type : 'string'
+										name : 'cost'
 									}, {
-										name : 'warehouseId',
-										type : 'int'
-									}, {
-										name : 'warehouseName',
-										type : 'string'
+										name : "details"
 									}]))
 				});
-		org.kyerp.warehouse.MaterialStockListPanel.superclass.constructor.call(this,
-				{
+		this.viewWin = new org.kyerp.warehouse.MaterialStockListPanelViewWindow();
+		org.kyerp.warehouse.MaterialStockListPanel.superclass.constructor.call(
+				this, {
 					stripeRows : true,
+					viewConfig : {
+						forceFit : true
+					},
 					tbar : [{
 								text : "查  看",
 								iconCls : 'icon-utils-s-view',
@@ -68,18 +128,9 @@ org.kyerp.warehouse.MaterialStockListPanel = Ext.extend(Ext.grid.GridPanel, {
 								scope : this
 							}],
 					enableColumnMove : false,
-					colModel : new Ext.grid.ColumnModel([
+					plugins : this.expander,
+					colModel : new Ext.grid.ColumnModel([this.expander,
 							new Ext.grid.RowNumberer(), {
-								header : "ID",
-								dataIndex : "id",
-								align : "center",
-								width : 50,
-								menuDisabled : true
-							}, {
-								header : "编号",
-								dataIndex : "serialNumber",
-								menuDisabled : true
-							}, {
 								header : "物料名称",
 								dataIndex : "materialName",
 								width : 150,
@@ -95,13 +146,13 @@ org.kyerp.warehouse.MaterialStockListPanel = Ext.extend(Ext.grid.GridPanel, {
 								width : 60,
 								menuDisabled : true
 							}, {
-								header : "库存数量",
-								dataIndex : "amount",
+								header : "数量",
+								dataIndex : "totalAmount",
 								width : 60,
 								menuDisabled : true
 							}, {
-								header : "仓库",
-								dataIndex : "warehouseName",
+								header : "金额",
+								dataIndex : "cost",
 								width : 80,
 								menuDisabled : true
 							}]),
@@ -132,7 +183,8 @@ org.kyerp.warehouse.MaterialStockListPanel = Ext.extend(Ext.grid.GridPanel, {
 						msg : '正在载入数据,请稍等...'
 					}
 				});
-		this.addEvents("rowselect");
+		// this.addEvents("rowselect");
+		this.on("rowselect", this.onRowSelect, this);
 	},
 	getSelected : function(_grid) {
 		var _sm = this.getSelectionModel();
@@ -141,7 +193,8 @@ org.kyerp.warehouse.MaterialStockListPanel = Ext.extend(Ext.grid.GridPanel, {
 		return _sm.getSelected();
 	},
 	onRowSelect : function(_sel, _index, _r) {
-		this.fireEvent("rowselect", _r);
+		this.viewWin.store.loadData(Ext.decode(_sel.data.details), false);
+		this.viewWin.setTitle(_sel.data.materialName);
 	}
 });
 /** ***************************************************************************** */

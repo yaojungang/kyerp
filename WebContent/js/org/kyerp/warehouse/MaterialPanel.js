@@ -54,8 +54,7 @@ org.kyerp.warehouse.MaterialPanel = Ext.extend(Ext.Panel, {
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module,{
     init: function(){
-    	require('MaterialCategoryTreePanel.js;' + 'MaterialListPanel.js;'
-								+ 'PurchaseOrderItems.js', {
+    	require('MaterialCategoryTreePanel.js;' + 'MaterialListPanel.js,', {
 							basedir : 'js/org/kyerp/warehouse'
 						});
         this.body = new org.kyerp.warehouse.MaterialPanel({border : false,bodyBorder : false});
