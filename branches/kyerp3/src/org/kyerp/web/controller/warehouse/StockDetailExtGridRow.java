@@ -3,30 +3,36 @@ package org.kyerp.web.controller.warehouse;
 import java.math.BigDecimal;
 
 /**
- * @author y109 2010-3-19下午07:51:07
+ * @author y109 2010-3-2下午09:47:20
  */
-public class StockExtGridRow {
+public class StockDetailExtGridRow {
 	private Long		id;
 	/** 建立时间 */
 	private String		createTime;
 	/** 修改时间 */
 	private String		updateTime;
+	/** 库存单 */
+	private long		stockId;
+	private String		stockSerialNumber;
 	/** 物料 */
 	private long		materialId;
 	private String		materialName;
-	/** 数量 */
-	private float		totalAmount;
+	/** 仓库 */
+	private long		warehouseId;
+	private String		warehouseName;
+	/** 批次号 */
+	private String		batchNumber;
 	/** 单位 */
 	private long		unitId;
 	private String		unitName;
+	/** 总数量 */
+	private float		amount;
 	/** 价格 */
 	private BigDecimal	price;
 	/** 金额 */
 	private BigDecimal	cost;
-	/** 明细表 */
-	private String		details;
 
-	public StockExtGridRow() {
+	public StockDetailExtGridRow() {
 	}
 
 	public Long getId() {
@@ -53,6 +59,22 @@ public class StockExtGridRow {
 		this.updateTime = updateTime;
 	}
 
+	public long getStockId() {
+		return stockId;
+	}
+
+	public void setStockId(long stockId) {
+		this.stockId = stockId;
+	}
+
+	public String getStockSerialNumber() {
+		return stockSerialNumber;
+	}
+
+	public void setStockSerialNumber(String stockSerialNumber) {
+		this.stockSerialNumber = stockSerialNumber;
+	}
+
 	public long getMaterialId() {
 		return materialId;
 	}
@@ -69,12 +91,28 @@ public class StockExtGridRow {
 		this.materialName = materialName;
 	}
 
-	public float getTotalAmount() {
-		return totalAmount;
+	public long getWarehouseId() {
+		return warehouseId;
 	}
 
-	public void setTotalAmount(float totalAmount) {
-		this.totalAmount = totalAmount;
+	public void setWarehouseId(long warehouseId) {
+		this.warehouseId = warehouseId;
+	}
+
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName;
+	}
+
+	public String getBatchNumber() {
+		return batchNumber;
+	}
+
+	public void setBatchNumber(String batchNumber) {
+		this.batchNumber = batchNumber;
 	}
 
 	public long getUnitId() {
@@ -93,6 +131,14 @@ public class StockExtGridRow {
 		this.unitName = unitName;
 	}
 
+	public float getAmount() {
+		return amount;
+	}
+
+	public void setAmount(float amount) {
+		this.amount = amount;
+	}
+
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -107,14 +153,6 @@ public class StockExtGridRow {
 
 	public void setCost(BigDecimal cost) {
 		this.cost = cost;
-	}
-
-	public String getDetails() {
-		return details;
-	}
-
-	public void setDetails(String details) {
-		this.details = details;
 	}
 
 }

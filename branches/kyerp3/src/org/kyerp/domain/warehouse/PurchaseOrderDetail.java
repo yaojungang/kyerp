@@ -23,9 +23,9 @@ public class PurchaseOrderDetail extends BaseDomain implements Serializable {
 	@ManyToOne
 	private Material			material;
 	/** 数量 */
-	private Integer				billCount;
+	private float				billCount;
 	/** 收货数量 */
-	private Integer				recvCount;
+	private Float				recvCount;
 	/** 单位 */
 	@ManyToOne
 	private Unit				unit;
@@ -97,22 +97,6 @@ public class PurchaseOrderDetail extends BaseDomain implements Serializable {
 		this.material = material;
 	}
 
-	public Integer getBillCount() {
-		return billCount;
-	}
-
-	public void setBillCount(Integer billCount) {
-		this.billCount = billCount;
-	}
-
-	public Integer getRecvCount() {
-		return recvCount;
-	}
-
-	public void setRecvCount(Integer recvCount) {
-		this.recvCount = recvCount;
-	}
-
 	public Unit getUnit() {
 		return unit;
 	}
@@ -138,6 +122,22 @@ public class PurchaseOrderDetail extends BaseDomain implements Serializable {
 	}
 
 	public void setBillCost(BigDecimal billCost) {
+	}
+
+	public float getBillCount() {
+		return billCount;
+	}
+
+	public void setBillCount(float billCount) {
+		this.billCount = billCount;
+	}
+
+	public Float getRecvCount() {
+		return recvCount;
+	}
+
+	public void setRecvCount(Float recvCount) {
+		this.recvCount = recvCount;
 	}
 
 }

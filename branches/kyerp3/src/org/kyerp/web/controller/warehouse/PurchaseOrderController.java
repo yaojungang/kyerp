@@ -79,9 +79,7 @@ public class PurchaseOrderController extends BaseController {
 				n.setRemark(o.getRemark());
 			}
 			/** 总数量 */
-			if (null != o.getBillCount()) {
-				n.setBillCount(o.getBillCount());
-			}
+			n.setBillCount(o.getBillCount());
 			/** 总费用 */
 			if (null != o.getBillCost()) {
 				n.setBillCost(new Double(o.getBillCost().toString()));
@@ -163,15 +161,14 @@ public class PurchaseOrderController extends BaseController {
 						row.setUnitName(detail.getUnit().getName());
 					}
 					/** 数量 */
-					if (null != detail.getBillCount()) {
-						row.setBillCount(detail.getBillCount());
-					}
+					row.setBillCount(detail.getBillCount());
 					/** 金额 */
 					row.setBillCost(detail.getBillCost());
 					/** 收货数量 */
 					if (null != detail.getRecvCount()) {
 						row.setRecvCount(detail.getRecvCount());
 					}
+
 					/** 价格 */
 					if (null != detail.getPrice()) {
 						row.setPrice(detail.getPrice());

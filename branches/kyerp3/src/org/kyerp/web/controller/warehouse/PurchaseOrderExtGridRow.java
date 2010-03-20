@@ -20,7 +20,7 @@ public class PurchaseOrderExtGridRow {
 	/** 备注 */
 	private String		remark;
 	/** 总数量 */
-	private int			billCount;
+	private float		billCount;
 	/** 总费用 */
 	private double		billCost;
 	/** 填单人 */
@@ -118,14 +118,6 @@ public class PurchaseOrderExtGridRow {
 		this.remark = remark;
 	}
 
-	public int getBillCount() {
-		return billCount;
-	}
-
-	public void setBillCount(int billCount) {
-		this.billCount = billCount;
-	}
-
 	public double getBillCost() {
 		return billCost;
 	}
@@ -204,6 +196,14 @@ public class PurchaseOrderExtGridRow {
 
 	public void setDetails(String details) {
 		this.details = details;
+	}
+
+	public float getBillCount() {
+		return billCount;
+	}
+
+	public void setBillCount(float billCount) {
+		this.billCount = billCount;
 	}
 
 }

@@ -16,10 +16,12 @@ import org.kyerp.domain.warehouse.BillStatus;
 import org.kyerp.domain.warehouse.InStock;
 import org.kyerp.domain.warehouse.InStockDetail;
 import org.kyerp.service.security.IUserService;
+import org.kyerp.service.warehouse.IInOutTypeService;
 import org.kyerp.service.warehouse.IInStockDetailService;
 import org.kyerp.service.warehouse.IInStockService;
 import org.kyerp.service.warehouse.IMaterialService;
 import org.kyerp.service.warehouse.ISupplierService;
+import org.kyerp.service.warehouse.IWarehouseService;
 import org.kyerp.utils.WebUtil;
 import org.kyerp.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,10 @@ public class InStockController extends BaseController {
 	ISupplierService		supplierService;
 	@Autowired
 	IUserService			userService;
+	@Autowired
+	IWarehouseService		warehouseService;
+	@Autowired
+	IInOutTypeService		inOutTypeService;
 
 	@RequestMapping("/warehouse/InStock/jsonList.html")
 	public String list(Model model, Integer start, Integer limit) {
@@ -69,6 +75,11 @@ public class InStockController extends BaseController {
 			}
 			/** 申请单号 */
 			n.setSerialNumber(o.getSerialNumber());
+			/** 收发类型 */
+			if (null != o.getInOutType()) {
+				n.setInOutTypeId(o.getInOutType().getId());
+				n.setInOutTypeName(o.getInOutType().getName());
+			}
 			/** 供应商 */
 			if (null != o.getSupplier()) {
 				n.setSupplierId(o.getSupplier().getId());
@@ -79,9 +90,7 @@ public class InStockController extends BaseController {
 				n.setRemark(o.getRemark());
 			}
 			/** 总数量 */
-			if (null != o.getBillCount()) {
-				n.setBillCount(o.getBillCount());
-			}
+			n.setBillCount(o.getBillCount());
 			/** 总费用 */
 			if (null != o.getBillCost()) {
 				n.setBillCost(new Double(o.getBillCost().toString()));
@@ -156,13 +165,18 @@ public class InStockController extends BaseController {
 						row.setMaterialId(detail.getMaterial().getId());
 						row.setMaterialName(detail.getMaterial().getName());
 					}
+					/** 仓库 */
+					if (null != detail.getWarehouse()) {
+						row.setWarehouseId(detail.getWarehouse().getId());
+						row.setWarehouseName(detail.getWarehouse().getName());
+					}
 					/** 单位 */
 					if (null != detail.getUnit()) {
 						row.setUnitId(detail.getUnit().getId());
 						row.setUnitName(detail.getUnit().getName());
 					}
 					/** 数量 */
-					row.setAmount(detail.getAmount());
+					row.setBillCount(detail.getBillCount());
 					/** 金额 */
 					row.setBillCost(detail.getBillCost());
 					/** 价格 */
@@ -198,6 +212,10 @@ public class InStockController extends BaseController {
 		// 保存单号
 		if (null != row.getSerialNumber()) {
 			inStock.setSerialNumber(row.getSerialNumber());
+		}
+		// 保存收发类型
+		if (null != row.getInOutTypeId()) {
+			inStock.setInOutType(inOutTypeService.find(row.getInOutTypeId()));
 		}
 		// 保存填单日期
 		if (null != row.getWriteDate()) {
@@ -238,15 +256,21 @@ public class InStockController extends BaseController {
 				if (null != idString && idString.length() > 0) {
 					detail = inStockDetailService.find(new Long(idString));
 				}
+				// 物料
 				detail.setMaterial(materialService.find(jsonObject
 						.getLong("materialId")));
+				// 仓库
+				detail.setWarehouse(warehouseService.find(jsonObject
+						.getLong("warehouseId")));
 				detail.setPrice(new BigDecimal(jsonObject.getString("price")));
 
 				// 单位为物料单位
 				detail.setUnit(materialService.find(
 						jsonObject.getLong("materialId")).getUnit());
 				// 数量
-				detail.setAmount(new Long(jsonObject.getString("amount")));
+				detail
+						.setBillCount(new Float(jsonObject
+								.getString("billCount")));
 				// 备注
 				if (null != jsonObject.getString("remark")) {
 					detail.setRemark(jsonObject.getString("remark"));
