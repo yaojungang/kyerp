@@ -21,6 +21,8 @@ public class InOutType extends BaseDomain implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 	/** 名称 **/
 	private String				name;
+	/** 进出标记 */
+	private String				inOutMark;
 	/** 编号 **/
 	private String				serialNumber;
 	/** 摘要 **/
@@ -37,6 +39,14 @@ public class InOutType extends BaseDomain implements Serializable {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getInOutMark() {
+		return inOutMark;
+	}
+
+	public void setInOutMark(String inOutMark) {
+		this.inOutMark = inOutMark;
 	}
 
 	public void setName(String name) {

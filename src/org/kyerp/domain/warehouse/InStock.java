@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 
 import org.kyerp.domain.BaseDomain;
 import org.kyerp.domain.security.User;
+import org.kyerp.utils.WebUtil;
 
 /**
  * 入库单
@@ -28,13 +29,16 @@ public class InStock extends BaseDomain implements Serializable {
 	private PurchaseOrder		purchaseOrder;
 	/** 单号 */
 	private String				serialNumber;
+	/** 收发类型 */
+	@ManyToOne
+	private InOutType			inOutType;
 	/** 供应商 */
 	@ManyToOne
 	private Supplier			Supplier;
 	/** 备注 */
 	private String				remark;
 	/** 总数量 */
-	private Integer				billCount;
+	private float				billCount;
 	/** 总费用 */
 	private BigDecimal			billCost;
 	/** 填单人 */
@@ -59,6 +63,29 @@ public class InStock extends BaseDomain implements Serializable {
 	public InStock() {
 	}
 
+	@Override
+	public void prePersist() {
+		// 设置填单时间
+		// this.setWriteDate(new Date());
+		// 设置单据状态
+		this.setStatus(BillStatus.WRITING);
+		// 保存填单人
+		this.setWriteUser(WebUtil.getCurrentUser());
+		super.prePersist();
+		this.preUpdate();
+	}
+
+	@Override
+	public void preUpdate() {
+		this.setBillCount(0);
+		this.setBillCost(new BigDecimal("0"));
+		for (InStockDetail detail : this.getDetails()) {
+			this.setBillCount(this.getBillCount() + detail.getBillCount());
+			this.setBillCost(this.getBillCost().add(detail.getBillCost()));
+		}
+		super.preUpdate();
+	}
+
 	public PurchaseOrder getPurchaseOrder() {
 		return purchaseOrder;
 	}
@@ -75,6 +102,14 @@ public class InStock extends BaseDomain implements Serializable {
 		this.serialNumber = serialNumber;
 	}
 
+	public InOutType getInOutType() {
+		return inOutType;
+	}
+
+	public void setInOutType(InOutType inOutType) {
+		this.inOutType = inOutType;
+	}
+
 	public Supplier getSupplier() {
 		return Supplier;
 	}
@@ -89,14 +124,6 @@ public class InStock extends BaseDomain implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	public Integer getBillCount() {
-		return billCount;
-	}
-
-	public void setBillCount(Integer billCount) {
-		this.billCount = billCount;
 	}
 
 	public BigDecimal getBillCost() {
@@ -161,5 +188,13 @@ public class InStock extends BaseDomain implements Serializable {
 
 	public void setDetails(List<InStockDetail> details) {
 		this.details = details;
+	}
+
+	public float getBillCount() {
+		return billCount;
+	}
+
+	public void setBillCount(float billCount) {
+		this.billCount = billCount;
 	}
 }

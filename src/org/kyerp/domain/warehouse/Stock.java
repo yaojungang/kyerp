@@ -2,9 +2,13 @@ package org.kyerp.domain.warehouse;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.kyerp.domain.BaseDomain;
 
@@ -16,24 +20,24 @@ import org.kyerp.domain.BaseDomain;
 @Entity
 public class Stock extends BaseDomain implements Serializable {
 
-	private static final long	serialVersionUID	= 1L;
+	private static final long		serialVersionUID	= 1L;
 	/** 编号 **/
-	private String				serialNumber;
+	private String					serialNumber;
 	/** 物料 */
 	@ManyToOne
-	private Material			material;
-	/** 仓库 */
-	@ManyToOne
-	private Warehouse			warehouse;
-	/** 数量 */
-	private float				amount;
+	private Material				material;
+	/** 物料明细 */
+	@OneToMany(mappedBy = "stock", cascade = { CascadeType.ALL })
+	private final List<StockDetail>	stockDetails		= new ArrayList<StockDetail>();
+	/** 总数量 */
+	private float					totalAmount;
 	/** 单位 */
 	@ManyToOne
-	private Unit				unit;
-	/** 价格 */
-	private BigDecimal			price;
-	/** 金额 */
-	private BigDecimal			cost;
+	private Unit					unit;
+	/** 绝对平均价格 */
+	private BigDecimal				price;
+	/** 总金额 */
+	private BigDecimal				cost;
 
 	public Stock() {
 	}
@@ -46,20 +50,12 @@ public class Stock extends BaseDomain implements Serializable {
 		this.material = material;
 	}
 
-	public Warehouse getWarehouse() {
-		return warehouse;
+	public float getTotalAmount() {
+		return totalAmount;
 	}
 
-	public void setWarehouse(Warehouse warehouse) {
-		this.warehouse = warehouse;
-	}
-
-	public float getAmount() {
-		return amount;
-	}
-
-	public void setAmount(float amount) {
-		this.amount = amount;
+	public void setTotalAmount(float totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 
 	public Unit getUnit() {
@@ -86,6 +82,10 @@ public class Stock extends BaseDomain implements Serializable {
 		this.cost = cost;
 	}
 
+	public List<StockDetail> getStockDetails() {
+		return stockDetails;
+	}
+
 	public String getSerialNumber() {
 		return serialNumber;
 	}
@@ -93,4 +93,5 @@ public class Stock extends BaseDomain implements Serializable {
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
 	}
+
 }

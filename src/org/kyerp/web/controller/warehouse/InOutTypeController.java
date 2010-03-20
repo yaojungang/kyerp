@@ -63,6 +63,8 @@ public class InOutTypeController extends BaseController {
 			}
 			/** 申请单号 */
 			n.setSerialNumber(o.getSerialNumber());
+			/** 进出标记 */
+			n.setInOutMark(o.getInOutMark());
 			n.setNote(o.getNote());
 			/** 父类 */
 			if (null != o.getParentInOutType()) {
@@ -133,6 +135,10 @@ public class InOutTypeController extends BaseController {
 		if (inOutTypeRow.getParentInOutTypeId() != 0) {
 			inOutType.setParentInOutType(inOutTypeService.find(inOutTypeRow
 					.getParentInOutTypeId()));
+		}
+		/** 进出标记 */
+		if (null != inOutTypeRow.getInOutMark()) {
+			inOutType.setInOutMark(inOutTypeRow.getInOutMark());
 		}
 		// 设置note
 		if (null != inOutTypeRow.getNote()) {

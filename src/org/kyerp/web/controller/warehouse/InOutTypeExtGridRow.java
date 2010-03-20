@@ -11,6 +11,8 @@ public class InOutTypeExtGridRow {
 	private String	updateTime;
 	/** 名称 **/
 	private String	name;
+	/** 进出标记 */
+	private String	inOutMark;
 	/** 编号 **/
 	private String	serialNumber;
 	/** 摘要 **/
@@ -59,6 +61,14 @@ public class InOutTypeExtGridRow {
 
 	public String getSerialNumber() {
 		return serialNumber;
+	}
+
+	public String getInOutMark() {
+		return inOutMark;
+	}
+
+	public void setInOutMark(String inOutMark) {
+		this.inOutMark = inOutMark;
 	}
 
 	public void setSerialNumber(String serialNumber) {

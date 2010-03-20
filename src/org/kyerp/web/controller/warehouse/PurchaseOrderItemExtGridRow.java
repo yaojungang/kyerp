@@ -21,9 +21,9 @@ public class PurchaseOrderItemExtGridRow {
 	private long		unitId;
 	private String		unitName;
 	/** 总数量 */
-	private Integer		billCount;
+	private float		billCount;
 	/** 收货数量 */
-	private Integer		recvCount;
+	private float		recvCount;
 	/** 价格 */
 	private BigDecimal	price;
 	/** 备注 */
@@ -114,18 +114,6 @@ public class PurchaseOrderItemExtGridRow {
 		this.materialName = materialName;
 	}
 
-	public Integer getBillCount() {
-		return billCount;
-	}
-
-	public void setBillCount(Integer billCount) {
-		this.billCount = billCount;
-	}
-
-	public Integer getRecvCount() {
-		return recvCount;
-	}
-
 	public void setRecvCount(Integer recvCount) {
 		this.recvCount = recvCount;
 	}
@@ -144,5 +132,21 @@ public class PurchaseOrderItemExtGridRow {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public float getBillCount() {
+		return billCount;
+	}
+
+	public void setBillCount(float billCount) {
+		this.billCount = billCount;
+	}
+
+	public float getRecvCount() {
+		return recvCount;
+	}
+
+	public void setRecvCount(float recvCount) {
+		this.recvCount = recvCount;
 	}
 }

@@ -17,13 +17,14 @@ public class InStockItemExtGridRow {
 	/** 物料 */
 	private long		materialId;
 	private String		materialName;
+	/** 仓库 */
+	private Long		warehouseId;
+	private String		warehouseName;
 	/** 单位 */
 	private long		unitId;
 	private String		unitName;
 	/** 总数量 */
-	private Integer		billCount;
-	/** 数量 */
-	private Float		amount;
+	private float		billCount;
 	/** 价格 */
 	private BigDecimal	price;
 	/** 备注 */
@@ -60,6 +61,22 @@ public class InStockItemExtGridRow {
 
 	public String getUpdateTime() {
 		return updateTime;
+	}
+
+	public Long getWarehouseId() {
+		return warehouseId;
+	}
+
+	public void setWarehouseId(Long warehouseId) {
+		this.warehouseId = warehouseId;
+	}
+
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName;
 	}
 
 	public void setUpdateTime(String updateTime) {
@@ -114,14 +131,6 @@ public class InStockItemExtGridRow {
 		this.materialName = materialName;
 	}
 
-	public Integer getBillCount() {
-		return billCount;
-	}
-
-	public void setBillCount(Integer billCount) {
-		this.billCount = billCount;
-	}
-
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -134,16 +143,16 @@ public class InStockItemExtGridRow {
 		return remark;
 	}
 
+	public float getBillCount() {
+		return billCount;
+	}
+
+	public void setBillCount(float billCount) {
+		this.billCount = billCount;
+	}
+
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	public Float getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Float amount) {
-		this.amount = amount;
 	}
 
 }
