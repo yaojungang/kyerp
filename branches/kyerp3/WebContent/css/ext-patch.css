@@ -27,7 +27,7 @@
 }
 
 .x-grid3-col-text {
-	font: 宋体, tahoma, arial, helvetica, sans-serif;
+	font:tahoma, arial, helvetica, sans-serif;
 }
 
 .x-tip .x-tip-bd {
@@ -103,11 +103,11 @@
 	padding: 2px;
 }
 
-.x-form-field-wrap .x-form-trigger { *
-	margin-top: 2px;
+.x-form-field-wrap .x-form-trigger {
+	margin-top: 0px;
 }
 
-td .x-form-field-wrap .x-form-trigger { *
+td .x-form-field-wrap .x-form-trigger {
 	margin-top: 0px;
 }
 

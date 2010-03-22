@@ -1,79 +1,10 @@
 /** ***************************************************************************** */
 org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 	url : "",
-	brandStore : null,
-	supplierStore : null,
-	unitStore : null,
-	warehouseStore : null,
 	constructor : function(_cfg) {
 		if (_cfg == null)
 			_cfg = {};
 		Ext.apply(this, _cfg);
-		this.brandStore = new Ext.data.Store({
-					url : org.kyerp.warehouse.BrandPanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								id : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "name",
-										type : "string"
-									}]))
-				});
-		this.supplierStore = new Ext.data.Store({
-					url : org.kyerp.warehouse.SupplierPanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								id : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "name",
-										type : "string"
-									}]))
-				});
-		this.unitStore = new Ext.data.Store({
-					url : org.kyerp.warehouse.UnitPanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								id : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "name",
-										type : "string"
-									}, {
-										name : "nameSpell",
-										type : "string"
-									}, {
-										name : "serialNumber",
-										type : 'string'
-									}]))
-				});
-		this.warehouseStore = new Ext.data.Store({
-					url : org.kyerp.warehouse.WarehousePanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								id : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "name",
-										type : "string"
-									}, {
-										name : "serialNumber",
-										type : "string"
-									}]))
-				});
 		var _readOnly = this["readOnly"] == null ? false : this["readOnly"];
 		org.kyerp.warehouse.MaterialListFormPanel.superclass.constructor.call(
 				this, {
@@ -113,63 +44,71 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 					}, {
 						fieldLabel : "规格",
 						name : "specification"
-					}, new Ext.form.ComboBox({
-								fieldLabel : "默认单位",
-								store : this.unitStore,
-								emptyText : '',
-								name : 'unitId',
-								hiddenName : 'unitId',
-								editable : false,
-								mode : 'remote',
-								triggerAction : 'all',
-								valueField : 'id',
-								displayField : 'name',
-								readOnly : true,
-								allowBlank : false,
-								pageSize : 5
-							}), new Ext.form.ComboBox({
-								fieldLabel : "品牌",
-								store : this.brandStore,
-								emptyText : '',
-								name : 'brandId',
-								hiddenName : 'brandId',
-								editable : false,
-								mode : 'remote',
-								triggerAction : 'all',
-								valueField : 'id',
-								displayField : 'name',
-								readOnly : true,
-								allowBlank : false,
-								pageSize : 20
-							}), new Ext.form.ComboBox({
-								fieldLabel : "默认供应商",
-								store : this.supplierStore,
-								emptyText : '',
-								name : 'supplierId',
-								hiddenName : 'supplierId',
-								editable : false,
-								mode : 'remote',
-								triggerAction : 'all',
-								valueField : 'id',
-								displayField : 'name',
-								readOnly : true,
-								allowBlank : false,
-								pageSize : 20
-							}), new Ext.form.ComboBox({
-								fieldLabel : "默认仓库",
-								store : this.warehouseStore,
-								emptyText : '',
-								name : 'warehouseId',
-								hiddenName : 'warehouseId',
-								editable : false,
-								mode : 'remote',
-								triggerAction : 'all',
-								valueField : 'id',
-								displayField : 'name',
-								readOnly : true,
-								allowBlank : false,
-								pageSize : 20
-							})]
+					}, {
+						fieldLabel : "默认单位",
+						xtype : 'treecombobox',
+						name : 'unitId',
+						hiddenName : 'unitId',
+						editable : false,
+						mode : 'local',
+						displayField : 'name',
+						valueField : 'id',
+						triggerAction : 'all',
+						allowBlank : false,
+						treeUrl : org.kyerp.warehouse.UnitPanel_TREE_URL,
+						rootText : 'root',
+						rootId : '0',
+						forceSelection : true,
+						rootVisible : false
+					}, {
+						fieldLabel : "品牌",
+						xtype : 'treecombobox',
+						name : 'brandId',
+						hiddenName : 'brandId',
+						editable : false,
+						mode : 'local',
+						displayField : 'name',
+						valueField : 'id',
+						triggerAction : 'all',
+						allowBlank : false,
+						treeUrl : org.kyerp.warehouse.BrandPanel_TREE_URL,
+						rootText : 'root',
+						rootId : '0',
+						forceSelection : true,
+						rootVisible : false
+					}, {
+						fieldLabel : "默认供应商",
+						name : 'supplierId',
+						hiddenName : 'supplierId',
+						xtype : 'treecombobox',
+						editable : false,
+						mode : 'local',
+						displayField : 'name',
+						valueField : 'id',
+						triggerAction : 'all',
+						allowBlank : false,
+						treeUrl : org.kyerp.warehouse.Supplier_TREE_URL,
+						rootText : 'root',
+						rootId : '0',
+						forceSelection : true,
+						rootVisible : false
+					}, {
+						fieldLabel : "默认仓库",
+						name : 'warehouseId',
+						hiddenName : 'warehouseId',
+						xtype : 'treecombobox',
+						editable : false,
+						mode : 'local',
+						displayField : 'name',
+						valueField : 'id',
+						triggerAction : 'all',
+						allowBlank : false,
+						treeUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL,
+						rootText : 'root',
+						rootId : '0',
+						forceSelection : true,
+						rootVisible : false
+					}]
 				});
 		this.addEvents("submit");
 	},
@@ -513,10 +452,6 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 				});
 		this.insertWin.on("submit", this.onInsertWinSubmit, this);
 		this.updateWin.on("submit", this.onUpdateWinSubmit, this);
-		this.on("show", function() {
-					this.updateWin.form.brandStore.load();
-					this.updateWin.form.supplierStore.load();
-				}, this);
 		this.addEvents("rowselect");
 	},
 	getSelected : function(_grid) {
