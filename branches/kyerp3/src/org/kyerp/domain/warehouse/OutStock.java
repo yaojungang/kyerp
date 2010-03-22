@@ -12,7 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.kyerp.domain.BaseDomain;
+import org.kyerp.domain.org.Department;
+import org.kyerp.domain.org.Employee;
 import org.kyerp.domain.security.User;
+import org.kyerp.utils.WebUtil;
 
 /**
  * 出库单
@@ -20,17 +23,24 @@ import org.kyerp.domain.security.User;
  * @author y109 2010-3-19下午06:49:15
  */
 @Entity
-public class OutStock extends BaseDomain implements Serializable {
+public class OutStock extends BaseDomain implements Serializable{
 
 	private static final long		serialVersionUID	= 1L;
 
 	/** 单号 */
 	private String					serialNumber;
-
+	/** 收发类型 */
+	@ManyToOne
+	private InOutType				inOutType;
+	/** 领料部门 */
+	@ManyToOne
+	private Department				receiveDepartment;
+	@ManyToOne
+	private Employee				receiveEmployee;
 	/** 备注 */
 	private String					remark;
 	/** 总数量 */
-	private Integer					billCount;
+	private BigDecimal				billCount;
 	/** 总费用 */
 	private BigDecimal				billCost;
 	/** 填单人 */
@@ -47,10 +57,33 @@ public class OutStock extends BaseDomain implements Serializable {
 	private BillStatus				status;
 
 	/** 明细 **/
-	@OneToMany(mappedBy = "outStock", cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "outStock",cascade = { CascadeType.ALL })
 	private List<OutStockDetail>	details				= new ArrayList<OutStockDetail>();
 
 	public OutStock() {
+	}
+
+	@Override
+	public void prePersist() {
+		// 设置填单时间
+		// this.setWriteDate(new Date());
+		// 设置单据状态
+		this.setStatus(BillStatus.WRITING);
+		// 保存填单人
+		this.setWriteUser(WebUtil.getCurrentUser());
+		super.prePersist();
+		this.preUpdate();
+	}
+
+	@Override
+	public void preUpdate() {
+		this.setBillCount(new BigDecimal("0"));
+		this.setBillCost(new BigDecimal("0"));
+		for (OutStockDetail detail : this.getDetails()) {
+			this.setBillCount(this.getBillCount().add(detail.getBillCount()));
+			this.setBillCost(this.getBillCost().add(detail.getBillCost()));
+		}
+		super.preUpdate();
 	}
 
 	public String getSerialNumber() {
@@ -69,11 +102,35 @@ public class OutStock extends BaseDomain implements Serializable {
 		this.remark = remark;
 	}
 
-	public Integer getBillCount() {
+	public InOutType getInOutType() {
+		return inOutType;
+	}
+
+	public void setInOutType(InOutType inOutType) {
+		this.inOutType = inOutType;
+	}
+
+	public BigDecimal getBillCount() {
 		return billCount;
 	}
 
-	public void setBillCount(Integer billCount) {
+	public Department getReceiveDepartment() {
+		return receiveDepartment;
+	}
+
+	public void setReceiveDepartment(Department receiveDepartment) {
+		this.receiveDepartment = receiveDepartment;
+	}
+
+	public Employee getReceiveEmployee() {
+		return receiveEmployee;
+	}
+
+	public void setReceiveEmployee(Employee receiveEmployee) {
+		this.receiveEmployee = receiveEmployee;
+	}
+
+	public void setBillCount(BigDecimal billCount) {
 		this.billCount = billCount;
 	}
 

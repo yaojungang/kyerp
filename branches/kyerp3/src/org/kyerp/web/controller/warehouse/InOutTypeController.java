@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class InOutTypeController extends BaseController {
+public class InOutTypeController extends BaseController{
 	@Autowired
 	IInOutTypeService	inOutTypeService;
 
@@ -41,25 +41,20 @@ public class InOutTypeController extends BaseController {
 		wherejpql.append(" 1=?").append((queryParams.size() + 1));
 		queryParams.add(1);
 		// set parent id
-		if (null != parentId) {
-			wherejpql.append(" and parentInOutType.id=?").append(
-					queryParams.size() + 1);
+		if(null != parentId) {
+			wherejpql.append(" and parentInOutType.id=?").append(queryParams.size() + 1);
 			queryParams.add(parentId);
 		}
-		QueryResult<InOutType> queryResult = inOutTypeService.getScrollData(
-				start, limit, wherejpql.toString(), queryParams.toArray(),
-				orderby);
+		QueryResult<InOutType> queryResult = inOutTypeService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
 		List<InOutTypeExtGridRow> rows = new ArrayList<InOutTypeExtGridRow>();
 		for (InOutType o : queryResult.getResultlist()) {
 			InOutTypeExtGridRow n = new InOutTypeExtGridRow();
 			n.setId(o.getId());
 			n.setName(o.getName());
-			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
-					"yyyy-MM-dd HH:mm:ss"));
+			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
 			/** 修改时间 */
-			if (null != o.getUpdateTime()) {
-				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(),
-						"yyyy-MM-dd HH:mm:ss"));
+			if(null != o.getUpdateTime()) {
+				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 			}
 			/** 申请单号 */
 			n.setSerialNumber(o.getSerialNumber());
@@ -67,7 +62,7 @@ public class InOutTypeController extends BaseController {
 			n.setInOutMark(o.getInOutMark());
 			n.setNote(o.getNote());
 			/** 父类 */
-			if (null != o.getParentInOutType()) {
+			if(null != o.getParentInOutType()) {
 				n.setParentInOutTypeId(o.getParentInOutType().getId());
 				n.setParentInOutTypeName(o.getParentInOutType().getName());
 			} else {
@@ -86,10 +81,9 @@ public class InOutTypeController extends BaseController {
 	public String tree(Model model) {
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
-		QueryResult<InOutType> queryResult = inOutTypeService
-				.getScrollData(orderby);
+		QueryResult<InOutType> queryResult = inOutTypeService.getScrollData(orderby);
 		List<ExtTreeNode> extTreeList = new ArrayList<ExtTreeNode>();
-		if (queryResult.getResultlist().size() == 0) {
+		if(queryResult.getResultlist().size() == 0) {
 			InOutType inOutType = new InOutType();
 			inOutType.setName("收发类别");
 			inOutTypeService.save(inOutType);
@@ -97,14 +91,12 @@ public class InOutTypeController extends BaseController {
 		} else {
 			for (InOutType d : queryResult.getResultlist()) {
 				ExtTreeNode node = new ExtTreeNode();
-				node.setId(new Integer(d.getId().toString()));
+				node.setId(String.valueOf(d.getId()));
 				node.setText(d.getName());
-				if (null != d.getParentInOutType()
-						&& d.getParentInOutType().getId() > 0) {
-					node.setParentId(new Integer(d.getParentInOutType().getId()
-							.toString()));
+				if(null != d.getParentInOutType() && d.getParentInOutType().getId() > 0) {
+					node.setParentId(String.valueOf(d.getParentInOutType().getId()));
 				}
-				if (d.getId() == 1) {
+				if(d.getId() == 1) {
 					node.setExpanded(true);
 				} else {
 					node.setExpanded(false);
@@ -113,7 +105,7 @@ public class InOutTypeController extends BaseController {
 			}
 
 			ExtTreeRecursion r = new ExtTreeRecursion();
-			if (null != extTreeList && extTreeList.size() > 0) {
+			if(null != extTreeList && extTreeList.size() > 0) {
 				r.recursionFn(extTreeList, extTreeList.get(0));
 			}
 			String strTreeString = r.modifyStr(r.getReturnStr().toString());
@@ -127,34 +119,32 @@ public class InOutTypeController extends BaseController {
 	@RequestMapping("/warehouse/InOutType/jsonSave.html")
 	public String save(InOutTypeExtGridRow inOutTypeRow, ModelMap model) {
 		InOutType inOutType = new InOutType();
-		if (null != inOutTypeRow.getId() && inOutTypeRow.getId() > 0) {
+		if(null != inOutTypeRow.getId() && inOutTypeRow.getId() > 0) {
 			inOutType = inOutTypeService.find(inOutTypeRow.getId());
 		}
 		inOutType.setName(inOutTypeRow.getName());
 		// 设置父类
-		if (inOutTypeRow.getParentInOutTypeId() != 0) {
-			inOutType.setParentInOutType(inOutTypeService.find(inOutTypeRow
-					.getParentInOutTypeId()));
+		if(inOutTypeRow.getParentInOutTypeId() != 0) {
+			inOutType.setParentInOutType(inOutTypeService.find(inOutTypeRow.getParentInOutTypeId()));
 		}
 		/** 进出标记 */
-		if (null != inOutTypeRow.getInOutMark()) {
+		if(null != inOutTypeRow.getInOutMark()) {
 			inOutType.setInOutMark(inOutTypeRow.getInOutMark());
 		}
 		// 设置note
-		if (null != inOutTypeRow.getNote()) {
+		if(null != inOutTypeRow.getNote()) {
 			inOutType.setNote(inOutTypeRow.getNote());
 		}
 		// 设置序号
-		if (null != inOutTypeRow.getSerialNumber()) {
+		if(null != inOutTypeRow.getSerialNumber()) {
 			inOutType.setSerialNumber(inOutTypeRow.getSerialNumber());
 		}
-		if (null != inOutTypeRow.getId() && inOutTypeRow.getId() > 0) {
+		if(null != inOutTypeRow.getId() && inOutTypeRow.getId() > 0) {
 			inOutTypeService.update(inOutType);
 		} else {
 			inOutTypeService.save(inOutType);
 		}
-		long id = inOutType.getId() > 0 ? inOutType.getId() : inOutTypeService
-				.findLast().getId();
+		long id = inOutType.getId() > 0 ? inOutType.getId() : inOutTypeService.findLast().getId();
 		model.addAttribute("success", true);
 		model.addAttribute("id", id);
 		return "jsonView";

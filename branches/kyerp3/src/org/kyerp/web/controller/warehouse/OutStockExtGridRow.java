@@ -8,7 +8,7 @@ import org.kyerp.domain.warehouse.BillStatus;
  * @author y109 2010-3-1下午02:17:55
  */
 
-public class PurchaseOrderExtGridRow {
+public class OutStockExtGridRow{
 	private Long		id;
 	/** 建立时间 */
 	private String		createTime;
@@ -16,9 +16,10 @@ public class PurchaseOrderExtGridRow {
 	private String		updateTime;
 	/** 申请单号 */
 	private String		serialNumber;
-	/** 供应商名称 */
-	private Long		supplierId;
-	private String		supplierName;
+	/** 收发类型 */
+	private Long		inOutTypeId;
+	private String		inOutTypeName;
+
 	/** 备注 */
 	private String		remark;
 	/** 总数量 */
@@ -40,28 +41,11 @@ public class PurchaseOrderExtGridRow {
 	private String		statusString;
 	/** 明细 */
 	private String		details;
-	/** 到货日期 */
-	private String		arriveDate;
+
 	/** 能否编辑 */
 	private String		editAble;
 
-	public PurchaseOrderExtGridRow() {
-	}
-
-	public String getArriveDate() {
-		return arriveDate;
-	}
-
-	public void setArriveDate(String arriveDate) {
-		this.arriveDate = arriveDate;
-	}
-
-	public String getEditAble() {
-		return editAble;
-	}
-
-	public void setEditAble(String editAble) {
-		this.editAble = editAble;
+	public OutStockExtGridRow() {
 	}
 
 	public Long getId() {
@@ -96,20 +80,20 @@ public class PurchaseOrderExtGridRow {
 		this.serialNumber = serialNumber;
 	}
 
-	public Long getSupplierId() {
-		return supplierId;
+	public Long getInOutTypeId() {
+		return inOutTypeId;
 	}
 
-	public void setSupplierId(Long supplierId) {
-		this.supplierId = supplierId;
+	public void setInOutTypeId(Long inOutTypeId) {
+		this.inOutTypeId = inOutTypeId;
 	}
 
-	public String getSupplierName() {
-		return supplierName;
+	public String getInOutTypeName() {
+		return inOutTypeName;
 	}
 
-	public void setSupplierName(String supplierName) {
-		this.supplierName = supplierName;
+	public void setInOutTypeName(String inOutTypeName) {
+		this.inOutTypeName = inOutTypeName;
 	}
 
 	public String getRemark() {
@@ -118,6 +102,22 @@ public class PurchaseOrderExtGridRow {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public BigDecimal getBillCount() {
+		return billCount;
+	}
+
+	public void setBillCount(BigDecimal billCount) {
+		this.billCount = billCount;
+	}
+
+	public BigDecimal getBillCost() {
+		return billCost;
+	}
+
+	public void setBillCost(BigDecimal billCost) {
+		this.billCost = billCost;
 	}
 
 	public long getWriteUserId() {
@@ -192,20 +192,12 @@ public class PurchaseOrderExtGridRow {
 		this.details = details;
 	}
 
-	public BigDecimal getBillCount() {
-		return billCount;
+	public String getEditAble() {
+		return editAble;
 	}
 
-	public void setBillCount(BigDecimal billCount) {
-		this.billCount = billCount;
-	}
-
-	public BigDecimal getBillCost() {
-		return billCost;
-	}
-
-	public void setBillCost(BigDecimal billCost) {
-		this.billCost = billCost;
+	public void setEditAble(String editAble) {
+		this.editAble = editAble;
 	}
 
 }

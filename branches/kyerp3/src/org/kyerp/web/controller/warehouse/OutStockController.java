@@ -13,13 +13,13 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.BillStatus;
-import org.kyerp.domain.warehouse.InStock;
-import org.kyerp.domain.warehouse.InStockDetail;
+import org.kyerp.domain.warehouse.OutStock;
+import org.kyerp.domain.warehouse.OutStockDetail;
 import org.kyerp.service.security.IUserService;
 import org.kyerp.service.warehouse.IInOutTypeService;
-import org.kyerp.service.warehouse.IInStockDetailService;
-import org.kyerp.service.warehouse.IInStockService;
 import org.kyerp.service.warehouse.IMaterialService;
+import org.kyerp.service.warehouse.IOutStockDetailService;
+import org.kyerp.service.warehouse.IOutStockService;
 import org.kyerp.service.warehouse.ISupplierService;
 import org.kyerp.service.warehouse.IWarehouseService;
 import org.kyerp.utils.WebUtil;
@@ -35,11 +35,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class InStockController extends BaseController{
+public class OutStockController extends BaseController{
 	@Autowired
-	IInStockService			inStockService;
+	IOutStockService		outStockService;
 	@Autowired
-	IInStockDetailService	inStockDetailService;
+	IOutStockDetailService	outStockDetailService;
 	@Autowired
 	IMaterialService		materialService;
 	@Autowired
@@ -51,17 +51,17 @@ public class InStockController extends BaseController{
 	@Autowired
 	IInOutTypeService		inOutTypeService;
 
-	@RequestMapping("/warehouse/InStock/jsonList.html")
+	@RequestMapping("/warehouse/OutStock/jsonList.html")
 	public String list(Model model, Integer start, Integer limit) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "desc");
-		QueryResult<InStock> queryResult = inStockService.getScrollData(start, limit, orderby);
-		List<InStockExtGridRow> rows = new ArrayList<InStockExtGridRow>();
-		for (InStock o : queryResult.getResultlist()) {
-			InStockExtGridRow n = new InStockExtGridRow();
+		QueryResult<OutStock> queryResult = outStockService.getScrollData(start, limit, orderby);
+		List<OutStockExtGridRow> rows = new ArrayList<OutStockExtGridRow>();
+		for (OutStock o : queryResult.getResultlist()) {
+			OutStockExtGridRow n = new OutStockExtGridRow();
 			/** id */
 			n.setId(o.getId());
 			/** 时间 */
@@ -77,11 +77,11 @@ public class InStockController extends BaseController{
 				n.setInOutTypeId(o.getInOutType().getId());
 				n.setInOutTypeName(o.getInOutType().getName());
 			}
-			/** 供应商 */
-			if(null != o.getSupplier()) {
-				n.setSupplierId(o.getSupplier().getId());
-				n.setSupplierName(o.getSupplier().getName());
-			}
+			/**
+			 * TODO
+			 * 领取部门、人员
+			 */
+
 			/** 备注 */
 			if(null != o.getRemark()) {
 				n.setRemark(o.getRemark());
@@ -124,15 +124,11 @@ public class InStockController extends BaseController{
 				n.setEditAble("false");
 			}
 
-			/** 到货日期 */
-			if(null != o.getArriveDate()) {
-				n.setArriveDate(DateFormatUtils.format(o.getArriveDate(), "yyyy-MM-dd"));
-			}
 			/** 明细 */
 			if(null != o.getDetails() && o.getDetails().size() > 0) {
-				List<InStockItemExtGridRow> itemRows = new ArrayList<InStockItemExtGridRow>();
-				for (InStockDetail detail : o.getDetails()) {
-					InStockItemExtGridRow row = new InStockItemExtGridRow();
+				List<OutStockItemExtGridRow> itemRows = new ArrayList<OutStockItemExtGridRow>();
+				for (OutStockDetail detail : o.getDetails()) {
+					OutStockItemExtGridRow row = new OutStockItemExtGridRow();
 					/** id */
 					row.setId(detail.getId());
 					/** 时间 */
@@ -142,9 +138,9 @@ public class InStockController extends BaseController{
 						row.setUpdateTime(DateFormatUtils.format(detail.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 					}
 					/** 采购申请单 */
-					if(null != detail.getInStock()) {
-						row.setInStockId(detail.getInStock().getId());
-						row.setInStockSerialNumber(detail.getInStock().getSerialNumber());
+					if(null != detail.getOutStock()) {
+						row.setOutStockId(detail.getOutStock().getId());
+						row.setOutStockSerialNumber(detail.getOutStock().getSerialNumber());
 					}
 					/** 物料 */
 					if(null != detail.getMaterial()) {
@@ -191,56 +187,54 @@ public class InStockController extends BaseController{
 	}
 
 	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/InStock/jsonSave.html")
-	public String save(InStockExtGridRow row, ModelMap model) throws Exception {
-		InStock inStock = new InStock();
+	@RequestMapping("/warehouse/OutStock/jsonSave.html")
+	public String save(OutStockExtGridRow row, ModelMap model) throws Exception {
+		OutStock outStock = new OutStock();
 		if(null != row.getId() && row.getId() > 0) {
-			inStock = inStockService.find(row.getId());
+			outStock = outStockService.find(row.getId());
 		}
 		// 保存单号
 		if(null != row.getSerialNumber()) {
-			inStock.setSerialNumber(row.getSerialNumber());
+			outStock.setSerialNumber(row.getSerialNumber());
 		}
 		// 保存收发类型
 		if(null != row.getInOutTypeId()) {
-			inStock.setInOutType(inOutTypeService.find(row.getInOutTypeId()));
+			outStock.setInOutType(inOutTypeService.find(row.getInOutTypeId()));
 		}
 		// 保存填单日期
 		if(null != row.getWriteDate()) {
-			inStock.setWriteDate(DateUtils.parseDate(row.getWriteDate(), new String[] { "yyyy-MM-dd" }));
+			outStock.setWriteDate(DateUtils.parseDate(row.getWriteDate(), new String[] { "yyyy-MM-dd" }));
 		}
-		// 保存到货时间
-		if(null != row.getArriveDate()) {
-			inStock.setArriveDate(DateUtils.parseDate(row.getArriveDate(), new String[] { "yyyy-MM-dd" }));
-		}
-		// 保存填单人
-		// inStock.setWriteUser(user.getEmployee());
-		/** 供应商 */
-		if(null != row.getSupplierId()) {
-			inStock.setSupplier(supplierService.find(row.getSupplierId()));
-		}
+		/**
+		 * TODO
+		 * 保存填单人 outStock.setWriteUser(user.getEmployee());
+		 */
+		/**
+		 * TODO
+		 * 保存领取人，领取部门
+		 * */
 		// 保存备注
 		if(null != row.getRemark()) {
-			inStock.setRemark(row.getRemark());
+			outStock.setRemark(row.getRemark());
 		}
 
 		if(null != row.getId() && row.getId() > 0) {
-			inStockService.update(inStock);
+			outStockService.update(outStock);
 		} else {
-			inStockService.saveInStock(inStock);
+			outStockService.saveOutStock(outStock);
 		}
 		// 保存物料批次信息
 		if(null != row.getDetails() && row.getDetails().length() > 0) {
-			List<InStockDetail> pods = new ArrayList<InStockDetail>();
+			List<OutStockDetail> pods = new ArrayList<OutStockDetail>();
 			JSONArray jsonArray = new JSONArray();
 			JSONObject jsonObject = new JSONObject();
 			jsonArray = JSONArray.fromObject(row.getDetails());
 			for (int i = 0; i < jsonArray.size(); i++) {
-				InStockDetail detail = new InStockDetail();
+				OutStockDetail detail = new OutStockDetail();
 				jsonObject = jsonArray.getJSONObject(i);
 				String idString = jsonObject.getString("id");
 				if(null != idString && idString.length() > 0) {
-					detail = inStockDetailService.find(new Long(idString));
+					detail = outStockDetailService.find(new Long(idString));
 				}
 				// 物料
 				detail.setMaterial(materialService.find(jsonObject.getLong("materialId")));
@@ -258,36 +252,36 @@ public class InStockController extends BaseController{
 				if(null != jsonObject.getString("remark")) {
 					detail.setRemark(jsonObject.getString("remark"));
 				}
-				detail.setInStock(inStock);
+				detail.setOutStock(outStock);
 
 				if(null != idString && idString.length() > 0) {
-					inStockDetailService.update(detail);
+					outStockDetailService.update(detail);
 				} else {
-					inStockDetailService.save(detail);
+					outStockDetailService.save(detail);
 				}
 				pods.add(detail);
 			}
-			inStock.setDetails(pods);
+			outStock.setDetails(pods);
 		}
-		inStockService.update(inStock);
-		long id = inStock.getId() > 0 ? inStock.getId() : inStockService.findLast().getId();
+		outStockService.update(outStock);
+		long id = outStock.getId() > 0 ? outStock.getId() : outStockService.findLast().getId();
 		model.addAttribute("success", true);
 		model.addAttribute("id", id);
 		return "jsonView";
 	}
 
 	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/InStock/jsonDelete.html")
+	@RequestMapping("/warehouse/OutStock/jsonDelete.html")
 	public String delete(ModelMap model, Long[] ids) {
-		inStockService.delete((Serializable[]) ids);
+		outStockService.delete((Serializable[]) ids);
 		model.addAttribute("success", true);
 		return "jsonView";
 	}
 
 	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/InStockDetail/jsonDelete.html")
+	@RequestMapping("/warehouse/OutStockDetail/jsonDelete.html")
 	public String deleteDetail(ModelMap model, Long[] ids) {
-		inStockDetailService.delete((Serializable[]) ids);
+		outStockDetailService.delete((Serializable[]) ids);
 		model.addAttribute("success", true);
 		return "jsonView";
 	}
@@ -297,11 +291,11 @@ public class InStockController extends BaseController{
 	 * 
 	 * @throws Exception
 	 */
-	@RequestMapping("/warehouse/InStock/jsonPostForCheck.html")
+	@RequestMapping("/warehouse/OutStock/jsonPostForCheck.html")
 	public String postForCheck(ModelMap model, Long id) throws Exception {
-		InStock inStock = inStockService.find(id);
-		inStock.setStatus(BillStatus.WAITING_FOR_CHECK);
-		inStockService.save(inStock);
+		OutStock outStock = outStockService.find(id);
+		outStock.setStatus(BillStatus.WAITING_FOR_CHECK);
+		outStockService.save(outStock);
 		model.addAttribute("success", true);
 		return "jsonView";
 	}
@@ -309,15 +303,15 @@ public class InStockController extends BaseController{
 	/**
 	 * 返回编制状态
 	 */
-	@RequestMapping("/warehouse/InStock/jsonReturnForEdit.html")
+	@RequestMapping("/warehouse/OutStock/jsonReturnForEdit.html")
 	public String returnForEdit(ModelMap model, Long id) throws Exception {
-		InStock inStock = inStockService.find(id);
-		if(BillStatus.CHECKED == inStock.getStatus()) {
+		OutStock outStock = outStockService.find(id);
+		if(BillStatus.CHECKED == outStock.getStatus()) {
 			model.addAttribute("failure", true);
 			model.addAttribute("msg", "单据已经审核过，不能再修改。");
 		} else {
-			inStock.setStatus(BillStatus.WRITING);
-			inStockService.save(inStock);
+			outStock.setStatus(BillStatus.WRITING);
+			outStockService.save(outStock);
 			model.addAttribute("success", true);
 		}
 		return "jsonView";
@@ -326,10 +320,10 @@ public class InStockController extends BaseController{
 	/**
 	 * 审核单据
 	 */
-	@RequestMapping("/warehouse/InStock/jsonCheckBill.html")
+	@RequestMapping("/warehouse/OutStock/jsonCheckBill.html")
 	public String checkBill(ModelMap model, Long id) throws Exception {
-		InStock inStock = inStockService.find(id);
-		String result = inStockService.checkInStock(inStock);
+		OutStock outStock = outStockService.find(id);
+		String result = outStockService.checkOutStock(outStock);
 		if(result.equals("success")) {
 			model.addAttribute("success", true);
 		} else {

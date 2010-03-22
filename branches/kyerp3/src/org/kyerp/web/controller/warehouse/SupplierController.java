@@ -6,8 +6,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.kyerp.domain.base.views.ExtTreeNode;
+import org.kyerp.domain.base.views.ExtTreeRecursion;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.Supplier;
+import org.kyerp.domain.warehouse.SupplierType;
 import org.kyerp.service.warehouse.ISupplierService;
 import org.kyerp.service.warehouse.ISupplierTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +24,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class SupplierController {
+public class SupplierController{
 	@Autowired
 	ISupplierService		supplierService;
 	@Autowired
 	ISupplierTypeService	supplierTypeService;
 
 	@RequestMapping("/warehouse/Supplier/jsonList.html")
-	public String list(Model model, Integer start, Integer limit, Long typeId,
-			String query) {
+	public String list(Model model, Integer start, Integer limit, Long typeId, String query) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 
@@ -41,53 +43,42 @@ public class SupplierController {
 		wherejpql.append(" 1=?").append((queryParams.size() + 1));
 		queryParams.add(1);
 		// set parent id
-		if (null != typeId) {
-			wherejpql.append(" and o.supplierType.id=?").append(
-					queryParams.size() + 1);
+		if(null != typeId) {
+			wherejpql.append(" and o.supplierType.id=?").append(queryParams.size() + 1);
 			queryParams.add(typeId);
 		}
 		// set query
-		if (null != query && !query.equals("")) {
-			wherejpql.append(" and (o.fullName like ?").append(
-					queryParams.size() + 1);
+		if(null != query && !query.equals("")) {
+			wherejpql.append(" and (o.fullName like ?").append(queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 			// name
-			wherejpql.append(" or o.name like ?")
-					.append(queryParams.size() + 1);
+			wherejpql.append(" or o.name like ?").append(queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 			// nameSpell
-			wherejpql.append(" or o.nameSpell like ?").append(
-					queryParams.size() + 1);
+			wherejpql.append(" or o.nameSpell like ?").append(queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 			// remark
-			wherejpql.append(" or o.remark like ?").append(
-					queryParams.size() + 1);
+			wherejpql.append(" or o.remark like ?").append(queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 			// address
-			wherejpql.append(" or o.address like ?").append(
-					queryParams.size() + 1);
+			wherejpql.append(" or o.address like ?").append(queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 			// phone
-			wherejpql.append(" or o.phone like ?").append(
-					queryParams.size() + 1);
+			wherejpql.append(" or o.phone like ?").append(queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 
-			wherejpql.append(" or o.serialNumber like ?").append(
-					queryParams.size() + 1).append(")");
+			wherejpql.append(" or o.serialNumber like ?").append(queryParams.size() + 1).append(")");
 			queryParams.add("%" + query.trim() + "%");
 		}
-		System.out
-				.print(wherejpql.toString() + "  -  " + queryParams.toArray());
-		QueryResult<Supplier> queryResult = supplierService.getScrollData(
-				start, limit, wherejpql.toString(), queryParams.toArray(),
-				orderby);
+		System.out.print(wherejpql.toString() + "  -  " + queryParams.toArray());
+		QueryResult<Supplier> queryResult = supplierService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
 
 		List<SupplierExtGridRow> rows = new ArrayList<SupplierExtGridRow>();
 		for (Supplier o : queryResult.getResultlist()) {
 			SupplierExtGridRow n = new SupplierExtGridRow();
 			n.setId(o.getId());
 			/** 分类 */
-			if (null != o.getSupplierType()) {
+			if(null != o.getSupplierType()) {
 				n.setTypeId(o.getSupplierType().getId());
 				n.setTypeName(o.getSupplierType().getName());
 
@@ -103,12 +94,10 @@ public class SupplierController {
 			/** 是否列入合格供方名录 **/
 			n.setQualified(o.getQualified());
 			/** 建立时间 */
-			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
-					"yyyy-MM-dd HH:mm:ss"));
+			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
 			/** 修改时间 */
-			if (null != o.getUpdateTime()) {
-				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(),
-						"yyyy-MM-dd HH:mm:ss"));
+			if(null != o.getUpdateTime()) {
+				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 			}
 			/** 供应商编码 */
 			n.setSerialNumber(o.getSerialNumber());
@@ -144,11 +133,11 @@ public class SupplierController {
 	@RequestMapping("/warehouse/Supplier/jsonSave.html")
 	public String save(SupplierExtGridRow o, ModelMap model) {
 		Supplier n = new Supplier();
-		if (null != o.getId() && o.getId() > 0) {
+		if(null != o.getId() && o.getId() > 0) {
 			n = supplierService.find(o.getId());
 		}
 		/** 分类 */
-		if (o.getTypeId() > 0) {
+		if(o.getTypeId() > 0) {
 			n.setSupplierType(supplierTypeService.find(o.getTypeId()));
 
 		}
@@ -184,13 +173,12 @@ public class SupplierController {
 		n.setPayCost(o.getPayCost());
 		/** logo图片路径 如:/images/brand/2008/12/12/ooo.gif" **/
 		n.setLogopath(o.getLogopath());
-		if (null != o.getId() && o.getId() > 0) {
+		if(null != o.getId() && o.getId() > 0) {
 			supplierService.update(n);
 		} else {
 			supplierService.save(n);
 		}
-		long id = n.getId() > 0 ? n.getId() : supplierService.findLast()
-				.getId();
+		long id = n.getId() > 0 ? n.getId() : supplierService.findLast().getId();
 		model.addAttribute("success", true);
 		model.addAttribute("id", id);
 		return "jsonView";
@@ -202,5 +190,58 @@ public class SupplierController {
 		supplierService.delete((Serializable[]) ids);
 		model.addAttribute("success", true);
 		return "jsonView";
+	}
+
+	// 供应商树
+	/**
+	 * 返回供应商树
+	 * *
+	 */
+	@RequestMapping("/warehouse/Supplier/jsonTree.html")
+	public String tree(Model model) {
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("id", "asc");
+		QueryResult<SupplierType> typeQueryResult = supplierTypeService.getScrollData(orderby);
+
+		List<ExtTreeNode> extTreeList = new ArrayList<ExtTreeNode>();
+		if(typeQueryResult.getResultlist().size() == 0) {
+			SupplierType supplierType = new SupplierType();
+			supplierType.setName("供应商分类");
+			supplierTypeService.save(supplierType);
+			model.addAttribute("jsonText", "[{id:'1',text:'供应商分类',leaf:true}]");
+		} else {
+			for (SupplierType supplierType : typeQueryResult.getResultlist()) {
+				ExtTreeNode node = new ExtTreeNode();
+				node.setId(String.valueOf("type" + supplierType.getId()));
+				node.setText(supplierType.getName());
+				if(null != supplierType.getParentSupplierType() && supplierType.getParentSupplierType().getId() > 0) {
+					node.setParentId(String.valueOf("type" + supplierType.getParentSupplierType().getId()));
+				}
+				if(supplierType.getId() == 1) {
+					node.setExpanded(true);
+				} else {
+					node.setExpanded(false);
+				}
+				extTreeList.add(node);
+			}
+
+			QueryResult<Supplier> objQueryResult = supplierService.getScrollData(orderby);
+			for (Supplier supplier : objQueryResult.getResultlist()) {
+				ExtTreeNode node = new ExtTreeNode();
+				node.setId(String.valueOf(supplier.getId()));
+				node.setText(supplier.getName());
+				node.setParentId(String.valueOf("type" + supplier.getSupplierType().getId()));
+				extTreeList.add(node);
+			}
+
+			ExtTreeRecursion r = new ExtTreeRecursion();
+			if(null != extTreeList && extTreeList.size() > 0) {
+				r.recursionFn(extTreeList, extTreeList.get(0));
+			}
+			String strTreeString = r.modifyStr(r.getReturnStr().toString());
+
+			model.addAttribute("jsonText", strTreeString);
+		}
+		return "share/jsonTextView";
 	}
 }

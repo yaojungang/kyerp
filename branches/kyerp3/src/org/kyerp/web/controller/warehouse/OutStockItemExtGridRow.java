@@ -5,25 +5,28 @@ import java.math.BigDecimal;
 /**
  * @author y109 2010-3-2下午09:47:20
  */
-public class PurchaseOrderItemExtGridRow {
+public class OutStockItemExtGridRow{
 	private Long		id;
 	/** 建立时间 */
 	private String		createTime;
 	/** 修改时间 */
 	private String		updateTime;
 	/** 采购申请单 */
-	private long		purchaseOrderId;
-	private String		purchaseOrderSerialNumber;
+	private long		outStockId;
+	private String		outStockSerialNumber;
 	/** 物料 */
 	private long		materialId;
 	private String		materialName;
+	/** 物料批次号 */
+	private String		batchNumber;
+	/** 仓库 */
+	private Long		warehouseId;
+	private String		warehouseName;
 	/** 单位 */
 	private long		unitId;
 	private String		unitName;
 	/** 总数量 */
 	private BigDecimal	billCount;
-	/** 收货数量 */
-	private BigDecimal	recvCount;
 	/** 价格 */
 	private BigDecimal	price;
 	/** 备注 */
@@ -31,7 +34,7 @@ public class PurchaseOrderItemExtGridRow {
 	/** 金额 */
 	private BigDecimal	billCost;
 
-	public PurchaseOrderItemExtGridRow() {
+	public OutStockItemExtGridRow() {
 	}
 
 	public BigDecimal getBillCost() {
@@ -62,20 +65,44 @@ public class PurchaseOrderItemExtGridRow {
 		return updateTime;
 	}
 
+	public Long getWarehouseId() {
+		return warehouseId;
+	}
+
+	public void setWarehouseId(Long warehouseId) {
+		this.warehouseId = warehouseId;
+	}
+
+	public String getBatchNumber() {
+		return batchNumber;
+	}
+
+	public void setBatchNumber(String batchNumber) {
+		this.batchNumber = batchNumber;
+	}
+
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName;
+	}
+
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
 
-	public long getPurchaseOrderId() {
-		return purchaseOrderId;
+	public long getOutStockId() {
+		return outStockId;
 	}
 
-	public void setPurchaseOrderId(long purchaseOrderId) {
-		this.purchaseOrderId = purchaseOrderId;
+	public void setOutStockId(long outStockId) {
+		this.outStockId = outStockId;
 	}
 
-	public String getPurchaseOrderSerialNumber() {
-		return purchaseOrderSerialNumber;
+	public String getOutStockSerialNumber() {
+		return outStockSerialNumber;
 	}
 
 	public long getUnitId() {
@@ -94,8 +121,8 @@ public class PurchaseOrderItemExtGridRow {
 		this.unitName = unitName;
 	}
 
-	public void setPurchaseOrderSerialNumber(String purchaseOrderSerialNumber) {
-		this.purchaseOrderSerialNumber = purchaseOrderSerialNumber;
+	public void setOutStockSerialNumber(String outStockSerialNumber) {
+		this.outStockSerialNumber = outStockSerialNumber;
 	}
 
 	public long getMaterialId() {
@@ -138,11 +165,4 @@ public class PurchaseOrderItemExtGridRow {
 		this.billCount = billCount;
 	}
 
-	public BigDecimal getRecvCount() {
-		return recvCount;
-	}
-
-	public void setRecvCount(BigDecimal recvCount) {
-		this.recvCount = recvCount;
-	}
 }

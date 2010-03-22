@@ -80,17 +80,17 @@ public class InStockService extends DaoSupport<InStock> implements
 					stockDetail = stockDetailService.getScrollData(wherejpql2,
 							null, null).getResultlist().get(0);
 					// 更新这个批次并且存放在这个库房的物料的数量
-					stockDetail.setAmount(stockDetail.getAmount()
-							+ d.getBillCount());
+					stockDetail.setAmount(stockDetail.getAmount().add(
+							d.getBillCount()));
 					// 如果库存总数为0则删除这条库存记录，否则更新库存金额和绝对平均价格
-					if (stockDetail.getAmount() == 0) {
+					BigDecimal zero4 = new BigDecimal("0.0000");
+					if (zero4.equals(stockDetail.getAmount().setScale(4))) {
 						stockDetailService.delete(stockDetail.getId());
 					} else {
 						stockDetail.setCost(stockDetail.getCost().add(
 								d.getBillCost()));
 						stockDetail.setPrice(stockDetail.getCost().divide(
-								new BigDecimal(stockDetail.getAmount()), 4,
-								BigDecimal.ROUND_HALF_UP));
+								stockDetail.getAmount()));
 					}
 
 					stockDetailService.update(stockDetail);
@@ -121,15 +121,16 @@ public class InStockService extends DaoSupport<InStock> implements
 				}
 
 				// 更新库存表的总数量
-				stock.setTotalAmount(stock.getTotalAmount() + d.getBillCount());
+				stock.setTotalAmount(stock.getTotalAmount().add(
+						d.getBillCount()));
 				// 如果库存总数为0则删除这条库存记录，否则更新库存金额和绝对平均价格
-				if (stock.getTotalAmount() == 0) {
+				BigDecimal zero4 = new BigDecimal("0.0000");
+				if (zero4.equals(stock.getTotalAmount().setScale(4))) {
 					stockService.delete(stock.getId());
 				} else {
 					stock.setCost(stock.getCost().add(d.getBillCost()));
 					stock.setPrice(stock.getCost().divide(
-							new BigDecimal(stock.getTotalAmount()), 4,
-							BigDecimal.ROUND_HALF_UP));
+							stock.getTotalAmount()));
 					stockService.update(stock);
 				}
 			} else {

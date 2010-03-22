@@ -82,7 +82,7 @@ public class PurchaseOrderController extends BaseController {
 			n.setBillCount(o.getBillCount());
 			/** 总费用 */
 			if (null != o.getBillCost()) {
-				n.setBillCost(new Double(o.getBillCost().toString()));
+				n.setBillCost(o.getBillCost());
 			}
 			/** 填单人 */
 			if (null != o.getWriteUser()) {
@@ -253,7 +253,7 @@ public class PurchaseOrderController extends BaseController {
 				detail.setUnit(materialService.find(
 						jsonObject.getLong("materialId")).getUnit());
 				// 数量
-				detail.setBillCount(new Integer(jsonObject
+				detail.setBillCount(new BigDecimal(jsonObject
 						.getString("billCount")));
 				// 备注
 				if (null != jsonObject.getString("remark")) {

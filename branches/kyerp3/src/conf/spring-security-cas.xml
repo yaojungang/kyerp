@@ -7,7 +7,7 @@
 	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 	<sec:http entry-point-ref="casProcessingFilterEntryPoint">
-		<sec:intercept-url pattern="/install/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<sec:intercept-url pattern="/install/**" filters="none"/>
 		<sec:intercept-url pattern="/share/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />		
 		<sec:logout invalidate-session="true" logout-url="/logout" logout-success-url="/share/logout.jsp"/>

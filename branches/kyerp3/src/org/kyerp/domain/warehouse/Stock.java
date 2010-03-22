@@ -30,7 +30,7 @@ public class Stock extends BaseDomain implements Serializable {
 	@OneToMany(mappedBy = "stock", cascade = { CascadeType.ALL })
 	private final List<StockDetail>	stockDetails		= new ArrayList<StockDetail>();
 	/** 总数量 */
-	private float					totalAmount;
+	private BigDecimal				totalAmount;
 	/** 单位 */
 	@ManyToOne
 	private Unit					unit;
@@ -50,11 +50,11 @@ public class Stock extends BaseDomain implements Serializable {
 		this.material = material;
 	}
 
-	public float getTotalAmount() {
+	public BigDecimal getTotalAmount() {
 		return totalAmount;
 	}
 
-	public void setTotalAmount(float totalAmount) {
+	public void setTotalAmount(BigDecimal totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 
