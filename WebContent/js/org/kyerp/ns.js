@@ -41,6 +41,7 @@ org.kyerp.warehouse.MaterialListPanel_DELETE_URL = "warehouse/Material/jsonDelet
 /** ***************************************************************************** */
 org.kyerp.warehouse.MaterialPanel_STORE_URL = "warehouse/Material/jsonList.html";
 /** ***************************************************************************** */
+org.kyerp.warehouse.Supplier_TREE_URL = "warehouse/Supplier/jsonTree.html";
 org.kyerp.warehouse.SupplierPanel_STORE_URL = "warehouse/Supplier/jsonList.html";
 org.kyerp.warehouse.SupplierPanel_SAVE_URL = "warehouse/Supplier/jsonSave.html";
 org.kyerp.warehouse.SupplierPanel_DELETE_URL = "warehouse/Supplier/jsonDelete.html";
@@ -55,6 +56,7 @@ org.kyerp.warehouse.SupplierTypePanel_LIST_URL = "warehouse/SupplierType/jsonLis
 org.kyerp.warehouse.SupplierTypePanel_SAVE_URL = "warehouse/SupplierType/jsonSave.html";
 org.kyerp.warehouse.SupplierTypePanel_DELETE_URL = "warehouse/SupplierType/jsonDelete.html";
 /** ***************************************************************************** */
+org.kyerp.warehouse.Warehouse_ALL_LIST_URL = "warehouse/Warehouse/jsonAllList.html";
 org.kyerp.warehouse.WarehousePanel_TREE_URL = "warehouse/Warehouse/jsonTree.html";
 org.kyerp.warehouse.WarehousePanel_LIST_URL = "warehouse/Warehouse/jsonList.html";
 org.kyerp.warehouse.WarehousePanel_SAVE_URL = "warehouse/Warehouse/jsonSave.html";
@@ -77,6 +79,14 @@ org.kyerp.warehouse.InStockDetail_DELETE_URL = "warehouse/InStockDetail/jsonDele
 org.kyerp.warehouse.InStock_PostForCheck_URL = "warehouse/InStock/jsonPostForCheck.html";
 org.kyerp.warehouse.InStock_ReturnForEdit_URL = "warehouse/InStock/jsonReturnForEdit.html";
 org.kyerp.warehouse.InStock_CheckBill_URL = "warehouse/InStock/jsonCheckBill.html";
+/** ***************************************************************************** */
+org.kyerp.warehouse.OutStockPanel_STORE_URL = "warehouse/OutStock/jsonList.html";
+org.kyerp.warehouse.OutStockPanel_SAVE_URL = "warehouse/OutStock/jsonSave.html";
+org.kyerp.warehouse.OutStockPanel_DELETE_URL = "warehouse/OutStock/jsonDelete.html";
+org.kyerp.warehouse.OutStockDetail_DELETE_URL = "warehouse/OutStockDetail/jsonDelete.html";
+org.kyerp.warehouse.OutStock_PostForCheck_URL = "warehouse/OutStock/jsonPostForCheck.html";
+org.kyerp.warehouse.OutStock_ReturnForEdit_URL = "warehouse/OutStock/jsonReturnForEdit.html";
+org.kyerp.warehouse.OutStock_CheckBill_URL = "warehouse/OutStock/jsonCheckBill.html";
 /** ***************************************************************************** */
 
 /** ***************************************************************************** */

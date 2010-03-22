@@ -6,7 +6,6 @@ Ext.ux.form.TreeComboBox = Ext.extend(Ext.form.ComboBox, {
             data : [[]]
           }),
       _onSelect : function() {
-
       },
       treeTroot : null,
       initComponent : function(ct, position) {

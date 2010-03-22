@@ -14,7 +14,7 @@ org.kyerp.warehouse.WarehouseStore = new Ext.data.Store({
 							'parentWarehouseName'])
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
+org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 		Ext.grid.EditorGridPanel, {
 			inserted : [],
 			materialCombo : null,
@@ -108,7 +108,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 							triggerAction : 'all',
 							store : org.kyerp.warehouse.WarehouseStore
 						});
-				org.kyerp.warehouse.InStockItemsEditorGridPanel.superclass.constructor
+				org.kyerp.warehouse.OutStockItemsEditorGridPanel.superclass.constructor
 						.call(this, {
 							store : new Ext.data.Store({
 										reader : new Ext.data.JsonReader({},
@@ -314,7 +314,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 						this.conn.un("requestcomplete", this.onSaveInsertData,
 								this);
 						this.conn.request({
-									url : org.kyerp.warehouse.InStockDetail_DELETE_URL,
+									url : org.kyerp.warehouse.OutStockDetail_DELETE_URL,
 									params : {
 										ids : _rs.get("id")
 									}
