@@ -1,5 +1,7 @@
 package org.kyerp.web.controller.warehouse;
 
+import java.math.BigDecimal;
+
 import org.kyerp.domain.warehouse.BillStatus;
 
 /**
@@ -23,9 +25,9 @@ public class InStockExtGridRow {
 	/** 备注 */
 	private String		remark;
 	/** 总数量 */
-	private float		billCount;
+	private BigDecimal	billCount;
 	/** 总费用 */
-	private double		billCost;
+	private BigDecimal	billCost;
 	/** 填单人 */
 	private long		writeUserId;
 	private String		writeUserName;
@@ -47,22 +49,6 @@ public class InStockExtGridRow {
 	private String		editAble;
 
 	public InStockExtGridRow() {
-	}
-
-	public String getArriveDate() {
-		return arriveDate;
-	}
-
-	public void setArriveDate(String arriveDate) {
-		this.arriveDate = arriveDate;
-	}
-
-	public String getEditAble() {
-		return editAble;
-	}
-
-	public void setEditAble(String editAble) {
-		this.editAble = editAble;
 	}
 
 	public Long getId() {
@@ -97,6 +83,22 @@ public class InStockExtGridRow {
 		this.serialNumber = serialNumber;
 	}
 
+	public Long getInOutTypeId() {
+		return inOutTypeId;
+	}
+
+	public void setInOutTypeId(Long inOutTypeId) {
+		this.inOutTypeId = inOutTypeId;
+	}
+
+	public String getInOutTypeName() {
+		return inOutTypeName;
+	}
+
+	public void setInOutTypeName(String inOutTypeName) {
+		this.inOutTypeName = inOutTypeName;
+	}
+
 	public Long getSupplierId() {
 		return supplierId;
 	}
@@ -121,11 +123,19 @@ public class InStockExtGridRow {
 		this.remark = remark;
 	}
 
-	public double getBillCost() {
+	public BigDecimal getBillCount() {
+		return billCount;
+	}
+
+	public void setBillCount(BigDecimal billCount) {
+		this.billCount = billCount;
+	}
+
+	public BigDecimal getBillCost() {
 		return billCost;
 	}
 
-	public void setBillCost(double billCost) {
+	public void setBillCost(BigDecimal billCost) {
 		this.billCost = billCost;
 	}
 
@@ -201,28 +211,20 @@ public class InStockExtGridRow {
 		this.details = details;
 	}
 
-	public float getBillCount() {
-		return billCount;
+	public String getArriveDate() {
+		return arriveDate;
 	}
 
-	public void setBillCount(float billCount) {
-		this.billCount = billCount;
+	public void setArriveDate(String arriveDate) {
+		this.arriveDate = arriveDate;
 	}
 
-	public Long getInOutTypeId() {
-		return inOutTypeId;
+	public String getEditAble() {
+		return editAble;
 	}
 
-	public void setInOutTypeId(Long inOutTypeId) {
-		this.inOutTypeId = inOutTypeId;
-	}
-
-	public String getInOutTypeName() {
-		return inOutTypeName;
-	}
-
-	public void setInOutTypeName(String inOutTypeName) {
-		this.inOutTypeName = inOutTypeName;
+	public void setEditAble(String editAble) {
+		this.editAble = editAble;
 	}
 
 }

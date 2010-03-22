@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * @author y109 2010-3-2下午09:47:20
  */
-public class InStockItemExtGridRow {
+public class InStockItemExtGridRow{
 	private Long		id;
 	/** 建立时间 */
 	private String		createTime;
@@ -17,6 +17,8 @@ public class InStockItemExtGridRow {
 	/** 物料 */
 	private long		materialId;
 	private String		materialName;
+	/** 物料批次号 */
+	private String		batchNumber;
 	/** 仓库 */
 	private Long		warehouseId;
 	private String		warehouseName;
@@ -24,7 +26,7 @@ public class InStockItemExtGridRow {
 	private long		unitId;
 	private String		unitName;
 	/** 总数量 */
-	private float		billCount;
+	private BigDecimal	billCount;
 	/** 价格 */
 	private BigDecimal	price;
 	/** 备注 */
@@ -45,6 +47,14 @@ public class InStockItemExtGridRow {
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getBatchNumber() {
+		return batchNumber;
+	}
+
+	public void setBatchNumber(String batchNumber) {
+		this.batchNumber = batchNumber;
 	}
 
 	public void setId(Long id) {
@@ -143,16 +153,16 @@ public class InStockItemExtGridRow {
 		return remark;
 	}
 
-	public float getBillCount() {
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public BigDecimal getBillCount() {
 		return billCount;
 	}
 
-	public void setBillCount(float billCount) {
+	public void setBillCount(BigDecimal billCount) {
 		this.billCount = billCount;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
 	}
 
 }

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class MaterialCategoryController extends BaseController {
+public class MaterialCategoryController extends BaseController{
 	@Autowired
 	IMaterialCategoryService	materialCategoryService;
 
@@ -41,35 +41,28 @@ public class MaterialCategoryController extends BaseController {
 		wherejpql.append(" 1=?").append((queryParams.size() + 1));
 		queryParams.add(1);
 		// set parent id
-		if (null != parentId) {
-			wherejpql.append(" and parentMaterialCategory.id=?").append(
-					queryParams.size() + 1);
+		if(null != parentId) {
+			wherejpql.append(" and parentMaterialCategory.id=?").append(queryParams.size() + 1);
 			queryParams.add(parentId);
 		}
-		QueryResult<MaterialCategory> queryResult = materialCategoryService
-				.getScrollData(start, limit, wherejpql.toString(), queryParams
-						.toArray(), orderby);
+		QueryResult<MaterialCategory> queryResult = materialCategoryService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
 		List<MaterialCategoryExtGridRow> rows = new ArrayList<MaterialCategoryExtGridRow>();
 		for (MaterialCategory o : queryResult.getResultlist()) {
 			MaterialCategoryExtGridRow n = new MaterialCategoryExtGridRow();
 			n.setId(o.getId());
 			n.setName(o.getName());
-			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
-					"yyyy-MM-dd HH:mm:ss"));
+			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
 			/** 修改时间 */
-			if (null != o.getUpdateTime()) {
-				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(),
-						"yyyy-MM-dd HH:mm:ss"));
+			if(null != o.getUpdateTime()) {
+				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 			}
 			/** 申请单号 */
 			n.setSerialNumber(o.getSerialNumber());
 			n.setNote(o.getNote());
 			/** 父类 */
-			if (null != o.getParentMaterialCategory()) {
-				n.setParentMaterialCategoryId(o.getParentMaterialCategory()
-						.getId());
-				n.setParentMaterialCategoryName(o.getParentMaterialCategory()
-						.getName());
+			if(null != o.getParentMaterialCategory()) {
+				n.setParentMaterialCategoryId(o.getParentMaterialCategory().getId());
+				n.setParentMaterialCategoryName(o.getParentMaterialCategory().getName());
 			} else {
 				n.setParentMaterialCategoryId(new Long(0));
 				n.setParentMaterialCategoryName("顶级分类");
@@ -86,10 +79,9 @@ public class MaterialCategoryController extends BaseController {
 	public String tree(Model model) {
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
-		QueryResult<MaterialCategory> queryResult = materialCategoryService
-				.getScrollData(orderby);
+		QueryResult<MaterialCategory> queryResult = materialCategoryService.getScrollData(orderby);
 		List<ExtTreeNode> extTreeList = new ArrayList<ExtTreeNode>();
-		if (queryResult.getResultlist().size() == 0) {
+		if(queryResult.getResultlist().size() == 0) {
 			MaterialCategory materialCategory = new MaterialCategory();
 			materialCategory.setName("物料分类");
 			materialCategoryService.save(materialCategory);
@@ -97,14 +89,12 @@ public class MaterialCategoryController extends BaseController {
 		} else {
 			for (MaterialCategory d : queryResult.getResultlist()) {
 				ExtTreeNode node = new ExtTreeNode();
-				node.setId(new Integer(d.getId().toString()));
+				node.setId(String.valueOf(d.getId()));
 				node.setText(d.getName());
-				if (null != d.getParentMaterialCategory()
-						&& d.getParentMaterialCategory().getId() > 0) {
-					node.setParentId(new Integer(d.getParentMaterialCategory()
-							.getId().toString()));
+				if(null != d.getParentMaterialCategory() && d.getParentMaterialCategory().getId() > 0) {
+					node.setParentId(String.valueOf(d.getParentMaterialCategory().getId()));
 				}
-				if (d.getId() == 1) {
+				if(d.getId() == 1) {
 					node.setExpanded(true);
 				} else {
 					node.setExpanded(false);
@@ -113,7 +103,7 @@ public class MaterialCategoryController extends BaseController {
 			}
 
 			ExtTreeRecursion r = new ExtTreeRecursion();
-			if (null != extTreeList && extTreeList.size() > 0) {
+			if(null != extTreeList && extTreeList.size() > 0) {
 				r.recursionFn(extTreeList, extTreeList.get(0));
 			}
 			String strTreeString = r.modifyStr(r.getReturnStr().toString());
@@ -125,37 +115,30 @@ public class MaterialCategoryController extends BaseController {
 
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/MaterialCategory/jsonSave.html")
-	public String save(MaterialCategoryExtGridRow materialCategoryRow,
-			ModelMap model) {
+	public String save(MaterialCategoryExtGridRow materialCategoryRow, ModelMap model) {
 		MaterialCategory materialCategory = new MaterialCategory();
-		if (null != materialCategoryRow.getId()
-				&& materialCategoryRow.getId() > 0) {
-			materialCategory = materialCategoryService.find(materialCategoryRow
-					.getId());
+		if(null != materialCategoryRow.getId() && materialCategoryRow.getId() > 0) {
+			materialCategory = materialCategoryService.find(materialCategoryRow.getId());
 		}
 		materialCategory.setName(materialCategoryRow.getName());
 		// 设置父类
-		if (materialCategoryRow.getParentMaterialCategoryId() != 0) {
-			materialCategory.setParentMaterialCategory(materialCategoryService
-					.find(materialCategoryRow.getParentMaterialCategoryId()));
+		if(materialCategoryRow.getParentMaterialCategoryId() != 0) {
+			materialCategory.setParentMaterialCategory(materialCategoryService.find(materialCategoryRow.getParentMaterialCategoryId()));
 		}
 		// 设置note
-		if (null != materialCategoryRow.getNote()) {
+		if(null != materialCategoryRow.getNote()) {
 			materialCategory.setNote(materialCategoryRow.getNote());
 		}
 		// 设置序号
-		if (null != materialCategoryRow.getSerialNumber()) {
-			materialCategory.setSerialNumber(materialCategoryRow
-					.getSerialNumber());
+		if(null != materialCategoryRow.getSerialNumber()) {
+			materialCategory.setSerialNumber(materialCategoryRow.getSerialNumber());
 		}
-		if (null != materialCategoryRow.getId()
-				&& materialCategoryRow.getId() > 0) {
+		if(null != materialCategoryRow.getId() && materialCategoryRow.getId() > 0) {
 			materialCategoryService.update(materialCategory);
 		} else {
 			materialCategoryService.save(materialCategory);
 		}
-		long id = materialCategory.getId() > 0 ? materialCategory.getId()
-				: materialCategoryService.findLast().getId();
+		long id = materialCategory.getId() > 0 ? materialCategory.getId() : materialCategoryService.findLast().getId();
 		model.addAttribute("success", true);
 		model.addAttribute("id", id);
 		return "jsonView";

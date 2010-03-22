@@ -52,7 +52,7 @@ public class InstallController {
 		StringBuffer messageBuffer = new StringBuffer();
 		messageBuffer.append(initSystemModule()).append("</ br>");
 		messageBuffer.append(initAdminUser("admin", "admin")).append("</ br>");
-		messageBuffer.append(initORG("北京市清华园胶印厂")).append("</ br>");
+		messageBuffer.append(initORG("组织机构")).append("</ br>");
 		messageBuffer.append(initWarehouse()).append("</ br>");
 
 		model.addAttribute("jsonText", messageBuffer.toString());
@@ -104,7 +104,7 @@ public class InstallController {
 
 	public String initAdminUser(String userName, String password) {
 		SystemResource sr = new SystemResource();
-		sr.setName("管理员");
+		sr.setName("管理员默认资源");
 		sr.setContent("ROLE_ADMIN");
 		sr.setType(SystemResourceType.ROLE);
 		sr.setSystemModule(systemModuleService.find(new Long(9)));
@@ -131,7 +131,10 @@ public class InstallController {
 		e.setUser(u);
 		employeeService.save(e);
 
+		List<User> users = new ArrayList<User>();
+		users.add(u);
+		r.setUsers(users);
+		roleService.save(r);
 		return "管理员初始化成功！";
 	}
-
 }

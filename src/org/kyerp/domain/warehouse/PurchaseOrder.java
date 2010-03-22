@@ -32,7 +32,7 @@ public class PurchaseOrder extends BaseDomain implements Serializable {
 	/** 备注 */
 	private String						remark;
 	/** 总数量 */
-	private float						billCount;
+	private BigDecimal					billCount;
 	/** 总费用 */
 	private BigDecimal					billCost;
 	/** 填单人 */
@@ -71,10 +71,10 @@ public class PurchaseOrder extends BaseDomain implements Serializable {
 
 	@Override
 	public void preUpdate() {
-		this.setBillCount(0);
+		this.setBillCount(new BigDecimal("0"));
 		this.setBillCost(new BigDecimal("0"));
 		for (PurchaseOrderDetail detail : this.getDetails()) {
-			this.setBillCount(this.getBillCount() + detail.getBillCount());
+			this.setBillCount(this.getBillCount().add(detail.getBillCount()));
 			this.setBillCost(this.getBillCost().add(detail.getBillCost()));
 		}
 		super.preUpdate();
@@ -168,11 +168,11 @@ public class PurchaseOrder extends BaseDomain implements Serializable {
 		this.details = details;
 	}
 
-	public float getBillCount() {
+	public BigDecimal getBillCount() {
 		return billCount;
 	}
 
-	public void setBillCount(float billCount) {
+	public void setBillCount(BigDecimal billCount) {
 		this.billCount = billCount;
 	}
 }

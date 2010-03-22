@@ -33,7 +33,7 @@ public class InStockDetail extends BaseDomain implements Serializable {
 	@ManyToOne
 	private Warehouse			warehouse;
 	/** 数量 */
-	private float				billCount;
+	private BigDecimal			billCount;
 	/** 单位 */
 	@ManyToOne
 	private Unit				unit;
@@ -74,10 +74,10 @@ public class InStockDetail extends BaseDomain implements Serializable {
 
 	private void updatePurchase() {
 		InStock bill = this.getInStock();
-		bill.setBillCount(0);
+		bill.setBillCount(new BigDecimal("0"));
 		bill.setBillCost(new BigDecimal("0"));
 		for (InStockDetail detail : bill.getDetails()) {
-			bill.setBillCount(bill.getBillCount() + detail.getBillCount());
+			bill.setBillCount(bill.getBillCount().add(detail.getBillCount()));
 			bill.setBillCost(bill.getBillCost().add(detail.getBillCost()));
 		}
 	}
@@ -88,7 +88,7 @@ public class InStockDetail extends BaseDomain implements Serializable {
 	 * @return
 	 */
 	public BigDecimal getBillCost() {
-		return price.multiply(new BigDecimal(billCount));
+		return price.multiply(billCount);
 	}
 
 	public InStock getInStock() {
@@ -155,11 +155,11 @@ public class InStockDetail extends BaseDomain implements Serializable {
 		this.remark = remark;
 	}
 
-	public float getBillCount() {
+	public BigDecimal getBillCount() {
 		return billCount;
 	}
 
-	public void setBillCount(float billCount) {
+	public void setBillCount(BigDecimal billCount) {
 		this.billCount = billCount;
 	}
 

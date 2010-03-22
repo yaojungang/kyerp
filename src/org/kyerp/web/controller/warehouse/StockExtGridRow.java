@@ -15,7 +15,7 @@ public class StockExtGridRow {
 	private long		materialId;
 	private String		materialName;
 	/** 数量 */
-	private float		totalAmount;
+	private BigDecimal	totalAmount;
 	/** 单位 */
 	private long		unitId;
 	private String		unitName;
@@ -69,11 +69,11 @@ public class StockExtGridRow {
 		this.materialName = materialName;
 	}
 
-	public float getTotalAmount() {
+	public BigDecimal getTotalAmount() {
 		return totalAmount;
 	}
 
-	public void setTotalAmount(float totalAmount) {
+	public void setTotalAmount(BigDecimal totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 

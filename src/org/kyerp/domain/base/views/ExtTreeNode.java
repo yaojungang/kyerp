@@ -7,9 +7,9 @@ import java.util.List;
  * 
  * @author y109 2009-12-16下午10:14:40
  */
-public class ExtTreeNode {
-	private int					id;
-	private int					parentId;
+public class ExtTreeNode{
+	private String				id;
+	private String				parentId;
 	private String				text;
 	private String				qtip;
 	private String				icon;
@@ -27,26 +27,26 @@ public class ExtTreeNode {
 	 * @param parentId
 	 * @param text
 	 */
-	public ExtTreeNode(int id, int parentId, String text) {
+	public ExtTreeNode(String id, String parentId, String text) {
 		super();
 		this.id = id;
 		this.parentId = parentId;
 		this.text = text;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public int getParentId() {
+	public String getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(int parentId) {
+	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
 
@@ -64,14 +64,6 @@ public class ExtTreeNode {
 
 	public void setQtip(String qtip) {
 		this.qtip = qtip;
-	}
-
-	public List<ExtTreeNode> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<ExtTreeNode> children) {
-		this.children = children;
 	}
 
 	public String getIcon() {
@@ -112,6 +104,14 @@ public class ExtTreeNode {
 
 	public void setHrefTarget(String hrefTarget) {
 		this.hrefTarget = hrefTarget;
+	}
+
+	public List<ExtTreeNode> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<ExtTreeNode> children) {
+		this.children = children;
 	}
 
 }

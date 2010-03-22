@@ -26,7 +26,7 @@ public class StockDetailExtGridRow {
 	private long		unitId;
 	private String		unitName;
 	/** 总数量 */
-	private float		amount;
+	private BigDecimal	amount;
 	/** 价格 */
 	private BigDecimal	price;
 	/** 金额 */
@@ -131,11 +131,11 @@ public class StockDetailExtGridRow {
 		this.unitName = unitName;
 	}
 
-	public float getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(float amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 

@@ -26,7 +26,7 @@ public class StockDetail extends BaseDomain implements Serializable {
 	@ManyToOne
 	private Warehouse			warehouse;
 	/** 数量 */
-	private float				amount;
+	private BigDecimal			amount;
 	/** 单位 */
 	@ManyToOne
 	private Unit				unit;
@@ -46,11 +46,11 @@ public class StockDetail extends BaseDomain implements Serializable {
 		this.warehouse = warehouse;
 	}
 
-	public float getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(float amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 

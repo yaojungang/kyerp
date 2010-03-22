@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class UnitController extends BaseController {
+public class UnitController extends BaseController{
 	@Autowired
 	IUnitService	unitService;
 
@@ -41,30 +41,26 @@ public class UnitController extends BaseController {
 		wherejpql.append(" 1=?").append((queryParams.size() + 1));
 		queryParams.add(1);
 		// set parent id
-		if (null != parentId) {
-			wherejpql.append(" and parentUnit.id=?").append(
-					queryParams.size() + 1);
+		if(null != parentId) {
+			wherejpql.append(" and parentUnit.id=?").append(queryParams.size() + 1);
 			queryParams.add(parentId);
 		}
-		QueryResult<Unit> queryResult = unitService.getScrollData(start, limit,
-				wherejpql.toString(), queryParams.toArray(), orderby);
+		QueryResult<Unit> queryResult = unitService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
 		List<UnitExtGridRow> rows = new ArrayList<UnitExtGridRow>();
 		for (Unit o : queryResult.getResultlist()) {
 			UnitExtGridRow n = new UnitExtGridRow();
 			n.setId(o.getId());
 			n.setName(o.getName());
-			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
-					"yyyy-MM-dd HH:mm:ss"));
+			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
 			/** 修改时间 */
-			if (null != o.getUpdateTime()) {
-				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(),
-						"yyyy-MM-dd HH:mm:ss"));
+			if(null != o.getUpdateTime()) {
+				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 			}
 			/** 申请单号 */
 			n.setSerialNumber(o.getSerialNumber());
 			n.setNote(o.getNote());
 			/** 父类 */
-			if (null != o.getParentUnit()) {
+			if(null != o.getParentUnit()) {
 				n.setParentUnitId(o.getParentUnit().getId());
 				n.setParentUnitName(o.getParentUnit().getName());
 			} else {
@@ -85,7 +81,7 @@ public class UnitController extends BaseController {
 		orderby.put("id", "asc");
 		QueryResult<Unit> queryResult = unitService.getScrollData(orderby);
 		List<ExtTreeNode> extTreeList = new ArrayList<ExtTreeNode>();
-		if (queryResult.getResultlist().size() == 0) {
+		if(queryResult.getResultlist().size() == 0) {
 			Unit unit = new Unit();
 			unit.setName("计量单位");
 			unitService.save(unit);
@@ -93,13 +89,12 @@ public class UnitController extends BaseController {
 		} else {
 			for (Unit d : queryResult.getResultlist()) {
 				ExtTreeNode node = new ExtTreeNode();
-				node.setId(new Integer(d.getId().toString()));
+				node.setId(String.valueOf(d.getId()));
 				node.setText(d.getName());
-				if (null != d.getParentUnit() && d.getParentUnit().getId() > 0) {
-					node.setParentId(new Integer(d.getParentUnit().getId()
-							.toString()));
+				if(null != d.getParentUnit() && d.getParentUnit().getId() > 0) {
+					node.setParentId(String.valueOf(d.getParentUnit().getId()));
 				}
-				if (d.getId() == 1) {
+				if(d.getId() == 1) {
 					node.setExpanded(true);
 				} else {
 					node.setExpanded(false);
@@ -108,7 +103,7 @@ public class UnitController extends BaseController {
 			}
 
 			ExtTreeRecursion r = new ExtTreeRecursion();
-			if (null != extTreeList && extTreeList.size() > 0) {
+			if(null != extTreeList && extTreeList.size() > 0) {
 				r.recursionFn(extTreeList, extTreeList.get(0));
 			}
 			String strTreeString = r.modifyStr(r.getReturnStr().toString());
@@ -122,29 +117,28 @@ public class UnitController extends BaseController {
 	@RequestMapping("/warehouse/Unit/jsonSave.html")
 	public String save(UnitExtGridRow unitRow, ModelMap model) {
 		Unit unit = new Unit();
-		if (null != unitRow.getId() && unitRow.getId() > 0) {
+		if(null != unitRow.getId() && unitRow.getId() > 0) {
 			unit = unitService.find(unitRow.getId());
 		}
 		unit.setName(unitRow.getName());
 		// 设置父类
-		if (unitRow.getParentUnitId() != 0) {
+		if(unitRow.getParentUnitId() != 0) {
 			unit.setParentUnit(unitService.find(unitRow.getParentUnitId()));
 		}
 		// 设置note
-		if (null != unitRow.getNote()) {
+		if(null != unitRow.getNote()) {
 			unit.setNote(unitRow.getNote());
 		}
 		// 设置序号
-		if (null != unitRow.getSerialNumber()) {
+		if(null != unitRow.getSerialNumber()) {
 			unit.setSerialNumber(unitRow.getSerialNumber());
 		}
-		if (null != unitRow.getId() && unitRow.getId() > 0) {
+		if(null != unitRow.getId() && unitRow.getId() > 0) {
 			unitService.update(unit);
 		} else {
 			unitService.save(unit);
 		}
-		long id = unit.getId() > 0 ? unit.getId() : unitService.findLast()
-				.getId();
+		long id = unit.getId() > 0 ? unit.getId() : unitService.findLast().getId();
 		model.addAttribute("success", true);
 		model.addAttribute("id", id);
 		return "jsonView";
