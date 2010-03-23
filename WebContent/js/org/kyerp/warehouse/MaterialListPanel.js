@@ -34,9 +34,8 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 						forceSelection : true,
 						rootVisible : false
 					}, {
-						fieldLabel : "编号",
-						allowBlank : false,
-						name : "serialNumber"
+						fieldLabel : '编号',
+						name : 'serialNumber'
 					}, {
 						fieldLabel : "名称",
 						allowBlank : false,
@@ -45,7 +44,7 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 						fieldLabel : "规格",
 						name : "specification"
 					}, {
-						fieldLabel : "默认单位",
+						fieldLabel : "单位",
 						xtype : 'treecombobox',
 						name : 'unitId',
 						hiddenName : 'unitId',
@@ -60,7 +59,11 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 						rootId : '0',
 						forceSelection : true,
 						rootVisible : false
-					}, {
+					},{ 
+						fieldLabel : "价格",
+						name : "price",
+						blankValue:0
+					},{
 						fieldLabel : "品牌",
 						xtype : 'treecombobox',
 						name : 'brandId',
@@ -77,7 +80,7 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 						forceSelection : true,
 						rootVisible : false
 					}, {
-						fieldLabel : "默认供应商",
+						fieldLabel : "供应商",
 						name : 'supplierId',
 						hiddenName : 'supplierId',
 						xtype : 'treecombobox',
@@ -310,8 +313,7 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : 'unitName',
 										type : 'string'
 									}, {
-										name : 'price',
-										type : 'string'
+										name : 'price'
 									}, {
 										name : 'supplierId',
 										type : 'int'
@@ -398,11 +400,6 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 								width : 60,
 								menuDisabled : true
 							}, {
-								header : "库存数量",
-								dataIndex : "amount",
-								width : 60,
-								menuDisabled : true
-							}, {
 								header : "物料类别",
 								dataIndex : "materialCategoryName",
 								width : 80,
@@ -461,18 +458,20 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 		return _sm.getSelected();
 	},
 	insert : function(_r) {
-		this.getStore().add(_r);
+		// this.getStore().add(_r);
+		this.getStore().reload();
 	},
 	update : function(_r) {
-		try {
-			var _sr = this.getSelected();
-			var _data = _sr.data;
-			for (var _i in _data) {
-				_sr.set(_i, _r.get(_i));
-			}
-			_sr.commit();
-		} catch (_err) {
-		}
+		this.getStore().reload();
+		// try {
+		// var _sr = this.getSelected();
+		// var _data = _sr.data;
+		// for (var _i in _data) {
+		// _sr.set(_i, _r.get(_i));
+		// }
+		// _sr.commit();
+		// } catch (_err) {
+		// }
 	},
 	removeItem : function() {
 		try {
