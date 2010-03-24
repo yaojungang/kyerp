@@ -24,10 +24,10 @@ import org.kyerp.domain.BaseDomain;
 /**继承映射策略*/
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 /**标识字段定义*/
-@DiscriminatorColumn(name = "material_type", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "material_type",discriminatorType = DiscriminatorType.STRING)
 /**该类的标识*/
 @DiscriminatorValue("material")
-public class Material extends BaseDomain implements Serializable {
+public class Material extends BaseDomain implements Serializable{
 	private static final long	serialVersionUID	= 1L;
 	/** 编号 **/
 	private String				serialNumber		= "";
@@ -45,7 +45,7 @@ public class Material extends BaseDomain implements Serializable {
 	@ManyToOne
 	private Unit				unit;
 	/** 材料数量 */
-	private Float				amount				= 0f;
+	private BigDecimal			amount				= new BigDecimal("0");
 	/** 单价 */
 	private BigDecimal			price				= new BigDecimal("0");
 	/** 物料明细 **/
@@ -111,10 +111,6 @@ public class Material extends BaseDomain implements Serializable {
 		return materialBatchs;
 	}
 
-	public Float getAmount() {
-		return amount;
-	}
-
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -139,7 +135,11 @@ public class Material extends BaseDomain implements Serializable {
 		this.serialNumber = serialNumber;
 	}
 
-	public void setAmount(Float amount) {
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 

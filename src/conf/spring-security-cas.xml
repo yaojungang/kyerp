@@ -12,8 +12,8 @@
 		<sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />		
 		<sec:logout invalidate-session="true" logout-url="/logout" logout-success-url="/share/logout.jsp"/>
 		<sec:custom-filter ref="casAuthenticationFilter" after="CAS_FILTER" />
-		 <sec:custom-filter ref="casSingleSignOutFilter" before="LOGOUT_FILTER" />
-		<sec:custom-filter ref="myFilter" after="LAST" />
+		<sec:custom-filter ref="casSingleSignOutFilter" before="LOGOUT_FILTER" />
+		<!--sec:custom-filter ref="myFilter" after="LAST" /-->
 		<sec:session-management>
 			<sec:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
 		</sec:session-management>
@@ -21,6 +21,18 @@
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider ref="casAuthenticationProvider" />
 	</sec:authentication-manager>
+	<!--登陆成功后的处理 -->
+	<bean class="org.kyerp.service.security.impl.LoginSuccessListener"/> 
+	<!--控制是否把用户信息写入Session -->
+	<bean id="securityContextPersistenceFilter"
+		class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+		<property name='securityContextRepository'>
+			<bean class='org.springframework.security.web.context.HttpSessionSecurityContextRepository'>
+				<property name='allowSessionCreation' value='true' />
+			</bean>
+		</property>
+	</bean>
+	<!--自定义的过滤器 -->
 	<bean id="myFilter" class="org.kyerp.service.security.impl.MySpecialAuthenticationFilter"></bean>
 	<bean id="casSingleSignOutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter"></bean> 
 	<bean id="casAuthenticationFilter"

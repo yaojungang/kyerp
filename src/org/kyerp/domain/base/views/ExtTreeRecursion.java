@@ -32,6 +32,12 @@ public class ExtTreeRecursion{
 			getReturnStr().append("\"");
 			getReturnStr().append(node.getParentId());
 			getReturnStr().append("\"");
+			if(null != node.getIcon()) {
+				getReturnStr().append(",icon:");
+				getReturnStr().append("\"");
+				getReturnStr().append(node.getIcon());
+				getReturnStr().append("\"");
+			}
 			getReturnStr().append(",children:[");
 			Iterator<ExtTreeNode> it = childList.iterator();
 			while (it.hasNext()) {
@@ -50,6 +56,12 @@ public class ExtTreeRecursion{
 			getReturnStr().append("\"");
 			getReturnStr().append(node.getParentId());
 			getReturnStr().append("\"");
+			if(null != node.getIcon()) {
+				getReturnStr().append(",icon:");
+				getReturnStr().append("\"");
+				getReturnStr().append(node.getIcon());
+				getReturnStr().append("\"");
+			}
 			getReturnStr().append(",leaf:true},");
 		}
 

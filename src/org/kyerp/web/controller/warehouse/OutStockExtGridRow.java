@@ -16,10 +16,18 @@ public class OutStockExtGridRow{
 	private String		updateTime;
 	/** 申请单号 */
 	private String		serialNumber;
+	/** 领料部门 */
+	private Long		receiveDepartmentId;
+	private String		receiveDepartmentName;
+	/** 领料人 */
+	private Long		receiveEmployeeId;
+	private String		receiveEmployeeName;
 	/** 收发类型 */
 	private Long		inOutTypeId;
 	private String		inOutTypeName;
-
+	/** 经手人 */
+	private Long		keeperId;
+	private String		keeperName;
 	/** 备注 */
 	private String		remark;
 	/** 总数量 */
@@ -41,7 +49,8 @@ public class OutStockExtGridRow{
 	private String		statusString;
 	/** 明细 */
 	private String		details;
-
+	/** 出库时间 */
+	private String		outDate;
 	/** 能否编辑 */
 	private String		editAble;
 
@@ -50,6 +59,62 @@ public class OutStockExtGridRow{
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getOutDate() {
+		return outDate;
+	}
+
+	public Long getKeeperId() {
+		return keeperId;
+	}
+
+	public void setKeeperId(Long keeperId) {
+		this.keeperId = keeperId;
+	}
+
+	public String getKeeperName() {
+		return keeperName;
+	}
+
+	public void setKeeperName(String keeperName) {
+		this.keeperName = keeperName;
+	}
+
+	public Long getReceiveDepartmentId() {
+		return receiveDepartmentId;
+	}
+
+	public void setReceiveDepartmentId(Long receiveDepartmentId) {
+		this.receiveDepartmentId = receiveDepartmentId;
+	}
+
+	public String getReceiveDepartmentName() {
+		return receiveDepartmentName;
+	}
+
+	public void setReceiveDepartmentName(String receiveDepartmentName) {
+		this.receiveDepartmentName = receiveDepartmentName;
+	}
+
+	public Long getReceiveEmployeeId() {
+		return receiveEmployeeId;
+	}
+
+	public void setReceiveEmployeeId(Long receiveEmployeeId) {
+		this.receiveEmployeeId = receiveEmployeeId;
+	}
+
+	public String getReceiveEmployeeName() {
+		return receiveEmployeeName;
+	}
+
+	public void setReceiveEmployeeName(String receiveEmployeeName) {
+		this.receiveEmployeeName = receiveEmployeeName;
+	}
+
+	public void setOutDate(String outDate) {
+		this.outDate = outDate;
 	}
 
 	public void setId(Long id) {

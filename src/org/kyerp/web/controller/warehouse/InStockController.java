@@ -15,6 +15,7 @@ import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.BillStatus;
 import org.kyerp.domain.warehouse.InStock;
 import org.kyerp.domain.warehouse.InStockDetail;
+import org.kyerp.service.org.IEmployeeService;
 import org.kyerp.service.security.IUserService;
 import org.kyerp.service.warehouse.IInOutTypeService;
 import org.kyerp.service.warehouse.IInStockDetailService;
@@ -50,6 +51,8 @@ public class InStockController extends BaseController{
 	IWarehouseService		warehouseService;
 	@Autowired
 	IInOutTypeService		inOutTypeService;
+	@Autowired
+	IEmployeeService		employeeService;
 
 	@RequestMapping("/warehouse/InStock/jsonList.html")
 	public String list(Model model, Integer start, Integer limit) {
@@ -97,10 +100,23 @@ public class InStockController extends BaseController{
 				n.setWriteUserId(o.getWriteUser().getId());
 				n.setWriteUserName(o.getWriteUser().getUsername());
 			}
+			if(null != o.getWriteEmployee()) {
+				n.setWriteEmployeeId(o.getWriteEmployee().getId());
+				n.setWriteEmployeeName(o.getWriteEmployee().getName());
+			}
+			/** 经手人 */
+			if(null != o.getKeeper()) {
+				n.setKeeperId(o.getKeeper().getId());
+				n.setKeeperName(o.getKeeper().getName());
+			}
 			/** 审核人 */
 			if(null != o.getCheckUser()) {
 				n.setCheckUserId(o.getCheckUser().getId());
 				n.setCheckUserName(o.getCheckUser().getUsername());
+			}
+			if(null != o.getCheckEmployee()) {
+				n.setCheckEmployeeId(o.getCheckEmployee().getId());
+				n.setCheckEmployeeName(o.getCheckEmployee().getName());
 			}
 			/** 填写时间 */
 			if(null != o.getWriteDate()) {
@@ -112,7 +128,6 @@ public class InStockController extends BaseController{
 			}
 			/** 单据状态 */
 			if(null != o.getStatus()) {
-				n.setStatus(o.getStatus());
 				n.setStatusString(o.getStatus().getName());
 			}
 			/**
@@ -124,7 +139,7 @@ public class InStockController extends BaseController{
 				n.setEditAble("false");
 			}
 
-			/** 到货日期 */
+			/** 入库日期 */
 			if(null != o.getArriveDate()) {
 				n.setArriveDate(DateFormatUtils.format(o.getArriveDate(), "yyyy-MM-dd"));
 			}
@@ -209,12 +224,16 @@ public class InStockController extends BaseController{
 		if(null != row.getWriteDate()) {
 			inStock.setWriteDate(DateUtils.parseDate(row.getWriteDate(), new String[] { "yyyy-MM-dd" }));
 		}
-		// 保存到货时间
+		// 保存入库时间
 		if(null != row.getArriveDate()) {
 			inStock.setArriveDate(DateUtils.parseDate(row.getArriveDate(), new String[] { "yyyy-MM-dd" }));
 		}
 		// 保存填单人
 		// inStock.setWriteUser(user.getEmployee());
+		// 保存经手人
+		if(null != row.getKeeperId()) {
+			inStock.setKeeper(employeeService.find(row.getKeeperId()));
+		}
 		/** 供应商 */
 		if(null != row.getSupplierId()) {
 			inStock.setSupplier(supplierService.find(row.getSupplierId()));
@@ -245,7 +264,7 @@ public class InStockController extends BaseController{
 				// 物料
 				detail.setMaterial(materialService.find(jsonObject.getLong("materialId")));
 				// 批次号
-				detail.setBatchNumber(jsonObject.getString("batchNumber"));
+				detail.setBatchNumber(jsonObject.getString("batchNumber").toUpperCase());
 				// 仓库
 				detail.setWarehouse(warehouseService.find(jsonObject.getLong("warehouseId")));
 				detail.setPrice(new BigDecimal(jsonObject.getString("price")));
@@ -263,7 +282,7 @@ public class InStockController extends BaseController{
 				if(null != idString && idString.length() > 0) {
 					inStockDetailService.update(detail);
 				} else {
-					inStockDetailService.save(detail);
+					inStockDetailService.saveInStockDetail(detail);
 				}
 				pods.add(detail);
 			}

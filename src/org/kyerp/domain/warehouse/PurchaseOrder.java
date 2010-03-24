@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.kyerp.domain.BaseDomain;
+import org.kyerp.domain.org.Department;
+import org.kyerp.domain.org.Employee;
 import org.kyerp.domain.security.User;
 import org.kyerp.utils.WebUtil;
 
@@ -22,25 +24,38 @@ import org.kyerp.utils.WebUtil;
  * @author y109 2010-3-1上午08:17:14
  */
 @Entity
-public class PurchaseOrder extends BaseDomain implements Serializable {
+public class PurchaseOrder extends BaseDomain implements Serializable{
 	private static final long			serialVersionUID	= 1L;
 	/** 申请单号 */
 	private String						serialNumber		= "";
 	/** 供应商名称 */
 	@ManyToOne
 	private Supplier					Supplier;
+	/** 申请类型 */
+	@ManyToOne
+	private InOutType					inOutType;
 	/** 备注 */
 	private String						remark;
 	/** 总数量 */
 	private BigDecimal					billCount;
 	/** 总费用 */
 	private BigDecimal					billCost;
+	/** 申请部门 */
+	@ManyToOne
+	private Department					applicationDepartment;
+	/** 申请人 */
+	@ManyToOne
+	private Employee					applicant;
 	/** 填单人 */
 	@ManyToOne
 	private User						writeUser;
+	@ManyToOne
+	private Employee					writeEmployee;
 	/** 审核人 */
 	@ManyToOne
 	private User						checkUser;
+	@ManyToOne
+	private Employee					checkEmployee;
 	/** 填写时间 */
 	private Date						writeDate;
 	/** 审核时间 */
@@ -51,7 +66,7 @@ public class PurchaseOrder extends BaseDomain implements Serializable {
 	private Date						arriveDate;
 
 	/** 明细 **/
-	@OneToMany(mappedBy = "purchaseOrder", cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "purchaseOrder",cascade = { CascadeType.ALL },fetch = FetchType.EAGER)
 	private List<PurchaseOrderDetail>	details				= new ArrayList<PurchaseOrderDetail>();
 
 	public PurchaseOrder() {
@@ -60,11 +75,12 @@ public class PurchaseOrder extends BaseDomain implements Serializable {
 	@Override
 	public void prePersist() {
 		// 设置填单时间
-		// this.setWriteDate(new Date());
+		this.setWriteDate(new Date());
 		// 设置单据状态
 		this.setStatus(BillStatus.WRITING);
 		// 保存填单人
 		this.setWriteUser(WebUtil.getCurrentUser());
+		this.setWriteEmployee(WebUtil.getCurrentEmployee());
 		super.prePersist();
 		this.preUpdate();
 	}
@@ -88,6 +104,30 @@ public class PurchaseOrder extends BaseDomain implements Serializable {
 		return arriveDate;
 	}
 
+	public Department getApplicationDepartment() {
+		return applicationDepartment;
+	}
+
+	public InOutType getInOutType() {
+		return inOutType;
+	}
+
+	public void setInOutType(InOutType inOutType) {
+		this.inOutType = inOutType;
+	}
+
+	public void setApplicationDepartment(Department applicationDepartment) {
+		this.applicationDepartment = applicationDepartment;
+	}
+
+	public Employee getApplicant() {
+		return applicant;
+	}
+
+	public void setApplicant(Employee applicant) {
+		this.applicant = applicant;
+	}
+
 	public void setArriveDate(Date arriveDate) {
 		this.arriveDate = arriveDate;
 	}
@@ -102,6 +142,22 @@ public class PurchaseOrder extends BaseDomain implements Serializable {
 
 	public void setSupplier(Supplier supplier) {
 		Supplier = supplier;
+	}
+
+	public Employee getWriteEmployee() {
+		return writeEmployee;
+	}
+
+	public void setWriteEmployee(Employee writeEmployee) {
+		this.writeEmployee = writeEmployee;
+	}
+
+	public Employee getCheckEmployee() {
+		return checkEmployee;
+	}
+
+	public void setCheckEmployee(Employee checkEmployee) {
+		this.checkEmployee = checkEmployee;
 	}
 
 	public String getRemark() {

@@ -15,19 +15,16 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class PurchaseOrderService extends DaoSupport<PurchaseOrder> implements
-		IPurchaseOrderService {
+public class PurchaseOrderService extends DaoSupport<PurchaseOrder> implements IPurchaseOrderService{
 
 	@Override
 	public void savePurchaseOrder(PurchaseOrder e) {
-		if (null == e.getSerialNumber() || e.getSerialNumber().length() == 0) {
+		if(null == e.getSerialNumber() || e.getSerialNumber().length() == 0) {
 			// 如果没有填写单号则设置单号
-			if (null == e.getSerialNumber()
-					|| e.getSerialNumber().length() == 0) {
+			if(null == e.getSerialNumber() || e.getSerialNumber().length() == 0) {
 				String jpql = "select count(o) from PurchaseOrder o where o.createTime>=?1";
 				try {
-					e.setSerialNumber(SerialNumberHelper.buildSerialNumber(em,
-							jpql));
+					e.setSerialNumber(SerialNumberHelper.buildSerialNumber(em, jpql));
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
@@ -45,7 +42,7 @@ public class PurchaseOrderService extends DaoSupport<PurchaseOrder> implements
 	 */
 	@Override
 	public String checkPurchaseOrder(PurchaseOrder purchaseOrder) {
-		if (BillStatus.CHECKED == purchaseOrder.getStatus()) {
+		if(BillStatus.CHECKED == purchaseOrder.getStatus()) {
 			return "该单据已经审核过，不能再审核。";
 		}
 		// 设置单据状态
@@ -54,6 +51,7 @@ public class PurchaseOrderService extends DaoSupport<PurchaseOrder> implements
 		purchaseOrder.setCheckDate(new Date());
 		// 设置审核人
 		purchaseOrder.setCheckUser(WebUtil.getCurrentUser());
+		purchaseOrder.setCheckEmployee(WebUtil.getCurrentEmployee());
 		update(purchaseOrder);
 		return "success";
 	}

@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.kyerp.domain.BaseDomain;
+import org.kyerp.domain.org.Employee;
 import org.kyerp.domain.security.User;
 import org.kyerp.utils.WebUtil;
 
@@ -21,7 +22,7 @@ import org.kyerp.utils.WebUtil;
  * @author y109 2010-3-19下午06:49:15
  */
 @Entity
-public class InStock extends BaseDomain implements Serializable {
+public class InStock extends BaseDomain implements Serializable{
 
 	private static final long	serialVersionUID	= 1L;
 	/** 申请单 */
@@ -44,20 +45,27 @@ public class InStock extends BaseDomain implements Serializable {
 	/** 填单人 */
 	@ManyToOne
 	private User				writeUser;
+	@ManyToOne
+	private Employee			writeEmployee;
 	/** 审核人 */
 	@ManyToOne
 	private User				checkUser;
+	@ManyToOne
+	private Employee			checkEmployee;
+	/** 经办人 */
+	@ManyToOne
+	private Employee			keeper;
 	/** 填写时间 */
 	private Date				writeDate;
 	/** 审核时间 */
 	private Date				checkDate;
 	/** 单据状态 */
 	private BillStatus			status;
-	/** 到货日期 */
+	/** 入库日期 */
 	private Date				arriveDate;
 
 	/** 明细 **/
-	@OneToMany(mappedBy = "inStock", cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "inStock",cascade = { CascadeType.ALL })
 	private List<InStockDetail>	details				= new ArrayList<InStockDetail>();
 
 	public InStock() {
@@ -71,6 +79,7 @@ public class InStock extends BaseDomain implements Serializable {
 		this.setStatus(BillStatus.WRITING);
 		// 保存填单人
 		this.setWriteUser(WebUtil.getCurrentUser());
+		this.setWriteEmployee(WebUtil.getCurrentEmployee());
 		super.prePersist();
 		this.preUpdate();
 	}
@@ -88,6 +97,30 @@ public class InStock extends BaseDomain implements Serializable {
 
 	public PurchaseOrder getPurchaseOrder() {
 		return purchaseOrder;
+	}
+
+	public Employee getWriteEmployee() {
+		return writeEmployee;
+	}
+
+	public Employee getKeeper() {
+		return keeper;
+	}
+
+	public void setKeeper(Employee keeper) {
+		this.keeper = keeper;
+	}
+
+	public void setWriteEmployee(Employee writeEmployee) {
+		this.writeEmployee = writeEmployee;
+	}
+
+	public Employee getCheckEmployee() {
+		return checkEmployee;
+	}
+
+	public void setCheckEmployee(Employee checkEmployee) {
+		this.checkEmployee = checkEmployee;
 	}
 
 	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {

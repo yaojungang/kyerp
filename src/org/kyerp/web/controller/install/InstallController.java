@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2010-1-30下午04:43:43
  */
 @Controller
-public class InstallController {
+public class InstallController{
 	@Autowired
 	ISystemModuleService		systemModuleService;
 	@Autowired
@@ -60,20 +60,13 @@ public class InstallController {
 	};
 
 	public String initSystemModule() {
-		SystemModule sm1 = new SystemModule("ClientRelatiManagement", "客户关系管理",
-				"CRM");
-		SystemModule sm2 = new SystemModule("OperationsManagement", "业务销售管理",
-				"OM");
-		SystemModule sm3 = new SystemModule("ProductiveManagement", "生产制造管理",
-				"PM");
-		SystemModule sm4 = new SystemModule("WarehouseManagement", "库存物料管理",
-				"WM");
-		SystemModule sm5 = new SystemModule("FinancialManagement", "财务数据管理",
-				"FA");
-		SystemModule sm6 = new SystemModule("HumanResoursManage", "人力资源管理",
-				"HR");
-		SystemModule sm7 = new SystemModule("EquipmentManagement", "资产设备管理",
-				"EM");
+		SystemModule sm1 = new SystemModule("ClientRelatiManagement", "客户关系管理", "CRM");
+		SystemModule sm2 = new SystemModule("OperationsManagement", "业务销售管理", "OM");
+		SystemModule sm3 = new SystemModule("ProductiveManagement", "生产制造管理", "PM");
+		SystemModule sm4 = new SystemModule("WarehouseManagement", "库存物料管理", "WM");
+		SystemModule sm5 = new SystemModule("FinancialManagement", "财务数据管理", "FA");
+		SystemModule sm6 = new SystemModule("HumanResoursManage", "人力资源管理", "HR");
+		SystemModule sm7 = new SystemModule("EquipmentManagement", "资产设备管理", "EM");
 		SystemModule sm8 = new SystemModule("OfficeManagement", "办公自动化", "EM");
 		SystemModule sm9 = new SystemModule("SystemManagement", "系统管理", "SYS");
 		systemModuleService.save(sm1);
@@ -104,14 +97,14 @@ public class InstallController {
 
 	public String initAdminUser(String userName, String password) {
 		SystemResource sr = new SystemResource();
-		sr.setName("管理员默认资源");
+		sr.setName("ROLE_ADMIN");
 		sr.setContent("ROLE_ADMIN");
 		sr.setType(SystemResourceType.ROLE);
 		sr.setSystemModule(systemModuleService.find(new Long(9)));
 		systemResourceService.save(sr);
 
 		Role r = new Role();
-		r.setName("系统管理员");
+		r.setName("管理员");
 		List<SystemResource> systemResources = new ArrayList<SystemResource>();
 		systemResources.add(sr);
 		r.setSystemResources(systemResources);
@@ -121,20 +114,29 @@ public class InstallController {
 		User u = new User();
 		u.setUserName(userName);
 		u.setPassword(password);
+		userService.save(u);
+
+		Employee e = new Employee();
+		e.setName("管理员");
+		employeeService.save(e);
+
+		// 设置用户与角色之间的关联
 		Set<Role> roles = new HashSet<Role>();
 		roles.add(r);
 		u.setRoles(roles);
 		userService.save(u);
 
-		Employee e = new Employee();
-		e.setName("管理员");
-		e.setUser(u);
-		employeeService.save(e);
-
 		List<User> users = new ArrayList<User>();
 		users.add(u);
 		r.setUsers(users);
 		roleService.save(r);
+
+		// 设置用户与职员之间的关联
+		e.setUser(u);
+		u.setEmployee(e);
+		employeeService.save(e);
+		userService.save(u);
+
 		return "管理员初始化成功！";
 	}
 }
