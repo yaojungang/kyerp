@@ -2,13 +2,11 @@ package org.kyerp.web.controller.warehouse;
 
 import java.math.BigDecimal;
 
-import org.kyerp.domain.warehouse.BillStatus;
-
 /**
  * @author y109 2010-3-1下午02:17:55
  */
 
-public class InStockExtGridRow {
+public class InStockExtGridRow{
 	private Long		id;
 	/** 建立时间 */
 	private String		createTime;
@@ -31,15 +29,21 @@ public class InStockExtGridRow {
 	/** 填单人 */
 	private long		writeUserId;
 	private String		writeUserName;
+	private Long		writeEmployeeId;
+	private String		writeEmployeeName;
 	/** 审核人 */
 	private long		checkUserId;
 	private String		checkUserName;
+	private Long		checkEmployeeId;
+	private String		checkEmployeeName;
+	/** 经手人 */
+	private Long		keeperId;
+	private String		keeperName;
 	/** 填写时间 */
 	private String		writeDate;
 	/** 审核时间 */
 	private String		checkDate;
 	/** 单据状态 */
-	private BillStatus	status;
 	private String		statusString;
 	/** 明细 */
 	private String		details;
@@ -69,6 +73,54 @@ public class InStockExtGridRow {
 
 	public String getUpdateTime() {
 		return updateTime;
+	}
+
+	public Long getWriteEmployeeId() {
+		return writeEmployeeId;
+	}
+
+	public Long getKeeperId() {
+		return keeperId;
+	}
+
+	public void setKeeperId(Long keeperId) {
+		this.keeperId = keeperId;
+	}
+
+	public String getKeeperName() {
+		return keeperName;
+	}
+
+	public void setKeeperName(String keeperName) {
+		this.keeperName = keeperName;
+	}
+
+	public void setWriteEmployeeId(Long writeEmployeeId) {
+		this.writeEmployeeId = writeEmployeeId;
+	}
+
+	public String getWriteEmployeeName() {
+		return writeEmployeeName;
+	}
+
+	public void setWriteEmployeeName(String writeEmployeeName) {
+		this.writeEmployeeName = writeEmployeeName;
+	}
+
+	public Long getCheckEmployeeId() {
+		return checkEmployeeId;
+	}
+
+	public void setCheckEmployeeId(Long checkEmployeeId) {
+		this.checkEmployeeId = checkEmployeeId;
+	}
+
+	public String getCheckEmployeeName() {
+		return checkEmployeeName;
+	}
+
+	public void setCheckEmployeeName(String checkEmployeeName) {
+		this.checkEmployeeName = checkEmployeeName;
 	}
 
 	public void setUpdateTime(String updateTime) {
@@ -185,14 +237,6 @@ public class InStockExtGridRow {
 
 	public void setCheckDate(String checkDate) {
 		this.checkDate = checkDate;
-	}
-
-	public BillStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(BillStatus status) {
-		this.status = status;
 	}
 
 	public String getStatusString() {

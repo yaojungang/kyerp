@@ -1,41 +1,43 @@
 package org.kyerp.web.controller.warehouse;
 
+import java.math.BigDecimal;
+
 /**
  * @author y109 2010-2-2下午05:58:53
  */
-public class MaterialExtGridRow {
-	private Long	id;
+public class MaterialExtGridRow{
+	private Long		id;
 	/** 编号 **/
-	private String	serialNumber;
+	private String		serialNumber;
 	/** 名称 **/
-	private String	name;
+	private String		name;
 	/** 规格 **/
-	private String	specification;
+	private String		specification;
 	/** 类别 */
-	private Long	materialCategoryId;
-	private String	materialCategoryName;
+	private Long		materialCategoryId;
+	private String		materialCategoryName;
 	/** 品牌 */
-	private Long	brandId;
-	private String	brandName;
+	private Long		brandId;
+	private String		brandName;
 	/***/
 	/** 单位 */
-	private Long	unitId;
-	private String	unitName;
+	private Long		unitId;
+	private String		unitName;
 	/** 材料数量 */
-	private double	amount;
+	private BigDecimal	amount;
 	/** 单价 */
-	private double	price;
+	private BigDecimal	price;
 	/** 物料明细 **/
-	private String	batchIds;
-	private String	batchNumbers;
+	private String		batchIds;
+	private String		batchNumbers;
 	/** 默认仓库 */
-	private Long	warehouseId;
-	private String	warehouseName;
+	private Long		warehouseId;
+	private String		warehouseName;
 	/** 默认供应商 */
-	private Long	supplierId;
-	private String	supplierName;
+	private Long		supplierId;
+	private String		supplierName;
 	/** 隐藏 */
-	private Boolean	visible;
+	private Boolean		visible;
 
 	MaterialExtGridRow() {
 	}
@@ -120,19 +122,19 @@ public class MaterialExtGridRow {
 		this.unitName = unitName;
 	}
 
-	public double getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 

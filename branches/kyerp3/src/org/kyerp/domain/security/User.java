@@ -1,9 +1,9 @@
 package org.kyerp.domain.security;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,16 +24,16 @@ import org.springframework.security.core.userdetails.UserDetails;
  * 用户实体
  * */
 @Entity
-public class User extends BaseDomain implements Serializable, UserDetails {
+public class User extends BaseDomain implements Serializable,UserDetails{
 	private static final long	serialVersionUID	= -7512841538092133011L;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Employee			employee;
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role>			roles				= new HashSet<Role>();
 	private String				userName;
 	private String				password;
 	private String				lastLoginIp;
-	private Timestamp			lastLoginTime;
+	private Date				lastLoginTime;
 	private String				userType;
 	private String				url;
 	private String				remark;
@@ -99,11 +99,11 @@ public class User extends BaseDomain implements Serializable, UserDetails {
 		this.lastLoginIp = lastLoginIp;
 	}
 
-	public Timestamp getLastLoginTime() {
+	public Date getLastLoginTime() {
 		return lastLoginTime;
 	}
 
-	public void setLastLoginTime(Timestamp lastLoginTime) {
+	public void setLastLoginTime(Date lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
 
@@ -143,10 +143,8 @@ public class User extends BaseDomain implements Serializable, UserDetails {
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 		for (Role role : roles) {
 			for (SystemResource systemResource : role.getSystemResources()) {
-				System.out.println("systemResource.getContent():"
-						+ systemResource.getContent());
-				grantedAuthorities.add(new GrantedAuthorityImpl(systemResource
-						.getContent()));
+				// System.out.println("systemResource.getContent():" + systemResource.getContent());
+				grantedAuthorities.add(new GrantedAuthorityImpl(systemResource.getContent()));
 			}
 		}
 		return grantedAuthorities;

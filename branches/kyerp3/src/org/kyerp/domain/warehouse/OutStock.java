@@ -35,6 +35,7 @@ public class OutStock extends BaseDomain implements Serializable{
 	/** 领料部门 */
 	@ManyToOne
 	private Department				receiveDepartment;
+	/** 领料人 */
 	@ManyToOne
 	private Employee				receiveEmployee;
 	/** 备注 */
@@ -43,19 +44,27 @@ public class OutStock extends BaseDomain implements Serializable{
 	private BigDecimal				billCount;
 	/** 总费用 */
 	private BigDecimal				billCost;
+	/** 经办人 */
+	@ManyToOne
+	private Employee				keeper;
 	/** 填单人 */
 	@ManyToOne
 	private User					writeUser;
+	@ManyToOne
+	private Employee				writeEmployee;
 	/** 审核人 */
 	@ManyToOne
 	private User					checkUser;
+	@ManyToOne
+	private Employee				checkEmployee;
 	/** 填写时间 */
 	private Date					writeDate;
 	/** 审核时间 */
 	private Date					checkDate;
 	/** 单据状态 */
 	private BillStatus				status;
-
+	/** 出库时间 */
+	private Date					outDate;
 	/** 明细 **/
 	@OneToMany(mappedBy = "outStock",cascade = { CascadeType.ALL })
 	private List<OutStockDetail>	details				= new ArrayList<OutStockDetail>();
@@ -65,12 +74,13 @@ public class OutStock extends BaseDomain implements Serializable{
 
 	@Override
 	public void prePersist() {
-		// 设置填单时间
-		// this.setWriteDate(new Date());
-		// 设置单据状态
+// 设置单据状态
 		this.setStatus(BillStatus.WRITING);
+		// 保存填单时间
+		this.setWriteDate(new Date());
 		// 保存填单人
 		this.setWriteUser(WebUtil.getCurrentUser());
+		this.setWriteEmployee(WebUtil.getCurrentEmployee());
 		super.prePersist();
 		this.preUpdate();
 	}
@@ -88,6 +98,38 @@ public class OutStock extends BaseDomain implements Serializable{
 
 	public String getSerialNumber() {
 		return serialNumber;
+	}
+
+	public Employee getKeeper() {
+		return keeper;
+	}
+
+	public void setKeeper(Employee keeper) {
+		this.keeper = keeper;
+	}
+
+	public Date getOutDate() {
+		return outDate;
+	}
+
+	public void setOutDate(Date outDate) {
+		this.outDate = outDate;
+	}
+
+	public Employee getWriteEmployee() {
+		return writeEmployee;
+	}
+
+	public void setWriteEmployee(Employee writeEmployee) {
+		this.writeEmployee = writeEmployee;
+	}
+
+	public Employee getCheckEmployee() {
+		return checkEmployee;
+	}
+
+	public void setCheckEmployee(Employee checkEmployee) {
+		this.checkEmployee = checkEmployee;
 	}
 
 	public void setSerialNumber(String serialNumber) {

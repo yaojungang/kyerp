@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
  * @author y109 2009-11-30上午02:25:26
  */
 @Service
-public interface IUserService extends DAO<User> {
-
+public interface IUserService extends DAO<User>{
+	public User getUserByName(String userName);
 }

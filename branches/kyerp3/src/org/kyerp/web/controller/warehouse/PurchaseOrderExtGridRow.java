@@ -8,7 +8,7 @@ import org.kyerp.domain.warehouse.BillStatus;
  * @author y109 2010-3-1下午02:17:55
  */
 
-public class PurchaseOrderExtGridRow {
+public class PurchaseOrderExtGridRow{
 	private Long		id;
 	/** 建立时间 */
 	private String		createTime;
@@ -25,12 +25,25 @@ public class PurchaseOrderExtGridRow {
 	private BigDecimal	billCount;
 	/** 总费用 */
 	private BigDecimal	billCost;
+	/** 收发类型 */
+	private Long		inOutTypeId;
+	private String		inOutTypeName;
+	/** 申请部门 */
+	private Long		applicationDepartmentId;
+	private String		applicationDepartmentName;
+	/** 申请人 */
+	private Long		applicantId;
+	private String		applicantName;
 	/** 填单人 */
-	private long		writeUserId;
+	private Long		writeUserId;
 	private String		writeUserName;
+	private Long		writeEmployeeId;
+	private String		writeEmployeeName;
 	/** 审核人 */
-	private long		checkUserId;
+	private Long		checkUserId;
 	private String		checkUserName;
+	private Long		checkEmployeeId;
+	private String		checkEmployeeName;
 	/** 填写时间 */
 	private String		writeDate;
 	/** 审核时间 */
@@ -58,6 +71,94 @@ public class PurchaseOrderExtGridRow {
 
 	public String getEditAble() {
 		return editAble;
+	}
+
+	public Long getInOutTypeId() {
+		return inOutTypeId;
+	}
+
+	public void setInOutTypeId(Long inOutTypeId) {
+		this.inOutTypeId = inOutTypeId;
+	}
+
+	public String getInOutTypeName() {
+		return inOutTypeName;
+	}
+
+	public Long getWriteEmployeeId() {
+		return writeEmployeeId;
+	}
+
+	public void setWriteEmployeeId(Long writeEmployeeId) {
+		this.writeEmployeeId = writeEmployeeId;
+	}
+
+	public String getWriteEmployeeName() {
+		return writeEmployeeName;
+	}
+
+	public void setWriteEmployeeName(String writeEmployeeName) {
+		this.writeEmployeeName = writeEmployeeName;
+	}
+
+	public Long getCheckEmployeeId() {
+		return checkEmployeeId;
+	}
+
+	public void setCheckEmployeeId(Long checkEmployeeId) {
+		this.checkEmployeeId = checkEmployeeId;
+	}
+
+	public String getCheckEmployeeName() {
+		return checkEmployeeName;
+	}
+
+	public void setCheckEmployeeName(String checkEmployeeName) {
+		this.checkEmployeeName = checkEmployeeName;
+	}
+
+	public void setWriteUserId(Long writeUserId) {
+		this.writeUserId = writeUserId;
+	}
+
+	public void setCheckUserId(Long checkUserId) {
+		this.checkUserId = checkUserId;
+	}
+
+	public void setInOutTypeName(String inOutTypeName) {
+		this.inOutTypeName = inOutTypeName;
+	}
+
+	public Long getApplicationDepartmentId() {
+		return applicationDepartmentId;
+	}
+
+	public void setApplicationDepartmentId(Long applicationDepartmentId) {
+		this.applicationDepartmentId = applicationDepartmentId;
+	}
+
+	public String getApplicationDepartmentName() {
+		return applicationDepartmentName;
+	}
+
+	public void setApplicationDepartmentName(String applicationDepartmentName) {
+		this.applicationDepartmentName = applicationDepartmentName;
+	}
+
+	public Long getApplicantId() {
+		return applicantId;
+	}
+
+	public void setApplicantId(Long applicantId) {
+		this.applicantId = applicantId;
+	}
+
+	public String getApplicantName() {
+		return applicantName;
+	}
+
+	public void setApplicantName(String applicantName) {
+		this.applicantName = applicantName;
 	}
 
 	public void setEditAble(String editAble) {

@@ -15,6 +15,8 @@ import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.BillStatus;
 import org.kyerp.domain.warehouse.OutStock;
 import org.kyerp.domain.warehouse.OutStockDetail;
+import org.kyerp.service.org.IDepartmentService;
+import org.kyerp.service.org.IEmployeeService;
 import org.kyerp.service.security.IUserService;
 import org.kyerp.service.warehouse.IInOutTypeService;
 import org.kyerp.service.warehouse.IMaterialService;
@@ -50,6 +52,10 @@ public class OutStockController extends BaseController{
 	IWarehouseService		warehouseService;
 	@Autowired
 	IInOutTypeService		inOutTypeService;
+	@Autowired
+	IDepartmentService		departmentService;
+	@Autowired
+	IEmployeeService		employeeService;
 
 	@RequestMapping("/warehouse/OutStock/jsonList.html")
 	public String list(Model model, Integer start, Integer limit) {
@@ -77,10 +83,21 @@ public class OutStockController extends BaseController{
 				n.setInOutTypeId(o.getInOutType().getId());
 				n.setInOutTypeName(o.getInOutType().getName());
 			}
+			/** 出库时间 */
+			if(null != o.getOutDate()) {
+				n.setOutDate(DateFormatUtils.format(o.getOutDate(), "yyyy-MM-dd"));
+			}
 			/**
-			 * TODO
 			 * 领取部门、人员
 			 */
+			if(null != o.getReceiveDepartment()) {
+				n.setReceiveDepartmentId(o.getReceiveDepartment().getId());
+				n.setReceiveDepartmentName(o.getReceiveDepartment().getName());
+			}
+			if(null != o.getReceiveEmployee()) {
+				n.setReceiveEmployeeId(o.getReceiveEmployee().getId());
+				n.setReceiveEmployeeName(o.getReceiveEmployee().getName());
+			}
 
 			/** 备注 */
 			if(null != o.getRemark()) {
@@ -147,6 +164,11 @@ public class OutStockController extends BaseController{
 						row.setMaterialId(detail.getMaterial().getId());
 						row.setMaterialName(detail.getMaterial().getName());
 					}
+					/** 经手人 */
+					if(null != o.getKeeper()) {
+						n.setKeeperId(o.getKeeper().getId());
+						n.setKeeperName(o.getKeeper().getName());
+					}
 					// 批次号
 					row.setBatchNumber(detail.getBatchNumber());
 					/** 仓库 */
@@ -201,18 +223,23 @@ public class OutStockController extends BaseController{
 		if(null != row.getInOutTypeId()) {
 			outStock.setInOutType(inOutTypeService.find(row.getInOutTypeId()));
 		}
-		// 保存填单日期
-		if(null != row.getWriteDate()) {
-			outStock.setWriteDate(DateUtils.parseDate(row.getWriteDate(), new String[] { "yyyy-MM-dd" }));
+		/** 经手人 */
+		if(null != row.getKeeperId()) {
+			outStock.setKeeper(employeeService.find(row.getKeeperId()));
+		}
+		/** 出库时间 */
+		if(null != row.getOutDate()) {
+			outStock.setOutDate(DateUtils.parseDate(row.getOutDate(), new String[] { "yyyy-MM-dd" }));
 		}
 		/**
-		 * TODO
-		 * 保存填单人 outStock.setWriteUser(user.getEmployee());
-		 */
-		/**
-		 * TODO
 		 * 保存领取人，领取部门
 		 * */
+		if(null != row.getReceiveDepartmentId()) {
+			outStock.setReceiveDepartment(departmentService.find(row.getReceiveDepartmentId()));
+		}
+		if(null != row.getReceiveEmployeeId()) {
+			outStock.setReceiveEmployee(employeeService.find(row.getReceiveEmployeeId()));
+		}
 		// 保存备注
 		if(null != row.getRemark()) {
 			outStock.setRemark(row.getRemark());

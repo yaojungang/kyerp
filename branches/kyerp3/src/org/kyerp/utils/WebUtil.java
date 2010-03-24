@@ -17,23 +17,25 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @author Administrator
  * 
  */
-public class WebUtil {
+public class WebUtil{
 	/**
 	 * 获取登录员工
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public static Employee getEmployee(HttpServletRequest request) {
-		return (Employee) request.getSession().getAttribute("employee");
+	public static Employee getCurrentEmployee() {
+		User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return (Employee) currentUser.getEmployee();
+// return (Employee) request.getSession().getAttribute("currentEmployee");
 	}
 
 	/**
 	 * 获取登录用户
 	 */
 	public static User getCurrentUser() {
-		return (User) SecurityContextHolder.getContext().getAuthentication()
-				.getPrincipal();
+// return (User) request.getSession().getAttribute("currentUser");
+		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 
 	/***
@@ -52,9 +54,7 @@ public class WebUtil {
 	 * @param request
 	 */
 	public static String getRequestURIWithParam(HttpServletRequest request) {
-		return getRequestURI(request)
-				+ (request.getQueryString() == null ? "" : "?"
-						+ request.getQueryString());
+		return getRequestURI(request) + (request.getQueryString() == null ? "" : "?" + request.getQueryString());
 	}
 
 	/**
@@ -68,11 +68,10 @@ public class WebUtil {
 	 * @param maxAge
 	 *            cookie存放的时间(以秒为单位,假如存放三天,即3*24*60*60; 如果值为0,cookie将随浏览器关闭而清除)
 	 */
-	public static void addCookie(HttpServletResponse response, String name,
-			String value, int maxAge) {
+	public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
 		Cookie cookie = new Cookie(name, value);
 		cookie.setPath("/");
-		if (maxAge > 0) {
+		if(maxAge > 0) {
 			cookie.setMaxAge(maxAge);
 		}
 		response.addCookie(cookie);
@@ -87,7 +86,7 @@ public class WebUtil {
 	 */
 	public static String getCookieByName(HttpServletRequest request, String name) {
 		Map<String, Cookie> cookieMap = WebUtil.readCookieMap(request);
-		if (cookieMap.containsKey(name)) {
+		if(cookieMap.containsKey(name)) {
 			Cookie cookie = (Cookie) cookieMap.get(name);
 			return cookie.getValue();
 		} else {
@@ -95,11 +94,10 @@ public class WebUtil {
 		}
 	}
 
-	protected static Map<String, Cookie> readCookieMap(
-			HttpServletRequest request) {
+	protected static Map<String, Cookie> readCookieMap(HttpServletRequest request) {
 		Map<String, Cookie> cookieMap = new HashMap<String, Cookie>();
 		Cookie[] cookies = request.getCookies();
-		if (null != cookies) {
+		if(null != cookies) {
 			for (int i = 0; i < cookies.length; i++) {
 				cookieMap.put(cookies[i].getName(), cookies[i]);
 			}

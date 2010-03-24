@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
  * @author y109 2009-11-30上午02:25:26
  */
 @Service
-public interface IInStockDetailService extends DAO<InStockDetail> {
-
+public interface IInStockDetailService extends DAO<InStockDetail>{
+	public void saveInStockDetail(InStockDetail e);
 }
