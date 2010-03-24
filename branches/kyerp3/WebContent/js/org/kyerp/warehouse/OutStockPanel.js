@@ -48,21 +48,19 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 											xtype : "displayfield",
 											name : 'serialNumber'
 										}, {
-											fieldLabel : '单据日期',
-											xtype : 'datefield',
-											format : 'Y-m-d',
-											emptyText : new Date()
-													.format('Y-m-d')
+											fieldLabel : '单据状态',
+											xtype : 'displayfield',
+											name : 'statusString'
 										}, {
-											fieldLabel : '到货时间',
-											name : 'arriveDate',
+											fieldLabel : '出库时间',
+											name : 'outDate',
 											xtype : 'datefield',
 											format : 'Y-m-d',
 											emptyText : new Date()
 													.format('Y-m-d')
 										}]
 							}, {
-								columnWidth : .25,
+								columnWidth : .35,
 								xtype : 'panel',
 								layout : 'form',
 								labelWidth : 60,
@@ -73,12 +71,77 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									anchor : '-20px'
 								},
 								items : [{
-											fieldLabel : '收发类型',
+									fieldLabel : '收发类型',
+									xtype : 'treecombobox',
+									name : 'inOutTypeId',
+									hiddenName : 'inOutTypeId',
+									editable : false,
+									width : 250,
+									mode : 'local',
+									displayField : 'name',
+									valueField : 'id',
+									triggerAction : 'all',
+									allowBlank : false,
+									rootText : 'root',
+									rootId : '0',
+									forceSelection : true,
+									rootVisible : false,
+									treeUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL
+
+								}, {
+									fieldLabel : '领料部门',
+									xtype : 'treecombobox',
+									name : 'receiveDepartmentId',
+									hiddenName : 'receiveDepartmentId',
+									allowUnLeafClick : true,
+									editable : false,
+									width : 250,
+									mode : 'local',
+									displayField : 'name',
+									valueField : 'id',
+									triggerAction : 'all',
+									allowBlank : false,
+									rootText : 'root',
+									rootId : '0',
+									forceSelection : true,
+									rootVisible : false,
+									treeUrl : org.kyerp.org.DepartmentPanel_TREE_URL
+								}, {
+									fieldLabel : '领料人',
+									xtype : 'treecombobox',
+									name : 'receiveEmployeeId',
+									hiddenName : 'receiveEmployeeId',
+									editable : false,
+									width : 250,
+									mode : 'local',
+									displayField : 'name',
+									valueField : 'id',
+									triggerAction : 'all',
+									allowBlank : false,
+									rootText : 'root',
+									rootId : '0',
+									forceSelection : true,
+									rootVisible : false,
+									treeUrl : org.kyerp.org.Employee_TREE_URL
+								}]
+							}, {
+								columnWidth : .35,
+								xtype : 'panel',
+								layout : 'form',
+								labelWidth : 60,
+								baseCls : "x-plain",
+								labelAlign : 'right',
+								defaultType : "textfield",
+								defaults : {
+									anchor : '-20px'
+								},
+								items : [{
+											fieldLabel : '经办人',
 											xtype : 'treecombobox',
-											name : 'inOutTypeId',
-											hiddenName : 'inOutTypeId',
+											name : 'keeperId',
+											hiddenName : 'keeperId',
 											editable : false,
-											width:250,
+											width : 250,
 											mode : 'local',
 											displayField : 'name',
 											valueField : 'id',
@@ -88,73 +151,14 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 											rootId : '0',
 											forceSelection : true,
 											rootVisible : false,
-											treeUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL
-										
+											treeUrl : org.kyerp.org.Employee_TREE_URL
+
 										}, {
-											fieldLabel : '申请部门'
-										}, {
-											fieldLabel : '负责人'
+											fieldLabel : '备注',
+											name : 'remark',
+											xtype : 'textarea',
+											height : 50
 										}]
-							}, {
-								columnWidth : .45,
-								xtype : 'panel',
-								layout : 'form',
-								labelWidth : 60,
-								baseCls : "x-plain",
-								labelAlign : 'right',
-								defaultType : "textfield",
-								defaults : {
-									anchor : '-20px'
-								},
-								items : [{
-									xtype : 'panel',
-									layout : 'column',
-									baseCls : "x-plain",
-									border : false,
-									defaults : {
-										border : false
-									},
-									items : [{
-										columnWidth : 1,
-										baseCls : "x-plain",
-										items : {
-											layout : 'form',
-											border : false,
-											baseCls : "x-plain",
-											items : {
-												fieldLabel : '供应商',
-												xtype : 'combo',
-												anchor : '-3px',
-												msgTarget : 'qtip',
-												store : org.kyerp.warehouse.supplierStore,
-												hiddenName : 'supplierId',
-												pageSize : 20,
-												valueField : 'id',
-												displayField : 'name',
-												mode : 'local',
-												allowBlank : false,
-												emptyText : '请选择',
-												triggerAction : 'all'
-											}
-										}
-									}, {
-										xtype : 'panel',
-										width : 25,
-										baseCls : "x-plain",
-										items : {
-											xtype : 'button',
-											cls : 'x-btn-icon',
-											icon : 'images/ext-extend/icons/query.gif',
-											handler : this.onSelectSupplierClick,
-											scope : this
-										}
-									}]
-								}, {
-									fieldLabel : '附加说明',
-									name : 'remark',
-									xtype : 'textarea',
-									height : 50
-								}]
 							}]
 						}]
 					}, {
@@ -183,7 +187,7 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '编制人',
-												name : "writeUserName"
+												name : "writeEmployeeName"
 											}]
 								}, {
 									flex : 1.5,
@@ -197,7 +201,7 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '审核',
-												name : "checkUserName"
+												name : "checkEmployeeName"
 											}]
 								}, {
 									flex : 1,
@@ -278,6 +282,18 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 			// 设置createTime 的显示格式
 			this.getForm().findField("createTime").setValue(_r.createTime
 					.format('Y-m-d H:i:s'));
+					//设置入库类型
+			this.getForm().findField("inOutTypeId").setValue(_r.inOutTypeName);
+			this.getForm().findField("inOutTypeId").hiddenField.value =_r.inOutTypeId;
+			//设置经手人
+			this.getForm().findField("keeperId").setValue(_r.keeperName);
+			this.getForm().findField("keeperId").hiddenField.value =_r.keeperId;
+			//设置领料部门
+			this.getForm().findField("receiveDepartmentId").setValue(_r.receiveDepartmentName);
+			this.getForm().findField("receiveDepartmentId").hiddenField.value =_r.receiveDepartmentId;
+			//设置领料人
+			this.getForm().findField("receiveEmployeeId").setValue(_r.receiveEmployeeName);
+			this.getForm().findField("receiveEmployeeId").hiddenField.value =_r.receiveEmployeeId;
 			// 为detailsGrid设置值
 			this.detailsGrid.getStore().loadData(
 					Ext.util.JSON.decode(_r.details), false);
@@ -535,7 +551,7 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 										type : "date",
 										dateFormat : "Y-m-d H:i:s"
 									}, {
-										name : "arriveDate",
+										name : "outDate",
 										type : "date",
 										dateFormat : "Y-m-d"
 									}, {
@@ -554,11 +570,23 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : "checkUserName",
 										type : "string"
 									}, {
+										name : 'checkEmployeeId',
+										type : 'int'
+									}, {
+										name : 'checkEmployeeName',
+										type : 'string'
+									}, {
 										name : "writeUserId",
 										type : "int"
 									}, {
 										name : "writeUserName",
 										type : "string"
+									}, {
+										name : 'writeEmployeeId',
+										type : 'int'
+									}, {
+										name : 'writeEmployeeName',
+										type : 'string'
 									}, {
 										name : "details"
 									}, {
@@ -576,6 +604,24 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 										type : "string"
 									}, {
 										name : "editAble"
+									}, {
+										name : 'receiveDepartmentId',
+										type : 'int'
+									}, {
+										name : 'receiveDepartmentName',
+										type : 'string'
+									}, {
+										name : 'receiveEmployeeId',
+										type : 'int'
+									}, {
+										name : 'receiveEmployeeName',
+										type : 'string'
+									}, {
+										name : 'keeperId',
+										type : 'int'
+									}, {
+										name : 'keeperName',
+										type : 'string'
 									}]))
 				});
 		org.kyerp.warehouse.OutStockPanel.superclass.constructor.call(this, {

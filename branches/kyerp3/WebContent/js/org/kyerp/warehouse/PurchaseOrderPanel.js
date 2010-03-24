@@ -48,11 +48,9 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 											xtype : "displayfield",
 											name : 'serialNumber'
 										}, {
-											fieldLabel : '单据日期',
-											xtype : 'datefield',
-											format : 'Y-m-d',
-											emptyText : new Date()
-													.format('Y-m-d')
+											fieldLabel : '单据状态',
+											xtype : 'displayfield',
+											name : 'statusString'
 										}, {
 											fieldLabel : '到货时间',
 											name : 'arriveDate',
@@ -62,7 +60,7 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 													.format('Y-m-d')
 										}]
 							}, {
-								columnWidth : .25,
+								columnWidth : .3,
 								xtype : 'panel',
 								layout : 'form',
 								labelWidth : 60,
@@ -73,14 +71,60 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 									anchor : '-20px'
 								},
 								items : [{
-											fieldLabel : '申请类型'
-										}, {
-											fieldLabel : '申请部门'
-										}, {
-											fieldLabel : '负责人'
-										}]
+									fieldLabel : '申请类型',
+									xtype : 'treecombobox',
+									name : 'inOutTypeId',
+									hiddenName : 'inOutTypeId',
+									editable : false,
+									width : 250,
+									mode : 'local',
+									displayField : 'name',
+									valueField : 'id',
+									triggerAction : 'all',
+									allowBlank : false,
+									rootText : 'root',
+									rootId : '0',
+									forceSelection : true,
+									rootVisible : false,
+									treeUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL
+								}, {
+									fieldLabel : '申请部门',
+									xtype : 'treecombobox',
+									name : 'applicationDepartmentId',
+									hiddenName : 'applicationDepartmentId',
+									allowUnLeafClick : true,
+									editable : false,
+									width : 250,
+									mode : 'local',
+									displayField : 'name',
+									valueField : 'id',
+									triggerAction : 'all',
+									allowBlank : false,
+									rootText : 'root',
+									rootId : '0',
+									forceSelection : true,
+									rootVisible : false,
+									treeUrl : org.kyerp.org.DepartmentPanel_TREE_URL
+								}, {
+									fieldLabel : '申请人',
+									xtype : 'treecombobox',
+									name : 'applicantId',
+									hiddenName : 'applicantId',
+									editable : false,
+									width : 250,
+									mode : 'local',
+									displayField : 'name',
+									valueField : 'id',
+									triggerAction : 'all',
+									allowBlank : false,
+									rootText : 'root',
+									rootId : '0',
+									forceSelection : true,
+									rootVisible : false,
+									treeUrl : org.kyerp.org.Employee_TREE_URL
+								}]
 							}, {
-								columnWidth : .45,
+								columnWidth : .4,
 								xtype : 'panel',
 								layout : 'form',
 								labelWidth : 60,
@@ -167,7 +211,7 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '编制人',
-												name : "writeUserName"
+												name : "writeEmployeeName"
 											}]
 								}, {
 									flex : 1.5,
@@ -181,7 +225,7 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '审核',
-												name : "checkUserName"
+												name : "checkEmployeeName"
 											}]
 								}, {
 									flex : 1,
@@ -247,7 +291,6 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 		this.selectSupplierWindow.show();
 	},
 	getValues : function() {
-		// && this.detailsGrid.getStore().getCount() > 0
 		if (this.getForm().isValid())
 			return new Ext.data.Record(this.getForm().getValues());
 		else
@@ -257,11 +300,19 @@ org.kyerp.warehouse.PurchaseOrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 		this.getForm().loadRecord(new Ext.data.Record(_r));
 		if (Ext.isEmpty(_r.id)) {
 			Ext.Msg.alert("错误", "载入数据时发生错误！");
-			// this.onCancelClick();
 		} else {
 			// 设置createTime 的显示格式
-			 this.getForm().findField("createTime").setValue(_r.createTime
-			 .format('Y-m-d H:i:s'));
+			this.getForm().findField("createTime").setValue(_r.createTime
+					.format('Y-m-d H:i:s'));
+			//设置申请类型
+			this.getForm().findField("inOutTypeId").setValue(_r.inOutTypeName);
+			this.getForm().findField("inOutTypeId").hiddenField.value =_r.inOutTypeId;
+			//设置申请部门
+			this.getForm().findField("applicationDepartmentId").setValue(_r.applicationDepartmentName);
+			this.getForm().findField("applicationDepartmentId").hiddenField.value =_r.applicationDepartmentId;
+			//设置申请人
+			this.getForm().findField("applicantId").setValue(_r.applicantName);
+			this.getForm().findField("applicantId").hiddenField.value =_r.applicantId;
 			// 为detailsGrid设置值
 			this.detailsGrid.getStore().loadData(
 					Ext.util.JSON.decode(_r.details), false);
@@ -315,16 +366,12 @@ org.kyerp.warehouse.PurchaseOrderInfoWindow = Ext.extend(Ext.Window, {
 							hidden : true,
 							handler : this.onCheckBillClick,
 							scope : this
-						}, {
+						},  '->',{
 							text : '关闭',
 							cls : 'x-btn-text-icon',
 							icon : 'images/ext-extend/icons/cross.gif',
 							handler : this.onCancelClick,
 							scope : this
-						}, '->', {
-							xtype : 'panel',
-							id : 'bill-status',
-							style : 'font-size:12px;color:red;padding-right:5px;'
 						}];
 				org.kyerp.warehouse.PurchaseOrderInfoWindow.superclass.constructor
 						.call(this, {
@@ -538,10 +585,22 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : "checkUserName",
 										type : "string"
 									}, {
+										name : "checkEmployeeId",
+										type : "int"
+									}, {
+										name : "checkEmployeeName",
+										type : "string"
+									}, {
 										name : "writeUserId",
 										type : "int"
 									}, {
 										name : "writeUserName",
+										type : "string"
+									}, {
+										name : "writeEmployeeId",
+										type : "int"
+									}, {
+										name : "writeEmployeeName",
 										type : "string"
 									}, {
 										name : "details"
@@ -556,6 +615,18 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 										type : "string"
 									}, {
 										name : "editAble"
+									}, {
+										name : 'inOutTypeId'
+									}, {
+										name : 'inOutTypeName'
+									}, {
+										name : 'applicationDepartmentId'
+									}, {
+										name : 'applicationDepartmentName'
+									}, {
+										name : 'applicantId'
+									}, {
+										name : 'applicantName'
 									}]))
 				});
 		org.kyerp.warehouse.PurchaseOrderPanel.superclass.constructor.call(
@@ -573,7 +644,6 @@ org.kyerp.warehouse.PurchaseOrderPanel = Ext.extend(Ext.grid.GridPanel, {
 								text : "修  改",
 								iconCls : 'icon-utils-s-edit',
 								handler : function() {
-									// alert("edit");
 									this.updateWin.show();
 									try {
 										this.updateWin.load(this.getSelected());
@@ -721,7 +791,6 @@ Ext.extend(org.kyerp.module, {
 								+ 'PurchaseOrderItemsEditorGridPanel.js', {
 							basedir : 'js/org/kyerp/warehouse'
 						});
-				// require('js/org/kyerp/warehouse/SelectSupplierWindow.js');
 				this.body = new org.kyerp.warehouse.PurchaseOrderPanel({
 							border : false,
 							bodyBorder : false

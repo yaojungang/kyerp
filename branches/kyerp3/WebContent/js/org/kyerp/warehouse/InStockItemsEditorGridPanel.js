@@ -80,6 +80,10 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 							emptyText : '请选择',
 							triggerAction : 'all',
 							store : org.kyerp.warehouse.materialStore,
+							loadingText:'正在载入数据,请稍候！',
+							minChars:2,
+							queryDelay:300,
+							queryParam:'searchKey',
 							listeners : {
 								select : function(comboBox) {
 									var value = comboBox.getValue();
@@ -89,11 +93,13 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 									// alert(Ext.util.JSON.encode(_data));
 									_rs.set('unitName', _data.unitName);
 									_rs.set('price', _data.price);
+									_rs.set('warehouseId',_data.warehouseId);
 								},
 								scope : this
 							}
 						});
 				this.warehouseCombo = new Ext.form.ComboBox({
+							name : 'warehouseId',
 							hiddenName : 'warehouseId',
 							typeAhead : true,
 							lazyRender : true,
@@ -117,7 +123,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 															type : "int"
 														}, {
 															name : "billCount",
-															type : "int"
+															type : "float"
 														}, {
 															name : "billCost",
 															type : "float"
@@ -148,7 +154,11 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 														}, {
 															name : "remark",
 															type : "string"
-														}]))
+														}])),
+										listeners : {
+											update : this.updateBillCost,
+											scope : this
+										}
 									}),
 							autoScroll : true,
 							sm : new Ext.grid.RowSelectionModel({
@@ -189,25 +199,9 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 								header : '库房',
 								width : 150,
 								dataIndex : "warehouseId",
-								renderer :Ext.ux.renderer.Combo(this.warehouseCombo),
-								// editor : this.warehouseCombo
-								editor : new Ext.ux.form.TreeComboBox({
-									fieldLabel : "默认仓库",
-									name : 'warehouseId',
-									hiddenName : 'warehouseId',
-									xtype : 'treecombobox',
-									editable : false,
-									mode : 'local',
-									displayField : 'name',
-									valueField : 'id',
-									triggerAction : 'all',
-									allowBlank : false,
-									treeUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL,
-									rootText : 'root',
-									rootId : '0',
-									forceSelection : true,
-									rootVisible : false
-								})
+								renderer : Ext.ux.renderer
+										.Combo(this.warehouseCombo),
+								editor : this.warehouseCombo
 							}, {
 								header : '单位',
 								width : 40,
@@ -243,7 +237,10 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 							}]
 						});
 			},
-
+			updateBillCost : function() {
+				var _rs = this.getSelectionModel().getSelected();
+				_rs.set('billCost', _rs.get('price') * _rs.get('billCount'));
+			},
 			onSaveButtonClick : function() {
 				var _m = this.getStore().modified;
 				var _temp = [];

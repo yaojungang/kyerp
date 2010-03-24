@@ -70,6 +70,9 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 				items : [{
 					title : '清华大学焦点新闻',
 					height:220,
+					//xtype:'iframepanel',
+					//defaultSrc:'http://news.tsinghua.edu.cn/new/headnews.php',
+					//defaultHeight:220
 					html : '<iframe src="http://news.tsinghua.edu.cn/new/headnews.php" frameborder="0" width="100%" height="100%"></iframe>'
 				}, {
 					title : '清华大学重要公告',
@@ -295,7 +298,7 @@ Ext.onReady(function() {
 											}
 										});
 							};
-							if ("311" == response.status) {
+							if ("200" != response.status) {
 								alert(response.status);
 							}
 						})

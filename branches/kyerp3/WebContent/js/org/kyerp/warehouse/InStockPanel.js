@@ -32,7 +32,7 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 							baseCls : "x-plain",
 							bodyStyle : 'padding:10px 0 0 10px',
 							items : [{
-								columnWidth : .3,
+								columnWidth : .25,
 								xtype : 'panel',
 								layout : 'form',
 								baseCls : "x-plain",
@@ -48,52 +48,16 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 											xtype : "displayfield",
 											name : 'serialNumber'
 										}, {
-											fieldLabel : '单据日期',
-											xtype : 'datefield',
-											format : 'Y-m-d',
-											emptyText : new Date()
-													.format('Y-m-d')
+											fieldLabel : '单据状态',
+											xtype : 'displayfield',
+											name : 'statusString'
 										}, {
-											fieldLabel : '到货时间',
+											fieldLabel : '入库时间',
 											name : 'arriveDate',
 											xtype : 'datefield',
 											format : 'Y-m-d',
 											emptyText : new Date()
 													.format('Y-m-d')
-										}]
-							}, {
-								columnWidth : .25,
-								xtype : 'panel',
-								layout : 'form',
-								labelWidth : 60,
-								baseCls : "x-plain",
-								labelAlign : 'right',
-								defaultType : "textfield",
-								defaults : {
-									anchor : '-20px'
-								},
-								items : [{
-											fieldLabel : '收发类型',
-											xtype : 'treecombobox',
-											name : 'inOutTypeId',
-											hiddenName : 'inOutTypeId',
-											editable : false,
-											width:250,
-											mode : 'local',
-											displayField : 'name',
-											valueField : 'id',
-											triggerAction : 'all',
-											allowBlank : false,
-											rootText : 'root',
-											rootId : '0',
-											forceSelection : true,
-											rootVisible : false,
-											treeUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL
-										
-										}, {
-											fieldLabel : '申请部门'
-										}, {
-											fieldLabel : '负责人'
 										}]
 							}, {
 								columnWidth : .45,
@@ -150,11 +114,59 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 										}
 									}]
 								}, {
-									fieldLabel : '附加说明',
-									name : 'remark',
-									xtype : 'textarea',
-									height : 50
+									fieldLabel : '入库类型',
+									xtype : 'treecombobox',
+									name : 'inOutTypeId',
+									hiddenName : 'inOutTypeId',
+									editable : false,
+									width : 250,
+									mode : 'local',
+									displayField : 'name',
+									valueField : 'id',
+									triggerAction : 'all',
+									allowBlank : false,
+									rootText : 'root',
+									rootId : '0',
+									forceSelection : true,
+									rootVisible : false,
+									treeUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL
+
+								}, {
+									fieldLabel : '经办人',
+									xtype : 'treecombobox',
+									name : 'keeperId',
+									hiddenName : 'keeperId',
+									editable : false,
+									width : 250,
+									mode : 'local',
+									displayField : 'name',
+									valueField : 'id',
+									triggerAction : 'all',
+									allowBlank : false,
+									rootText : 'root',
+									rootId : '0',
+									forceSelection : true,
+									rootVisible : false,
+									treeUrl : org.kyerp.org.Employee_TREE_URL
+
 								}]
+							}, {
+								columnWidth : .3,
+								xtype : 'panel',
+								layout : 'form',
+								labelWidth : 40,
+								baseCls : "x-plain",
+								labelAlign : 'right',
+								defaultType : "textfield",
+								defaults : {
+									anchor : '-20px'
+								},
+								items : [{
+											fieldLabel : '备注',
+											name : 'remark',
+											xtype : 'textarea',
+											height : 60
+										}]
 							}]
 						}]
 					}, {
@@ -183,7 +195,7 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '编制人',
-												name : "writeUserName"
+												name : "writeEmployeeName"
 											}]
 								}, {
 									flex : 1.5,
@@ -197,7 +209,7 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '审核',
-												name : "checkUserName"
+												name : "checkEmployeeName"
 											}]
 								}, {
 									flex : 1,
@@ -276,11 +288,15 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 			// this.onCancelClick();
 		} else {
 			// 设置createTime 的显示格式
-			this.getForm().findField("createTime").setValue(_r.createTime
-					.format('Y-m-d H:i:s'));
+			this.getForm().findField("createTime").setValue(_r.createTime.format('Y-m-d H:i:s'));
+			//设置入库类型
+			this.getForm().findField("inOutTypeId").setValue(_r.inOutTypeName);
+			this.getForm().findField("inOutTypeId").hiddenField.value =_r.inOutTypeId;
+			//设置经手人
+			this.getForm().findField("keeperId").setValue(_r.keeperName);
+			this.getForm().findField("keeperId").hiddenField.value =_r.keeperId;
 			// 为detailsGrid设置值
-			this.detailsGrid.getStore().loadData(
-					Ext.util.JSON.decode(_r.details), false);
+			this.detailsGrid.getStore().loadData(Ext.util.JSON.decode(_r.details), false);
 		}
 	},
 	reset : function() {
@@ -331,16 +347,12 @@ org.kyerp.warehouse.InStockInfoWindow = Ext.extend(Ext.Window, {
 							hidden : true,
 							handler : this.onCheckBillClick,
 							scope : this
-						}, {
+						}, '->', {
 							text : '关闭',
 							cls : 'x-btn-text-icon',
 							icon : 'images/ext-extend/icons/cross.gif',
 							handler : this.onCancelClick,
 							scope : this
-						}, '->', {
-							xtype : 'panel',
-							id : 'bill-status',
-							style : 'font-size:12px;color:red;padding-right:5px;'
 						}];
 				org.kyerp.warehouse.InStockInfoWindow.superclass.constructor
 						.call(this, {
@@ -554,10 +566,22 @@ org.kyerp.warehouse.InStockPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : "checkUserName",
 										type : "string"
 									}, {
+										name : "checkEmployeeId",
+										type : "int"
+									}, {
+										name : "checkEmployeeName",
+										type : "string"
+									}, {
 										name : "writeUserId",
 										type : "int"
 									}, {
 										name : "writeUserName",
+										type : "string"
+									}, {
+										name : "writeEmployeeId",
+										type : "int"
+									}, {
+										name : "writeEmployeeName",
 										type : "string"
 									}, {
 										name : "details"
@@ -576,6 +600,12 @@ org.kyerp.warehouse.InStockPanel = Ext.extend(Ext.grid.GridPanel, {
 										type : "string"
 									}, {
 										name : "editAble"
+									}, {
+										name : 'keeperId',
+										type : "int"
+									}, {
+										name : "keeperName",
+										type : "string"
 									}]))
 				});
 		org.kyerp.warehouse.InStockPanel.superclass.constructor.call(this, {
