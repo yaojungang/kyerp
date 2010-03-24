@@ -7,6 +7,8 @@ Ext.ns('org.kyerp.crm');
 /** ***************************************************************************** */
 /** 人力资源管理模块 */
 /** ***************************************************************************** */
+org.kyerp.org.Employee_TREE_URL = "org/Employee/jsonTree.html";
+/** ***************************************************************************** */
 org.kyerp.org.DepartmentPanel_TREE_URL = "org/Department/jsonTree.html";
 org.kyerp.org.DepartmentPanel_LIST_URL = "org/Department/jsonList.html";
 org.kyerp.org.DepartmentPanel_SAVE_URL = "org/Department/jsonSave.html";

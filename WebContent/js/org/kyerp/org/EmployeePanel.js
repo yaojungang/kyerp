@@ -59,6 +59,7 @@ org.kyerp.org.EmployeeFormPanel = Ext.extend(Ext.form.FormPanel, {
 								name : 'departmentId',
 								hiddenName : 'departmentId',
 								fieldLabel : '部门',
+								allowUnLeafClick : true,
 								editable : false,
 								mode : 'local',
 								displayField : 'name',
