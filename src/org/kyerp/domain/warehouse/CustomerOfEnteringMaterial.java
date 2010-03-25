@@ -17,14 +17,13 @@ import org.kyerp.domain.org.Employee;
  */
 @Entity
 @DiscriminatorValue("customer")
-public class CustomerOfEnteringMaterial extends EnteringMaterial implements
-		Serializable {
+public class CustomerOfEnteringMaterial extends InStock implements Serializable{
 	private static final long	serialVersionUID	= 1L;
 	/** 客户自备料入库单填单时间 */
 	private Date				inputTime;
 	/** 客户 */
 	@ManyToOne
-	private Client			customer;
+	private Client				customer;
 	/** 收货人 */
 	@ManyToOne
 	private Employee			taker;
