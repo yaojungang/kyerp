@@ -1,4 +1,97 @@
 /** ***************************************************************************** */
+org.kyerp.warehouse.StockStore = new Ext.data.Store({
+			autoLoad : {
+				baseParams : {
+					limit : 20
+				}
+			},
+			url : org.kyerp.warehouse.StockListPanel_STORE_URL,
+			reader : new Ext.data.JsonReader({
+						totalProperty : "totalProperty",
+						root : "rows",
+						idProperty : "id"
+					}, new Ext.data.Record.create([{
+								name : "id",
+								type : "int"
+							}, {
+								name : "serialNumber",
+								type : "string"
+							}, {
+								name : "createTime",
+								type : "date",
+								dateFormat : "Y-m-d H:i:s"
+							}, {
+								name : "updateTime",
+								type : "date",
+								dateFormat : "Y-m-d H:i:s"
+							}, {
+								name : "totalAmount"
+							}, {
+								name : "materialId",
+								type : "int"
+							}, {
+								name : "materialName",
+								type : "string"
+							}, {
+								name : 'unitId',
+								type : 'int'
+							}, {
+								name : 'unitName',
+								type : 'string'
+							}, {
+								name : 'price',
+								type : 'string'
+							}, {
+								name : 'cost'
+							}, {
+								name : "details"
+							}]))
+		});
+/** ***************************************************************************** */
+org.kyerp.warehouse.StockDetailStore = new Ext.data.Store({
+			reader : new Ext.data.JsonReader({}, new Ext.data.Record.create([{
+								name : "id",
+								type : "int"
+							}, {
+								name : "batchNumber",
+								type : "string"
+							}, {
+								name : "createTime",
+								type : "date",
+								dateFormat : "Y-m-d H:i:s"
+							}, {
+								name : "updateTime",
+								type : "date",
+								dateFormat : "Y-m-d H:i:s"
+							}, {
+								name : "amount",
+								type : 'float'
+							}, {
+								name : "materialId",
+								type : "int"
+							}, {
+								name : "materialName",
+								type : "string"
+							}, {
+								name : 'unitId',
+								type : 'int'
+							}, {
+								name : 'unitName',
+								type : 'string'
+							}, {
+								name : 'warehouseId',
+								type : 'int'
+							}, {
+								name : 'warehoueName',
+								type : 'string'
+							}, {
+								name : 'price',
+								type : 'string'
+							}, {
+								name : 'cost'
+							}]))
+		});
+/** ***************************************************************************** */
 org.kyerp.warehouse.WarehouseStore = new Ext.data.Store({
 			autoLoad : true,
 			proxy : new Ext.data.HttpProxy({
@@ -18,6 +111,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 		Ext.grid.EditorGridPanel, {
 			inserted : [],
 			materialCombo : null,
+			stockDetailCombo : null,
 			warehouseCombo : null,
 			selectMaterialWindow : null,
 			conn : new Ext.data.Connection(),
@@ -72,29 +166,68 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 							lazyRender : true,
 							pageSize : 20,
 							listWidth : 360,
-							valueField : 'id',
-							displayField : 'name',
+							valueField : 'materialId',
+							displayField : 'materialName',
 							mode : 'remote',
 							selectOnFocus : true,
 							allowBlank : false,
 							emptyText : '请选择',
 							triggerAction : 'all',
-							store : org.kyerp.warehouse.materialStore,
-							allQuery:'all',
-							loadingText:'正在载入数据,请稍候！',
-							minChars:2,
-							queryDelay:300,
-							queryParam:'searchKey',
+							store : org.kyerp.warehouse.StockStore,
+							loadingText : '正在载入数据,请稍候！',
+							minChars : 2,
+							queryDelay : 300,
+							queryParam : 'query',
 							listeners : {
 								select : function(comboBox) {
 									var value = comboBox.getValue();
 									var _rs = this.getSelectionModel()
 											.getSelected();
-									_data = comboBox.store.getById(value).data;
+									var dataIndex = comboBox.store.find('materialId', value, 0, false,false);
+									// alert(dataIndex);
+									_data = comboBox.store.getAt(dataIndex).data;
 									// alert(Ext.util.JSON.encode(_data));
 									_rs.set('unitName', _data.unitName);
 									_rs.set('price', _data.price);
-									_rs.set('warehouseId',_data.warehouseId);
+									_rs.set('warehouseId', _data.warehouseId);
+									// alert(_data.details);
+									org.kyerp.warehouse.StockDetailStore
+											.loadData(Ext.util.JSON.decode(
+													_data.details, false));
+								},
+								scope : this
+							}
+						});
+				this.stockDetailCombo = new Ext.form.ComboBox({
+							hiddenName : 'batchNumber',
+							typeAhead : true,
+							lazyRender : true,
+							pageSize : 20,
+							listWidth : 360,
+							valueField : 'batchNumber',
+							displayField : 'batchNumber',
+							mode : 'local',
+							selectOnFocus : true,
+							allowBlank : false,
+							emptyText : '请选择',
+							triggerAction : 'all',
+							store : org.kyerp.warehouse.StockDetailStore,
+							listeners : {
+								select : function(comboBox) {
+									var value = comboBox.getValue();
+									var _rs = this.getSelectionModel()
+											.getSelected();
+									var dataIndex = comboBox.store.find(
+											'batchNumber', value, 0, false,
+											false);
+									// alert(dataIndex);
+									_data = comboBox.store.getAt(dataIndex).data;
+									//alert(Ext.encode(_data));
+									// alert(Ext.util.JSON.encode(value));
+									_rs.set('unitName', _data.unitName);
+									_rs.set('price', _data.price);
+									_rs.set('warehouseId', _data.warehouseId);
+									_rs.set('billCount', _data.amount);
 								},
 								scope : this
 							}
@@ -196,28 +329,10 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 										.Combo(this.materialCombo),
 								editor : this.materialCombo
 							}, {
-								header : '库房',
-								width : 150,
-								dataIndex : "warehouseId",
-								renderer :Ext.ux.renderer.Combo(this.warehouseCombo),
-								// editor : this.warehouseCombo
-								editor : new Ext.ux.form.TreeComboBox({
-									fieldLabel : "默认仓库",
-									name : 'warehouseId',
-									hiddenName : 'warehouseId',
-									xtype : 'treecombobox',
-									editable : false,
-									mode : 'local',
-									displayField : 'name',
-									valueField : 'id',
-									triggerAction : 'all',
-									allowBlank : false,
-									treeUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL,
-									rootText : 'root',
-									rootId : '0',
-									forceSelection : true,
-									rootVisible : false
-								})
+								header : "批次号",
+								width : 100,
+								dataIndex : 'batchNumber',
+								editor : this.stockDetailCombo
 							}, {
 								header : '单位',
 								width : 40,
@@ -242,10 +357,29 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 								width : 80,
 								dataIndex : "billCost"
 							}, {
-								header : "批次号",
-								width : 100,
-								dataIndex : 'batchNumber',
-								editor : new Ext.form.TextField()
+								header : '库房',
+								width : 150,
+								dataIndex : "warehouseId",
+								renderer : Ext.ux.renderer
+										.Combo(this.warehouseCombo),
+								editor : new Ext.ux.form.TreeComboBox({
+									fieldLabel : "默认仓库",
+									name : 'warehouseId',
+									hiddenName : 'warehouseId',
+									xtype : 'treecombobox',
+									editable : false,
+									mode : 'local',
+									displayField : 'name',
+									valueField : 'id',
+									triggerAction : 'all',
+									allowBlank : false,
+									treeUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL,
+									rootText : 'root',
+									rootId : '0',
+									forceSelection : true,
+									rootVisible : false
+								})
+
 							}, {
 								header : '备注',
 								dataIndex : "remark",
@@ -253,7 +387,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 							}]
 						});
 			},
-updateBillCost : function() {
+			updateBillCost : function() {
 				var _rs = this.getSelectionModel().getSelected();
 				_rs.set('billCost', _rs.get('price') * _rs.get('billCount'));
 			},
@@ -327,11 +461,11 @@ updateBillCost : function() {
 						this.conn.un("requestcomplete", this.onSaveInsertData,
 								this);
 						this.conn.request({
-									url : org.kyerp.warehouse.OutStockDetail_DELETE_URL,
-									params : {
-										ids : _rs.get("id")
-									}
-								});
+							url : org.kyerp.warehouse.OutStockDetail_DELETE_URL,
+							params : {
+								ids : _rs.get("id")
+							}
+						});
 					} else {
 						this.inserted.remove(_rs);
 						this.getStore().modified.remove(_rs);

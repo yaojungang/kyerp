@@ -394,7 +394,7 @@ org.kyerp.warehouse.SupplierPanel = Ext.extend(Ext.grid.GridPanel, {
 						forceSelection : true,
 						rootVisible : false,
 						treeUrl : org.kyerp.warehouse.SupplierTypePanel_TREE_URL,
-						_onSelect : function(node) {
+						onSelect : function(node) {
 							var store = org.kyerp.warehouse.SupplierStore;
 							store.setBaseParam("typeId", node.id);
 							store.load();
