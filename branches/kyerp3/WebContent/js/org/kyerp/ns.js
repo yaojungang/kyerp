@@ -7,7 +7,12 @@ Ext.ns('org.kyerp.crm');
 /** ***************************************************************************** */
 /** 人力资源管理模块 */
 /** ***************************************************************************** */
+org.kyerp.security.UserPanel_STORE_URL = "security/User/jsonList.html";
+/** ***************************************************************************** */
 org.kyerp.org.Employee_TREE_URL = "org/Employee/jsonTree.html";
+org.kyerp.org.EmployeePanel_STORE_URL = "org/Employee/jsonList.html";
+org.kyerp.org.EmployeePanel_SAVE_URL = "org/Employee/jsonSave.html";
+org.kyerp.org.EmployeePanel_DELETE_URL = "org/Employee/jsonDelete.html";
 /** ***************************************************************************** */
 org.kyerp.org.DepartmentPanel_TREE_URL = "org/Department/jsonTree.html";
 org.kyerp.org.DepartmentPanel_LIST_URL = "org/Department/jsonList.html";
@@ -72,7 +77,9 @@ org.kyerp.warehouse.PurchaseOrder_PostForCheck_URL = "warehouse/PurchaseOrder/js
 org.kyerp.warehouse.PurchaseOrder_ReturnForEdit_URL = "warehouse/PurchaseOrder/jsonReturnForEdit.html";
 org.kyerp.warehouse.PurchaseOrder_CheckBill_URL = "warehouse/PurchaseOrder/jsonCheckBill.html";
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialStockListPanel_STORE_URL = "warehouse/Stock/jsonList.html";
+org.kyerp.warehouse.StockListPanel_STORE_URL = "warehouse/Stock/jsonList.html";
+/** ***************************************************************************** */
+org.kyerp.warehouse.StockDetail_URL = "warehouse/StockDetail/jsonList.html";
 /** ***************************************************************************** */
 org.kyerp.warehouse.InStockPanel_STORE_URL = "warehouse/InStock/jsonList.html";
 org.kyerp.warehouse.InStockPanel_SAVE_URL = "warehouse/InStock/jsonSave.html";

@@ -1,5 +1,5 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialStockListPanelViewWindow = Ext.extend(Ext.Window, {
+org.kyerp.warehouse.StockListPanelViewWindow = Ext.extend(Ext.Window, {
 	grid : null,
 	store : null,
 	constructor : function(_cfg) {
@@ -38,7 +38,7 @@ org.kyerp.warehouse.MaterialStockListPanelViewWindow = Ext.extend(Ext.Window, {
 								dataIndex : 'cost'
 							}]
 				});
-		org.kyerp.warehouse.MaterialStockListPanelViewWindow.superclass.constructor
+		org.kyerp.warehouse.StockListPanelViewWindow.superclass.constructor
 				.call(this, {
 							title : "查看",
 							width : 700,
@@ -52,7 +52,7 @@ org.kyerp.warehouse.MaterialStockListPanelViewWindow = Ext.extend(Ext.Window, {
 	}
 });
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialStockListPanel = Ext.extend(Ext.grid.GridPanel, {
+org.kyerp.warehouse.StockListPanel = Ext.extend(Ext.grid.GridPanel, {
 	expander : null,
 	viewWin : null,
 	constructor : function(_cfg) {
@@ -70,7 +70,7 @@ org.kyerp.warehouse.MaterialStockListPanel = Ext.extend(Ext.grid.GridPanel, {
 							limit : 20
 						}
 					},
-					url : org.kyerp.warehouse.MaterialStockListPanel_STORE_URL,
+					url : org.kyerp.warehouse.StockListPanel_STORE_URL,
 					reader : new Ext.data.JsonReader({
 								totalProperty : "totalProperty",
 								root : "rows",
@@ -112,8 +112,8 @@ org.kyerp.warehouse.MaterialStockListPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : "details"
 									}]))
 				});
-		this.viewWin = new org.kyerp.warehouse.MaterialStockListPanelViewWindow();
-		org.kyerp.warehouse.MaterialStockListPanel.superclass.constructor.call(
+		this.viewWin = new org.kyerp.warehouse.StockListPanelViewWindow();
+		org.kyerp.warehouse.StockListPanel.superclass.constructor.call(
 				this, {
 					stripeRows : true,
 					viewConfig : {

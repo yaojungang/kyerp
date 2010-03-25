@@ -2,13 +2,14 @@
 Ext.namespace("Ext.ux.form");
 Ext.ux.form.TreeComboBox = Ext.extend(Ext.form.ComboBox, {
 			allowUnLeafClick : false,
+			resizable : true,
 			store : new Ext.data.SimpleStore({
 						fields : [],
 						data : [[]]
 					}),
-			onSelect : function(id) {
+			onSelect : function(node) {
 			},
-			onSelect : Ext.emptyFn,
+			//onSelect : Ext.emptyFn,
 			treeTroot : null,
 			initComponent : function(ct, position) {
 				this.divId = 'tree-' + Ext.id();
@@ -30,22 +31,22 @@ Ext.ux.form.TreeComboBox = Ext.extend(Ext.form.ComboBox, {
 						});
 
 				this.tree = new Ext.tree.TreePanel({
-					border : false,
-					root : this.treeTroot,
-					rootVisible : this.rootVisible
-					});
+							border : false,
+							root : this.treeTroot,
+							rootVisible : this.rootVisible
+						});
 				var combo = this;
 				this.tree.on('click', function(node) {
 							if (combo.allowUnLeafClick == true) {
 								combo.setValue(node.text);
 								combo.hiddenField.value = node.id;
 								combo.collapse();
-								combo.onSelect(node.id);
+								combo.onSelect(node);
 							} else if (node.leaf == true) {
 								combo.setValue(node.text);
 								combo.hiddenField.value = node.id;
 								combo.collapse();
-								combo.onSelect(node.id);
+								combo.onSelect(node);
 							}
 						});
 

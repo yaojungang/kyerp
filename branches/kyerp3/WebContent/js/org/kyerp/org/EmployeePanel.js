@@ -1,7 +1,35 @@
 /** ***************************************************************************** */
-org.kyerp.org.EmployeePanel_STORE_URL = "org/Employee/jsonList.html";
-org.kyerp.org.EmployeePanel_SAVE_URL = "org/Employee/jsonSave.html";
-org.kyerp.org.EmployeePanel_DELETE_URL = "org/Employee/jsonDelete.html";
+org.kyerp.org.EmployeeStore = new Ext.data.Store({
+					autoLoad : {
+						baseParams : {
+							limit : 20
+						}
+					},
+					url : org.kyerp.org.EmployeePanel_STORE_URL,
+					reader : new Ext.data.JsonReader({
+								totalProperty : "totalProperty",
+								root : "rows",
+								id : "id"
+							}, new Ext.data.Record.create([{
+										name : "id",
+										type : "int"
+									}, {
+										name : "name",
+										type : "string"
+									}, {
+										name : "userId",
+										type : "int"
+									}, {
+										name : "userName",
+										type : "string"
+									}, {
+										name : "departmentId",
+										type : "int"
+									}, {
+										name : "departmentName",
+										type : "string"
+									}]))
+				});
 /** ***************************************************************************** */
 org.kyerp.org.EmployeeFormPanel = Ext.extend(Ext.form.FormPanel, {
 	url : "",
@@ -74,17 +102,19 @@ org.kyerp.org.EmployeeFormPanel = Ext.extend(Ext.form.FormPanel, {
 							}, new Ext.form.ComboBox({
 										fieldLabel : "关联用户",
 										store : this.userStore,
+										loadingText : '正在载入数据,请稍候！',
+										minChars : 2,
+										queryDelay : 300,
 										emptyText : '',
 										name : 'userId',
 										hiddenName : 'userId',
-										editable : false,
+										editable : true,
 										mode : 'remote',
 										pageSize : 20,
 										triggerAction : 'all',
 										valueField : 'id',
 										displayField : 'userName',
-										readOnly : true,
-										allowBlank : false
+										readOnly : true
 									})]
 				});
 		this.addEvents("submit");
@@ -233,37 +263,7 @@ org.kyerp.org.EmployeePanel = Ext.extend(Ext.grid.GridPanel, {
 	updateWin : new org.kyerp.org.EmployeeUpdateWindow(),
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this["store"] = new Ext.data.Store({
-					autoLoad : {
-						baseParams : {
-							limit : 20
-						}
-					},
-					url : org.kyerp.org.EmployeePanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								id : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "name",
-										type : "string"
-									}, {
-										name : "userId",
-										type : "int"
-									}, {
-										name : "userName",
-										type : "string"
-									}, {
-										name : "departmentId",
-										type : "int"
-									}, {
-										name : "departmentName",
-										type : "string"
-									}]))
-				});
+		this["store"] = org.kyerp.org.EmployeeStore;
 		org.kyerp.org.EmployeePanel.superclass.constructor.call(this, {
 					stripeRows : true,
 					tbar : [{
@@ -294,7 +294,30 @@ org.kyerp.org.EmployeePanel = Ext.extend(Ext.grid.GridPanel, {
 											this.onRemove, this);
 								},
 								scope : this
-							}],
+							}, '->', '部门：', {
+						xtype : 'treecombobox',
+						fieldLabel : '部门',
+						allowUnLeafClick : true,
+						name : 'departId',
+						hiddenName : 'departId',
+						editable : false,
+						mode : 'local',
+						displayField : 'name',
+						valueField : 'id',
+						triggerAction : 'all',
+						rootText : 'root',
+						rootId : '0',
+						forceSelection : true,
+						rootVisible : false,
+						treeUrl : org.kyerp.org.DepartmentPanel_TREE_URL,
+						onSelect : function(node) {
+							var store = org.kyerp.org.EmployeeStore;
+							store.setBaseParam("departId", node.id);
+							store.load();
+						}
+					}, "-", "搜索：", new Ext.ux.form.SearchField({
+								store : this.getStore()
+							})],
 					enableColumnMove : false,
 					colModel : new Ext.grid.ColumnModel([{
 								header : "ID",
@@ -386,10 +409,10 @@ org.kyerp.org.EmployeePanel = Ext.extend(Ext.grid.GridPanel, {
 		}
 	},
 	onInsertWinSubmit : function(_win, _r) {
-		this.insert(_r);
+		this.store.reload();
 	},
 	onUpdateWinSubmit : function(_win, _r) {
-		this.update(_r);
+		this.store.reload();
 	},
 	onRemove : function(_btn) {
 		if (_btn == "yes")
@@ -401,11 +424,13 @@ org.kyerp.org.EmployeePanel = Ext.extend(Ext.grid.GridPanel, {
 });
 /** ***************************************************************************** */
 
-
-Ext.extend(org.kyerp.module,{
-    init: function(){
-        this.body = new org.kyerp.org.EmployeePanel({border : false,bodyBorder : false});
-        this.main.add(this.body);
-        this.main.doLayout();  
-    }
-});
+Ext.extend(org.kyerp.module, {
+			init : function() {
+				this.body = new org.kyerp.org.EmployeePanel({
+							border : false,
+							bodyBorder : false
+						});
+				this.main.add(this.body);
+				this.main.doLayout();
+			}
+		});

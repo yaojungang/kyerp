@@ -56,7 +56,7 @@
 					}, {
 						id : "WarehouseManager",
 						text : "库存管理",
-						expanded : true,
+						expanded : false,
 						children : [{
 									id : "StockPanel",
 									text : "库存状况",
@@ -191,11 +191,6 @@
 			text : "系统管理",
 			expanded : false,
 			children : [{
-						id : 'DepartmentPanel',
-						ns : 'org.kyerp.org',
-						text : '部门档案',
-						leaf : true
-					}, {
 						id : 'RolePanel',
 						ns : 'org.kyerp.security',
 						text : '职位角色',

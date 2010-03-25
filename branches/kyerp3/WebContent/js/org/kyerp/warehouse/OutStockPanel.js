@@ -347,16 +347,12 @@ org.kyerp.warehouse.OutStockInfoWindow = Ext.extend(Ext.Window, {
 							hidden : true,
 							handler : this.onCheckBillClick,
 							scope : this
-						}, {
+						}, '->', {
 							text : '关闭',
 							cls : 'x-btn-text-icon',
 							icon : 'images/ext-extend/icons/cross.gif',
 							handler : this.onCancelClick,
 							scope : this
-						}, '->', {
-							xtype : 'panel',
-							id : 'bill-status',
-							style : 'font-size:12px;color:red;padding-right:5px;'
 						}];
 				org.kyerp.warehouse.OutStockInfoWindow.superclass.constructor
 						.call(this, {
@@ -673,9 +669,12 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 							}, {
 								header : '收发类型',
 								dataIndex : 'inOutTypeName'
+							},{
+								header : '领料单位',
+								dataIndex : 'receiveDepartmentName'
 							}, {
-								header : '供应商',
-								dataIndex : 'supplierName'
+								header : '领用人',
+								dataIndex : 'receiveEmployeeName'
 							}, {
 								header : "数量",
 								dataIndex : "billCount",
@@ -683,6 +682,10 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 							}, {
 								header : "金额",
 								dataIndex : "billCost",
+								menuDisabled : true
+							},{
+								header : "经手人",
+								dataIndex : "keeperName",
 								menuDisabled : true
 							}, {
 								header : "备注",

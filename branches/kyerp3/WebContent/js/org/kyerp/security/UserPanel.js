@@ -1,5 +1,38 @@
 /** ***************************************************************************** */
-org.kyerp.security.UserPanel_STORE_URL = "security/User/jsonList.html";
+org.kyerp.security.UserStore = new Ext.data.Store({
+					autoLoad : {
+						baseParams : {
+							limit : 20
+						}
+					},
+					url : org.kyerp.security.UserPanel_STORE_URL,
+					reader : new Ext.data.JsonReader({
+								totalProperty : "totalProperty",
+								root : "rows",
+								id : "id"
+							}, new Ext.data.Record.create([{
+										name : "id",
+										type : "int"
+									}, {
+										name : "userName",
+										type : "string"
+									},{
+										name : "remark",
+										type : "string"
+									}, {
+										name : "roleIds",
+										type : "string"
+									}, {
+										name : "roleNames",
+										type : "string"
+									}, {
+										name : "employeeId",
+										type : 'int'
+									}, {
+										name : 'employeeName',
+										type : 'string'
+									}]))
+				});
 /** ***************************************************************************** */
 org.kyerp.security.UserFormPanel = Ext.extend(Ext.form.FormPanel, {
 			url : "",
@@ -60,6 +93,28 @@ org.kyerp.security.UserFormPanel = Ext.extend(Ext.form.FormPanel, {
 										fieldLabel : "用户名",
 										allowBlank : false,
 										name : "userName"
+									},{
+										fieldLabel : "密码",
+										allowBlank : false,
+										name : "password"
+									}, {
+										fieldLabel : '关联员工',
+										xtype : 'treecombobox',
+										name : 'employeeId',
+										hiddenName : 'employeeId',
+										editable : false,
+										width : 250,
+										mode : 'local',
+										displayField : 'name',
+										valueField : 'id',
+										triggerAction : 'all',
+										allowBlank : false,
+										rootText : 'root',
+										rootId : '0',
+										forceSelection : true,
+										rootVisible : false,
+										treeUrl : org.kyerp.org.Employee_TREE_URL
+
 									}, {
 										name : 'roleIds',
 										xtype : 'lovcombo',
@@ -77,7 +132,6 @@ org.kyerp.security.UserFormPanel = Ext.extend(Ext.form.FormPanel, {
 										}
 									}, {
 										fieldLabel : "备注",
-										allowBlank : false,
 										xtype : 'textarea',
 										name : "remark"
 									}]
@@ -222,119 +276,115 @@ org.kyerp.security.UserPanel = Ext.extend(Ext.grid.GridPanel, {
 	updateWin : new org.kyerp.security.UserUpdateWindow(),
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this["store"] = new Ext.data.Store({
-					autoLoad : {
-						baseParams : {
-							limit : 20
-						}
-					},
-					url : org.kyerp.security.UserPanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								id : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "userName",
-										type : "string"
-									}, {
-										name : "remark",
-										type : "string"
-									}, {
-										name : "roleIds",
-										type : "string"
-									}, {
-										name : "roleNames",
-										type : "string"
-									}]))
-				});
+		this["store"] = org.kyerp.security.UserStore;
 		org.kyerp.security.UserPanel.superclass.constructor.call(this, {
-					stripeRows : true,
-					tbar : [{
-								text : "添  加",
-								iconCls : 'icon-utils-s-add',
-								handler : function() {
-									this.insertWin.show();
-								},
-								scope : this
-							}, "-", {
-								text : "修  改",
-								iconCls : 'icon-utils-s-edit',
-								handler : function() {
-									this.updateWin.show();
-									try {
-										this.updateWin.load(this.getSelected());
-									} catch (_err) {
-										Ext.Msg.alert("系统提示", _err);
-										this.updateWin.close();
-									}
-								},
-								scope : this
-							}, "-", {
-								text : "删  除",
-								iconCls : 'icon-utils-s-delete',
-								handler : function() {
-									Ext.Msg.confirm("系统提示", "你确定删除此记录吗?",
-											this.onRemove, this);
-								},
-								scope : this
-							}],
-					enableColumnMove : false,
-					colModel : new Ext.grid.ColumnModel([{
-								header : "ID",
-								align : "center",
-								width : 50,
-								menuDisabled : true
-							}, {
-								header : "用户名",
-								dataIndex : "userName",
-								width : 80,
-								menuDisabled : true
-							}, {
-								header : "职位角色",
-								dataIndex : "roleNames",
-								width : 180,
-								menuDisabled : true
-							}, {
-								header : "备注",
-								dataIndex : "remark",
-								width : 250,
-								menuDisabled : true
-							}]),
-					selModel : new Ext.grid.RowSelectionModel({
-								singleSelect : true,
-								listeners : {
-									"rowselect" : {
-										fn : function(_sel, _index, _r) {
+			stripeRows : true,
+			tbar : [{
+						text : "添  加",
+						iconCls : 'icon-utils-s-add',
+						handler : function() {
+							this.insertWin.show();
+						},
+						scope : this
+					}, "-", {
+						text : "修  改",
+						iconCls : 'icon-utils-s-edit',
+						handler : function() {
+							this.updateWin.show();
+							try {
+								this.updateWin.load(this.getSelected());
+							} catch (_err) {
+								Ext.Msg.alert("系统提示", _err);
+								this.updateWin.close();
+							}
+						},
+						scope : this
+					}, "-", {
+						text : "删  除",
+						iconCls : 'icon-utils-s-delete',
+						handler : function() {
+							Ext.Msg.confirm("系统提示", "你确定删除此记录吗?",
+									this.onRemove, this);
+						},
+						scope : this
+					}, '->', '部门：', {
+						xtype : 'treecombobox',
+						fieldLabel : '部门',
+						allowUnLeafClick : true,
+						name : 'departId',
+						hiddenName : 'departId',
+						editable : false,
+						mode : 'local',
+						displayField : 'name',
+						valueField : 'id',
+						triggerAction : 'all',
+						rootText : 'root',
+						rootId : '0',
+						forceSelection : true,
+						rootVisible : false,
+						treeUrl : org.kyerp.org.DepartmentPanel_TREE_URL,
+						onSelect : function(node) {
+							var store = org.kyerp.security.UserStore;
+							store.setBaseParam("departId", node.id);
+							store.load();
+						}
+					}, "-", "搜索：", new Ext.ux.form.SearchField({
+								store : this.getStore()
+							})],
+			enableColumnMove : false,
+			colModel : new Ext.grid.ColumnModel([{
+						header : "ID",
+						align : "center",
+						width : 50,
+						menuDisabled : true
+					}, {
+						header : "用户名",
+						dataIndex : "userName",
+						width : 80,
+						menuDisabled : true
+					}, {
+						header : "关联职工",
+						dataIndex : "employeeName",
+						width : 80,
+						menuDisabled : true
+					}, {
+						header : "职位角色",
+						dataIndex : "roleNames",
+						width : 180,
+						menuDisabled : true
+					}, {
+						header : "备注",
+						dataIndex : "remark",
+						width : 250,
+						menuDisabled : true
+					}]),
+			selModel : new Ext.grid.RowSelectionModel({
+						singleSelect : true,
+						listeners : {
+							"rowselect" : {
+								fn : function(_sel, _index, _r) {
 
-											this.fireEvent("rowselect", _r);
-										},
-										scope : this
-									}
-								}
-							}),
-					bbar : new Ext.PagingToolbar({
-								plugins : new Ext.ux.Andrie.pPageSize({
-											beforeText : '每页显示',
-											afterText : '条'
-										}),
-								pageSize : 20,
-								store : this.store,
-								displayInfo : true,
-								displayMsg : '显示  {0} - {1} 条记录,共有 {2} 条记录',
-								emptyMsg : "没有数据",
-								items : ['-', '搜索',
-										new Ext.ux.form.SearchField({
-													store : this.store,
-													paramName : 'name'
-												})]
-							}),
-					loadMask : {
-						msg : '正在载入数据,请稍等...'
-					}
-				});
+									this.fireEvent("rowselect", _r);
+								},
+								scope : this
+							}
+						}
+					}),
+			bbar : new Ext.PagingToolbar({
+						plugins : new Ext.ux.Andrie.pPageSize({
+									beforeText : '每页显示',
+									afterText : '条'
+								}),
+						pageSize : 20,
+						store : this.store,
+						displayInfo : true,
+						displayMsg : '显示  {0} - {1} 条记录,共有 {2} 条记录',
+						emptyMsg : "没有数据"
+					}),
+			loadMask : {
+				msg : '正在载入数据,请稍等...'
+			}
+		});
 		this.insertWin.on("submit", this.onInsertWinSubmit, this);
 		this.updateWin.on("submit", this.onUpdateWinSubmit, this);
 		this.on("render", function() {
@@ -349,18 +399,10 @@ org.kyerp.security.UserPanel = Ext.extend(Ext.grid.GridPanel, {
 		return _sm.getSelected();
 	},
 	insert : function(_r) {
-		this.getStore().add(_r);
+		this.store.reload();
 	},
 	update : function(_r) {
-		try {
-			var _sr = this.getSelected();
-			var _data = _sr.data;
-			for (var _i in _data) {
-				_sr.set(_i, _r.get(_i));
-			}
-			_sr.commit();
-		} catch (_err) {
-		}
+		this.store.reload();
 	},
 	removeItem : function() {
 		try {
@@ -393,10 +435,13 @@ org.kyerp.security.UserPanel = Ext.extend(Ext.grid.GridPanel, {
 });
 /** ***************************************************************************** */
 
-Ext.extend(org.kyerp.module,{
-    init: function(){
-        this.body = new org.kyerp.security.UserPanel({border : false,bodyBorder : false});
-        this.main.add(this.body);
-        this.main.doLayout();  
-    }
-});
+Ext.extend(org.kyerp.module, {
+			init : function() {
+				this.body = new org.kyerp.security.UserPanel({
+							border : false,
+							bodyBorder : false
+						});
+				this.main.add(this.body);
+				this.main.doLayout();
+			}
+		});

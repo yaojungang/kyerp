@@ -9,6 +9,7 @@ if (Ext.data.Store) {
 		};
 	}
 };
+
 // 统一的对loadexception的错误处理，主要针对tree
 if (Ext.tree.TreeLoader) {
 	var _constructorL = Ext.tree.TreeLoader.prototype.constructor;
