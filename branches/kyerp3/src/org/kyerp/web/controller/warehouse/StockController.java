@@ -22,13 +22,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  */
 @Controller
 @SessionAttributes("mCategoryId")
-public class StockController {
+public class StockController{
 	@Autowired
 	IStockService	stockService;
 
 	@RequestMapping("/warehouse/Stock/jsonList.html")
-	public String list(Model model, Integer start, Integer limit,
-			Long mCategoryId, String query) {
+	public String list(Model model, Integer start, Integer limit, Long mCategoryId, String query) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 
@@ -40,49 +39,41 @@ public class StockController {
 		wherejpql.append(" 1=?").append((queryParams.size() + 1));
 		queryParams.add(1);
 		// set parent id
-		if (null != mCategoryId) {
-			wherejpql.append(" and o.material.materialCategory.id=?").append(
-					queryParams.size() + 1);
+		if(null != mCategoryId) {
+			wherejpql.append(" and o.material.materialCategory.id=?").append(queryParams.size() + 1);
 			queryParams.add(mCategoryId);
 		}
 		// set query
-		if (null != query && !query.equals("")) {
-			wherejpql.append(" and (o.material.name like ?").append(
-					queryParams.size() + 1);
-			queryParams.add("%" + query.trim() + "%");
-			// material's brand name
-			wherejpql.append(" or o.material.brand.name like ?").append(
-					queryParams.size() + 1);
+		if(null != query && !query.equals("") && query.trim().length() > 0) {
+			wherejpql.append(" and (o.material.name like ?").append(queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 			// material's serialNumber
-			wherejpql.append(" or o.material.serialNumber like ?").append(
-					queryParams.size() + 1).append(")");
+			wherejpql.append(" or o.material.serialNumber like ?").append(queryParams.size() + 1).append(")");
 			queryParams.add("%" + query.trim() + "%");
 		}
-		QueryResult<Stock> queryResult = stockService.getScrollData(start,
-				limit, wherejpql.toString(), queryParams.toArray(), orderby);
+		System.out.println("jpql:" + wherejpql);
+		QueryResult<Stock> queryResult = stockService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
 
 		List<StockExtGridRow> rows = new ArrayList<StockExtGridRow>();
 		for (Stock o : queryResult.getResultlist()) {
 			StockExtGridRow n = new StockExtGridRow();
 			n.setId(o.getId());
 			/** 建立时间 */
-			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
-					"yyyy-MM-dd HH:mm:ss"));
+			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
 			/** 修改时间 */
-			if (null != o.getUpdateTime()) {
-				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(),
-						"yyyy-MM-dd HH:mm:ss"));
+			if(null != o.getUpdateTime()) {
+				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 			}
 			/** 物料 */
-			if (null != o.getMaterial()) {
+			if(null != o.getMaterial()) {
+				System.out.println("o.getMaterial().getId():" + o.getMaterial().getId());
 				n.setMaterialId(o.getMaterial().getId());
 				n.setMaterialName(o.getMaterial().getName());
 			}
 			/** 总数量 */
 			n.setTotalAmount(o.getTotalAmount());
 			/** 单位 */
-			if (null != o.getUnit()) {
+			if(null != o.getUnit()) {
 				n.setUnitId(o.getUnit().getId());
 				n.setUnitName(o.getUnit().getName());
 			}
@@ -92,39 +83,37 @@ public class StockController {
 			n.setCost(o.getCost());
 
 			/** 明细 */
-			if (null != o.getStockDetails() && o.getStockDetails().size() > 0) {
+			if(null != o.getStockDetails() && o.getStockDetails().size() > 0) {
 				List<StockDetailExtGridRow> itemRows = new ArrayList<StockDetailExtGridRow>();
 				for (StockDetail detail : o.getStockDetails()) {
 					StockDetailExtGridRow row = new StockDetailExtGridRow();
 					/** id */
 					row.setId(detail.getId());
 					/** 时间 */
-					row.setCreateTime(DateFormatUtils.format(detail
-							.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+					row.setCreateTime(DateFormatUtils.format(detail.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
 					/** 修改时间 */
-					if (null != detail.getUpdateTime()) {
-						row.setUpdateTime(DateFormatUtils.format(detail
-								.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
+					if(null != detail.getUpdateTime()) {
+						row.setUpdateTime(DateFormatUtils.format(detail.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 					}
 					/** 库存单 */
 					row.setStockId(o.getId());
 					row.setStockSerialNumber(o.getSerialNumber());
 					/** 物料 */
-					if (null != o.getMaterial()) {
+					if(null != o.getMaterial()) {
 						row.setMaterialId(o.getMaterial().getId());
 						row.setMaterialName(o.getMaterial().getName());
 					}
 					/** 仓库 */
-					if (null != detail.getWarehouse()) {
+					if(null != detail.getWarehouse()) {
 						row.setWarehouseId(detail.getWarehouse().getId());
 						row.setWarehouseName(detail.getWarehouse().getName());
 					}
 					/** 批次号 */
-					if (null != detail.getBatchNumber()) {
+					if(null != detail.getBatchNumber()) {
 						row.setBatchNumber(detail.getBatchNumber());
 					}
 					/** 单位 */
-					if (null != detail.getUnit()) {
+					if(null != detail.getUnit()) {
 						row.setUnitId(detail.getUnit().getId());
 						row.setUnitName(detail.getUnit().getName());
 					}
@@ -133,7 +122,7 @@ public class StockController {
 					/** 金额 */
 					row.setCost(detail.getCost());
 					/** 价格 */
-					if (null != detail.getPrice()) {
+					if(null != detail.getPrice()) {
 						row.setPrice(detail.getPrice());
 					}
 					itemRows.add(row);

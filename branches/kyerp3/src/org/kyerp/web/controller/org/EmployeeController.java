@@ -7,7 +7,6 @@ import java.util.List;
 
 import net.sf.json.JSONObject;
 
-import org.kyerp.domain.base.views.ExtGridList;
 import org.kyerp.domain.base.views.ExtTreeNode;
 import org.kyerp.domain.base.views.ExtTreeRecursion;
 import org.kyerp.domain.base.views.QueryResult;
@@ -39,12 +38,33 @@ public class EmployeeController extends BaseController{
 	IDepartmentService	departmentService;
 
 	@RequestMapping("/org/Employee/jsonList.html")
-	public String list(Model model) {
+	public String list(String query, Long departId, Integer start, Integer limit, Model model) {
+		start = null == start ? 0 : start;
+		limit = null == limit ? 20 : limit;
 		logger.info("currentEmployee:" + WebUtil.getCurrentEmployee().getName());
 
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
-		QueryResult<Employee> queryResult = employeeService.getScrollData(orderby);
+		// build where jpql
+		StringBuffer wherejpql = new StringBuffer("");
+		List<Object> queryParams = new ArrayList<Object>();
+		wherejpql.append(" 1=?").append((queryParams.size() + 1));
+		queryParams.add(1);
+		// set 部门 id
+		if(null != departId) {
+			wherejpql.append(" and o.department.id=?").append(queryParams.size() + 1);
+			queryParams.add(departId);
+		}
+		// set query
+		if(null != query && !query.equals("") && query.trim().length() > 0) {
+			wherejpql.append(" and (o.name like ?").append(queryParams.size() + 1);
+			queryParams.add("%" + query.trim() + "%");
+			// material's serialNumber
+			wherejpql.append(" or o.empNo like ?").append(queryParams.size() + 1).append(")");
+			queryParams.add("%" + query.trim() + "%");
+		}
+		logger.info("jpql:" + wherejpql.toString());
+		QueryResult<Employee> queryResult = employeeService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
 		List<EmployeeGridRow> rows = new ArrayList<EmployeeGridRow>();
 		for (Employee e : queryResult.getResultlist()) {
 			EmployeeGridRow n = new EmployeeGridRow();
@@ -60,20 +80,11 @@ public class EmployeeController extends BaseController{
 			}
 			rows.add(n);
 		}
-		ExtGridList<EmployeeGridRow> employeeGrid = new ExtGridList<EmployeeGridRow>();
-		employeeGrid.setRows(rows);
-		JSONObject jsonObject = JSONObject.fromObject(employeeGrid);
-
-		String text = "";
-
-		try {
-			text = jsonObject.toString();
-			System.out.println(text);
-		} catch (Exception e) {
-			text = "";
-		}
-		model.addAttribute("jsonText", text);
-		return "share/jsonTextView";
+		model.addAttribute("start", limit);
+		model.addAttribute("limit", limit);
+		model.addAttribute("totalProperty", queryResult.getTotalrecord());
+		model.addAttribute("rows", rows);
+		return "jsonView";
 	}
 
 	@RequestMapping("/org/Employee/jsonSave.html")
@@ -97,32 +108,16 @@ public class EmployeeController extends BaseController{
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("success", true);
 		long id = null != r.getId() && r.getId() > 0 ? r.getId() : employeeService.findLast().getId();
-		jsonObject.put("id", id);
-		String text = "";
-		try {
-			text = jsonObject.toString();
-			System.out.println(text);
-		} catch (Exception e) {
-			text = "";
-		}
-		model.addAttribute("jsonText", text);
-		return "share/jsonTextView";
+		model.addAttribute("success", true);
+		model.addAttribute("id", id);
+		return "jsonView";
 	}
 
 	@RequestMapping("/org/Employee/jsonTreeDelete.html")
 	public String delete(ModelMap model, Long[] id) {
 		employeeService.delete((Serializable[]) id);
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("success", true);
-		String text = "";
-		try {
-			text = jsonObject.toString();
-			System.out.println(text);
-		} catch (Exception e) {
-			text = "";
-		}
-		model.addAttribute("jsonText", text);
-		return "share/jsonTextView";
+		model.addAttribute("success", true);
+		return "jsonView";
 	}
 
 	/**

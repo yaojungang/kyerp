@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
@@ -26,7 +25,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 public class User extends BaseDomain implements Serializable,UserDetails{
 	private static final long	serialVersionUID	= -7512841538092133011L;
-	@OneToOne(cascade = CascadeType.ALL)
+	/** 关联员工 */
+	@OneToOne
 	private Employee			employee;
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role>			roles				= new HashSet<Role>();

@@ -264,6 +264,7 @@ public class OutStockController extends BaseController{
 					detail = outStockDetailService.find(new Long(idString));
 				}
 				// 物料
+				System.out.println("save material id:" + jsonObject.getLong("materialId"));
 				detail.setMaterial(materialService.find(jsonObject.getLong("materialId")));
 				// 批次号
 				detail.setBatchNumber(jsonObject.getString("batchNumber"));

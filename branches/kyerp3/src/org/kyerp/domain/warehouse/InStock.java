@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import org.kyerp.domain.BaseDomain;
 import org.kyerp.domain.org.Employee;
 import org.kyerp.domain.security.User;
-import org.kyerp.utils.WebUtil;
 
 /**
  * 入库单
@@ -73,13 +72,6 @@ public class InStock extends BaseDomain implements Serializable{
 
 	@Override
 	public void prePersist() {
-		// 设置填单时间
-		// this.setWriteDate(new Date());
-		// 设置单据状态
-		this.setStatus(BillStatus.WRITING);
-		// 保存填单人
-		this.setWriteUser(WebUtil.getCurrentUser());
-		this.setWriteEmployee(WebUtil.getCurrentEmployee());
 		super.prePersist();
 		this.preUpdate();
 	}
