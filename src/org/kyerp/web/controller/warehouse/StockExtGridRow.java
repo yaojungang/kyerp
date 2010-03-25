@@ -5,19 +5,21 @@ import java.math.BigDecimal;
 /**
  * @author y109 2010-3-19下午07:51:07
  */
-public class StockExtGridRow {
+public class StockExtGridRow{
 	private Long		id;
 	/** 建立时间 */
 	private String		createTime;
 	/** 修改时间 */
 	private String		updateTime;
 	/** 物料 */
-	private long		materialId;
+	private Long		materialId;
 	private String		materialName;
+	/** 库存物料全称 */
+	private String		stockDetailName;
 	/** 数量 */
 	private BigDecimal	totalAmount;
 	/** 单位 */
-	private long		unitId;
+	private Long		unitId;
 	private String		unitName;
 	/** 价格 */
 	private BigDecimal	price;
@@ -53,11 +55,11 @@ public class StockExtGridRow {
 		this.updateTime = updateTime;
 	}
 
-	public long getMaterialId() {
+	public Long getMaterialId() {
 		return materialId;
 	}
 
-	public void setMaterialId(long materialId) {
+	public void setMaterialId(Long materialId) {
 		this.materialId = materialId;
 	}
 
@@ -69,6 +71,14 @@ public class StockExtGridRow {
 		this.materialName = materialName;
 	}
 
+	public String getStockDetailName() {
+		return stockDetailName;
+	}
+
+	public void setStockDetailName(String stockDetailName) {
+		this.stockDetailName = stockDetailName;
+	}
+
 	public BigDecimal getTotalAmount() {
 		return totalAmount;
 	}
@@ -77,11 +87,11 @@ public class StockExtGridRow {
 		this.totalAmount = totalAmount;
 	}
 
-	public long getUnitId() {
+	public Long getUnitId() {
 		return unitId;
 	}
 
-	public void setUnitId(long unitId) {
+	public void setUnitId(Long unitId) {
 		this.unitId = unitId;
 	}
 

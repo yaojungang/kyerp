@@ -5,20 +5,22 @@ import java.math.BigDecimal;
 /**
  * @author y109 2010-3-2下午09:47:20
  */
-public class StockDetailExtGridRow {
+public class StockDetailExtGridRow{
 	private Long		id;
 	/** 建立时间 */
 	private String		createTime;
 	/** 修改时间 */
 	private String		updateTime;
 	/** 库存单 */
-	private long		stockId;
+	private Long		stockId;
 	private String		stockSerialNumber;
 	/** 物料 */
-	private long		materialId;
+	private Long		materialId;
 	private String		materialName;
+	/** 库存物料全称 */
+	private String		stockDetailName;
 	/** 仓库 */
-	private long		warehouseId;
+	private Long		warehouseId;
 	private String		warehouseName;
 	/** 批次号 */
 	private String		batchNumber;
@@ -41,6 +43,14 @@ public class StockDetailExtGridRow {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getStockDetailName() {
+		return stockDetailName;
+	}
+
+	public void setStockDetailName(String stockDetailName) {
+		this.stockDetailName = stockDetailName;
 	}
 
 	public String getCreateTime() {

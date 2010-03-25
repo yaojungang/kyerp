@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 
+import javax.persistence.Transient;
+
 import org.kyerp.dao.DaoSupport;
 import org.kyerp.domain.warehouse.BillStatus;
 import org.kyerp.domain.warehouse.OutStock;
@@ -49,6 +51,7 @@ public class OutStockService extends DaoSupport<OutStock> implements IOutStockSe
 	 * org.kyerp.domain.warehouse.OutStock)
 	 */
 	@Override
+	@Transient
 	public String checkOutStock(OutStock outStock) {
 		if(BillStatus.CHECKED == outStock.getStatus()) {
 			return "该单据已经审核过，不能再审核。";
@@ -60,25 +63,29 @@ public class OutStockService extends DaoSupport<OutStock> implements IOutStockSe
 			}
 			// 查询库存主表如果存在该Id的物料则选中这条库存记录
 			String wherejpql = "o.material.id=" + outStockDetail.getMaterial().getId();
-			// System.out.println("jpql:" + wherejpql);
+			System.out.println("jpql:" + wherejpql);
 			Stock stock = new Stock();
 			if(stockService.getScrollData(wherejpql, null, null).getTotalrecord() > 0) {
 				stock = stockService.getScrollData(wherejpql, null, null).getResultlist().get(0);
 				// 查询库存明细表中是否存在 同批次号、同库房的库存记录，如果存在则选中
-				String wherejpql2 = "o.batchNumber=" + outStockDetail.getBatchNumber() + " and o.warehouse.id=" + outStockDetail.getWarehouse().getId();
-				// System.out.println("jpql:" + wherejpql);
+				String wherejpql2 = "o.batchNumber='" + outStockDetail.getBatchNumber() + "' and o.warehouse.id=" + outStockDetail.getWarehouse().getId();
+				System.out.println("jpql:" + wherejpql2);
 				StockDetail stockDetail = new StockDetail();
 				if(stockDetailService.getScrollData(wherejpql2, null, null).getTotalrecord() > 0) {
 					stockDetail = stockDetailService.getScrollData(wherejpql2, null, null).getResultlist().get(0);
 
 					// 如果出库数量大于库存数量时如何处理
-					// if(outStockDetail.getBillCount().compareTo(stockDetail.getAmount())) {
+					if(outStockDetail.getBillCount().compareTo(stockDetail.getAmount()) == 1) {
+						String materialName = outStockDetail.getMaterial().getName();
+						return "库存数量不足：" + materialName + "[" + outStockDetail.getBatchNumber() + "]只有" + stockDetail.getAmount() + "(" + stockDetail.getUnit().getName() + ")";
+					}
 					// 更新这个批次并且存放在这个库房的物料的数量
 					stockDetail.setAmount(stockDetail.getAmount().subtract(outStockDetail.getBillCount()));
 
 					// 如果库存总数为0则删除这条库存记录，否则更新库存金额和绝对平均价格
-					if(BigDecimal.ZERO.equals(stockDetail.getAmount())) {
+					if(BigDecimal.ZERO.compareTo(stockDetail.getAmount()) == 0) {
 						stockDetailService.delete(stockDetail.getId());
+						System.out.println("Delete stockDetail");
 					} else {
 						System.out.println("stockDetail.getCost():" + stockDetail.getCost());
 						System.out.println("outStockDetail.getBillCost():" + outStockDetail.getBillCost());
