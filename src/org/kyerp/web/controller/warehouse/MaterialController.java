@@ -73,13 +73,12 @@ public class MaterialController extends BaseController{
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
 		QueryResult<Material> queryResult = materialService.getScrollData(start, limit, jpql.toString(), params.toArray(), orderby);
-		// logger.info("jpql:" + jpql.toString());
-		// logger.info("param:" + params.toString());
 		List<MaterialExtGridRow> rows = new ArrayList<MaterialExtGridRow>();
 		for (Material m : queryResult.getResultlist()) {
 			MaterialExtGridRow rr = new MaterialExtGridRow();
 			rr.setId(m.getId());
 			rr.setName(m.getName());
+			rr.setMaterialName(m.getMaterialName());
 			rr.setAmount(m.getAmount());
 			rr.setSpecification(m.getSpecification());
 			rr.setSerialNumber(m.getSerialNumber());
@@ -132,8 +131,7 @@ public class MaterialController extends BaseController{
 		if(null != materialRow.getWarehouseId()) {
 			material.setWarehouse(warehouseService.find(materialRow.getWarehouseId()));
 		}
-		material.setName(materialRow.getName());
-		material.setSerialNumber(materialRow.getSerialNumber());
+		material.setMaterialName(materialRow.getMaterialName());
 		material.setSpecification(materialRow.getSpecification());
 		material.setPrice(materialRow.getPrice());
 		if(null != materialRow.getUnitId()) {

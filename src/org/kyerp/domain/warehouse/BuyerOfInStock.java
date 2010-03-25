@@ -16,7 +16,7 @@ import org.kyerp.domain.org.Employee;
  */
 @Entity
 @DiscriminatorValue("buyer")
-public class BuyerOfEnteringMaterial extends InStock implements Serializable{
+public class BuyerOfInStock extends InStock implements Serializable{
 	private static final long	serialVersionUID	= 1L;
 	/** 采购入库单填单时间 */
 	private Date				inputTime			= new Date();
@@ -28,7 +28,7 @@ public class BuyerOfEnteringMaterial extends InStock implements Serializable{
 	@ManyToOne
 	private Employee			inputMan;
 
-	public BuyerOfEnteringMaterial() {
+	public BuyerOfInStock() {
 	}
 
 	@Override

@@ -21,41 +21,44 @@ public class PaperOfMaterial extends Material{
 	private static final long	serialVersionUID	= -4449340515383717173L;
 	/** 纸张名称 */
 	private String				paperName			= "";
-	/** 纸张规格：正度、大度 */
-	private String				paperType			= "";
 	/** 纸长(mm) */
 	private int					paperHeight			= 0;
 	/** 纸宽(mm) */
 	private int					paperWidth			= 0;
-	/** 纸张大小：全开、对开、四开 */
-	private String				paperSize			= "";
 	/** 纸张克重 */
 	private int					paperWeight			= 0;
 	/** 纸张吨价 */
 	private BigDecimal			tonnePrice			= new BigDecimal("0");
 	/** 每平米价格 */
 	private BigDecimal			squareMetrePrice	= new BigDecimal("0");
+	/** 每张价格 */
+	private BigDecimal			pricePrePage;
 
 	public PaperOfMaterial() {
 	}
 
-	public void setName() {
+	// 设置物料名称
+	public void setMaterialName() {
 		StringBuffer paperBuffer = new StringBuffer();
-		paperBuffer.append("(").append(this.getPaperWeight()).append("克").append(this.getSupplier().getName()).append(")");
+		paperBuffer.append("(").append(this.getPaperWeight()).append("克").append(super.getSupplier().getName()).append(")");
 		if(null != super.getBrand()) {
 			paperBuffer.append(super.getBrand().getName());
 		}
 		paperBuffer.append(this.paperName);
-		paperBuffer.append("(").append(this.getPaperWidth()).append("*").append(this.getPaperHeight()).append(")");
-		super.setName(paperBuffer.toString());
+		super.setMaterialName(paperBuffer.toString());
+	}
+
+	// 设置物料规格
+	public void setSpecification() {
+		super.setSpecification(String.valueOf(this.getPaperWidth()) + "*" + String.valueOf(this.getPaperHeight()));
 	}
 
 	/** 在对象新建前保存建立时间 */
 	@Override
 	@PrePersist
 	public void prePersist() {
-		this.setName();
-		super.setSpecification(this.paperType);
+		this.setMaterialName();
+		this.setSpecification();
 		super.prePersist();
 	}
 
@@ -63,17 +66,9 @@ public class PaperOfMaterial extends Material{
 	@PreUpdate
 	@Override
 	public void preUpdate() {
-		this.setName();
-		super.setSpecification(this.paperType);
+		this.setMaterialName();
+		this.setSpecification();
 		super.preUpdate();
-	}
-
-	public String getPaperType() {
-		return paperType;
-	}
-
-	public void setPaperType(String paperType) {
-		this.paperType = paperType;
 	}
 
 	public String getPaperName() {
@@ -100,14 +95,6 @@ public class PaperOfMaterial extends Material{
 		this.paperWidth = paperWidth;
 	}
 
-	public String getPaperSize() {
-		return paperSize;
-	}
-
-	public void setPaperSize(String paperSize) {
-		this.paperSize = paperSize;
-	}
-
 	public int getPaperWeight() {
 		return paperWeight;
 	}
@@ -118,6 +105,14 @@ public class PaperOfMaterial extends Material{
 
 	public BigDecimal getTonnePrice() {
 		return tonnePrice;
+	}
+
+	public BigDecimal getPricePrePage() {
+		return pricePrePage;
+	}
+
+	public void setPricePrePage(BigDecimal pricePrePage) {
+		this.pricePrePage = pricePrePage;
 	}
 
 	public void setTonnePrice(BigDecimal tonnePrice) {
