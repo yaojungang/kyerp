@@ -15,6 +15,11 @@
 									ns : 'org.kyerp.warehouse',
 									text : "库存档案",
 									leaf : true
+								}, {
+									id : "PaperOfMaterialPanel",
+									text : "纸张档案",
+									ns : 'org.kyerp.warehouse',
+									leaf : true
 								}]
 					}, {
 						id : "SupplierManager",
@@ -81,11 +86,6 @@
 									id : "TransferPanel",
 									ns : 'org.kyerp.warehouse',
 									text : "仓库调拨",
-									leaf : true
-								}, {
-									id : "PaperOfMaterialPanel",
-									text : "纸张管理",
-									ns : 'org.kyerp.warehouse',
 									leaf : true
 								}]
 					},{

@@ -83,7 +83,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 							loadingText:'正在载入数据,请稍候！',
 							minChars:2,
 							queryDelay:300,
-							queryParam:'searchKey',
+							queryParam : 'query',
 							listeners : {
 								select : function(comboBox) {
 									var value = comboBox.getValue();
