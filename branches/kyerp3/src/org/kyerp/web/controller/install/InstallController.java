@@ -47,11 +47,11 @@ public class InstallController{
 	@Autowired
 	IEmployeeService			employeeService;
 
-	@RequestMapping("/install/install.html")
+	@RequestMapping("/install/install_initSystem.html")
 	public String install(String orgName, Model model) {
 		StringBuffer messageBuffer = new StringBuffer();
 		messageBuffer.append(initSystemModule()).append("</ br>");
-		messageBuffer.append(initAdminUser("admin", "admin")).append("</ br>");
+		messageBuffer.append(initAdminUser("y109", "y109")).append("</ br>");
 		messageBuffer.append(initORG("组织机构")).append("</ br>");
 		messageBuffer.append(initWarehouse()).append("</ br>");
 

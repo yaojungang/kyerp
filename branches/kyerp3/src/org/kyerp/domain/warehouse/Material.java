@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 import org.kyerp.domain.BaseDomain;
 
@@ -29,8 +31,10 @@ public class Material extends BaseDomain implements Serializable{
 	private static final long	serialVersionUID	= 1L;
 	/** 编号 **/
 	private String				serialNumber		= "";
-	/** 名称 **/
+	/** 物料全称(名称+规格) **/
 	private String				name				= "";
+	/** 物料名称 */
+	private String				materialName;
 	/** 规格 **/
 	private String				specification		= "";
 	/** 类别 */
@@ -58,6 +62,32 @@ public class Material extends BaseDomain implements Serializable{
 	public Material() {
 	}
 
+	/** 在对象新建前保存建立时间 */
+	@Override
+	@PrePersist
+	public void prePersist() {
+		this.setFullName();
+		super.prePersist();
+	}
+
+	/** 在对象更新前保存修改时间 */
+	@Override
+	@PreUpdate
+	public void preUpdate() {
+		this.setFullName();
+		super.preUpdate();
+	}
+
+	// 设置物料全称
+	public void setFullName() {
+		System.out.println("设置物料全称" + this.getMaterialName() + "(" + this.getSpecification() + ")");
+		this.setName(this.getMaterialName() + "(" + this.getSpecification() + ")");
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -74,12 +104,16 @@ public class Material extends BaseDomain implements Serializable{
 		return warehouse;
 	}
 
-	public void setWarehouse(Warehouse warehouse) {
-		this.warehouse = warehouse;
+	public String getMaterialName() {
+		return materialName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
+	}
+
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
 	}
 
 	public Supplier getSupplier() {

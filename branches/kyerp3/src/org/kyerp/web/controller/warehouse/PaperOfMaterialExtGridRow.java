@@ -8,29 +8,28 @@ import java.math.BigDecimal;
  * @author y109
  *         2010-3-25上午11:43:32
  */
-public class PaperOfMaterialExtGridRow extends MaterialCategoryExtGridRow{
+public class PaperOfMaterialExtGridRow{
 	/** 纸张名称 */
 	private String		paperName;
-	/** 纸张规格：正度、大度 */
-	private String		paperType;
 	/** 纸长(mm) */
 	private int			paperHeight;
 	/** 纸宽(mm) */
 	private int			paperWidth;
-	/** 纸张大小：全开、对开、四开 */
-	private String		paperSize;
 	/** 纸张克重 */
 	private int			paperWeight;
 	/** 纸张吨价 */
 	private BigDecimal	tonnePrice;
 	/** 每平米价格 */
 	private BigDecimal	squareMetrePrice;
-
+	/** 每张价格 */
+	private BigDecimal	pricePrePage;
 	private Long		id;
 	/** 编号 **/
 	private String		serialNumber;
-	/** 名称 **/
+	/** 物料全称 **/
 	private String		name;
+	/** 物料名称 */
+	private String		materialName;
 	/** 规格 **/
 	private String		specification;
 	/** 类别 */
@@ -67,34 +66,84 @@ public class PaperOfMaterialExtGridRow extends MaterialCategoryExtGridRow{
 		this.paperName = paperName;
 	}
 
-	@Override
+	public int getPaperHeight() {
+		return paperHeight;
+	}
+
+	public void setPaperHeight(int paperHeight) {
+		this.paperHeight = paperHeight;
+	}
+
+	public int getPaperWidth() {
+		return paperWidth;
+	}
+
+	public void setPaperWidth(int paperWidth) {
+		this.paperWidth = paperWidth;
+	}
+
+	public BigDecimal getPricePrePage() {
+		return pricePrePage;
+	}
+
+	public void setPricePrePage(BigDecimal pricePrePage) {
+		this.pricePrePage = pricePrePage;
+	}
+
+	public int getPaperWeight() {
+		return paperWeight;
+	}
+
+	public void setPaperWeight(int paperWeight) {
+		this.paperWeight = paperWeight;
+	}
+
+	public BigDecimal getTonnePrice() {
+		return tonnePrice;
+	}
+
+	public void setTonnePrice(BigDecimal tonnePrice) {
+		this.tonnePrice = tonnePrice;
+	}
+
+	public BigDecimal getSquareMetrePrice() {
+		return squareMetrePrice;
+	}
+
+	public void setSquareMetrePrice(BigDecimal squareMetrePrice) {
+		this.squareMetrePrice = squareMetrePrice;
+	}
+
 	public Long getId() {
 		return id;
 	}
 
-	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	@Override
 	public String getSerialNumber() {
 		return serialNumber;
 	}
 
-	@Override
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
 	}
 
-	@Override
 	public String getName() {
 		return name;
 	}
 
-	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getMaterialName() {
+		return materialName;
+	}
+
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
 	}
 
 	public String getSpecification() {
@@ -201,70 +250,12 @@ public class PaperOfMaterialExtGridRow extends MaterialCategoryExtGridRow{
 		this.supplierName = supplierName;
 	}
 
-	@Override
 	public Boolean getVisible() {
 		return visible;
 	}
 
-	@Override
 	public void setVisible(Boolean visible) {
 		this.visible = visible;
-	}
-
-	public String getPaperType() {
-		return paperType;
-	}
-
-	public void setPaperType(String paperType) {
-		this.paperType = paperType;
-	}
-
-	public int getPaperHeight() {
-		return paperHeight;
-	}
-
-	public void setPaperHeight(int paperHeight) {
-		this.paperHeight = paperHeight;
-	}
-
-	public int getPaperWidth() {
-		return paperWidth;
-	}
-
-	public void setPaperWidth(int paperWidth) {
-		this.paperWidth = paperWidth;
-	}
-
-	public String getPaperSize() {
-		return paperSize;
-	}
-
-	public void setPaperSize(String paperSize) {
-		this.paperSize = paperSize;
-	}
-
-	public int getPaperWeight() {
-		return paperWeight;
-	}
-
-	public void setPaperWeight(int paperWeight) {
-		this.paperWeight = paperWeight;
-	}
-
-	public BigDecimal getTonnePrice() {
-		return tonnePrice;
-	}
-
-	public void setTonnePrice(BigDecimal tonnePrice) {
-		this.tonnePrice = tonnePrice;
-	}
-
-	public BigDecimal getSquareMetrePrice() {
-		return squareMetrePrice;
-	}
-
-	public void setSquareMetrePrice(BigDecimal squareMetrePrice) {
-		this.squareMetrePrice = squareMetrePrice;
 	}
 
 }

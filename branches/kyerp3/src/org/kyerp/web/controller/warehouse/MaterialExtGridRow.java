@@ -9,8 +9,10 @@ public class MaterialExtGridRow{
 	private Long		id;
 	/** 编号 **/
 	private String		serialNumber;
-	/** 名称 **/
+	/** 物料全称 **/
 	private String		name;
+	/** 物料名称 */
+	private String		materialName;
 	/** 规格 **/
 	private String		specification;
 	/** 类别 */
@@ -53,6 +55,14 @@ public class MaterialExtGridRow{
 
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
+	}
+
+	public String getMaterialName() {
+		return materialName;
+	}
+
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
 	}
 
 	public String getName() {

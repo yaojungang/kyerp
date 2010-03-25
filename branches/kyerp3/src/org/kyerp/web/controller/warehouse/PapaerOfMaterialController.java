@@ -15,6 +15,7 @@ import org.kyerp.service.warehouse.IPaperOfMaterialService;
 import org.kyerp.service.warehouse.ISupplierService;
 import org.kyerp.service.warehouse.IUnitService;
 import org.kyerp.service.warehouse.IWarehouseService;
+import org.kyerp.utils.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -79,6 +80,8 @@ public class PapaerOfMaterialController{
 			PaperOfMaterialExtGridRow rr = new PaperOfMaterialExtGridRow();
 			rr.setId(m.getId());
 			rr.setName(m.getName());
+			rr.setMaterialName(m.getMaterialName());
+			rr.setSpecification(m.getSpecification());
 			rr.setAmount(m.getAmount());
 			rr.setSerialNumber(m.getSerialNumber());
 			if(null != m.getMaterialCategory()) {
@@ -104,21 +107,18 @@ public class PapaerOfMaterialController{
 			}
 			/** 纸张名称 */
 			rr.setPaperName(m.getPaperName());
-			/** 纸张规格：正度、大度 */
-			rr.setPaperType(m.getPaperType());
 			/** 纸长(mm) */
-			rr.setPaperSize(m.getPaperSize());
+			rr.setPaperHeight(m.getPaperHeight());
 			/** 纸宽(mm) */
 			rr.setPaperWidth(m.getPaperWidth());
-			/** 纸张大小：全开、对开、四开 */
-			rr.setPaperSize(m.getPaperSize());
 			/** 纸张克重 */
 			rr.setPaperWeight(m.getPaperWeight());
 			/** 纸张吨价 */
 			rr.setTonnePrice(m.getTonnePrice());
 			/** 每平米价格 */
 			rr.setSquareMetrePrice(m.getSquareMetrePrice());
-
+			/** 每张价格 */
+			rr.setPricePrePage(m.getPricePrePage());
 			rows.add(rr);
 		}
 		model.addAttribute("start", limit);
@@ -132,29 +132,26 @@ public class PapaerOfMaterialController{
 	@RequestMapping("/warehouse/PaperOfMaterial/jsonSave.html")
 	public String save(PaperOfMaterialExtGridRow materialRow, ModelMap model) {
 		PaperOfMaterial material = new PaperOfMaterial();
+		if(null != materialRow.getId() && materialRow.getId() > 0) {
+			material = paperOfMaterialService.find(materialRow.getId());
+		}
 		/** 纸张名称 */
 		if(null != materialRow.getPaperName()) {
 			material.setPaperName(materialRow.getPaperName());
-		}
-		/** 纸张规格：正度、大度 */
-		if(null != materialRow.getPaperType()) {
-			material.setPaperType(materialRow.getPaperType());
 		}
 		/** 纸长(mm) */
 		material.setPaperHeight(materialRow.getPaperHeight());
 		/** 纸宽(mm) */
 		material.setPaperWidth(materialRow.getPaperWidth());
-		/** 纸张大小：全开、对开、四开 */
-		material.setPaperSize(materialRow.getPaperSize());
 		/** 纸张克重 */
 		material.setPaperWeight(materialRow.getPaperWeight());
 		/** 纸张吨价 */
 		material.setTonnePrice(materialRow.getTonnePrice());
+		/** 纸张价格（令价） */
+		material.setPrice(PrintUtils.getPaperLinPriceByTonePrice(materialRow.getTonnePrice(), materialRow.getPaperWeight(), materialRow.getPaperHeight(), materialRow.getPaperWidth()));
 		/** 每平米价格 */
-		material.setSquareMetrePrice(materialRow.getSquareMetrePrice());
-		if(null != materialRow.getId() && materialRow.getId() > 0) {
-			material = paperOfMaterialService.find(materialRow.getId());
-		}
+		/** 每张价格 */
+		material.setPricePrePage(PrintUtils.getPaperPagePriceByTonePrice(materialRow.getTonnePrice(), materialRow.getPaperWeight(), materialRow.getPaperHeight(), materialRow.getPaperWidth()));
 		if(null != materialRow.getMaterialCategoryId()) {
 			material.setMaterialCategory(materialCategoryService.find(materialRow.getMaterialCategoryId()));
 		}
@@ -167,10 +164,6 @@ public class PapaerOfMaterialController{
 		if(null != materialRow.getWarehouseId()) {
 			material.setWarehouse(warehouseService.find(materialRow.getWarehouseId()));
 		}
-		material.setName(materialRow.getName());
-		material.setSerialNumber(materialRow.getSerialNumber());
-		material.setSpecification(materialRow.getSpecification());
-		material.setPrice(materialRow.getPrice());
 		if(null != materialRow.getUnitId()) {
 			material.setUnit(unitService.find(materialRow.getUnitId()));
 		}
