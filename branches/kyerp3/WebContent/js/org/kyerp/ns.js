@@ -46,6 +46,10 @@ org.kyerp.warehouse.MaterialListPanel_STORE_URL = "warehouse/Material/jsonList.h
 org.kyerp.warehouse.MaterialListPanel_SAVE_URL = "warehouse/Material/jsonSave.html";
 org.kyerp.warehouse.MaterialListPanel_DELETE_URL = "warehouse/Material/jsonDelete.html";
 /** ***************************************************************************** */
+org.kyerp.warehouse.PaperOfMaterialPanel_STORE_URL = "warehouse/PaperOfMaterial/jsonList.html";
+org.kyerp.warehouse.PaperOfMaterialPanel_SAVE_URL = "warehouse/PaperOfMaterial/jsonSave.html";
+org.kyerp.warehouse.PaperOfMaterialPanel_DELETE_URL = "warehouse/PaperOfMaterial/jsonDelete.html";
+/** ***************************************************************************** */
 org.kyerp.warehouse.MaterialPanel_STORE_URL = "warehouse/Material/jsonList.html";
 /** ***************************************************************************** */
 org.kyerp.warehouse.Supplier_TREE_URL = "warehouse/Supplier/jsonTree.html";

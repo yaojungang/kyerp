@@ -1,12 +1,12 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
+org.kyerp.warehouse.PaperOfMaterialPanelFormPanel = Ext.extend(Ext.form.FormPanel, {
 	url : "",
 	constructor : function(_cfg) {
 		if (_cfg == null)
 			_cfg = {};
 		Ext.apply(this, _cfg);
 		var _readOnly = this["readOnly"] == null ? false : this["readOnly"];
-		org.kyerp.warehouse.MaterialListFormPanel.superclass.constructor.call(
+		org.kyerp.warehouse.PaperOfMaterialPanelFormPanel.superclass.constructor.call(
 				this, {
 					labelWidth : 80,
 					baseCls : 'x-plain',
@@ -37,10 +37,38 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 						fieldLabel : '编号',
 						name : 'serialNumber'
 					}, {
-						fieldLabel : "名称规格",
+						fieldLabel : "纸张名称",
 						allowBlank : false,
-						name : "name"
+						name : "paperName"
 					}, {
+						fieldLabel : "纸张规格",
+						allowBlank : false,
+						name : "paperType"
+					}, {
+						fieldLabel : "纸长(mm)",
+						allowBlank : false,
+						name : "paperHeight"
+					}, {
+						fieldLabel : "纸宽(mm)",
+						allowBlank : false,
+						name : "paperWidth"
+					}, {
+						fieldLabel : "纸张开发",
+						allowBlank : false,
+						name : "paperSize"
+					}, {
+						fieldLabel : "纸张克重 ",
+						allowBlank : false,
+						name : "paperWeight"
+					}, {
+						fieldLabel : "纸张吨价",
+						allowBlank : false,
+						name : "tonnePrice"
+					}, {
+						fieldLabel : "每平米价格",
+						allowBlank : false,
+						name : "squareMetrePrice"
+					},{
 						fieldLabel : "单位",
 						xtype : 'treecombobox',
 						name : 'unitId',
@@ -70,7 +98,7 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 						displayField : 'name',
 						valueField : 'id',
 						triggerAction : 'all',
-						allowBlank : false,
+						allowBlank : true,
 						treeUrl : org.kyerp.warehouse.BrandPanel_TREE_URL,
 						rootText : 'root',
 						rootId : '0',
@@ -146,15 +174,15 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 	}
 });
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialListInfoWindow = Ext.extend(Ext.Window, {
+org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow = Ext.extend(Ext.Window, {
 			url : "",
 			form : null,
 			constructor : function(_cfg) {
 				Ext.apply(this, _cfg);
-				this.form = new org.kyerp.warehouse.MaterialListFormPanel({
+				this.form = new org.kyerp.warehouse.PaperOfMaterialPanelFormPanel({
 							url : this.url
 						});
-				org.kyerp.warehouse.MaterialListInfoWindow.superclass.constructor
+				org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow.superclass.constructor
 						.call(this, {
 									plain : true,
 									width : 500,
@@ -200,18 +228,18 @@ org.kyerp.warehouse.MaterialListInfoWindow = Ext.extend(Ext.Window, {
 
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialListViewWindow = Ext.extend(Ext.Window, {
+org.kyerp.warehouse.PaperOfMaterialPanelViewWindow = Ext.extend(Ext.Window, {
 			title : "查看",
 			iconCls : 'icon-utils-s-view',
 			closeAction : 'hide',
 			html : '查看'
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialListInsertWindow = Ext.extend(
-		org.kyerp.warehouse.MaterialListInfoWindow, {
+org.kyerp.warehouse.PaperOfMaterialPanelInsertWindow = Ext.extend(
+		org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow, {
 			title : "添 加",
 			iconCls : 'icon-utils-s-add',
-			url : org.kyerp.warehouse.MaterialListPanel_SAVE_URL,
+			url : org.kyerp.warehouse.PaperOfMaterialPanel_SAVE_URL,
 			onSubmit : function(_form, _action, _values) {
 				var _data = _values.data;
 				Ext.apply(_data, {
@@ -226,11 +254,11 @@ org.kyerp.warehouse.MaterialListInsertWindow = Ext.extend(
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialListUpdateWindow = Ext.extend(
-		org.kyerp.warehouse.MaterialListInfoWindow, {
+org.kyerp.warehouse.PaperOfMaterialPanelUpdateWindow = Ext.extend(
+		org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow, {
 			title : "修 改",
 			iconCls : 'icon-utils-s-edit',
-			url : org.kyerp.warehouse.MaterialListPanel_SAVE_URL,
+			url : org.kyerp.warehouse.PaperOfMaterialPanel_SAVE_URL,
 			pnId : "",
 			load : function(_r) {
 				this.form.setValues(_r);
@@ -259,10 +287,10 @@ org.kyerp.warehouse.MaterialListUpdateWindow = Ext.extend(
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
-	viewWin : new org.kyerp.warehouse.MaterialListViewWindow(),
-	insertWin : new org.kyerp.warehouse.MaterialListInsertWindow(),
-	updateWin : new org.kyerp.warehouse.MaterialListUpdateWindow(),
+org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
+	viewWin : new org.kyerp.warehouse.PaperOfMaterialPanelViewWindow(),
+	insertWin : new org.kyerp.warehouse.PaperOfMaterialPanelInsertWindow(),
+	updateWin : new org.kyerp.warehouse.PaperOfMaterialPanelUpdateWindow(),
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
 		this["store"] = new Ext.data.Store({
@@ -271,7 +299,7 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 							limit : 20
 						}
 					},
-					url : org.kyerp.warehouse.MaterialListPanel_STORE_URL,
+					url : org.kyerp.warehouse.PaperOfMaterialPanel_STORE_URL,
 					reader : new Ext.data.JsonReader({
 								totalProperty : "totalProperty",
 								root : "rows",
@@ -320,9 +348,33 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 									}, {
 										name : 'warehouseName',
 										type : 'string'
+									}, {
+										name : 'paperName',
+										type : 'string'
+									}, {
+										name : 'paperType',
+										type : 'string'
+									}, {
+										name : 'paperHeight',
+										type : 'int'
+									}, {
+										name : 'paperWidth',
+										type : 'string'
+									}, {
+										name : 'paperSize',
+										type : 'string'
+									}, {
+										name : 'paperWeight',
+										type : 'float'
+									}, {
+										name : 'tonnePrice',
+										type : 'float'
+									}, {
+										name : 'squareMetrePrice',
+										type : 'float'
 									}]))
 				});
-		org.kyerp.warehouse.MaterialListPanel.superclass.constructor.call(this,
+		org.kyerp.warehouse.PaperOfMaterialPanel.superclass.constructor.call(this,
 				{
 					stripeRows : true,
 					tbar : [{
@@ -374,7 +426,7 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 								dataIndex : "serialNumber",
 								menuDisabled : true
 							}, {
-								header : "名称规格",
+								header : "名称",
 								dataIndex : "name",
 								width : 150,
 								menuDisabled : true
@@ -447,26 +499,16 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 		return _sm.getSelected();
 	},
 	insert : function(_r) {
-		// this.getStore().add(_r);
 		this.getStore().reload();
 	},
 	update : function(_r) {
 		this.getStore().reload();
-		// try {
-		// var _sr = this.getSelected();
-		// var _data = _sr.data;
-		// for (var _i in _data) {
-		// _sr.set(_i, _r.get(_i));
-		// }
-		// _sr.commit();
-		// } catch (_err) {
-		// }
 	},
 	removeItem : function() {
 		try {
 			var _sr = this.getSelected();
 			Ext.Ajax.request({
-						url : org.kyerp.warehouse.MaterialListPanel_DELETE_URL,
+						url : org.kyerp.warehouse.PaperOfMaterialPanel_DELETE_URL,
 						params : {
 							ids : _sr.get("id")
 						}
@@ -492,3 +534,13 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 	}
 });
 /** ***************************************************************************** */
+Ext.extend(org.kyerp.module, {
+			init : function() {
+				this.body = new org.kyerp.warehouse.PaperOfMaterialPanel({
+							border : false,
+							bodyBorder : false
+						});
+				this.main.add(this.body);
+				this.main.doLayout();
+			}
+		});
