@@ -15,7 +15,6 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 		this.tree = new Ext.tree.TreePanel({
 					region : 'west',
 					title : '功能导航',
-					// header : false,
 					width : 150,
 					minSize : 100,
 					maxSize : 300,
@@ -41,12 +40,12 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 							})
 				});
 		this.tree.on('click', this.clickTree, this);
-		this.tree.on('expandnode', function(node){
-			//alert(node.id);
-			Ext.state.Manager.set("treeState",node.getPath());
-		});
+		this.tree.on('expandnode', function(node) {
+					// alert(node.id);
+					Ext.state.Manager.set("treeState", node.getPath());
+				});
 		var treeState = Ext.state.Manager.get("treeState");
-		if(treeState){
+		if (treeState) {
 			this.tree.expandPath(treeState);
 		}
 		// header部分
@@ -286,26 +285,27 @@ Ext.onReady(function() {
 	Ext.QuickTips.init();
 	Ext.lib.Ajax.defaultPostHeader += ";charset=utf-8";
 	Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
-	kyerpApp = new org.kyerp.base();
+
 	setTimeout(function() {
 				Ext.get('loading').remove();
-			}, 350);
-	// 超时重新登录
-//	Ext.override(Ext.data.Connection, {
-//		handleResponse : Ext.data.Connection.prototype.handleResponse
-//				.createInterceptor(function(response) {
-//							if (response.getResponseHeader("LOGINED") != "YES") {
-//								Ext.Msg.alert('提示', '会话超时，请重新登录!', function(
-//												btn, text) {
-//											if (btn == 'ok') {
-//												location.reload();
-//											}
-//										});
-//							};
-//							if (response.status > 200) {
-//								alert(response.status);
-//							}
-//						})
-//	});
+				kyerpApp = new org.kyerp.base();
+			}, 250);
+		// 超时重新登录
+		// Ext.override(Ext.data.Connection, {
+		// handleResponse : Ext.data.Connection.prototype.handleResponse
+		// .createInterceptor(function(response) {
+		// if (response.getResponseHeader("LOGINED") != "YES") {
+		// Ext.Msg.alert('提示', '会话超时，请重新登录!', function(
+		// btn, text) {
+		// if (btn == 'ok') {
+		// location.reload();
+		// }
+		// });
+		// };
+		// if (response.status > 200) {
+		// alert(response.status);
+		// }
+		// })
+		// });
 
-});
+	});

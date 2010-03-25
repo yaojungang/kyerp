@@ -61,9 +61,6 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 								_detailsGrid.startEditing(_detailsGrid
 												.getStore().getCount()
 												- 1, 0);
-
-								// Ext.WindowMgr.getActive().form.form
-								// .findField('supplierId').setValue(rec.data.id);
 							}
 						});
 				this.materialCombo = new Ext.form.ComboBox({
@@ -190,14 +187,14 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 									}, '->', '双击表格可以修改资料'],
 							columns : [new Ext.grid.RowNumberer(), {
 								header : '品名型号',
-								width : 150,
+								width : 250,
 								dataIndex : "materialId",
 								renderer : Ext.ux.renderer
 										.Combo(this.materialCombo),
 								editor : this.materialCombo
 							}, {
 								header : '库房',
-								width : 150,
+								width : 80,
 								dataIndex : "warehouseId",
 								renderer : Ext.ux.renderer
 										.Combo(this.warehouseCombo),

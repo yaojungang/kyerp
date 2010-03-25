@@ -20,18 +20,11 @@ function formSubmit() {
 </head>
 
 <body>
-<table width="600" align="center" style="border:#106DBA 1px solid; margin-top:10px;">
+<table width="900" align="center" style="border:#106DBA 1px solid; margin-top:10px;">
   <tr>
-    <td bgcolor="#D1E9FA"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-        <td width="27%" height="60" rowspan="2" align="center"><img src="img/logo.gif" border="0"/></td>
-        <td width="73%" height="30" class="f14b">1、用户许可协议</td>
-      </tr>
-      <tr>
-        <td height="20" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;欢迎使用KYERP3，安装前请仔细阅读以下用户许可协议：</td>
-      </tr>
-    </table></td>
+    <td bgcolor="#D1E9FA" align="center"><h1>安装KYERP3</h1></td>
   </tr>
+  <tr><td bgcolor="#D1E9FA"><h3>1、用户许可协议</h3></td></tr>
   <tr>
     <td height="300" bgcolor="#F0F8FD">
 	<textarea name="textarea" cols="82" rows="23">                            --==KYERP3用户许可协议==--
