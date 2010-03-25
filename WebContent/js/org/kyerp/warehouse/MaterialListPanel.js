@@ -34,12 +34,13 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 						forceSelection : true,
 						rootVisible : false
 					}, {
-						fieldLabel : '编号',
-						name : 'serialNumber'
-					}, {
-						fieldLabel : "名称规格",
+						fieldLabel : "名称",
 						allowBlank : false,
-						name : "name"
+						name : "materialName"
+					}, {
+						fieldLabel : "规格",
+						allowBlank : false,
+						name : 'specification'
 					}, {
 						fieldLabel : "单位",
 						xtype : 'treecombobox',
@@ -56,11 +57,13 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 						rootId : '0',
 						forceSelection : true,
 						rootVisible : false
-					},{ 
+					}, {
 						fieldLabel : "价格",
 						name : "price",
-						blankValue:0
-					},{
+						blankValue : 0,
+						xtype:'numberfield'
+						
+					}, {
 						fieldLabel : "品牌",
 						xtype : 'treecombobox',
 						name : 'brandId',
@@ -70,7 +73,7 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 						displayField : 'name',
 						valueField : 'id',
 						triggerAction : 'all',
-						allowBlank : false,
+						allowBlank : true,
 						treeUrl : org.kyerp.warehouse.BrandPanel_TREE_URL,
 						rootText : 'root',
 						rootId : '0',
@@ -137,6 +140,22 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 	},
 	setValues : function(_r) {
 		this.getForm().loadRecord(_r);
+		// 设置单位
+		this.getForm().findField("unitId").setValue(_r.get('unitName'));
+		this.getForm().findField("unitId").hiddenField.value = _r.get('unitId');
+		// 设置品牌
+		this.getForm().findField("brandId").setValue(_r.get('brandName'));
+		this.getForm().findField("brandId").hiddenField.value = _r
+				.get('brandId');
+		// 设置供应商
+		this.getForm().findField("supplierId").setValue(_r.get('supplierName'));
+		this.getForm().findField("supplierId").hiddenField.value = _r
+				.get('supplierId');
+		// 设置仓库
+		this.getForm().findField("warehouseId").setValue(_r
+				.get('warehouseName'));
+		this.getForm().findField("warehouseId").hiddenField.value = _r
+				.get('warehouseId');
 	},
 	reset : function() {
 		this.getForm().reset();
@@ -286,8 +305,14 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : "name",
 										type : "string"
 									}, {
+										name : 'materialName',
+										type : 'string'
+									}, {
+										name : 'specification',
+										type : 'string'
+									}, {
 										name : "amount",
-										type : "int"
+										type : "float"
 									}, {
 										name : "materialCategoryId",
 										type : "int"
@@ -307,7 +332,8 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : 'unitName',
 										type : 'string'
 									}, {
-										name : 'price'
+										name : 'price',
+										type:'float'
 									}, {
 										name : 'supplierId',
 										type : 'int'
@@ -374,9 +400,13 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 								dataIndex : "serialNumber",
 								menuDisabled : true
 							}, {
-								header : "名称规格",
-								dataIndex : "name",
+								header : "名称",
+								dataIndex : "materialName",
 								width : 150,
+								menuDisabled : true
+							}, {
+								header : "规格",
+								dataIndex : "specification",
 								menuDisabled : true
 							}, {
 								header : "单位",
@@ -447,20 +477,10 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 		return _sm.getSelected();
 	},
 	insert : function(_r) {
-		// this.getStore().add(_r);
 		this.getStore().reload();
 	},
 	update : function(_r) {
 		this.getStore().reload();
-		// try {
-		// var _sr = this.getSelected();
-		// var _data = _sr.data;
-		// for (var _i in _data) {
-		// _sr.set(_i, _r.get(_i));
-		// }
-		// _sr.commit();
-		// } catch (_err) {
-		// }
 	},
 	removeItem : function() {
 		try {

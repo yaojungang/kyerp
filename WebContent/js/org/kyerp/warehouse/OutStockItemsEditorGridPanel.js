@@ -323,7 +323,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 									}, '->', '双击表格可以修改资料'],
 							columns : [new Ext.grid.RowNumberer(), {
 								header : '品名型号',
-								width : 150,
+								width : 250,
 								dataIndex : "materialId",
 								renderer : Ext.ux.renderer
 										.Combo(this.materialCombo),

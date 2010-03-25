@@ -9,7 +9,7 @@ Ext.ux.form.TreeComboBox = Ext.extend(Ext.form.ComboBox, {
 					}),
 			onSelect : function(node) {
 			},
-			//onSelect : Ext.emptyFn,
+			// onSelect : Ext.emptyFn,
 			treeTroot : null,
 			initComponent : function(ct, position) {
 				this.divId = 'tree-' + Ext.id();
@@ -33,7 +33,15 @@ Ext.ux.form.TreeComboBox = Ext.extend(Ext.form.ComboBox, {
 				this.tree = new Ext.tree.TreePanel({
 							border : false,
 							root : this.treeTroot,
-							rootVisible : this.rootVisible
+							rootVisible : this.rootVisible,
+							tools : [{
+										id : 'refresh',
+										qtip : '刷新',
+										handler : function() {
+											this.treeTroot.reload();
+										},
+										scope : this
+									}]
 						});
 				var combo = this;
 				this.tree.on('click', function(node) {

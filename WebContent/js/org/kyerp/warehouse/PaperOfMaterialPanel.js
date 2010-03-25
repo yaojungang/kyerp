@@ -1,232 +1,241 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.PaperOfMaterialPanelFormPanel = Ext.extend(Ext.form.FormPanel, {
-	url : "",
-	constructor : function(_cfg) {
-		if (_cfg == null)
-			_cfg = {};
-		Ext.apply(this, _cfg);
-		var _readOnly = this["readOnly"] == null ? false : this["readOnly"];
-		org.kyerp.warehouse.PaperOfMaterialPanelFormPanel.superclass.constructor.call(
-				this, {
-					labelWidth : 80,
-					baseCls : 'x-plain',
-					labelAlign : 'right',
-					defaultType : "textfield",
-					defaults : {
-						anchor : "95%",
-						msgTarget : 'side',
-						readOnly : _readOnly
-					},
-					items : [{
-						xtype : 'treecombobox',
-						name : 'materialCategoryId',
-						hiddenName : 'materialCategoryId',
-						fieldLabel : '物料分类',
-						editable : false,
-						mode : 'local',
-						displayField : 'name',
-						valueField : 'id',
-						triggerAction : 'all',
-						allowBlank : false,
-						treeUrl : org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL,
-						rootText : 'root',
-						rootId : '0',
-						forceSelection : true,
-						rootVisible : false
-					}, {
-						fieldLabel : '编号',
-						name : 'serialNumber'
-					}, {
-						fieldLabel : "纸张名称",
-						allowBlank : false,
-						name : "paperName"
-					}, {
-						fieldLabel : "纸张规格",
-						allowBlank : false,
-						name : "paperType"
-					}, {
-						fieldLabel : "纸长(mm)",
-						allowBlank : false,
-						name : "paperHeight"
-					}, {
-						fieldLabel : "纸宽(mm)",
-						allowBlank : false,
-						name : "paperWidth"
-					}, {
-						fieldLabel : "纸张开发",
-						allowBlank : false,
-						name : "paperSize"
-					}, {
-						fieldLabel : "纸张克重 ",
-						allowBlank : false,
-						name : "paperWeight"
-					}, {
-						fieldLabel : "纸张吨价",
-						allowBlank : false,
-						name : "tonnePrice"
-					}, {
-						fieldLabel : "每平米价格",
-						allowBlank : false,
-						name : "squareMetrePrice"
-					},{
-						fieldLabel : "单位",
-						xtype : 'treecombobox',
-						name : 'unitId',
-						hiddenName : 'unitId',
-						editable : false,
-						mode : 'local',
-						displayField : 'name',
-						valueField : 'id',
-						triggerAction : 'all',
-						allowBlank : false,
-						treeUrl : org.kyerp.warehouse.UnitPanel_TREE_URL,
-						rootText : 'root',
-						rootId : '0',
-						forceSelection : true,
-						rootVisible : false
-					},{ 
-						fieldLabel : "价格",
-						name : "price",
-						blankValue:0
-					},{
-						fieldLabel : "品牌",
-						xtype : 'treecombobox',
-						name : 'brandId',
-						hiddenName : 'brandId',
-						editable : false,
-						mode : 'local',
-						displayField : 'name',
-						valueField : 'id',
-						triggerAction : 'all',
-						allowBlank : true,
-						treeUrl : org.kyerp.warehouse.BrandPanel_TREE_URL,
-						rootText : 'root',
-						rootId : '0',
-						forceSelection : true,
-						rootVisible : false
-					}, {
-						fieldLabel : "供应商",
-						name : 'supplierId',
-						hiddenName : 'supplierId',
-						xtype : 'treecombobox',
-						editable : false,
-						mode : 'local',
-						displayField : 'name',
-						valueField : 'id',
-						triggerAction : 'all',
-						allowBlank : false,
-						treeUrl : org.kyerp.warehouse.Supplier_TREE_URL,
-						rootText : 'root',
-						rootId : '0',
-						forceSelection : true,
-						rootVisible : false
-					}, {
-						fieldLabel : "默认仓库",
-						name : 'warehouseId',
-						hiddenName : 'warehouseId',
-						xtype : 'treecombobox',
-						editable : false,
-						mode : 'local',
-						displayField : 'name',
-						valueField : 'id',
-						triggerAction : 'all',
-						allowBlank : false,
-						treeUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL,
-						rootText : 'root',
-						rootId : '0',
-						forceSelection : true,
-						rootVisible : false
-					}]
-				});
-		this.addEvents("submit");
-	},
-	submit : function(_params) {
-		if (_params == null)
-			_params = {};
-		try {
-			if (this.url != "")
-				this.getForm().submit({
-							url : this.url,
-							params : _params,
-							success : this.onSubmit,
-							waitTitle : "数据传送",
-							waitMsg : "数据传送中,请稍候...",
-							scope : this
-						});
-
-		} catch (_err) {
-		}
-	},
-	getValues : function() {
-		if (this.getForm().isValid())
-			return new Ext.data.Record(this.getForm().getValues());
-		else
-			throw Error("表单验证没有通过");
-	},
-	setValues : function(_r) {
-		this.getForm().loadRecord(_r);
-	},
-	reset : function() {
-		this.getForm().reset();
-	},
-	onSubmit : function(_form, _action) {
-		this.fireEvent("submit", this, _action, this.getValues());
-	}
-});
-/** ***************************************************************************** */
-org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow = Ext.extend(Ext.Window, {
+org.kyerp.warehouse.PaperOfMaterialPanelFormPanel = Ext.extend(
+		Ext.form.FormPanel, {
 			url : "",
-			form : null,
 			constructor : function(_cfg) {
+				if (_cfg == null)
+					_cfg = {};
 				Ext.apply(this, _cfg);
-				this.form = new org.kyerp.warehouse.PaperOfMaterialPanelFormPanel({
-							url : this.url
-						});
-				org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow.superclass.constructor
+				var _readOnly = this["readOnly"] == null
+						? false
+						: this["readOnly"];
+				org.kyerp.warehouse.PaperOfMaterialPanelFormPanel.superclass.constructor
 						.call(this, {
-									plain : true,
-									width : 500,
-									minWidth : 500,
-									minHeight : 300,
-									layout : 'fit',
-									modal : true,
-									items : this.form,
-									closeAction : "hide",
-									buttons : [{
-												text : "确 定",
-												handler : this.onSubmitClick,
-												scope : this
-											}, {
-												text : "取 消",
-												handler : this.onCancelClick,
-												scope : this
-											}]
+							labelWidth : 80,
+							baseCls : 'x-plain',
+							labelAlign : 'right',
+							defaultType : "textfield",
+							defaults : {
+								anchor : "95%",
+								msgTarget : 'side',
+								readOnly : _readOnly
+							},
+							items : [{
+								xtype : 'treecombobox',
+								name : 'materialCategoryId',
+								hiddenName : 'materialCategoryId',
+								fieldLabel : '物料分类',
+								editable : false,
+								mode : 'local',
+								displayField : 'name',
+								valueField : 'id',
+								triggerAction : 'all',
+								allowBlank : false,
+								treeUrl : org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL,
+								rootText : 'root',
+								rootId : '0',
+								forceSelection : true,
+								rootVisible : false
+							}, {
+								fieldLabel : "纸张名称",
+								allowBlank : false,
+								name : "paperName"
+							}, {
+								fieldLabel : "纸宽(mm)",
+								allowBlank : false,
+								name : "paperWidth",
+								xtype:'numberfield'
+							}, {
+								fieldLabel : "纸长(mm)",
+								allowBlank : false,
+								name : "paperHeight",
+								xtype:'numberfield'
+							}, {
+								fieldLabel : "纸张克重 ",
+								allowBlank : false,
+								name : "paperWeight",
+								xtype:'numberfield'
+							}, {
+								fieldLabel : "纸张吨价",
+								allowBlank : false,
+								name : "tonnePrice",
+								blankValue : 0,
+								xtype:'numberfield'
+							}, {
+								fieldLabel : "单位",
+								xtype : 'treecombobox',
+								name : 'unitId',
+								hiddenName : 'unitId',
+								editable : false,
+								mode : 'local',
+								displayField : 'name',
+								valueField : 'id',
+								triggerAction : 'all',
+								allowBlank : false,
+								treeUrl : org.kyerp.warehouse.UnitPanel_TREE_URL,
+								rootText : 'root',
+								rootId : '0',
+								forceSelection : true,
+								rootVisible : false
+							}, {
+								fieldLabel : "供应商",
+								name : 'supplierId',
+								hiddenName : 'supplierId',
+								xtype : 'treecombobox',
+								editable : false,
+								mode : 'local',
+								displayField : 'name',
+								valueField : 'id',
+								triggerAction : 'all',
+								allowBlank : false,
+								treeUrl : org.kyerp.warehouse.Supplier_TREE_URL,
+								rootText : 'root',
+								rootId : '0',
+								forceSelection : true,
+								rootVisible : false
+							}, {
+								fieldLabel : "品牌",
+								xtype : 'treecombobox',
+								name : 'brandId',
+								hiddenName : 'brandId',
+								editable : false,
+								mode : 'local',
+								displayField : 'name',
+								valueField : 'id',
+								triggerAction : 'all',
+								allowBlank : true,
+								treeUrl : org.kyerp.warehouse.BrandPanel_TREE_URL,
+								rootText : 'root',
+								rootId : '0',
+								forceSelection : true,
+								rootVisible : false
+							}, {
+								fieldLabel : "默认仓库",
+								name : 'warehouseId',
+								hiddenName : 'warehouseId',
+								xtype : 'treecombobox',
+								editable : false,
+								mode : 'local',
+								displayField : 'name',
+								valueField : 'id',
+								triggerAction : 'all',
+								allowBlank : false,
+								treeUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL,
+								rootText : 'root',
+								rootId : '0',
+								forceSelection : true,
+								rootVisible : false
+							}]
+						});
+				this.addEvents("submit");
+			},
+			submit : function(_params) {
+				if (_params == null)
+					_params = {};
+				try {
+					if (this.url != "")
+						this.getForm().submit({
+									url : this.url,
+									params : _params,
+									success : this.onSubmit,
+									waitTitle : "数据传送",
+									waitMsg : "数据传送中,请稍候...",
+									scope : this
 								});
 
-				this.addEvents("submit");
-				this.form.on("submit", this.onSubmit, this);
-			},
-			close : function() {
-				this.form.reset();
-				this.hide();
-			},
-			onSubmitClick : function() {
-				this.form.submit();
-			},
-			onCancelClick : function() {
-
-				this.close();
-			},
-			onSubmit : function(_form, _action, _values) {
-				try {
-					this.fireEvent("submit", this, _values);
 				} catch (_err) {
-					return;
 				}
-				this.close();
-			}
+			},
+			getValues : function() {
+				if (this.getForm().isValid())
+					return new Ext.data.Record(this.getForm().getValues());
+				else
+					throw Error("表单验证没有通过");
+			},
+			setValues : function(_r) {
+				this.getForm().loadRecord(_r);
 
+				// 设置单位
+				this.getForm().findField("unitId").setValue(_r.get('unitName'));
+				this.getForm().findField("unitId").hiddenField.value = _r
+						.get('unitId');
+				// 设置品牌
+				this.getForm().findField("brandId").setValue(_r
+						.get('brandName'));
+				this.getForm().findField("brandId").hiddenField.value = _r
+						.get('brandId');
+				// 设置供应商
+				this.getForm().findField("supplierId").setValue(_r
+						.get('supplierName'));
+				this.getForm().findField("supplierId").hiddenField.value = _r
+						.get('supplierId');
+				// 设置仓库
+				this.getForm().findField("warehouseId").setValue(_r
+						.get('warehouseName'));
+				this.getForm().findField("warehouseId").hiddenField.value = _r
+						.get('warehouseId');
+			},
+			reset : function() {
+				this.getForm().reset();
+			},
+			onSubmit : function(_form, _action) {
+				this.fireEvent("submit", this, _action, this.getValues());
+			}
 		});
+/** ***************************************************************************** */
+org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow = Ext.extend(Ext.Window, {
+	url : "",
+	form : null,
+	constructor : function(_cfg) {
+		Ext.apply(this, _cfg);
+		this.form = new org.kyerp.warehouse.PaperOfMaterialPanelFormPanel({
+					url : this.url
+				});
+		org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow.superclass.constructor
+				.call(this, {
+							plain : true,
+							width : 500,
+							minWidth : 500,
+							minHeight : 300,
+							layout : 'fit',
+							modal : true,
+							items : this.form,
+							closeAction : "hide",
+							buttons : [{
+										text : "确 定",
+										handler : this.onSubmitClick,
+										scope : this
+									}, {
+										text : "取 消",
+										handler : this.onCancelClick,
+										scope : this
+									}]
+						});
+
+		this.addEvents("submit");
+		this.form.on("submit", this.onSubmit, this);
+	},
+	close : function() {
+		this.form.reset();
+		this.hide();
+	},
+	onSubmitClick : function() {
+		this.form.submit();
+	},
+	onCancelClick : function() {
+
+		this.close();
+	},
+	onSubmit : function(_form, _action, _values) {
+		try {
+			this.fireEvent("submit", this, _values);
+		} catch (_err) {
+			return;
+		}
+		this.close();
+	}
+
+});
 /** ***************************************************************************** */
 org.kyerp.warehouse.PaperOfMaterialPanelViewWindow = Ext.extend(Ext.Window, {
 			title : "查看",
@@ -314,8 +323,11 @@ org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : "name",
 										type : "string"
 									}, {
-										name : "amount",
-										type : "int"
+										name : "materialName",
+										type : "string"
+									}, {
+										name : 'specification',
+										type : 'string'
 									}, {
 										name : "materialCategoryId",
 										type : "int"
@@ -335,7 +347,8 @@ org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 										name : 'unitName',
 										type : 'string'
 									}, {
-										name : 'price'
+										name : 'price',
+										type : 'float'
 									}, {
 										name : 'supplierId',
 										type : 'int'
@@ -359,7 +372,7 @@ org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 										type : 'int'
 									}, {
 										name : 'paperWidth',
-										type : 'string'
+										type : 'int'
 									}, {
 										name : 'paperSize',
 										type : 'string'
@@ -372,10 +385,13 @@ org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 									}, {
 										name : 'squareMetrePrice',
 										type : 'float'
+									}, {
+										name : 'pricePrePage',
+										type : 'float'
 									}]))
 				});
-		org.kyerp.warehouse.PaperOfMaterialPanel.superclass.constructor.call(this,
-				{
+		org.kyerp.warehouse.PaperOfMaterialPanel.superclass.constructor.call(
+				this, {
 					stripeRows : true,
 					tbar : [{
 								text : "查  看",
@@ -416,49 +432,49 @@ org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 					enableColumnMove : false,
 					colModel : new Ext.grid.ColumnModel([
 							new Ext.grid.RowNumberer(), {
-								header : "ID",
-								dataIndex : "id",
-								align : "center",
-								width : 50,
-								menuDisabled : true
-							}, {
 								header : "编号",
 								dataIndex : "serialNumber",
 								menuDisabled : true
 							}, {
 								header : "名称",
-								dataIndex : "name",
-								width : 150,
+								dataIndex : "materialName",
+								width : 250,
+								menuDisabled : true
+							}, {
+								header : "规格",
+								dataIndex : "specification",
 								menuDisabled : true
 							}, {
 								header : "单位",
 								dataIndex : "unitName",
-								width : 40,
 								menuDisabled : true
 							}, {
-								header : "价格",
+								header : "价格(元/令)",
+								dataIndex : "tonnePrice",
+								menuDisabled : true
+							}, {
+								header : "价格(元/吨)",
 								dataIndex : "price",
-								width : 60,
+								menuDisabled : true
+							}, {
+								dataIndex : 'pricePrePage',
+								header : "价格(元/张)",
 								menuDisabled : true
 							}, {
 								header : "物料类别",
 								dataIndex : "materialCategoryName",
-								width : 80,
 								menuDisabled : true
 							}, {
 								header : "品牌",
 								dataIndex : "brandName",
-								width : 60,
 								menuDisabled : true
 							}, {
 								header : "供应商",
 								dataIndex : "supplierName",
-								width : 80,
 								menuDisabled : true
 							}, {
 								header : "默认仓库",
 								dataIndex : "warehouseName",
-								width : 80,
 								menuDisabled : true
 							}]),
 					selModel : new Ext.grid.RowSelectionModel({
