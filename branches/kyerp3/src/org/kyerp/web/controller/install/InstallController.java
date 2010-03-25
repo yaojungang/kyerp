@@ -53,6 +53,7 @@ public class InstallController{
 
 	@RequestMapping("/install/initSystem.html")
 	public String install(String orgName, String adminUserName, String adminPassword, HttpServletRequest request, HttpServletResponse response, Model model) {
+		System.out.println("orgName" + orgName);
 		StringBuffer messageBuffer = new StringBuffer();
 		messageBuffer.append(initSystemModule()).append("</ br>");
 		messageBuffer.append(initAdminUser(adminUserName, adminPassword)).append("</ br>");
