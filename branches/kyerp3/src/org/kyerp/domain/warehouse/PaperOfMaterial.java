@@ -17,7 +17,7 @@ import javax.persistence.PreUpdate;
  */
 @Entity
 @DiscriminatorValue("paper")
-public class PaperOfMaterial extends Material {
+public class PaperOfMaterial extends Material{
 	private static final long	serialVersionUID	= -4449340515383717173L;
 	/** 纸张名称 */
 	private String				paperName			= "";
@@ -40,12 +40,14 @@ public class PaperOfMaterial extends Material {
 	}
 
 	public void setName() {
-
-		String paperNameString = this.getPaperWeight() + "克"
-				+ super.getBrand().getName() + this.paperName + "("
-				+ this.getPaperWidth() + "*" + this.getPaperHeight() + ")";
-		System.out.println(paperNameString);
-		super.setName(paperNameString);
+		StringBuffer paperBuffer = new StringBuffer();
+		paperBuffer.append("(").append(this.getPaperWeight()).append("克").append(this.getSupplier().getName()).append(")");
+		if(null != super.getBrand()) {
+			paperBuffer.append(super.getBrand().getName());
+		}
+		paperBuffer.append(this.paperName);
+		paperBuffer.append("(").append(this.getPaperWidth()).append("*").append(this.getPaperHeight()).append(")");
+		super.setName(paperBuffer.toString());
 	}
 
 	/** 在对象新建前保存建立时间 */

@@ -2,7 +2,6 @@ package org.kyerp.domain.warehouse;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -11,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import org.kyerp.domain.BaseDomain;
 
@@ -48,9 +46,6 @@ public class Material extends BaseDomain implements Serializable{
 	private BigDecimal			amount				= new BigDecimal("0");
 	/** 单价 */
 	private BigDecimal			price				= new BigDecimal("0");
-	/** 物料明细 **/
-	@OneToMany(mappedBy = "material")
-	private List<MaterialBatch>	materialBatchs;
 	/** 默认仓库 */
 	@ManyToOne
 	private Warehouse			warehouse;
@@ -101,14 +96,6 @@ public class Material extends BaseDomain implements Serializable{
 
 	public void setUnit(Unit unit) {
 		this.unit = unit;
-	}
-
-	public void setMaterialBatchs(List<MaterialBatch> materialBatchs) {
-		this.materialBatchs = materialBatchs;
-	}
-
-	public List<MaterialBatch> getMaterialBatchs() {
-		return materialBatchs;
 	}
 
 	public BigDecimal getPrice() {

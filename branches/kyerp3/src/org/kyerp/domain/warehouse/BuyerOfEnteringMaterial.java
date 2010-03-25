@@ -16,8 +16,7 @@ import org.kyerp.domain.org.Employee;
  */
 @Entity
 @DiscriminatorValue("buyer")
-public class BuyerOfEnteringMaterial extends EnteringMaterial implements
-		Serializable {
+public class BuyerOfEnteringMaterial extends InStock implements Serializable{
 	private static final long	serialVersionUID	= 1L;
 	/** 采购入库单填单时间 */
 	private Date				inputTime			= new Date();
