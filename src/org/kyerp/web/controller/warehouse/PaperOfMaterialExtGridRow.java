@@ -3,9 +3,29 @@ package org.kyerp.web.controller.warehouse;
 import java.math.BigDecimal;
 
 /**
- * @author y109 2010-2-2下午05:58:53
+ *org.kyerp.web.controller.warehouse.PaperOfMaterialExtGridRow.java
+ * 
+ * @author y109
+ *         2010-3-25上午11:43:32
  */
-public class MaterialExtGridRow{
+public class PaperOfMaterialExtGridRow extends MaterialCategoryExtGridRow{
+	/** 纸张名称 */
+	private String		paperName;
+	/** 纸张规格：正度、大度 */
+	private String		paperType;
+	/** 纸长(mm) */
+	private int			paperHeight;
+	/** 纸宽(mm) */
+	private int			paperWidth;
+	/** 纸张大小：全开、对开、四开 */
+	private String		paperSize;
+	/** 纸张克重 */
+	private int			paperWeight;
+	/** 纸张吨价 */
+	private BigDecimal	tonnePrice;
+	/** 每平米价格 */
+	private BigDecimal	squareMetrePrice;
+
 	private Long		id;
 	/** 编号 **/
 	private String		serialNumber;
@@ -36,29 +56,43 @@ public class MaterialExtGridRow{
 	/** 隐藏 */
 	private Boolean		visible;
 
-	MaterialExtGridRow() {
+	public PaperOfMaterialExtGridRow() {
 	}
 
+	public String getPaperName() {
+		return paperName;
+	}
+
+	public void setPaperName(String paperName) {
+		this.paperName = paperName;
+	}
+
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	@Override
 	public String getSerialNumber() {
 		return serialNumber;
 	}
 
+	@Override
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -167,12 +201,70 @@ public class MaterialExtGridRow{
 		this.supplierName = supplierName;
 	}
 
+	@Override
 	public Boolean getVisible() {
 		return visible;
 	}
 
+	@Override
 	public void setVisible(Boolean visible) {
 		this.visible = visible;
+	}
+
+	public String getPaperType() {
+		return paperType;
+	}
+
+	public void setPaperType(String paperType) {
+		this.paperType = paperType;
+	}
+
+	public int getPaperHeight() {
+		return paperHeight;
+	}
+
+	public void setPaperHeight(int paperHeight) {
+		this.paperHeight = paperHeight;
+	}
+
+	public int getPaperWidth() {
+		return paperWidth;
+	}
+
+	public void setPaperWidth(int paperWidth) {
+		this.paperWidth = paperWidth;
+	}
+
+	public String getPaperSize() {
+		return paperSize;
+	}
+
+	public void setPaperSize(String paperSize) {
+		this.paperSize = paperSize;
+	}
+
+	public int getPaperWeight() {
+		return paperWeight;
+	}
+
+	public void setPaperWeight(int paperWeight) {
+		this.paperWeight = paperWeight;
+	}
+
+	public BigDecimal getTonnePrice() {
+		return tonnePrice;
+	}
+
+	public void setTonnePrice(BigDecimal tonnePrice) {
+		this.tonnePrice = tonnePrice;
+	}
+
+	public BigDecimal getSquareMetrePrice() {
+		return squareMetrePrice;
+	}
+
+	public void setSquareMetrePrice(BigDecimal squareMetrePrice) {
+		this.squareMetrePrice = squareMetrePrice;
 	}
 
 }

@@ -1,7 +1,6 @@
 package org.kyerp.web.controller.warehouse;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -11,11 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.kyerp.domain.base.views.PageView;
 import org.kyerp.domain.base.views.QueryResult;
 import org.kyerp.domain.warehouse.BuyerOfEnteringMaterial;
-import org.kyerp.domain.warehouse.MaterialBatch;
 import org.kyerp.domain.warehouse.Supplier;
 import org.kyerp.domain.warehouse.Warehouse;
 import org.kyerp.service.warehouse.IBuyerOfEnteringMaterialService;
-import org.kyerp.service.warehouse.IMaterialBatchService;
 import org.kyerp.service.warehouse.IMaterialService;
 import org.kyerp.service.warehouse.ISupplierService;
 import org.kyerp.service.warehouse.IWarehouseService;
@@ -31,7 +28,7 @@ import org.springframework.web.util.WebUtils;
  */
 @Controller
 @SessionAttributes("buyerOfEnteringMaterial")
-public class BuyerOfEnteringMaterialController {
+public class BuyerOfEnteringMaterialController{
 	@Resource(name = "buyerOfEnteringMaterialService")
 	IBuyerOfEnteringMaterialService	buyerOfEnteringMaterialService;
 	@Resource(name = "supplierService")
@@ -40,19 +37,14 @@ public class BuyerOfEnteringMaterialController {
 	IWarehouseService				warehouseService;
 	@Resource(name = "materialService")
 	IMaterialService				materialService;
-	@Resource(name = "materialBatchService")
-	IMaterialBatchService			materialBatchService;
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/index.html")
 	public void list(ModelMap model, Integer page) {
 		page = null == page || page < 1 ? 1 : page;
-		PageView<BuyerOfEnteringMaterial> pageView = new PageView<BuyerOfEnteringMaterial>(
-				12, page);
+		PageView<BuyerOfEnteringMaterial> pageView = new PageView<BuyerOfEnteringMaterial>(12, page);
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("createTime", "desc");
-		QueryResult<BuyerOfEnteringMaterial> qureyResult = buyerOfEnteringMaterialService
-				.getScrollData(pageView.getFirstResult(), pageView
-						.getMaxresult(), orderby);
+		QueryResult<BuyerOfEnteringMaterial> qureyResult = buyerOfEnteringMaterialService.getScrollData(pageView.getFirstResult(), pageView.getMaxresult(), orderby);
 		pageView.setQueryResult(qureyResult);
 		model.addAttribute("pageView", pageView);
 	}
@@ -62,56 +54,29 @@ public class BuyerOfEnteringMaterialController {
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("nameSpell", "asc");
 		orderby.put("createTime", "desc");
-		List<Supplier> suppliers = supplierService.getScrollData(orderby)
-				.getResultlist();
-		List<Warehouse> warehouses = warehouseService.getScrollData()
-				.getResultlist();
-		BuyerOfEnteringMaterial buyerOfEnteringMaterial = (BuyerOfEnteringMaterial) WebUtils
-				.getSessionAttribute(request, "buyerOfEnteringMaterial");
+		List<Supplier> suppliers = supplierService.getScrollData(orderby).getResultlist();
+		List<Warehouse> warehouses = warehouseService.getScrollData().getResultlist();
+		BuyerOfEnteringMaterial buyerOfEnteringMaterial = (BuyerOfEnteringMaterial) WebUtils.getSessionAttribute(request, "buyerOfEnteringMaterial");
 		model.addAttribute("suppliers", suppliers);
 		model.addAttribute("warehouses", warehouses);
-		if (buyerOfEnteringMaterial != null) {
-			model.addAttribute("buyerOfEnteringMaterial",
-					buyerOfEnteringMaterial);
+		if(buyerOfEnteringMaterial != null) {
+			model.addAttribute("buyerOfEnteringMaterial", buyerOfEnteringMaterial);
 		}
 	}
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/addToEnteringMaterial.html")
-	public String addToEnteringMaterial(Long id, ModelMap model,
-			HttpServletRequest request) {
-		BuyerOfEnteringMaterial buyerOfEnteringMaterial = (BuyerOfEnteringMaterial) WebUtils
-				.getSessionAttribute(request, "buyerOfEnteringMaterial");
-		if (buyerOfEnteringMaterial != null) {
-			MaterialBatch mb = new MaterialBatch();
-			mb.setMaterial(materialService.find(id));
-			buyerOfEnteringMaterial.getBatchs().add(mb);
-			model.addAttribute("buyerOfEnteringMaterial",
-					buyerOfEnteringMaterial);
-		} else {
-			buyerOfEnteringMaterial = new BuyerOfEnteringMaterial();
-			List<MaterialBatch> materialBatchs = new ArrayList<MaterialBatch>();
-			MaterialBatch mb = new MaterialBatch();
-			mb.setMaterial(materialService.find(id));
-			materialBatchs.add(mb);
-			buyerOfEnteringMaterial.setBatchs(materialBatchs);
-		}
+	public String addToEnteringMaterial(Long id, ModelMap model, HttpServletRequest request) {
+		BuyerOfEnteringMaterial buyerOfEnteringMaterial = (BuyerOfEnteringMaterial) WebUtils.getSessionAttribute(request, "buyerOfEnteringMaterial");
 
 		model.addAttribute("buyerOfEnteringMaterial", buyerOfEnteringMaterial);
 		return "forward:addUI.html";
 	}
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/add.html")
-	public String add(BuyerOfEnteringMaterial buyerOfEnteringMaterial,
-			ModelMap model, HttpServletRequest request, SessionStatus status) {
+	public String add(BuyerOfEnteringMaterial buyerOfEnteringMaterial, ModelMap model, HttpServletRequest request, SessionStatus status) {
 
 		buyerOfEnteringMaterialService.save(buyerOfEnteringMaterial);
 
-		for (MaterialBatch mb : buyerOfEnteringMaterial.getBatchs()) {
-			mb.setMaterial(materialService.find(mb.getMaterial().getId()));
-			mb.setSupplier(supplierService.find(mb.getSupplier().getId()));
-			mb.setEnteringMaterial(buyerOfEnteringMaterial);
-			materialBatchService.save(mb);
-		}
 		status.setComplete();
 
 		return "forward:index.html";
@@ -122,8 +87,7 @@ public class BuyerOfEnteringMaterialController {
 	}
 
 	@RequestMapping("/warehouse/BuyerOfEnteringMaterial/save.html")
-	public String save(BuyerOfEnteringMaterial buyerOfEnteringMaterial,
-			ModelMap model) {
+	public String save(BuyerOfEnteringMaterial buyerOfEnteringMaterial, ModelMap model) {
 		buyerOfEnteringMaterialService.save(buyerOfEnteringMaterial);
 		return "forward:index.html";
 
