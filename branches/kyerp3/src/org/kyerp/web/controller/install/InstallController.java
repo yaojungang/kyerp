@@ -1,9 +1,13 @@
 package org.kyerp.web.controller.install;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.kyerp.domain.org.Department;
 import org.kyerp.domain.org.Employee;
@@ -47,8 +51,23 @@ public class InstallController{
 	@Autowired
 	IEmployeeService			employeeService;
 
+	@RequestMapping("/install/initSystem.html")
+	public String install(String orgName, String adminUserName, String adminPassword, HttpServletRequest request, HttpServletResponse response, Model model) {
+		StringBuffer messageBuffer = new StringBuffer();
+		messageBuffer.append(initSystemModule()).append("</ br>");
+		messageBuffer.append(initAdminUser(adminUserName, adminPassword)).append("</ br>");
+		messageBuffer.append(initORG(orgName)).append("</ br>");
+		messageBuffer.append(initWarehouse()).append("</ br>");
+		try {
+			response.getWriter().write(messageBuffer.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
+
 	@RequestMapping("/install/install_initSystem.html")
-	public String install(String orgName, Model model) {
+	public String install0(String orgName, Model model) {
 		StringBuffer messageBuffer = new StringBuffer();
 		messageBuffer.append(initSystemModule()).append("</ br>");
 		messageBuffer.append(initAdminUser("y109", "y109")).append("</ br>");
