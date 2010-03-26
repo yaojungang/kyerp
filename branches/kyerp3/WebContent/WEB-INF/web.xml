@@ -7,7 +7,7 @@
 	<!--Spring上下文 配置  -->  
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:conf/spring-business.xml,classpath:conf/spring-security-basicFormLogin.xml</param-value>
+		<param-value>classpath:conf/spring-business.xml,classpath:conf/spring-security-cas.xml</param-value>
 	</context-param>
 	<!-- CAS Single Sign Out Filter相关配置放在securityFilter前面-->
 	<filter>
