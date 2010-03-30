@@ -64,6 +64,7 @@ public class InStockService extends DaoSupport<InStock> implements IInStockServi
 		if(BillStatus.CHECKED == inStock.getStatus()) {
 			return "该单据已经审核过，不能再审核。";
 		}
+		em.getTransaction().begin();
 		// 循环取出入库单明细里的每个条目；
 		for (InStockDetail d : inStock.getDetails()) {
 			if(inStock.getDetails().size() == 0) {
@@ -168,6 +169,7 @@ public class InStockService extends DaoSupport<InStock> implements IInStockServi
 		// 设置审核人
 		inStock.setCheckUser(WebUtil.getCurrentUser());
 		update(inStock);
+		em.getTransaction().commit();
 		return "success";
 	}
 }

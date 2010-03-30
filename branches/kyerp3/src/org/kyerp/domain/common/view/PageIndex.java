@@ -1,4 +1,4 @@
-package org.kyerp.domain.base.views;
+package org.kyerp.domain.common.view;
 
 public class PageIndex {
 	private long	startindex;

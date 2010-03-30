@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.warehouse.StockDetail;
 import org.kyerp.service.warehouse.IStockDetailService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.utils.GenericsUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

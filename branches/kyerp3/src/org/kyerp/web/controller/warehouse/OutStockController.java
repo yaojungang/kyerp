@@ -11,7 +11,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.warehouse.BillStatus;
 import org.kyerp.domain.warehouse.OutStock;
 import org.kyerp.domain.warehouse.OutStockDetail;

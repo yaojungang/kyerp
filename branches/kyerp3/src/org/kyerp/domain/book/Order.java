@@ -15,7 +15,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-import org.kyerp.domain.base.PaymentWay;
+import org.kyerp.domain.common.PaymentWay;
 import org.kyerp.domain.crm.Contact;
 import org.kyerp.domain.crm.Client;
 import org.kyerp.domain.org.Employee;

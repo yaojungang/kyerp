@@ -7,9 +7,9 @@ import java.util.List;
 
 import net.sf.json.JSONObject;
 
-import org.kyerp.domain.base.views.ExtTreeNode;
-import org.kyerp.domain.base.views.ExtTreeRecursion;
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.ExtTreeNode;
+import org.kyerp.domain.common.view.ExtTreeRecursion;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.org.Department;
 import org.kyerp.domain.org.Employee;
 import org.kyerp.service.org.IDepartmentService;

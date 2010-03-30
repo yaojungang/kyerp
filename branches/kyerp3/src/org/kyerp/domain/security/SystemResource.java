@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -19,7 +18,7 @@ import org.kyerp.domain.BaseDomain;
  * @author y109 2009-12-29下午02:58:48
  */
 @Entity
-public class SystemResource extends BaseDomain implements Serializable {
+public class SystemResource extends BaseDomain implements Serializable{
 
 	private static final long	serialVersionUID	= 7570037266871625192L;
 	/** 资源名 */
@@ -33,7 +32,7 @@ public class SystemResource extends BaseDomain implements Serializable {
 	@ManyToMany
 	private List<Role>			roles				= new ArrayList<Role>();
 	/** 资源所属模块 */
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	private SystemModule		systemModule;
 	/** 备注 */
 	private String				remark;

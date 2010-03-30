@@ -2,8 +2,8 @@ package org.kyerp.web.controller.print;
 
 import javax.annotation.Resource;
 
-import org.kyerp.domain.base.views.PageView;
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.PageView;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.print.Presswork;
 import org.kyerp.service.print.IPressworkService;
 import org.springframework.stereotype.Controller;

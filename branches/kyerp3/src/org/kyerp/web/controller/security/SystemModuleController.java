@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 
 import net.sf.json.JSONObject;
 
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.security.SystemModule;
 import org.kyerp.service.security.ISystemModuleService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,8 +7,8 @@ import java.util.List;
 
 import net.sf.json.JSONObject;
 
-import org.kyerp.domain.base.views.ExtGridList;
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.ExtGridList;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.security.Role;
 import org.kyerp.domain.security.SystemResource;
 import org.kyerp.domain.security.User;

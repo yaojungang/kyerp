@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.crm.Client;
 import org.kyerp.service.crm.IClientService;
 import org.kyerp.service.crm.IClientTypeService;
