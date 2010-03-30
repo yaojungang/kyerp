@@ -39,7 +39,7 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
         displayField: 'value',
-        readOnly: true,
+        readOnly: false,
 		applyTo: 'comboYW'
     });
     
@@ -53,7 +53,7 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
         displayField: 'value',
-        readOnly: true,
+        readOnly: false,
 		applyTo: 'comboYW1'
     });
     var comboYW2 = new Ext.form.ComboBox({
@@ -66,7 +66,7 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
         displayField: 'value',
-        readOnly: true,
+        readOnly: false,
 		applyTo: 'comboYW2'
     });
     
@@ -80,7 +80,7 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'CCCom',
         displayField: 'CCCom',
-        readOnly: true,
+        readOnly: false,
         resizable:true,
         minListWidth:380,
         pageSize: 5,

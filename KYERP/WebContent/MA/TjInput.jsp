@@ -5,25 +5,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>生产统计</title>
+<script type="text/javascript"
+	src="<s:url value="/Library/js/Validator.js" />"></script>
 <link rel="stylesheet" type="text/css"
- href="../Library/js/ext/resources/css/ext-all.css" />
+	href="${pageContext.request.contextPath}/Library/js/ext/resources/css/ext-all.css" />
 <script type="text/javascript"
- src="../Library/js/ext/adapter/ext/ext-base.js"></script>
-<script type="text/javascript" src="../Library/js/ext/ext-all.js"></script>
+	src="${pageContext.request.contextPath}/Library/js/ext/adapter/ext/ext-base.js"></script>
 <script type="text/javascript"
- src="../Library/js/ext/source/locale/ext-lang-zh_CN.js"></script>
+	src="${pageContext.request.contextPath}/Library/js/ext/ext-all.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/Library/js/ext/ext-lang-zh_CN.js"></script>
 <script type="text/javascript">
 Ext.onReady(function(){
  Ext.QuickTips.init();
  Ext.form.Field.prototype.msgTarget = 'side';
  Ext.BLANK_IMAGE_URL = '../Library/js/ext/resources/images/default/s.gif';
  
-    var storeYW = new Ext.data.Store({
-        proxy: new Ext.data.HttpProxy({url:'../OPE/jsongetAllYW.action'}),
-        reader: new Ext.data.ArrayReader({},[
-            {name:'value'}
-        ])
-    });
+ var storeYW = new Ext.data.SimpleStore({
+ 	url:'../OPE/jsongetAllYW.action',
+ 	fields:['value']
+ });
     var storeClient = new Ext.data.JsonStore({
      url:'../OPE/jsongetClientByYW.action',
      fields:['CCCom','CCDa','clientLm']
@@ -39,7 +40,7 @@ Ext.onReady(function(){
         triggerAction: 'all',
         valueField: 'value',
         displayField: 'value',
-        readOnly: true,
+        readOnly: false,
   applyTo: 'comboYW'
     });
     
