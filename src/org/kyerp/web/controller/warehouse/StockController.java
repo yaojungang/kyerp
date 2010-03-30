@@ -7,7 +7,7 @@ import java.util.List;
 import net.sf.json.JSONArray;
 
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.domain.warehouse.StockDetail;
 import org.kyerp.service.warehouse.IStockService;

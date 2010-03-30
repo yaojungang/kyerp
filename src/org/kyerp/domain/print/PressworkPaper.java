@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import org.kyerp.domain.BaseDomain;
-import org.kyerp.domain.base.MaterialFrom;
+import org.kyerp.domain.common.MaterialFrom;
 import org.kyerp.domain.warehouse.PaperOfMaterial;
 
 /**

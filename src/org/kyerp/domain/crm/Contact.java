@@ -12,8 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.kyerp.domain.BaseDomain;
-import org.kyerp.domain.base.Address;
-import org.kyerp.domain.base.Phone;
+import org.kyerp.domain.common.Address;
+import org.kyerp.domain.common.Phone;
 import org.kyerp.domain.print.Presswork;
 
 /**

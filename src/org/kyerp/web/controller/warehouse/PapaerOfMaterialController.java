@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.warehouse.PaperOfMaterial;
 import org.kyerp.service.warehouse.IBrandService;
 import org.kyerp.service.warehouse.IMaterialCategoryService;

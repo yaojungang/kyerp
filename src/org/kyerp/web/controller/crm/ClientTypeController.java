@@ -6,9 +6,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.kyerp.domain.base.views.ExtTreeNode;
-import org.kyerp.domain.base.views.ExtTreeRecursion;
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.ExtTreeNode;
+import org.kyerp.domain.common.view.ExtTreeRecursion;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.crm.ClientType;
 import org.kyerp.service.crm.IClientTypeService;
 import org.kyerp.web.controller.BaseController;

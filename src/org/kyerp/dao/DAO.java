@@ -3,7 +3,7 @@ package org.kyerp.dao;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-import org.kyerp.domain.base.views.QueryResult;
+import org.kyerp.domain.common.view.QueryResult;
 
 public interface DAO<T> {
 	/**

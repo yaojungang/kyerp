@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.kyerp.domain.base.MaterialFrom;
+import org.kyerp.domain.common.MaterialFrom;
 
 
 /**
