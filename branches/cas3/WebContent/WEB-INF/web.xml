@@ -8,7 +8,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			/WEB-INF/spring-configuration/*.xml
-			/WEB-INF/deployerConfigContext.xml
+			/WEB-INF/deployerConfigContextAD.xml
 		</param-value>
 	</context-param>
 
@@ -201,7 +201,7 @@
 
 	<session-config>
 		<!-- Default to 5 minute session timeouts -->
-		<session-timeout>5</session-timeout>
+		<session-timeout>500</session-timeout>
 	</session-config>
 
 	<error-page>
