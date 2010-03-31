@@ -75,10 +75,10 @@ public class OutStockService extends DaoSupport<OutStock> implements IOutStockSe
 					stockDetail = stockDetailService.getScrollData(wherejpql2, null, null).getResultlist().get(0);
 
 					// 如果出库数量大于库存数量时如何处理
-					if(outStockDetail.getBillCount().compareTo(stockDetail.getAmount()) == 1) {
-						String materialName = outStockDetail.getMaterial().getName();
-						return "库存数量不足：" + materialName + "[" + outStockDetail.getBatchNumber() + "]只有" + stockDetail.getAmount() + "(" + stockDetail.getUnit().getName() + ")";
-					}
+// if(outStockDetail.getBillCount().compareTo(stockDetail.getAmount()) == 1) {
+// String materialName = outStockDetail.getMaterial().getName();
+// return "库存数量不足：" + materialName + "[" + outStockDetail.getBatchNumber() + "]只有" + stockDetail.getAmount() + "(" + stockDetail.getUnit().getName() + ")";
+// }
 					// 更新这个批次并且存放在这个库房的物料的数量
 					stockDetail.setAmount(stockDetail.getAmount().subtract(outStockDetail.getBillCount()));
 
