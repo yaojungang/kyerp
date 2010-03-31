@@ -58,13 +58,37 @@ public class OutStockController extends BaseController{
 	IEmployeeService		employeeService;
 
 	@RequestMapping("/warehouse/OutStock/jsonList.html")
-	public String list(Model model, Integer start, Integer limit) {
+	public String list(Model model, Integer start, Long inOutTypeId, Long supplierId, String query, Integer limit) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
-
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "desc");
-		QueryResult<OutStock> queryResult = outStockService.getScrollData(start, limit, orderby);
+		// build where jpql
+		StringBuffer wherejpql = new StringBuffer("");
+		List<Object> queryParams = new ArrayList<Object>();
+		wherejpql.append(" 1=?").append((queryParams.size() + 1));
+		queryParams.add(1);
+		// set parent id
+		if(null != supplierId) {
+			wherejpql.append(" and o.supplier.id=?").append(queryParams.size() + 1);
+			queryParams.add(supplierId);
+		}
+		// set inOutTypeId
+		if(null != inOutTypeId) {
+			wherejpql.append(" and o.inOutType.id=?").append(queryParams.size() + 1);
+			queryParams.add(inOutTypeId);
+		}
+		// set query
+		if(null != query && !query.equals("") && query.trim().length() > 0) {
+			wherejpql.append(" and (o.serialNumber like ?").append(queryParams.size() + 1);
+			queryParams.add("%" + query.trim() + "%");
+			// material's serialNumber
+			wherejpql.append(" or o.remark like ?").append(queryParams.size() + 1).append(")");
+			queryParams.add("%" + query.trim() + "%");
+		}
+		System.out.println("jpql:" + wherejpql);
+		QueryResult<OutStock> queryResult = outStockService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
+
 		List<OutStockExtGridRow> rows = new ArrayList<OutStockExtGridRow>();
 		for (OutStock o : queryResult.getResultlist()) {
 			OutStockExtGridRow n = new OutStockExtGridRow();
