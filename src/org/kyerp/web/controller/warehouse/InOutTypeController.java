@@ -28,7 +28,7 @@ public class InOutTypeController extends BaseController{
 	IInOutTypeService	inOutTypeService;
 
 	@RequestMapping("/warehouse/InOutType/jsonList.html")
-	public String list(Long parentId, Integer start, Integer limit, Model model) {
+	public String list(Long parentId, Long inOutTypeId, Integer start, Integer limit, Model model) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 		parentId = null == parentId ? 1 : parentId;
