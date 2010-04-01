@@ -34,7 +34,7 @@ public class InStock extends BaseDomain implements Serializable{
 	private InOutType			inOutType;
 	/** 供应商 */
 	@ManyToOne
-	private Supplier			Supplier;
+	private Supplier			supplier;
 	/** 备注 */
 	private String				remark;
 	/** 总数量 */
@@ -136,11 +136,11 @@ public class InStock extends BaseDomain implements Serializable{
 	}
 
 	public Supplier getSupplier() {
-		return Supplier;
+		return supplier;
 	}
 
 	public void setSupplier(Supplier supplier) {
-		Supplier = supplier;
+		this.supplier = supplier;
 	}
 
 	public String getRemark() {
