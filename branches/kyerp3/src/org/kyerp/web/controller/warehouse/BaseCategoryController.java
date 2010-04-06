@@ -34,7 +34,7 @@ public class BaseCategoryController extends BaseController{
 	public String list(Long parentId, Integer start, Integer limit, Model model) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
-		parentId = null == parentId ? 1 : parentId;
+		parentId = null == parentId ? 1L : parentId;
 		// build order by
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
@@ -81,48 +81,34 @@ public class BaseCategoryController extends BaseController{
 	@RequestMapping("/warehouse/BaseCategory/jsonTree.html")
 	public void tree(Long parentId, HttpServletResponse response, Model model) throws IOException {
 		parentId = null == parentId ? 1L : parentId;
-		response.getWriter().write(treeString(parentId));
+		response.getWriter().write(treeString());
 	}
 
-	public String treeString(Long parentId) {
-		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
-		orderby.put("id", "asc");
-		QueryResult<BaseCategory> queryResult = baseCategoryService.getScrollData(orderby);
+	public String treeString() {
+		QueryResult<BaseCategory> queryResult = baseCategoryService.getScrollData();
 		List<ExtTreeNode> extTreeList = new ArrayList<ExtTreeNode>();
 		ExtTreeNode rootNode = new ExtTreeNode();
-		if(queryResult.getResultlist().size() == 0) {
-			BaseCategory baseCategory = new BaseCategory();
-			baseCategory.setName("库存分类");
-			baseCategoryService.save(baseCategory);
-			return "[{id:1,text:'库存分类',leaf:true}]";
-		} else {
-			for (BaseCategory d : queryResult.getResultlist()) {
-				ExtTreeNode node = new ExtTreeNode();
-				node.setId(String.valueOf(d.getId()));
-				node.setText(d.getName());
-				if(null != d.getParentCategory() && d.getParentCategory().getId() > 0) {
-					node.setParentId(String.valueOf(d.getParentCategory().getId()));
-				}
-				if(d.getId().compareTo(parentId) == 0) {
-					rootNode.setId(String.valueOf(parentId));
-					rootNode.setText(d.getName());
-					rootNode.setExpanded(true);
-					extTreeList.add(rootNode);
-				} else {
-					node.setExpanded(false);
-				}
-				extTreeList.add(node);
+		rootNode.setId("0");
+		rootNode.setText("库存分类");
+		rootNode.setExpanded(true);
+		extTreeList.add(rootNode);
+		for (BaseCategory d : queryResult.getResultlist()) {
+			ExtTreeNode node = new ExtTreeNode();
+			node.setId(String.valueOf(d.getId()));
+			node.setText(d.getName());
+			if(null != d.getParentCategory() && d.getParentCategory().getId() > 0) {
+				node.setParentId(String.valueOf(d.getParentCategory().getId()));
+			} else {
+				node.setParentId("0");
 			}
-
-			ExtTreeRecursion r = new ExtTreeRecursion();
-			if(null != extTreeList && extTreeList.size() > 0) {
-				r.recursionFn(extTreeList, rootNode);
-			}
-			String strTreeString = r.modifyStr(r.getReturnStr().toString());
-
-			return strTreeString;
+			extTreeList.add(node);
 		}
 
+		ExtTreeRecursion r = new ExtTreeRecursion();
+		if(null != extTreeList && extTreeList.size() > 0) {
+			r.recursionFn(extTreeList, rootNode);
+		}
+		return r.modifyStr(r.getReturnStr().toString());
 	}
 
 	@Secured( { "ROLE_ADMIN" })

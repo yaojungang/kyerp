@@ -12,9 +12,7 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.kyerp.domain.common.view.ExtTreeNode;
 import org.kyerp.domain.common.view.ExtTreeRecursion;
 import org.kyerp.domain.common.view.QueryResult;
-import org.kyerp.domain.warehouse.BaseCategory;
 import org.kyerp.domain.warehouse.MaterialCategory;
-import org.kyerp.service.warehouse.IBaseCategoryService;
 import org.kyerp.service.warehouse.IMaterialCategoryService;
 import org.kyerp.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MaterialCategoryController extends BaseController{
 	@Autowired
-	IBaseCategoryService		baseCategoryService;
+	IMaterialCategoryService	baseCategoryService;
 	@Autowired
 	IMaterialCategoryService	materialCategoryService;
 
@@ -92,16 +90,16 @@ public class MaterialCategoryController extends BaseController{
 	public String treeString(Long parentId) {
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
-		QueryResult<BaseCategory> queryResult = baseCategoryService.getScrollData(orderby);
+		QueryResult<MaterialCategory> queryResult = materialCategoryService.getScrollData(orderby);
 		List<ExtTreeNode> extTreeList = new ArrayList<ExtTreeNode>();
 		ExtTreeNode rootNode = new ExtTreeNode();
 		if(queryResult.getResultlist().size() == 0) {
-			BaseCategory baseCategory = new BaseCategory();
-			baseCategory.setName("库存分类");
-			baseCategoryService.save(baseCategory);
-			return "[{id:1,text:'库存分类',leaf:true}]";
+			MaterialCategory c = new MaterialCategory();
+			c.setName("原料分类");
+			materialCategoryService.save(c);
+			return "[{id:" + materialCategoryService.findLast().getId() + ",text:'原料分类',leaf:true}]";
 		} else {
-			for (BaseCategory d : queryResult.getResultlist()) {
+			for (MaterialCategory d : queryResult.getResultlist()) {
 				ExtTreeNode node = new ExtTreeNode();
 				node.setId(String.valueOf(d.getId()));
 				node.setText(d.getName());
