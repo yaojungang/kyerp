@@ -12,8 +12,8 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.kyerp.domain.common.view.ExtTreeNode;
 import org.kyerp.domain.common.view.ExtTreeRecursion;
 import org.kyerp.domain.common.view.QueryResult;
-import org.kyerp.domain.warehouse.MaterialCategory;
-import org.kyerp.service.warehouse.IMaterialCategoryService;
+import org.kyerp.domain.warehouse.EndItemsCategory;
+import org.kyerp.service.warehouse.IEndItemsCategoryService;
 import org.kyerp.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -26,11 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class MaterialCategoryController extends BaseController{
+public class EndItemsCategoryController extends BaseController{
 	@Autowired
-	IMaterialCategoryService	materialCategoryService;
+	IEndItemsCategoryService	endItemsCategoryService;
 
-	@RequestMapping("/warehouse/MaterialCategory/jsonList.html")
+	@RequestMapping("/warehouse/EndItemsCategory/jsonList.html")
 	public String list(Long parentId, Integer start, Integer limit, Model model) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
@@ -48,10 +48,10 @@ public class MaterialCategoryController extends BaseController{
 			wherejpql.append(" and parentCategory.id=?").append(queryParams.size() + 1);
 			queryParams.add(parentId);
 		}
-		QueryResult<MaterialCategory> queryResult = materialCategoryService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
-		List<MaterialCategoryExtGridRow> rows = new ArrayList<MaterialCategoryExtGridRow>();
-		for (MaterialCategory o : queryResult.getResultlist()) {
-			MaterialCategoryExtGridRow n = new MaterialCategoryExtGridRow();
+		QueryResult<EndItemsCategory> queryResult = endItemsCategoryService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
+		List<EndItemsCategoryExtGridRow> rows = new ArrayList<EndItemsCategoryExtGridRow>();
+		for (EndItemsCategory o : queryResult.getResultlist()) {
+			EndItemsCategoryExtGridRow n = new EndItemsCategoryExtGridRow();
 			n.setId(o.getId());
 			n.setName(o.getName());
 			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
@@ -64,11 +64,11 @@ public class MaterialCategoryController extends BaseController{
 			n.setRemark(o.getRemark());
 			/** 父类 */
 			if(null != o.getParentCategory()) {
-				n.setParentMaterialCategoryId(o.getParentCategory().getId());
-				n.setParentMaterialCategoryName(o.getParentCategory().getName());
+				n.setParentCategoryId(o.getParentCategory().getId());
+				n.setParentCategoryName(o.getParentCategory().getName());
 			} else {
-				n.setParentMaterialCategoryId(new Long(0));
-				n.setParentMaterialCategoryName("顶级分类");
+				n.setParentCategoryId(new Long(0));
+				n.setParentCategoryName("顶级分类");
 			}
 			rows.add(n);
 		}
@@ -78,25 +78,26 @@ public class MaterialCategoryController extends BaseController{
 		return "jsonView";
 	}
 
-	@RequestMapping("/warehouse/MaterialCategory/jsonTree.html")
+	@RequestMapping("/warehouse/EndItemsCategory/jsonTree.html")
 	public void tree(Long parentId, Model model, HttpServletResponse response) throws IOException {
 		// 默认的原材分类的根分类ID为2
+		parentId = null == parentId ? 2L : parentId;
 		response.getWriter().write(treeString(parentId));
 	}
 
 	public String treeString(Long parentId) {
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
-		QueryResult<MaterialCategory> queryResult = materialCategoryService.getScrollData(orderby);
+		QueryResult<EndItemsCategory> queryResult = endItemsCategoryService.getScrollData(orderby);
 		List<ExtTreeNode> extTreeList = new ArrayList<ExtTreeNode>();
 		ExtTreeNode rootNode = new ExtTreeNode();
 		if(queryResult.getResultlist().size() == 0) {
-			MaterialCategory c = new MaterialCategory();
-			c.setName("原料分类");
-			materialCategoryService.save(c);
-			return "[{id:" + materialCategoryService.findLast().getId() + ",text:'原料分类',leaf:true}]";
+			EndItemsCategory c = new EndItemsCategory();
+			c.setName("成品分类");
+			endItemsCategoryService.save(c);
+			return "[{id:" + endItemsCategoryService.findLast().getId() + ",text:'成品分类',leaf:true}]";
 		} else {
-			for (MaterialCategory d : queryResult.getResultlist()) {
+			for (EndItemsCategory d : queryResult.getResultlist()) {
 				ExtTreeNode node = new ExtTreeNode();
 				node.setId(String.valueOf(d.getId()));
 				node.setText(d.getName());
@@ -129,38 +130,38 @@ public class MaterialCategoryController extends BaseController{
 	}
 
 	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/MaterialCategory/jsonSave.html")
-	public String save(MaterialCategoryExtGridRow materialCategoryRow, ModelMap model) {
-		MaterialCategory materialCategory = new MaterialCategory();
-		if(null != materialCategoryRow.getId() && materialCategoryRow.getId() > 0) {
-			materialCategory = materialCategoryService.find(materialCategoryRow.getId());
+	@RequestMapping("/warehouse/EndItemsCategory/jsonSave.html")
+	public String save(EndItemsCategoryExtGridRow endItemsCategoryRow, ModelMap model) {
+		EndItemsCategory endItemsCategory = new EndItemsCategory();
+		if(null != endItemsCategoryRow.getId() && endItemsCategoryRow.getId() > 0) {
+			endItemsCategory = endItemsCategoryService.find(endItemsCategoryRow.getId());
 		}
-		materialCategory.setName(materialCategoryRow.getName());
+		endItemsCategory.setName(endItemsCategoryRow.getName());
 		// 设置父类
-		if(materialCategoryRow.getParentMaterialCategoryId() != 0) {
-			materialCategory.setParentCategory(materialCategoryService.find(materialCategoryRow.getParentMaterialCategoryId()));
+		if(endItemsCategoryRow.getParentCategoryId() != 0) {
+			endItemsCategory.setParentCategory(endItemsCategoryService.find(endItemsCategoryRow.getParentCategoryId()));
 		}
 		// 设置remark
-		materialCategory.setRemark(materialCategoryRow.getRemark());
+		endItemsCategory.setRemark(endItemsCategoryRow.getRemark());
 		// 设置序号
-		if(null != materialCategoryRow.getSerialNumber()) {
-			materialCategory.setSerialNumber(materialCategoryRow.getSerialNumber());
+		if(null != endItemsCategoryRow.getSerialNumber()) {
+			endItemsCategory.setSerialNumber(endItemsCategoryRow.getSerialNumber());
 		}
-		if(null != materialCategoryRow.getId() && materialCategoryRow.getId() > 0) {
-			materialCategoryService.update(materialCategory);
+		if(null != endItemsCategoryRow.getId() && endItemsCategoryRow.getId() > 0) {
+			endItemsCategoryService.update(endItemsCategory);
 		} else {
-			materialCategoryService.save(materialCategory);
+			endItemsCategoryService.save(endItemsCategory);
 		}
-		long id = materialCategory.getId() > 0 ? materialCategory.getId() : materialCategoryService.findLast().getId();
+		long id = endItemsCategory.getId() > 0 ? endItemsCategory.getId() : endItemsCategoryService.findLast().getId();
 		model.addAttribute("success", true);
 		model.addAttribute("id", id);
 		return "jsonView";
 	}
 
 	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/MaterialCategory/jsonDelete.html")
+	@RequestMapping("/warehouse/EndItemsCategory/jsonDelete.html")
 	public String delete(ModelMap model, Long[] ids) {
-		materialCategoryService.delete((Serializable[]) ids);
+		endItemsCategoryService.delete((Serializable[]) ids);
 		model.addAttribute("success", true);
 		return "jsonView";
 	}
