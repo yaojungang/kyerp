@@ -95,14 +95,6 @@ public class MaterialController extends BaseController{
 				rr.setUnitName(m.getUnit().getName());
 			}
 			rr.setPrice(m.getPrice());
-			if(null != m.getSupplier()) {
-				rr.setSupplierId(m.getSupplier().getId());
-				rr.setSupplierName(m.getSupplier().getName());
-			}
-			if(null != m.getWarehouse()) {
-				rr.setWarehouseId(m.getWarehouse().getId());
-				rr.setWarehouseName(m.getWarehouse().getName());
-			}
 			rows.add(rr);
 		}
 		model.addAttribute("start", limit);
@@ -124,12 +116,6 @@ public class MaterialController extends BaseController{
 		}
 		if(null != materialRow.getBrandId()) {
 			material.setBrand(brandService.find(materialRow.getBrandId()));
-		}
-		if(null != materialRow.getSupplierId()) {
-			material.setSupplier(supplierService.find(materialRow.getSupplierId()));
-		}
-		if(null != materialRow.getWarehouseId()) {
-			material.setWarehouse(warehouseService.find(materialRow.getWarehouseId()));
 		}
 		material.setMaterialName(materialRow.getMaterialName());
 		material.setSpecification(materialRow.getSpecification());

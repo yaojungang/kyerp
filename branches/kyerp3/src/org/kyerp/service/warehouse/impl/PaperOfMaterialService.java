@@ -10,7 +10,7 @@ import java.util.Date;
 import javax.persistence.TemporalType;
 
 import org.kyerp.dao.DaoSupport;
-import org.kyerp.domain.warehouse.PaperOfMaterial;
+import org.kyerp.domain.warehouse.print.PaperOfMaterial;
 import org.kyerp.service.warehouse.IPaperOfMaterialService;
 import org.springframework.stereotype.Service;
 

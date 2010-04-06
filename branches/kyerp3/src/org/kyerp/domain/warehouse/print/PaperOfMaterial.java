@@ -1,14 +1,18 @@
 /**
  * 
  */
-package org.kyerp.domain.warehouse;
+package org.kyerp.domain.warehouse.print;
 
 import java.math.BigDecimal;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+
+import org.kyerp.domain.warehouse.Material;
+import org.kyerp.domain.warehouse.Supplier;
 
 /**
  * 库存：纸张
@@ -21,6 +25,9 @@ public class PaperOfMaterial extends Material{
 	private static final long	serialVersionUID	= -4449340515383717173L;
 	/** 纸张名称 */
 	private String				paperName			= "";
+	/** 供应商 */
+	@ManyToOne
+	private Supplier			supplier;
 	/** 纸长(mm) */
 	private int					paperHeight			= 0;
 	/** 纸宽(mm) */
@@ -40,7 +47,7 @@ public class PaperOfMaterial extends Material{
 	// 设置物料名称
 	public void setMaterialName() {
 		StringBuffer paperBuffer = new StringBuffer();
-		paperBuffer.append("(").append(this.getPaperWeight()).append("克").append(super.getSupplier().getName()).append(")");
+		paperBuffer.append("(").append(this.getPaperWeight()).append("克").append(this.getSupplier().getName()).append(")");
 		if(null != super.getBrand()) {
 			paperBuffer.append(super.getBrand().getName());
 		}
@@ -109,6 +116,14 @@ public class PaperOfMaterial extends Material{
 
 	public BigDecimal getPricePrePage() {
 		return pricePrePage;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
 
 	public void setPricePrePage(BigDecimal pricePrePage) {

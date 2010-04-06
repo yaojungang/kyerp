@@ -4,7 +4,7 @@
 package org.kyerp.service.warehouse;
 
 import org.kyerp.dao.DAO;
-import org.kyerp.domain.warehouse.PaperOfMaterial;
+import org.kyerp.domain.warehouse.print.PaperOfMaterial;
 import org.springframework.stereotype.Service;
 
 /**
