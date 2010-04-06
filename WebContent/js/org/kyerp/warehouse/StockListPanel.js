@@ -1,4 +1,53 @@
 /** ***************************************************************************** */
+org.kyerp.warehouse.StockStore = new Ext.data.Store({
+					autoLoad : {
+						baseParams : {
+							limit : 20
+						}
+					},
+					url : org.kyerp.warehouse.StockListPanel_STORE_URL,
+					reader : new Ext.data.JsonReader({
+								totalProperty : "totalProperty",
+								root : "rows",
+								idProperty : "id"
+							}, new Ext.data.Record.create([{
+										name : "id",
+										type : "int"
+									}, {
+										name : "serialNumber",
+										type : "string"
+									}, {
+										name : "createTime",
+										type : "date",
+										dateFormat : "Y-m-d H:i:s"
+									}, {
+										name : "updateTime",
+										type : "date",
+										dateFormat : "Y-m-d H:i:s"
+									}, {
+										name : "totalAmount"
+									}, {
+										name : "materialId",
+										type : "int"
+									}, {
+										name : "materialName",
+										type : "string"
+									}, {
+										name : 'unitId',
+										type : 'int'
+									}, {
+										name : 'unitName',
+										type : 'string'
+									}, {
+										name : 'price',
+										type : 'string'
+									}, {
+										name : 'cost'
+									}, {
+										name : "details"
+									}]))
+				});
+/** ***************************************************************************** */
 org.kyerp.warehouse.StockListPanelViewWindow = Ext.extend(Ext.Window, {
 	grid : null,
 	store : null,
@@ -64,54 +113,7 @@ org.kyerp.warehouse.StockListPanel = Ext.extend(Ext.grid.GridPanel, {
 							'<tpl for="details">', '{materialName}', '</tpl>',
 							'</tpl>')
 				});
-		this["store"] = new Ext.data.Store({
-					autoLoad : {
-						baseParams : {
-							limit : 20
-						}
-					},
-					url : org.kyerp.warehouse.StockListPanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								idProperty : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "serialNumber",
-										type : "string"
-									}, {
-										name : "createTime",
-										type : "date",
-										dateFormat : "Y-m-d H:i:s"
-									}, {
-										name : "updateTime",
-										type : "date",
-										dateFormat : "Y-m-d H:i:s"
-									}, {
-										name : "totalAmount"
-									}, {
-										name : "materialId",
-										type : "int"
-									}, {
-										name : "materialName",
-										type : "string"
-									}, {
-										name : 'unitId',
-										type : 'int'
-									}, {
-										name : 'unitName',
-										type : 'string'
-									}, {
-										name : 'price',
-										type : 'string'
-									}, {
-										name : 'cost'
-									}, {
-										name : "details"
-									}]))
-				});
+		this["store"] = org.kyerp.warehouse.StockStore;
 		this.viewWin = new org.kyerp.warehouse.StockListPanelViewWindow();
 		org.kyerp.warehouse.StockListPanel.superclass.constructor.call(
 				this, {
@@ -126,7 +128,30 @@ org.kyerp.warehouse.StockListPanel = Ext.extend(Ext.grid.GridPanel, {
 									this.viewWin.show();
 								},
 								scope : this
-							}],
+							}, '->', '物料分类：', {
+						xtype : 'treecombobox',
+						fieldLabel : '物料分类',
+						name : 'mCategoryId',
+						hiddenName : 'mCategoryId',
+						editable : false,
+						mode : 'local',
+						displayField : 'name',
+						valueField : 'id',
+						triggerAction : 'all',
+						allowBlank : false,
+						rootText : 'root',
+						rootId : '0',
+						forceSelection : true,
+						rootVisible : false,
+						treeUrl : org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL,
+						onSelect : function(node) {
+							var store = org.kyerp.warehouse.StockStore;
+							store.setBaseParam("mCategoryId", node.id);
+							store.load();
+						}
+					}, "-", "搜索：", new Ext.ux.form.SearchField({
+								store : this.getStore()
+							})],
 					enableColumnMove : false,
 					plugins : this.expander,
 					colModel : new Ext.grid.ColumnModel([this.expander,

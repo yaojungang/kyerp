@@ -1,4 +1,114 @@
 /** ***************************************************************************** */
+org.kyerp.warehouse.OutStockStore = new Ext.data.Store({
+					autoLoad : {
+						baseParams : {
+							limit : 20
+						}
+					},
+					listeners : {
+						loadexception : function(proxy, options, response) {
+							var data = Ext.decode(response.responseText);
+							top.Ext.Msg.alert("错误", "载入数据时发生错误:"
+											+ data["exception.message"]);
+						}
+					},
+					url : org.kyerp.warehouse.OutStockPanel_STORE_URL,
+					reader : new Ext.data.JsonReader({
+								totalProperty : "totalProperty",
+								root : "rows",
+								idProperty : "id"
+							}, new Ext.data.Record.create([{
+										name : "id",
+										type : "int"
+									}, {
+										name : "serialNumber",
+										type : "string"
+									}, {
+										name : "createTime",
+										type : "date",
+										dateFormat : "Y-m-d H:i:s"
+									}, {
+										name : "statusString",
+										type : "string"
+									}, {
+										name : "writeDate",
+										type : "date",
+										dateFormat : "Y-m-d H:i:s"
+									}, {
+										name : "outDate",
+										type : "date",
+										dateFormat : "Y-m-d"
+									}, {
+										name : "billCount",
+										type : "int"
+									}, {
+										name : "billCost",
+										type : "float",
+										convert : function(value) {
+											return "￥" + value + "元"
+										}
+									}, {
+										name : "checkUserId",
+										type : "int"
+									}, {
+										name : "checkUserName",
+										type : "string"
+									}, {
+										name : 'checkEmployeeId',
+										type : 'int'
+									}, {
+										name : 'checkEmployeeName',
+										type : 'string'
+									}, {
+										name : "writeUserId",
+										type : "int"
+									}, {
+										name : "writeUserName",
+										type : "string"
+									}, {
+										name : 'writeEmployeeId',
+										type : 'int'
+									}, {
+										name : 'writeEmployeeName',
+										type : 'string'
+									}, {
+										name : "details"
+									}, {
+										name : "supplierId",
+										type : "int"
+									}, {
+										name : "supplierName",
+										type : "string"
+									}, {
+										name : "inOutTypeId"
+									}, {
+										name : "inOutTypeName"
+									}, {
+										name : "remark",
+										type : "string"
+									}, {
+										name : "editAble"
+									}, {
+										name : 'receiveDepartmentId',
+										type : 'int'
+									}, {
+										name : 'receiveDepartmentName',
+										type : 'string'
+									}, {
+										name : 'receiveEmployeeId',
+										type : 'int'
+									}, {
+										name : 'receiveEmployeeName',
+										type : 'string'
+									}, {
+										name : 'keeperId',
+										type : 'int'
+									}, {
+										name : 'keeperName',
+										type : 'string'
+									}]))
+				});
+/** ***************************************************************************** */
 org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 	detailsGrid : null,
 	selectSupplierWindow : null,
@@ -511,115 +621,7 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 				});
 		this.insertWin = new org.kyerp.warehouse.OutStockInsertWindow();
 		this.updateWin = new org.kyerp.warehouse.OutStockUpdateWindow();
-		this["store"] = new Ext.data.Store({
-					autoLoad : {
-						baseParams : {
-							limit : 20
-						}
-					},
-					listeners : {
-						loadexception : function(proxy, options, response) {
-							var data = Ext.decode(response.responseText);
-							top.Ext.Msg.alert("错误", "载入数据时发生错误:"
-											+ data["exception.message"]);
-						}
-					},
-					url : org.kyerp.warehouse.OutStockPanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								idProperty : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "serialNumber",
-										type : "string"
-									}, {
-										name : "createTime",
-										type : "date",
-										dateFormat : "Y-m-d H:i:s"
-									}, {
-										name : "statusString",
-										type : "string"
-									}, {
-										name : "writeDate",
-										type : "date",
-										dateFormat : "Y-m-d H:i:s"
-									}, {
-										name : "outDate",
-										type : "date",
-										dateFormat : "Y-m-d"
-									}, {
-										name : "billCount",
-										type : "int"
-									}, {
-										name : "billCost",
-										type : "float",
-										convert : function(value) {
-											return "￥" + value + "元"
-										}
-									}, {
-										name : "checkUserId",
-										type : "int"
-									}, {
-										name : "checkUserName",
-										type : "string"
-									}, {
-										name : 'checkEmployeeId',
-										type : 'int'
-									}, {
-										name : 'checkEmployeeName',
-										type : 'string'
-									}, {
-										name : "writeUserId",
-										type : "int"
-									}, {
-										name : "writeUserName",
-										type : "string"
-									}, {
-										name : 'writeEmployeeId',
-										type : 'int'
-									}, {
-										name : 'writeEmployeeName',
-										type : 'string'
-									}, {
-										name : "details"
-									}, {
-										name : "supplierId",
-										type : "int"
-									}, {
-										name : "supplierName",
-										type : "string"
-									}, {
-										name : "inOutTypeId"
-									}, {
-										name : "inOutTypeName"
-									}, {
-										name : "remark",
-										type : "string"
-									}, {
-										name : "editAble"
-									}, {
-										name : 'receiveDepartmentId',
-										type : 'int'
-									}, {
-										name : 'receiveDepartmentName',
-										type : 'string'
-									}, {
-										name : 'receiveEmployeeId',
-										type : 'int'
-									}, {
-										name : 'receiveEmployeeName',
-										type : 'string'
-									}, {
-										name : 'keeperId',
-										type : 'int'
-									}, {
-										name : 'keeperName',
-										type : 'string'
-									}]))
-				});
+		this["store"] = org.kyerp.warehouse.OutStockStore;
 		org.kyerp.warehouse.OutStockPanel.superclass.constructor.call(this, {
 					stripeRows : true,
 					plugins : this.expander,
@@ -652,7 +654,30 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 											this.onRemove, this);
 								},
 								scope : this
-							}],
+							}, '->', '收发类型：', {
+						xtype : 'treecombobox',
+						fieldLabel : '供应商类型',
+						name : 'inOutTypeId',
+						hiddenName : 'inOutTypeId',
+						editable : false,
+						mode : 'local',
+						displayField : 'name',
+						valueField : 'id',
+						triggerAction : 'all',
+						allowBlank : false,
+						rootText : 'root',
+						rootId : '0',
+						forceSelection : true,
+						rootVisible : false,
+						treeUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL,
+						onSelect : function(node) {
+							var store = org.kyerp.warehouse.OutStockStore;
+							store.setBaseParam("inOutTypeId", node.id);
+							store.load();
+						}
+					}, "-", "搜索：", new Ext.ux.form.SearchField({
+								store : this.getStore()
+							})],
 					enableColumnMove : false,
 					colModel : new Ext.grid.ColumnModel([this.expander, {
 								header : "单据编号",
