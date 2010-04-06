@@ -16,16 +16,15 @@ import org.springframework.stereotype.Service;
  * @author y109 2009-11-30上午02:26:14
  */
 @Service
-public class MaterialCategoryService extends DaoSupport<MaterialCategory>
-		implements IMaterialCategoryService {
+public class MaterialCategoryService extends DaoSupport<MaterialCategory> implements IMaterialCategoryService{
 	public List<MaterialCategory> getParentMaterialCategories(Long id) {
 		MaterialCategory mc = this.find(id);
-		MaterialCategory mcParent = mc.getParentMaterialCategory();
+		MaterialCategory mcParent = (MaterialCategory) ((MaterialCategory) mc).getParentCategory();
 		List<MaterialCategory> mcs = new ArrayList<MaterialCategory>();
 		mcs.add(mc);
 		while (mcParent != null) {
 			mcs.add(mcParent);
-			mcParent = mcParent.getParentMaterialCategory();
+			mcParent = (MaterialCategory) mcParent.getParentCategory();
 		}
 		return mcs;
 	}
@@ -44,15 +43,13 @@ public class MaterialCategoryService extends DaoSupport<MaterialCategory>
 		StringBuffer jpql = new StringBuffer("o.visible=?1");
 		List<Object> params = new ArrayList<Object>();
 		params.add(true);
-		if (parentId != null && parentId > 0) {
-			jpql.append(" and o.parentMaterialCategory.id=?"
-					+ (params.size() + 1));
+		if(parentId != null && parentId > 0) {
+			jpql.append(" and o.parentMaterialCategory.id=?" + (params.size() + 1));
 			params.add(parentId);
 		} else {
 			jpql.append(" and o.parentMaterialCategory is null");
 		}
-		List<MaterialCategory> materialCategories = getScrollData(
-				jpql.toString(), params.toArray(), orderby).getResultlist();
+		List<MaterialCategory> materialCategories = getScrollData(jpql.toString(), params.toArray(), orderby).getResultlist();
 		return materialCategories;
 	}
 }

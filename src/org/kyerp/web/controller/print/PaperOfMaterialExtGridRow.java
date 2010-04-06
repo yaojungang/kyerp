@@ -1,4 +1,4 @@
-package org.kyerp.web.controller.warehouse;
+package org.kyerp.web.controller.print;
 
 import java.math.BigDecimal;
 
@@ -46,9 +46,6 @@ public class PaperOfMaterialExtGridRow{
 	private BigDecimal	amount;
 	/** 单价 */
 	private BigDecimal	price;
-	/** 默认仓库 */
-	private Long		warehouseId;
-	private String		warehouseName;
 	/** 默认供应商 */
 	private Long		supplierId;
 	private String		supplierName;
@@ -217,23 +214,6 @@ public class PaperOfMaterialExtGridRow{
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-
-	public Long getWarehouseId() {
-		return warehouseId;
-	}
-
-	public void setWarehouseId(Long warehouseId) {
-		this.warehouseId = warehouseId;
-	}
-
-	public String getWarehouseName() {
-		return warehouseName;
-	}
-
-	public void setWarehouseName(String warehouseName) {
-		this.warehouseName = warehouseName;
-	}
-
 	public Long getSupplierId() {
 		return supplierId;
 	}

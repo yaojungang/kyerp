@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 
 import org.kyerp.domain.BaseDomain;
 import org.kyerp.domain.common.MaterialFrom;
-import org.kyerp.domain.warehouse.PaperOfMaterial;
+import org.kyerp.domain.warehouse.print.PaperOfMaterial;
 
 /**
  * 任务单：开纸项目

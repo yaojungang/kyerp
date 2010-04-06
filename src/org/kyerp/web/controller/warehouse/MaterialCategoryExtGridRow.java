@@ -3,7 +3,7 @@ package org.kyerp.web.controller.warehouse;
 /**
  * @author y109 2010-2-2下午05:04:03
  */
-public class MaterialCategoryExtGridRow {
+public class MaterialCategoryExtGridRow{
 	private Long	id;
 	/** 建立时间 */
 	private String	createTime;
@@ -14,9 +14,7 @@ public class MaterialCategoryExtGridRow {
 	/** 编号 **/
 	private String	serialNumber;
 	/** 摘要 **/
-	private String	note;
-	/** 是否可见 **/
-	private Boolean	visible	= true;
+	private String	remark;
 	/** 子类别 **/
 	private String	childMaterialCategoryIds;
 	private String	childMaterialCategoryNames;
@@ -51,14 +49,6 @@ public class MaterialCategoryExtGridRow {
 		this.serialNumber = serialNumber;
 	}
 
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
-	}
-
 	public String getCreateTime() {
 		return createTime;
 	}
@@ -73,14 +63,6 @@ public class MaterialCategoryExtGridRow {
 
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
-	}
-
-	public Boolean getVisible() {
-		return visible;
-	}
-
-	public void setVisible(Boolean visible) {
-		this.visible = visible;
 	}
 
 	public String getChildMaterialCategoryIds() {
@@ -113,6 +95,18 @@ public class MaterialCategoryExtGridRow {
 
 	public void setParentMaterialCategoryName(String parentMaterialCategoryName) {
 		this.parentMaterialCategoryName = parentMaterialCategoryName;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public void setParentMaterialCategoryId(long parentMaterialCategoryId) {
+		this.parentMaterialCategoryId = parentMaterialCategoryId;
 	}
 
 }

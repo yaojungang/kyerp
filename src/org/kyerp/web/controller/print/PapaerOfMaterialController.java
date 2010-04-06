@@ -1,4 +1,4 @@
-package org.kyerp.web.controller.warehouse;
+package org.kyerp.web.controller.print;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kyerp.domain.common.view.QueryResult;
-import org.kyerp.domain.warehouse.PaperOfMaterial;
+import org.kyerp.domain.warehouse.print.PaperOfMaterial;
 import org.kyerp.service.warehouse.IBrandService;
 import org.kyerp.service.warehouse.IMaterialCategoryService;
 import org.kyerp.service.warehouse.IPaperOfMaterialService;
@@ -101,10 +101,6 @@ public class PapaerOfMaterialController{
 				rr.setSupplierId(m.getSupplier().getId());
 				rr.setSupplierName(m.getSupplier().getName());
 			}
-			if(null != m.getWarehouse()) {
-				rr.setWarehouseId(m.getWarehouse().getId());
-				rr.setWarehouseName(m.getWarehouse().getName());
-			}
 			/** 纸张名称 */
 			rr.setPaperName(m.getPaperName());
 			/** 纸长(mm) */
@@ -160,9 +156,6 @@ public class PapaerOfMaterialController{
 		}
 		if(null != materialRow.getSupplierId()) {
 			material.setSupplier(supplierService.find(materialRow.getSupplierId()));
-		}
-		if(null != materialRow.getWarehouseId()) {
-			material.setWarehouse(warehouseService.find(materialRow.getWarehouseId()));
 		}
 		if(null != materialRow.getUnitId()) {
 			material.setUnit(unitService.find(materialRow.getUnitId()));

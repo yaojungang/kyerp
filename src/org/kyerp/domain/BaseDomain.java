@@ -11,23 +11,30 @@ import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
 import javax.persistence.Version;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author y109 2009-12-9上午08:11:03
  */
 @MappedSuperclass
-public class BaseDomain {
+public class BaseDomain{
+	@Transient
+	// 不写入数据库
+	protected final Log	logger	= LogFactory.getLog(getClass());
 	/** id */
 	@Id
 	@GeneratedValue
-	private Long	id;
+	private Long		id;
 	/** 建立时间 */
-	private Date	createTime;
+	private Date		createTime;
 	/** 修改时间 */
-	private Date	updateTime;
+	private Date		updateTime;
 	@Version
-	private Integer	version;
+	private Integer		version;
 
 	/** 在对象新建前保存建立时间 */
 	@PrePersist
@@ -104,28 +111,28 @@ public class BaseDomain {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if(this == obj) {
 			return true;
 		}
-		if (obj == null) {
+		if(obj == null) {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if(getClass() != obj.getClass()) {
 			return false;
 		}
 		BaseDomain other = (BaseDomain) obj;
-		if (id == null) {
-			if (other.id != null) {
+		if(id == null) {
+			if(other.id != null) {
 				return false;
 			}
-		} else if (!id.equals(other.id)) {
+		} else if(!id.equals(other.id)) {
 			return false;
 		}
-		if (version == null) {
-			if (other.version != null) {
+		if(version == null) {
+			if(other.version != null) {
 				return false;
 			}
-		} else if (!version.equals(other.version)) {
+		} else if(!version.equals(other.version)) {
 			return false;
 		}
 		return true;

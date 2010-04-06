@@ -29,12 +29,6 @@ public class MaterialExtGridRow{
 	private BigDecimal	amount;
 	/** 单价 */
 	private BigDecimal	price;
-	/** 默认仓库 */
-	private Long		warehouseId;
-	private String		warehouseName;
-	/** 默认供应商 */
-	private Long		supplierId;
-	private String		supplierName;
 	/** 隐藏 */
 	private Boolean		visible;
 
@@ -143,38 +137,6 @@ public class MaterialExtGridRow{
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
-	}
-
-	public Long getWarehouseId() {
-		return warehouseId;
-	}
-
-	public void setWarehouseId(Long warehouseId) {
-		this.warehouseId = warehouseId;
-	}
-
-	public String getWarehouseName() {
-		return warehouseName;
-	}
-
-	public void setWarehouseName(String warehouseName) {
-		this.warehouseName = warehouseName;
-	}
-
-	public Long getSupplierId() {
-		return supplierId;
-	}
-
-	public void setSupplierId(Long supplierId) {
-		this.supplierId = supplierId;
-	}
-
-	public String getSupplierName() {
-		return supplierName;
-	}
-
-	public void setSupplierName(String supplierName) {
-		this.supplierName = supplierName;
 	}
 
 	public Boolean getVisible() {
