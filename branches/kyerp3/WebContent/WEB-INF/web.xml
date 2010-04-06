@@ -103,7 +103,12 @@
 	<!-- Log4j监听器 -->
 	<listener>  
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>   
-	</listener>  
+	</listener>
+<!-- Spring 刷新Introspector防止内存泄露 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
 	<!-- SpringMVC Dispatcher -->
 	<servlet>
 		<servlet-name>kyerp3Servlet</servlet-name>

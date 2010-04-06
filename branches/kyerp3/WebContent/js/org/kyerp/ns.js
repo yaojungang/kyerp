@@ -23,6 +23,11 @@ org.kyerp.org.DepartmentPanel_DELETE_URL = "org/Department/jsonDelete.html";
 /** ***************************************************************************** */
 /** 库存管理模块 */
 /** ***************************************************************************** */
+org.kyerp.warehouse.BaseCategoryPanel_TREE_URL = "warehouse/BaseCategory/jsonTree.html";
+org.kyerp.warehouse.BaseCategoryPanel_LIST_URL = "warehouse/BaseCategory/jsonList.html";
+org.kyerp.warehouse.BaseCategoryPanel_SAVE_URL = "warehouse/BaseCategory/jsonSave.html";
+org.kyerp.warehouse.BaseCategoryPanel_DELETE_URL = "warehouse/BaseCategory/jsonDelete.html";
+/** ***************************************************************************** */
 org.kyerp.warehouse.BrandPanel_TREE_URL = "warehouse/Brand/jsonTree.html";
 org.kyerp.warehouse.BrandPanel_LIST_URL = "warehouse/Brand/jsonList.html";
 org.kyerp.warehouse.BrandPanel_SAVE_URL = "warehouse/Brand/jsonSave.html";

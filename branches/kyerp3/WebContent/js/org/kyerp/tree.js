@@ -2,26 +2,46 @@
 			text : "库存管理",
 			expanded : true,
 			children : [{
-						id : "MaterialManager",
-						text : "物料管理",
+						id : "CategoryManager",
+						text : "库存分类",
 						expanded : false,
 						children : [{
-									id : "MaterialCategoryPanel",
-									text : "物料分类",
+									id : "BaseCategoryPanel",
+									text : "库存总分类",
 									ns : 'org.kyerp.warehouse',
 									leaf : true
 								}, {
+									id : "MaterialCategoryPanel",
+									text : "原材料分类",
+									ns : 'org.kyerp.warehouse',
+									leaf : true
+								},{
+									id : "EndItemsCategoryPanel",
+									text : "成品分类",
+									ns : 'org.kyerp.warehouse',
+									leaf : true
+								}]
+					},{
+						id : "StoreFileManager",
+						text : "库存档案",
+						expanded : false,
+						children : [{
 									id : "MaterialPanel",
 									ns : 'org.kyerp.warehouse',
-									text : "库存档案",
+									text : "原材料档案",
 									leaf : true
 								}, {
 									id : "PaperOfMaterialPanel",
 									text : "纸张档案",
 									ns : 'org.kyerp.warehouse',
 									leaf : true
+								},{
+									id : "EndItemsPanel",
+									text : "成品档案",
+									ns : 'org.kyerp.warehouse',
+									leaf : true
 								}]
-					}, {
+					},{
 						id : "SupplierManager",
 						ns : 'org.kyerp.warehouse',
 						text : "供应商",
