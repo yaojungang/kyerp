@@ -3,6 +3,7 @@ package org.kyerp.domain.warehouse;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -14,7 +15,7 @@ import org.kyerp.domain.BaseDomain;
  * @author y109 2010-3-19下午06:40:24
  */
 @Entity
-public class StockDetail extends BaseDomain implements Serializable {
+public class StockDetail extends BaseDomain implements Serializable{
 
 	private static final long	serialVersionUID	= 1L;
 	/** 库存表 */
@@ -26,20 +27,33 @@ public class StockDetail extends BaseDomain implements Serializable {
 	@ManyToOne
 	private Warehouse			warehouse;
 	/** 数量 */
-	private BigDecimal			amount;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal			amount				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 单位 */
 	@ManyToOne
 	private Unit				unit;
 	/** 价格 */
-	private BigDecimal			price;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal			price				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 金额 */
-	private BigDecimal			cost;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal			cost				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
+	/** 备注 */
+	private String				remark;
 
 	public StockDetail() {
 	}
 
 	public Warehouse getWarehouse() {
 		return warehouse;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public void setWarehouse(Warehouse warehouse) {

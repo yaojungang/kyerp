@@ -34,7 +34,7 @@ public class PrintUtils{
 		// System.out.println("令重:" + gWeight);
 		// 令价
 		BigDecimal linPrice = gPrice.multiply(gWeight);
-		// System.out.println("令价:" + linPrice);
+		System.out.println("令价:" + linPrice);
 		return linPrice;
 	}
 

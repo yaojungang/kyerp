@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,7 +19,7 @@ import org.kyerp.domain.BaseDomain;
  * @author y109 2010-3-19下午06:40:24
  */
 @Entity
-public class Stock extends BaseDomain implements Serializable {
+public class Stock extends BaseDomain implements Serializable{
 
 	private static final long		serialVersionUID	= 1L;
 	/** 编号 **/
@@ -27,17 +28,20 @@ public class Stock extends BaseDomain implements Serializable {
 	@ManyToOne
 	private Material				material;
 	/** 物料明细 */
-	@OneToMany(mappedBy = "stock", cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "stock",cascade = { CascadeType.ALL })
 	private final List<StockDetail>	stockDetails		= new ArrayList<StockDetail>();
 	/** 总数量 */
-	private BigDecimal				totalAmount;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal				totalAmount			= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 单位 */
 	@ManyToOne
 	private Unit					unit;
 	/** 绝对平均价格 */
-	private BigDecimal				price;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal				price				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 总金额 */
-	private BigDecimal				cost;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal				cost				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 
 	public Stock() {
 	}

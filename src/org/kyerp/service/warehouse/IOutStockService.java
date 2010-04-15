@@ -19,7 +19,8 @@ public interface IOutStockService extends DAO<OutStock>{
 	 * 审核出库单 改变状态为已审核,设置审核人，审核时间
 	 * 
 	 * @return String
+	 * @throws Exception
 	 */
-	String checkOutStock(OutStock outStock);
+	String checkOutStock(OutStock outStock) throws Exception;
 
 }

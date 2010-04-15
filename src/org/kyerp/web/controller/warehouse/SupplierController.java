@@ -49,22 +49,10 @@ public class SupplierController{
 		}
 		// set query
 		if(null != query && !query.equals("")) {
-			wherejpql.append(" and (o.fullName like ?").append(queryParams.size() + 1);
+			wherejpql.append(" and (o.paperName like ?").append(queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 			// name
 			wherejpql.append(" or o.name like ?").append(queryParams.size() + 1);
-			queryParams.add("%" + query.trim() + "%");
-			// nameSpell
-			wherejpql.append(" or o.nameSpell like ?").append(queryParams.size() + 1);
-			queryParams.add("%" + query.trim() + "%");
-			// remark
-			wherejpql.append(" or o.remark like ?").append(queryParams.size() + 1);
-			queryParams.add("%" + query.trim() + "%");
-			// address
-			wherejpql.append(" or o.address like ?").append(queryParams.size() + 1);
-			queryParams.add("%" + query.trim() + "%");
-			// phone
-			wherejpql.append(" or o.phone like ?").append(queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 
 			wherejpql.append(" or o.serialNumber like ?").append(queryParams.size() + 1).append(")");

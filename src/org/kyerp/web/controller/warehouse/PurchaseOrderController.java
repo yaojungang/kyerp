@@ -55,7 +55,7 @@ public class PurchaseOrderController extends BaseController{
 	IInOutTypeService			inOutTypeService;
 
 	@RequestMapping("/warehouse/PurchaseOrder/jsonList.html")
-	public String list(Model model, Integer start, Integer limit) {
+	public String list(Model model, Integer start, Integer limit) throws Exception {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 

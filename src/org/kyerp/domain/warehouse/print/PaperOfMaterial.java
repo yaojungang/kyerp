@@ -3,9 +3,10 @@
  */
 package org.kyerp.domain.warehouse.print;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.DiscriminatorValue;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
@@ -20,9 +21,8 @@ import org.kyerp.domain.warehouse.Supplier;
  * @author y109 2009-11-29下午11:34:48
  */
 @Entity
-@DiscriminatorValue("paper")
-public class PaperOfMaterial extends Material{
-	private static final long	serialVersionUID	= -4449340515383717173L;
+public class PaperOfMaterial extends Material implements Serializable{
+	private static final long	serialVersionUID	= 1L;
 	/** 纸张名称 */
 	private String				paperName			= "";
 	/** 供应商 */
@@ -35,10 +35,13 @@ public class PaperOfMaterial extends Material{
 	/** 纸张克重 */
 	private int					paperWeight			= 0;
 	/** 纸张吨价 */
+	@Column(precision = 12,scale = 4)
 	private BigDecimal			tonnePrice			= new BigDecimal("0");
 	/** 每平米价格 */
+	@Column(precision = 12,scale = 4)
 	private BigDecimal			squareMetrePrice	= new BigDecimal("0");
 	/** 每张价格 */
+	@Column(precision = 12,scale = 4)
 	private BigDecimal			pricePrePage;
 
 	public PaperOfMaterial() {
@@ -86,6 +89,14 @@ public class PaperOfMaterial extends Material{
 		this.paperName = paperName;
 	}
 
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
 	public int getPaperHeight() {
 		return paperHeight;
 	}
@@ -114,22 +125,6 @@ public class PaperOfMaterial extends Material{
 		return tonnePrice;
 	}
 
-	public BigDecimal getPricePrePage() {
-		return pricePrePage;
-	}
-
-	public Supplier getSupplier() {
-		return supplier;
-	}
-
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
-
-	public void setPricePrePage(BigDecimal pricePrePage) {
-		this.pricePrePage = pricePrePage;
-	}
-
 	public void setTonnePrice(BigDecimal tonnePrice) {
 		this.tonnePrice = tonnePrice;
 	}
@@ -140,6 +135,14 @@ public class PaperOfMaterial extends Material{
 
 	public void setSquareMetrePrice(BigDecimal squareMetrePrice) {
 		this.squareMetrePrice = squareMetrePrice;
+	}
+
+	public BigDecimal getPricePrePage() {
+		return pricePrePage;
+	}
+
+	public void setPricePrePage(BigDecimal pricePrePage) {
+		this.pricePrePage = pricePrePage;
 	}
 
 }

@@ -3,6 +3,7 @@ package org.kyerp.domain.warehouse;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -14,7 +15,7 @@ import org.kyerp.domain.BaseDomain;
  * @author y109 2010-3-19下午06:49:15
  */
 @Entity
-public class InStockDetail extends BaseDomain implements Serializable {
+public class InStockDetail extends BaseDomain implements Serializable{
 
 	private static final long	serialVersionUID	= 1L;
 
@@ -33,12 +34,14 @@ public class InStockDetail extends BaseDomain implements Serializable {
 	@ManyToOne
 	private Warehouse			warehouse;
 	/** 数量 */
-	private BigDecimal			billCount;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal			billCount			= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 单位 */
 	@ManyToOne
 	private Unit				unit;
 	/** 价格 */
-	private BigDecimal			price;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal			price				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 备注 */
 	private String				remark;
 

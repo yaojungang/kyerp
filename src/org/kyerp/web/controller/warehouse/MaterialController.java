@@ -21,6 +21,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -44,7 +45,7 @@ public class MaterialController extends BaseController{
 	IWarehouseService			warehouseService;
 
 	@RequestMapping("/warehouse/Material/jsonList.html")
-	public String list(String query, Long mCategoryId, Integer start, Integer limit, Model model, HttpServletRequest request) {
+	public String list(String query, Long materialCategoryId, Integer start, Integer limit, Model model, HttpServletRequest request) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 		StringBuffer jpql = new StringBuffer("");
@@ -52,23 +53,20 @@ public class MaterialController extends BaseController{
 		jpql.append(" 1=?").append((params.size() + 1));
 		params.add(1);
 		// 类型ID
-		if(null != mCategoryId && mCategoryId > 0) {
+		if(null != materialCategoryId && materialCategoryId > 0) {
 			if(params.size() > 0) {
 				jpql.append(" and ");
 			}
 			jpql.append(" o.materialCategory.id=?").append((params.size() + 1));
-			params.add(mCategoryId);
+			params.add(materialCategoryId);
 		}
 		// 名称关键字
-		if(null != query && query.trim().length() > 0) {
-			// searchKey = all 表示不过滤
-			if(!"all".equals(query.trim())) {
-				if(params.size() > 0) {
-					jpql.append(" and ");
-				}
-				jpql.append(" o.name like ?").append((params.size() + 1));
-				params.add("%" + query.trim() + "%");
-			}
+		if(StringUtils.hasText(query)) {
+			jpql.append(" and (o.name like ?").append(params.size() + 1);
+			params.add("%" + query.trim() + "%");
+			jpql.append(" or o.serialNumber like ?").append(params.size() + 1).append(")");
+			params.add("%" + query.trim() + "%");
+
 		}
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");

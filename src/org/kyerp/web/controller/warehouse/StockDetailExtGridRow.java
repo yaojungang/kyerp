@@ -33,6 +33,8 @@ public class StockDetailExtGridRow{
 	private BigDecimal	price;
 	/** 金额 */
 	private BigDecimal	cost;
+	/** 备注 */
+	private String		remark;
 
 	public StockDetailExtGridRow() {
 	}
@@ -159,6 +161,26 @@ public class StockDetailExtGridRow{
 
 	public BigDecimal getCost() {
 		return cost;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public void setStockId(Long stockId) {
+		this.stockId = stockId;
+	}
+
+	public void setMaterialId(Long materialId) {
+		this.materialId = materialId;
+	}
+
+	public void setWarehouseId(Long warehouseId) {
+		this.warehouseId = warehouseId;
 	}
 
 	public void setCost(BigDecimal cost) {

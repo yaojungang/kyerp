@@ -58,7 +58,7 @@ public class OutStockController extends BaseController{
 	IEmployeeService		employeeService;
 
 	@RequestMapping("/warehouse/OutStock/jsonList.html")
-	public String list(Model model, Integer start, Long inOutTypeId, Long supplierId, String query, Integer limit) {
+	public String list(Model model, Integer start, Long inOutTypeId, Long supplierId, String query, Integer limit) throws Exception {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
@@ -213,6 +213,10 @@ public class OutStockController extends BaseController{
 					if(null != detail.getPrice()) {
 						row.setPrice(detail.getPrice());
 					}
+					/** 生产任务单号 */
+					if(null != detail.getPressworkNo()) {
+						row.setPressworkNo(detail.getPressworkNo());
+					}
 					/** 备注 */
 					if(null != detail.getRemark()) {
 						row.setRemark(detail.getRemark());
@@ -288,7 +292,7 @@ public class OutStockController extends BaseController{
 					detail = outStockDetailService.find(new Long(idString));
 				}
 				// 物料
-				System.out.println("save material id:" + jsonObject.getLong("materialId"));
+				logger.info("save material id:" + jsonObject.getLong("materialId"));
 				detail.setMaterial(materialService.find(jsonObject.getLong("materialId")));
 				// 批次号
 				detail.setBatchNumber(jsonObject.getString("batchNumber"));
@@ -300,6 +304,10 @@ public class OutStockController extends BaseController{
 				detail.setUnit(materialService.find(jsonObject.getLong("materialId")).getUnit());
 				// 数量
 				detail.setBillCount(new BigDecimal(jsonObject.getString("billCount")));
+				/** 生产任务单号 */
+				if(null != jsonObject.getString("pressworkNo")) {
+					detail.setPressworkNo(jsonObject.getString("pressworkNo").toUpperCase());
+				}
 				// 备注
 				if(null != jsonObject.getString("remark")) {
 					detail.setRemark(jsonObject.getString("remark"));

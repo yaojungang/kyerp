@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 
-import javax.persistence.Transient;
-
 import org.kyerp.dao.DaoSupport;
 import org.kyerp.domain.warehouse.BillStatus;
 import org.kyerp.domain.warehouse.OutStock;
@@ -19,6 +17,7 @@ import org.kyerp.utils.SerialNumberHelper;
 import org.kyerp.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author y109 2009-11-30上午02:26:14
@@ -31,6 +30,7 @@ public class OutStockService extends DaoSupport<OutStock> implements IOutStockSe
 	IStockDetailService	stockDetailService;
 
 	@Override
+	@Transactional(rollbackFor = { Exception.class, Throwable.class })
 	public void saveOutStock(OutStock e) {
 		if(null == e.getSerialNumber() || e.getSerialNumber().length() == 0) {
 			// 如果没有填写单号则设置单号
@@ -51,8 +51,8 @@ public class OutStockService extends DaoSupport<OutStock> implements IOutStockSe
 	 * org.kyerp.domain.warehouse.OutStock)
 	 */
 	@Override
-	@Transient
-	public String checkOutStock(OutStock outStock) {
+	@Transactional(rollbackFor = { Exception.class, Throwable.class })
+	public String checkOutStock(OutStock outStock) throws Exception {
 		if(BillStatus.CHECKED == outStock.getStatus()) {
 			return "该单据已经审核过，不能再审核。";
 		}
@@ -63,7 +63,7 @@ public class OutStockService extends DaoSupport<OutStock> implements IOutStockSe
 			}
 			// 查询库存主表如果存在该Id的物料则选中这条库存记录
 			String wherejpql = "o.material.id=" + outStockDetail.getMaterial().getId();
-			System.out.println("jpql:" + wherejpql);
+			// System.out.println("jpql:" + wherejpql);
 			Stock stock = new Stock();
 			if(stockService.getScrollData(wherejpql, null, null).getTotalrecord() > 0) {
 				stock = stockService.getScrollData(wherejpql, null, null).getResultlist().get(0);
@@ -91,7 +91,7 @@ public class OutStockService extends DaoSupport<OutStock> implements IOutStockSe
 						System.out.println("outStockDetail.getBillCost():" + outStockDetail.getBillCost());
 
 						stockDetail.setCost(stockDetail.getCost().subtract(outStockDetail.getBillCost()));
-						stockDetail.setPrice(stockDetail.getCost().divide(stockDetail.getAmount(), 3, BigDecimal.ROUND_HALF_UP));
+						stockDetail.setPrice(stockDetail.getCost().divide(stockDetail.getAmount(), 4, BigDecimal.ROUND_HALF_UP));
 						stockDetailService.update(stockDetail);
 					}
 					// 更新库存表的总数量
@@ -101,7 +101,7 @@ public class OutStockService extends DaoSupport<OutStock> implements IOutStockSe
 						stockService.delete(stock.getId());
 					} else {
 						stock.setCost(stock.getCost().subtract(outStockDetail.getBillCost()));
-						stock.setPrice(stock.getCost().divide(stock.getTotalAmount(), 3, BigDecimal.ROUND_HALF_UP));
+						stock.setPrice(stock.getCost().divide(stock.getTotalAmount(), 4, BigDecimal.ROUND_HALF_UP));
 						stockService.update(stock);
 					}
 				} else {

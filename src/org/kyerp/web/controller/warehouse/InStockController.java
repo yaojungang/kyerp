@@ -55,7 +55,7 @@ public class InStockController extends BaseController{
 	IEmployeeService		employeeService;
 
 	@RequestMapping("/warehouse/InStock/jsonList.html")
-	public String list(Model model, Integer start, Long inOutTypeId, Long supplierId, String query, Integer limit) {
+	public String list(Model model, Integer start, Long inOutTypeId, Long supplierId, String query, Integer limit) throws Exception {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
@@ -232,90 +232,95 @@ public class InStockController extends BaseController{
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/InStock/jsonSave.html")
 	public String save(InStockExtGridRow row, ModelMap model) throws Exception {
-		InStock inStock = new InStock();
-		if(null != row.getId() && row.getId() > 0) {
-			inStock = inStockService.find(row.getId());
-		}
-		// 保存单号
-		if(null != row.getSerialNumber()) {
-			inStock.setSerialNumber(row.getSerialNumber());
-		}
-		// 保存收发类型
-		if(null != row.getInOutTypeId()) {
-			inStock.setInOutType(inOutTypeService.find(row.getInOutTypeId()));
-		}
-		// 保存填单日期
-		if(null != row.getWriteDate()) {
-			inStock.setWriteDate(DateUtils.parseDate(row.getWriteDate(), new String[] { "yyyy-MM-dd" }));
-		}
-		// 保存入库时间
-		if(null != row.getArriveDate()) {
-			inStock.setArriveDate(DateUtils.parseDate(row.getArriveDate(), new String[] { "yyyy-MM-dd" }));
-		}
-		// 保存填单人
-		// inStock.setWriteUser(user.getEmployee());
-		// 保存经手人
-		if(null != row.getKeeperId()) {
-			inStock.setKeeper(employeeService.find(row.getKeeperId()));
-		}
-		/** 供应商 */
-		if(null != row.getSupplierId()) {
-			inStock.setSupplier(supplierService.find(row.getSupplierId()));
-		}
-		// 保存备注
-		if(null != row.getRemark()) {
-			inStock.setRemark(row.getRemark());
-		}
-
-		if(null != row.getId() && row.getId() > 0) {
-			inStockService.update(inStock);
-		} else {
-			inStockService.saveInStock(inStock);
-		}
-		// 保存物料批次信息
-		if(null != row.getDetails() && row.getDetails().length() > 0) {
-			List<InStockDetail> pods = new ArrayList<InStockDetail>();
-			JSONArray jsonArray = new JSONArray();
-			JSONObject jsonObject = new JSONObject();
-			jsonArray = JSONArray.fromObject(row.getDetails());
-			for (int i = 0; i < jsonArray.size(); i++) {
-				InStockDetail detail = new InStockDetail();
-				jsonObject = jsonArray.getJSONObject(i);
-				String idString = jsonObject.getString("id");
-				if(null != idString && idString.length() > 0) {
-					detail = inStockDetailService.find(new Long(idString));
-				}
-				// 物料
-				detail.setMaterial(materialService.find(jsonObject.getLong("materialId")));
-				// 批次号
-				detail.setBatchNumber(jsonObject.getString("batchNumber").toUpperCase());
-				// 仓库
-				detail.setWarehouse(warehouseService.find(jsonObject.getLong("warehouseId")));
-				detail.setPrice(new BigDecimal(jsonObject.getString("price")));
-
-				// 单位为物料单位
-				detail.setUnit(materialService.find(jsonObject.getLong("materialId")).getUnit());
-				// 数量
-				detail.setBillCount(new BigDecimal(jsonObject.getString("billCount")));
-				// 备注
-				if(null != jsonObject.getString("remark")) {
-					detail.setRemark(jsonObject.getString("remark"));
-				}
-				detail.setInStock(inStock);
-
-				if(null != idString && idString.length() > 0) {
-					inStockDetailService.update(detail);
-				} else {
-					inStockDetailService.saveInStockDetail(detail);
-				}
-				pods.add(detail);
+		try {
+			InStock inStock = new InStock();
+			if(null != row.getId() && row.getId() > 0) {
+				inStock = inStockService.find(row.getId());
 			}
-			inStock.setDetails(pods);
+			// 保存单号
+			if(null != row.getSerialNumber()) {
+				inStock.setSerialNumber(row.getSerialNumber());
+			}
+			// 保存收发类型
+			if(null != row.getInOutTypeId()) {
+				inStock.setInOutType(inOutTypeService.find(row.getInOutTypeId()));
+			}
+			// 保存填单日期
+			if(null != row.getWriteDate()) {
+				inStock.setWriteDate(DateUtils.parseDate(row.getWriteDate(), new String[] { "yyyy-MM-dd" }));
+			}
+			// 保存入库时间
+			if(null != row.getArriveDate()) {
+				inStock.setArriveDate(DateUtils.parseDate(row.getArriveDate(), new String[] { "yyyy-MM-dd" }));
+			}
+			// 保存填单人
+			// inStock.setWriteUser(user.getEmployee());
+			// 保存经手人
+			if(null != row.getKeeperId()) {
+				inStock.setKeeper(employeeService.find(row.getKeeperId()));
+			}
+			/** 供应商 */
+			if(null != row.getSupplierId()) {
+				inStock.setSupplier(supplierService.find(row.getSupplierId()));
+			}
+			// 保存备注
+			if(null != row.getRemark()) {
+				inStock.setRemark(row.getRemark());
+			}
+
+			if(null != row.getId() && row.getId() > 0) {
+				inStockService.update(inStock);
+			} else {
+				inStockService.saveInStock(inStock);
+			}
+			// 保存物料批次信息
+			if(null != row.getDetails() && row.getDetails().length() > 0) {
+				List<InStockDetail> pods = new ArrayList<InStockDetail>();
+				JSONArray jsonArray = new JSONArray();
+				JSONObject jsonObject = new JSONObject();
+				jsonArray = JSONArray.fromObject(row.getDetails());
+				for (int i = 0; i < jsonArray.size(); i++) {
+					InStockDetail detail = new InStockDetail();
+					jsonObject = jsonArray.getJSONObject(i);
+					String idString = jsonObject.getString("id");
+					if(null != idString && idString.length() > 0) {
+						detail = inStockDetailService.find(new Long(idString));
+					}
+					// 物料
+					detail.setMaterial(materialService.find(jsonObject.getLong("materialId")));
+					// 批次号
+					detail.setBatchNumber(jsonObject.getString("batchNumber").toUpperCase());
+					// 仓库
+					detail.setWarehouse(warehouseService.find(jsonObject.getLong("warehouseId")));
+					detail.setPrice(new BigDecimal(jsonObject.getString("price")));
+
+					// 单位为物料单位
+					detail.setUnit(materialService.find(jsonObject.getLong("materialId")).getUnit());
+					// 数量
+					detail.setBillCount(new BigDecimal(jsonObject.getString("billCount")));
+					// 备注
+					if(null != jsonObject.getString("remark")) {
+						detail.setRemark(jsonObject.getString("remark"));
+					}
+					detail.setInStock(inStock);
+
+					if(null != idString && idString.length() > 0) {
+						inStockDetailService.update(detail);
+					} else {
+						inStockDetailService.saveInStockDetail(detail);
+					}
+					pods.add(detail);
+				}
+				inStock.setDetails(pods);
+			}
+			inStockService.update(inStock);
+			long id = inStock.getId() > 0 ? inStock.getId() : inStockService.findLast().getId();
+			model.addAttribute("success", true);
+			model.addAttribute("id", id);
+		} catch (Exception e) {
+			model.addAttribute("failure", true);
+			model.addAttribute("msg", "保存失败!<br />" + e.getMessage());
 		}
-		inStockService.update(inStock);
-		long id = inStock.getId() > 0 ? inStock.getId() : inStockService.findLast().getId();
-		model.addAttribute("success", true);
-		model.addAttribute("id", id);
 		return "jsonView";
 	}
 
@@ -341,11 +346,15 @@ public class InStockController extends BaseController{
 	 * @throws Exception
 	 */
 	@RequestMapping("/warehouse/InStock/jsonPostForCheck.html")
-	public String postForCheck(ModelMap model, Long id) throws Exception {
-		InStock inStock = inStockService.find(id);
-		inStock.setStatus(BillStatus.WAITING_FOR_CHECK);
-		inStockService.save(inStock);
-		model.addAttribute("success", true);
+	public String postForCheck(ModelMap model, Long id) {
+		try {
+			InStock inStock = inStockService.find(id);
+			inStock.setStatus(BillStatus.WAITING_FOR_CHECK);
+			inStockService.save(inStock);
+			model.addAttribute("msg", "单据提交审核成功，您将不能修改这个单据！");
+		} catch (Exception e) {
+			model.addAttribute("msg", "单据提交审核时发生异常！");
+		}
 		return "jsonView";
 	}
 
@@ -353,16 +362,20 @@ public class InStockController extends BaseController{
 	 * 返回编制状态
 	 */
 	@RequestMapping("/warehouse/InStock/jsonReturnForEdit.html")
-	public String returnForEdit(ModelMap model, Long id) throws Exception {
-		InStock inStock = inStockService.find(id);
-		if(BillStatus.CHECKED == inStock.getStatus()) {
-			model.addAttribute("failure", true);
-			model.addAttribute("msg", "单据已经审核过，不能再修改。");
-		} else {
-			inStock.setStatus(BillStatus.WRITING);
-			inStockService.save(inStock);
-			model.addAttribute("success", true);
+	public String returnForEdit(ModelMap model, Long id) {
+		try {
+			InStock inStock = inStockService.find(id);
+			if(BillStatus.CHECKED == inStock.getStatus()) {
+				model.addAttribute("msg", "单据已经审核过，不能再修改。");
+			} else {
+				inStock.setStatus(BillStatus.WRITING);
+				inStockService.save(inStock);
+				model.addAttribute("msg", "单据返回编制状态，可以修改。");
+			}
+		} catch (Exception e) {
+			model.addAttribute("msg", "单据返回编制状态时发生异常。");
 		}
+
 		return "jsonView";
 	}
 
@@ -370,16 +383,37 @@ public class InStockController extends BaseController{
 	 * 审核单据
 	 */
 	@RequestMapping("/warehouse/InStock/jsonCheckBill.html")
-	public String checkBill(ModelMap model, Long id) throws Exception {
-		InStock inStock = inStockService.find(id);
-		String result = inStockService.checkInStock(inStock);
-		if(result.equals("success")) {
-			model.addAttribute("success", true);
-		} else {
-			model.addAttribute("failure", true);
-			model.addAttribute("msg", result);
+	public String checkBill(ModelMap model, Long id) {
+		try {
+			InStock inStock = inStockService.find(id);
+			String result = inStockService.checkInStock(inStock);
+			if(result.equals("success")) {
+				model.addAttribute("msg", "单据审核成功！");
+			} else {
+				model.addAttribute("failure", true);
+				model.addAttribute("msg", result);
+			}
+		} catch (Exception e) {
+			model.addAttribute("msg", "审核单据时发生异常！<br />" + e.getMessage());
 		}
+
 		return "jsonView";
 	}
 
+	/**
+	 * 修改入库单的备注
+	 */
+	@RequestMapping("/warehouse/InStockDetail/jsonSave.html")
+	public String save(InStockItemExtGridRow row, ModelMap model) {
+		InStockDetail sd = new InStockDetail();
+		if(null != row.getId() && row.getId() > 0) {
+			sd = inStockDetailService.find(row.getId());
+		}
+		sd.setRemark(row.getRemark());
+		if(null != row.getId() && row.getId() > 0) {
+			inStockDetailService.update(sd);
+		}
+		model.addAttribute("success", true);
+		return "jsonView";
+	}
 }

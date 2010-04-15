@@ -2,10 +2,7 @@ package org.kyerp.domain.warehouse;
 
 import java.io.Serializable;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -16,10 +13,6 @@ import javax.persistence.PreUpdate;
  * @author y109 2009-11-29下午11:24:25
  */
 @Entity
-/**该类的标识*/
-@DiscriminatorValue("material")
-/**继承映射策略*/
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Material extends BaseItem implements Serializable{
 	private static final long	serialVersionUID	= 1L;
 	/** 编号 **/
