@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -38,9 +39,11 @@ public class InStock extends BaseDomain implements Serializable{
 	/** 备注 */
 	private String				remark;
 	/** 总数量 */
-	private BigDecimal			billCount;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal			billCount			= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 总费用 */
-	private BigDecimal			billCost;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal			billCost			= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 填单人 */
 	@ManyToOne
 	private User				writeUser;

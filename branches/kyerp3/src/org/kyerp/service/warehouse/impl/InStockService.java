@@ -17,11 +17,13 @@ import org.kyerp.utils.SerialNumberHelper;
 import org.kyerp.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author y109 2009-11-30上午02:26:14
  */
 @Service
+@Transactional
 public class InStockService extends DaoSupport<InStock> implements IInStockService{
 	@Autowired
 	IStockService		stockService;
@@ -29,7 +31,8 @@ public class InStockService extends DaoSupport<InStock> implements IInStockServi
 	IStockDetailService	stockDetailService;
 
 	@Override
-	public void saveInStock(InStock e) {
+	@Transactional(rollbackFor = Exception.class)
+	public void saveInStock(InStock e) throws Exception {
 		// 设置单据状态
 		e.setStatus(BillStatus.WRITING);
 		// 设置填单人
@@ -60,11 +63,11 @@ public class InStockService extends DaoSupport<InStock> implements IInStockServi
 	 * org.kyerp.domain.warehouse.InStock)
 	 */
 	@Override
-	public String checkInStock(InStock inStock) {
+	@Transactional(rollbackFor = Exception.class)
+	public String checkInStock(InStock inStock) throws Exception {
 		if(BillStatus.CHECKED == inStock.getStatus()) {
 			return "该单据已经审核过，不能再审核。";
 		}
-		em.getTransaction().begin();
 		// 循环取出入库单明细里的每个条目；
 		for (InStockDetail d : inStock.getDetails()) {
 			if(inStock.getDetails().size() == 0) {
@@ -72,15 +75,15 @@ public class InStockService extends DaoSupport<InStock> implements IInStockServi
 			}
 			// 查询库存主表如果存在该Id的物料则选中这条库存记录
 			String wherejpql = "o.material.id=" + d.getMaterial().getId();
-			// System.out.println("jpql:" + wherejpql);
+			logger.debug("jpql:" + wherejpql);
 			Stock stock = new Stock();
 			if(stockService.getScrollData(wherejpql, null, null).getTotalrecord() > 0) {
 				stock = stockService.getScrollData(wherejpql, null, null).getResultlist().get(0);
 			}
 			if(null != stock.getId()) {
 				// 查询库存明细表中是否存在 同批次号、同库房的库存记录，如果存在则选中
-				String wherejpql2 = "o.batchNumber=" + d.getBatchNumber() + " and o.warehouse.id=" + d.getWarehouse().getId();
-				// System.out.println("jpql:" + wherejpql);
+				String wherejpql2 = "o.batchNumber='" + d.getBatchNumber() + "' and o.warehouse.id=" + d.getWarehouse().getId();
+				logger.debug("查询库存明细表中是否存在 同批次号、同库房的库存记录，如果存在则选中jpql:" + wherejpql2);
 				StockDetail stockDetail = new StockDetail();
 				if(stockDetailService.getScrollData(wherejpql2, null, null).getTotalrecord() > 0) {
 					stockDetail = stockDetailService.getScrollData(wherejpql2, null, null).getResultlist().get(0);
@@ -91,10 +94,9 @@ public class InStockService extends DaoSupport<InStock> implements IInStockServi
 						stockDetailService.delete(stockDetail.getId());
 					} else {
 						stockDetail.setCost(stockDetail.getCost().add(d.getBillCost()));
-						stockDetail.setPrice(stockDetail.getCost().divide(stockDetail.getAmount()));
+						stockDetail.setPrice(stockDetail.getCost().divide(stockDetail.getAmount(), 4, BigDecimal.ROUND_HALF_UP));
+						stockDetailService.update(stockDetail);
 					}
-
-					stockDetailService.update(stockDetail);
 				} else {
 					stockDetail.setStock(stock);
 					// 如果没有设置批次号，则设置批次号
@@ -125,7 +127,7 @@ public class InStockService extends DaoSupport<InStock> implements IInStockServi
 					stockService.delete(stock.getId());
 				} else {
 					stock.setCost(stock.getCost().add(d.getBillCost()));
-					stock.setPrice(stock.getCost().divide(stock.getTotalAmount()));
+					stock.setPrice(stock.getCost().divide(stock.getTotalAmount(), 4, BigDecimal.ROUND_HALF_UP));
 					stockService.update(stock);
 				}
 			} else {
@@ -168,8 +170,8 @@ public class InStockService extends DaoSupport<InStock> implements IInStockServi
 		inStock.setCheckDate(new Date());
 		// 设置审核人
 		inStock.setCheckUser(WebUtil.getCurrentUser());
+		inStock.setCheckEmployee(WebUtil.getCurrentEmployee());
 		update(inStock);
-		em.getTransaction().commit();
 		return "success";
 	}
 }

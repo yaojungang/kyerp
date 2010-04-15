@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -37,9 +38,11 @@ public class PurchaseOrder extends BaseDomain implements Serializable{
 	/** 备注 */
 	private String						remark;
 	/** 总数量 */
-	private BigDecimal					billCount;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal					billCount			= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 总费用 */
-	private BigDecimal					billCost;
+	@Column(precision = 12,scale = 4)
+	private BigDecimal					billCost			= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 申请部门 */
 	@ManyToOne
 	private Department					applicationDepartment;
@@ -79,8 +82,18 @@ public class PurchaseOrder extends BaseDomain implements Serializable{
 		// 设置单据状态
 		this.setStatus(BillStatus.WRITING);
 		// 保存填单人
-		this.setWriteUser(WebUtil.getCurrentUser());
-		this.setWriteEmployee(WebUtil.getCurrentEmployee());
+		try {
+			this.setWriteUser(WebUtil.getCurrentUser());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			this.setWriteEmployee(WebUtil.getCurrentEmployee());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		super.prePersist();
 		this.preUpdate();
 	}

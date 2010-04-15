@@ -11,6 +11,7 @@ import org.kyerp.service.warehouse.IStockDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -88,11 +89,27 @@ public class StockDetailController{
 			}
 			/** 价格 */
 			n.setPrice(o.getPrice());
-
+			/** 备注 */
+			n.setRemark(o.getRemark());
 			rows.add(n);
 		}
 		model.addAttribute("totalProperty", queryResult.getTotalrecord());
 		model.addAttribute("rows", rows);
+		return "jsonView";
+	}
+
+	@RequestMapping("/warehouse/StockDetail/jsonSave.html")
+	public String save(StockDetailExtGridRow row, ModelMap model) {
+		StockDetail sd = new StockDetail();
+		if(null != row.getId() && row.getId() > 0) {
+			sd = stockDetailService.find(row.getId());
+		}
+		sd.setRemark(row.getRemark());
+
+		if(null != row.getId() && row.getId() > 0) {
+			stockDetailService.update(sd);
+		}
+		model.addAttribute("success", true);
 		return "jsonView";
 	}
 }

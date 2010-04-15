@@ -38,7 +38,7 @@ public class EmployeeController extends BaseController{
 	IDepartmentService	departmentService;
 
 	@RequestMapping("/org/Employee/jsonList.html")
-	public String list(String query, Long departId, Integer start, Integer limit, Model model) {
+	public String list(String query, Long departId, Integer start, Integer limit, Model model) throws Exception {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 		logger.info("currentEmployee:" + WebUtil.getCurrentEmployee().getName());

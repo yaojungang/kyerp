@@ -31,16 +31,22 @@ public class MySpecialAuthenticationFilter extends HttpServlet implements Filter
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		// 判断用户是否登录
-		User currentUser = (User) WebUtil.getCurrentUser();
-		if(null != currentUser) {
-			((HttpServletResponse) response).setHeader("LOGINED", "YES");
-			((HttpServletResponse) response).setHeader("currentUser", currentUser.getUsername());
-			// ((HttpServletResponse) response).setHeader("currentEmployee", currentUser.getEmployee().getId().toString());
-		} else {
-			response.sendRedirect(ConfigReader.read("cas.baseUrl"));
-		}
-		filterChain.doFilter(request, response);
+		User currentUser;
+		try {
+			currentUser = (User) WebUtil.getCurrentUser();
 
+			if(null != currentUser) {
+				((HttpServletResponse) response).setHeader("LOGINED", "YES");
+				((HttpServletResponse) response).setHeader("currentUser", currentUser.getUsername());
+				// ((HttpServletResponse) response).setHeader("currentEmployee", currentUser.getEmployee().getId().toString());
+			} else {
+				response.sendRedirect(ConfigReader.read("cas.baseUrl"));
+			}
+			filterChain.doFilter(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

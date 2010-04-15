@@ -7,6 +7,7 @@ import org.kyerp.domain.warehouse.InStockDetail;
 import org.kyerp.service.warehouse.IInStockDetailService;
 import org.kyerp.utils.SerialNumberHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author y109 2009-11-30上午02:26:14
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class InStockDetailService extends DaoSupport<InStockDetail> implements IInStockDetailService{
 	@Override
+	@Transactional(rollbackFor = { Exception.class, Throwable.class })
 	public void saveInStockDetail(InStockDetail e) {
 		if(null == e.getBatchNumber() || e.getBatchNumber().length() == 0) {
 			// 如果没有填写单号则设置单号

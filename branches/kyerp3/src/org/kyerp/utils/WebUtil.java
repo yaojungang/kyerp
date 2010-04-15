@@ -23,19 +23,30 @@ public class WebUtil{
 	 * 
 	 * @param request
 	 * @return
+	 * @throws Exception
 	 */
-	public static Employee getCurrentEmployee() {
-		User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return (Employee) currentUser.getEmployee();
-// return (Employee) request.getSession().getAttribute("currentEmployee");
+	public static Employee getCurrentEmployee() throws Exception {
+		try {
+			User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			return (Employee) currentUser.getEmployee();
+		} catch (Exception e) {
+			throw new Exception("获取当前登录用户失败");
+		}
+
 	}
 
 	/**
 	 * 获取登录用户
+	 * 
+	 * @throws Exception
 	 */
-	public static User getCurrentUser() {
-// return (User) request.getSession().getAttribute("currentUser");
-		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	public static User getCurrentUser() throws Exception {
+		try {
+			return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		} catch (Exception e) {
+			throw new Exception("获取当前登录用户失败");
+		}
+
 	}
 
 	/***

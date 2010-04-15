@@ -41,7 +41,7 @@ public class PurchaseOrderService extends DaoSupport<PurchaseOrder> implements I
 	 * org.kyerp.domain.warehouse.PurchaseOrder)
 	 */
 	@Override
-	public String checkPurchaseOrder(PurchaseOrder purchaseOrder) {
+	public String checkPurchaseOrder(PurchaseOrder purchaseOrder) throws Exception {
 		if(BillStatus.CHECKED == purchaseOrder.getStatus()) {
 			return "该单据已经审核过，不能再审核。";
 		}

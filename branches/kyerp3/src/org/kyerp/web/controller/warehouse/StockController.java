@@ -125,6 +125,8 @@ public class StockController{
 					if(null != detail.getPrice()) {
 						row.setPrice(detail.getPrice());
 					}
+					/** 备注 */
+					row.setRemark(detail.getRemark());
 					itemRows.add(row);
 				}
 				JSONArray rowArrayItems = new JSONArray();

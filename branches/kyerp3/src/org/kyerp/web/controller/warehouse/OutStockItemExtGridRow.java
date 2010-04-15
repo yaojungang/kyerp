@@ -29,6 +29,8 @@ public class OutStockItemExtGridRow{
 	private BigDecimal	billCount;
 	/** 价格 */
 	private BigDecimal	price;
+	/** 生产任务单号 */
+	private String		pressworkNo;
 	/** 备注 */
 	private String		remark;
 	/** 金额 */
@@ -51,6 +53,14 @@ public class OutStockItemExtGridRow{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getPressworkNo() {
+		return pressworkNo;
+	}
+
+	public void setPressworkNo(String pressworkNo) {
+		this.pressworkNo = pressworkNo;
 	}
 
 	public String getCreateTime() {
