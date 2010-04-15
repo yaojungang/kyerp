@@ -8,9 +8,11 @@
 
 	<sec:http entry-point-ref="casProcessingFilterEntryPoint">
 		<sec:intercept-url pattern="/install/**" filters="none"/>
-		<sec:intercept-url pattern="/share/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />		
+		<sec:intercept-url pattern="/login*" filters="none"/>
+		<sec:intercept-url pattern="/share/**" filters="none"/>
+		<sec:intercept-url pattern="/**" access="ROLE_ADMIN" />		
 		<sec:logout invalidate-session="true" logout-url="/logout" logout-success-url="/share/logout.jsp"/>
+		<sec:remember-me/>
 		<sec:custom-filter ref="casAuthenticationFilter" after="CAS_FILTER" />
 		<sec:custom-filter ref="casSingleSignOutFilter" before="LOGOUT_FILTER" />
 		<!--sec:custom-filter ref="myFilter" after="LAST" /-->
@@ -21,6 +23,7 @@
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider ref="casAuthenticationProvider" />
 	</sec:authentication-manager>
+
 	<!--登陆成功后的处理 -->
 	<bean class="org.kyerp.service.security.impl.LoginSuccessListener"/> 
 	<!--控制是否把用户信息写入Session -->
