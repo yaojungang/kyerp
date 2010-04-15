@@ -1,4 +1,57 @@
 /** ***************************************************************************** */
+org.kyerp.warehouse.MaterialStore = new Ext.data.Store({
+					autoLoad : {
+						baseParams : {
+							limit : 20
+						}
+					},
+					url : org.kyerp.warehouse.MaterialListPanel_STORE_URL,
+					reader : new Ext.data.JsonReader({
+								totalProperty : "totalProperty",
+								root : "rows",
+								id : "id"
+							}, new Ext.data.Record.create([{
+										name : "id",
+										type : "int"
+									}, {
+										name : "serialNumber",
+										type : "string"
+									}, {
+										name : "name",
+										type : "string"
+									}, {
+										name : 'materialName',
+										type : 'string'
+									}, {
+										name : 'specification',
+										type : 'string'
+									}, {
+										name : "amount",
+										type : "float"
+									}, {
+										name : "materialCategoryId",
+										type : "int"
+									}, {
+										name : "materialCategoryName",
+										type : "string"
+									}, {
+										name : 'brandId',
+										type : 'int'
+									}, {
+										name : 'brandName',
+										type : 'string'
+									}, {
+										name : 'unitId',
+										type : 'int'
+									}, {
+										name : 'unitName',
+										type : 'string'
+									}, {
+										name : 'price',
+										type:'float'
+									}]))
+				});
+/** ***************************************************************************** */
 org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 	url : "",
 	constructor : function(_cfg) {
@@ -79,38 +132,6 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 						rootId : '0',
 						forceSelection : true,
 						rootVisible : false
-					}, {
-						fieldLabel : "供应商",
-						name : 'supplierId',
-						hiddenName : 'supplierId',
-						xtype : 'treecombobox',
-						editable : false,
-						mode : 'local',
-						displayField : 'name',
-						valueField : 'id',
-						triggerAction : 'all',
-						allowBlank : false,
-						treeUrl : org.kyerp.warehouse.Supplier_TREE_URL,
-						rootText : 'root',
-						rootId : '0',
-						forceSelection : true,
-						rootVisible : false
-					}, {
-						fieldLabel : "默认仓库",
-						name : 'warehouseId',
-						hiddenName : 'warehouseId',
-						xtype : 'treecombobox',
-						editable : false,
-						mode : 'local',
-						displayField : 'name',
-						valueField : 'id',
-						triggerAction : 'all',
-						allowBlank : false,
-						treeUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL,
-						rootText : 'root',
-						rootId : '0',
-						forceSelection : true,
-						rootVisible : false
 					}]
 				});
 		this.addEvents("submit");
@@ -147,15 +168,6 @@ org.kyerp.warehouse.MaterialListFormPanel = Ext.extend(Ext.form.FormPanel, {
 		this.getForm().findField("brandId").setValue(_r.get('brandName'));
 		this.getForm().findField("brandId").hiddenField.value = _r
 				.get('brandId');
-		// 设置供应商
-		this.getForm().findField("supplierId").setValue(_r.get('supplierName'));
-		this.getForm().findField("supplierId").hiddenField.value = _r
-				.get('supplierId');
-		// 设置仓库
-		this.getForm().findField("warehouseId").setValue(_r
-				.get('warehouseName'));
-		this.getForm().findField("warehouseId").hiddenField.value = _r
-				.get('warehouseId');
 	},
 	reset : function() {
 		this.getForm().reset();
@@ -284,70 +296,7 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 	updateWin : new org.kyerp.warehouse.MaterialListUpdateWindow(),
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this["store"] = new Ext.data.Store({
-					autoLoad : {
-						baseParams : {
-							limit : 20
-						}
-					},
-					url : org.kyerp.warehouse.MaterialListPanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								id : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "serialNumber",
-										type : "string"
-									}, {
-										name : "name",
-										type : "string"
-									}, {
-										name : 'materialName',
-										type : 'string'
-									}, {
-										name : 'specification',
-										type : 'string'
-									}, {
-										name : "amount",
-										type : "float"
-									}, {
-										name : "materialCategoryId",
-										type : "int"
-									}, {
-										name : "materialCategoryName",
-										type : "string"
-									}, {
-										name : 'brandId',
-										type : 'int'
-									}, {
-										name : 'brandName',
-										type : 'string'
-									}, {
-										name : 'unitId',
-										type : 'int'
-									}, {
-										name : 'unitName',
-										type : 'string'
-									}, {
-										name : 'price',
-										type:'float'
-									}, {
-										name : 'supplierId',
-										type : 'int'
-									}, {
-										name : 'supplierName',
-										type : 'string'
-									}, {
-										name : 'warehouseId',
-										type : 'int'
-									}, {
-										name : 'warehouseName',
-										type : 'string'
-									}]))
-				});
+		this["store"] = org.kyerp.warehouse.MaterialStore;
 		org.kyerp.warehouse.MaterialListPanel.superclass.constructor.call(this,
 				{
 					stripeRows : true,
@@ -386,7 +335,30 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 											this.onRemove, this);
 								},
 								scope : this
-							}],
+							}, '->', '类型：', {
+						xtype : 'treecombobox',
+						name : 'materialCategoryId',
+						hiddenName : 'materialCategoryId',
+						fieldLabel : '物料分类',
+						editable : false,
+						mode : 'local',
+						displayField : 'name',
+						valueField : 'id',
+						triggerAction : 'all',
+						allowBlank : false,
+						treeUrl : org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL,
+						rootText : 'root',
+						rootId : '0',
+						forceSelection : true,
+						rootVisible : false,
+						onSelect : function(node) {
+							var store = org.kyerp.warehouse.MaterialStore;
+							store.setBaseParam("materialCategoryId", node.id);
+							store.load();
+						}
+					}, "-", "搜索：", new Ext.ux.form.SearchField({
+								store : this.getStore()
+							})],
 					enableColumnMove : false,
 					colModel : new Ext.grid.ColumnModel([
 							new Ext.grid.RowNumberer(), {
@@ -419,7 +391,7 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 								width : 60,
 								menuDisabled : true
 							}, {
-								header : "物料类别",
+								header : "类别",
 								dataIndex : "materialCategoryName",
 								width : 80,
 								menuDisabled : true
@@ -427,16 +399,6 @@ org.kyerp.warehouse.MaterialListPanel = Ext.extend(Ext.grid.GridPanel, {
 								header : "品牌",
 								dataIndex : "brandName",
 								width : 60,
-								menuDisabled : true
-							}, {
-								header : "供应商",
-								dataIndex : "supplierName",
-								width : 80,
-								menuDisabled : true
-							}, {
-								header : "默认仓库",
-								dataIndex : "warehouseName",
-								width : 80,
 								menuDisabled : true
 							}]),
 					selModel : new Ext.grid.RowSelectionModel({

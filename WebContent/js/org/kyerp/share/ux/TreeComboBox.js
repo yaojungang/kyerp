@@ -9,8 +9,9 @@ Ext.ux.form.TreeComboBox = Ext.extend(Ext.form.ComboBox, {
 					}),
 			onSelect : function(node) {
 			},
-			// onSelect : Ext.emptyFn,
-			treeTroot : null,
+			onViewClick : function(){
+				return;
+			},
 			initComponent : function(ct, position) {
 				this.divId = 'tree-' + Ext.id();
 				if (isNaN(this.maxHeight))
@@ -21,24 +22,17 @@ Ext.ux.form.TreeComboBox = Ext.extend(Ext.form.ComboBox, {
 									+ this.divId + '"></div>' + '</div></tpl>'
 						});
 
-				this.treeTroot = new Ext.tree.AsyncTreeNode({
-							text : this.rootText,
-							id : this.rootId,
-							loader : new Ext.tree.TreeLoader({
-										dataUrl : this.treeUrl,
-										clearOnLoad : true
-									})
-						});
-
 				this.tree = new Ext.tree.TreePanel({
-							border : false,
-							root : this.treeTroot,
+							root:new Ext.tree.AsyncTreeNode({id:'0',text:''}),
+							loader:new Ext.tree.TreeLoader({dataUrl:this.treeUrl,clearOnLoad : true}),
 							rootVisible : this.rootVisible,
+							border : false,
+							autoScroll:true,
 							tools : [{
 										id : 'refresh',
 										qtip : '刷新',
 										handler : function() {
-											this.treeTroot.reload();
+											this.tree.getRootNode().reload();
 										},
 										scope : this
 									}]
@@ -69,7 +63,6 @@ Ext.ux.form.TreeComboBox = Ext.extend(Ext.form.ComboBox, {
 								this.tree.render(this.divId);
 							}
 						}, this)
-
 			}
 		});
 

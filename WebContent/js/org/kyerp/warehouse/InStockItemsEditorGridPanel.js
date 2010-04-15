@@ -77,9 +77,9 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 							emptyText : '请选择',
 							triggerAction : 'all',
 							store : org.kyerp.warehouse.materialStore,
-							loadingText:'正在载入数据,请稍候！',
-							minChars:2,
-							queryDelay:300,
+							loadingText : '正在载入数据,请稍候！',
+							minChars : 2,
+							queryDelay : 300,
 							queryParam : 'query',
 							listeners : {
 								select : function(comboBox) {
@@ -90,7 +90,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 									// alert(Ext.util.JSON.encode(_data));
 									_rs.set('unitName', _data.unitName);
 									_rs.set('price', _data.price);
-									_rs.set('warehouseId',_data.warehouseId);
+									_rs.set('warehouseId', _data.warehouseId);
 								},
 								scope : this
 							}
@@ -208,6 +208,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 								width : 70,
 								dataIndex : "billCount",
 								editor : new Ext.form.NumberField({
+											decimalPrecision : 4,
 											allowBlank : false
 										})
 							}, {

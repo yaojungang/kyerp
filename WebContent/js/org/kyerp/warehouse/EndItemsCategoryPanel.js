@@ -1,36 +1,36 @@
 
 /** ***************************************************************************** */
-org.kyerp.warehouse.BaseCategoryStore = new Ext.data.Store({
+org.kyerp.warehouse.EndItemsCategoryStore = new Ext.data.Store({
 			autoLoad : true,
 			proxy : new Ext.data.HttpProxy({
-						url : org.kyerp.warehouse.BaseCategoryPanel_LIST_URL
+						url : org.kyerp.warehouse.EndItemsCategoryPanel_LIST_URL
 					}),
 			reader : new Ext.data.JsonReader({
 						totalProperty : "totalProperty",
 						root : "rows",
 						id : "id"
 					}, ['id', 'createTime', 'updateTime', 'name',
-							'serialNumber', 'remark', 'childCategoryIds',
-							'childCategoryNames', 'parentCategoryId',
-							'parentCategoryName'])
+							'serialNumber', 'note', 'childEndItemsCategoryIds',
+							'childEndItemsCategoryNames', 'parentEndItemsCategoryId',
+							'parentEndItemsCategoryName'])
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.BaseCategoryTree = new Ext.tree.TreePanel({
-	title : '库存分类',
+org.kyerp.warehouse.EndItemsCategoryTree = new Ext.tree.TreePanel({
+	title : '成品分类',
 	loader : new Ext.tree.TreeLoader({
-				dataUrl : org.kyerp.warehouse.BaseCategoryPanel_TREE_URL
+				dataUrl : org.kyerp.warehouse.EndItemsCategoryPanel_TREE_URL
 			}),
 	root : {
 		nodeType : 'async',
 		id : 'root',
-		text : '库存分类',
+		text : '成品分类',
 		expanded : true
 	},
 	tools : [{
 				id : 'refresh',
 				qtip : '刷新',
 				handler : function() {
-					org.kyerp.warehouse.BaseCategoryTree.getRootNode().reload();
+					org.kyerp.warehouse.EndItemsCategoryTree.getRootNode().reload();
 				}
 			}],
 	rootVisible : false,
@@ -43,9 +43,9 @@ org.kyerp.warehouse.BaseCategoryTree = new Ext.tree.TreePanel({
 	}
 });
 /** ***************************************************************************** */
-org.kyerp.warehouse.BaseCategoryGrid = new Ext.grid.EditorGridPanel({
-			title : '库存分类资料',
-			store : org.kyerp.warehouse.BaseCategoryStore,
+org.kyerp.warehouse.EndItemsCategoryGrid = new Ext.grid.EditorGridPanel({
+			title : '成品分类资料',
+			store : org.kyerp.warehouse.EndItemsCategoryStore,
 			columns : [new Ext.grid.RowNumberer(), {
 						header : '编码',
 						width : 100,
@@ -59,10 +59,10 @@ org.kyerp.warehouse.BaseCategoryGrid = new Ext.grid.EditorGridPanel({
 						dataIndex : 'name',
 						editor : new Ext.form.TextField()
 					}, {
-						header : '备注',
+						header : '说明',
 						width : 300,
 						sortable : true,
-						dataIndex : 'remark',
+						dataIndex : 'note',
 						editor : new Ext.form.TextField()
 					}],
 			border : false,
@@ -73,7 +73,7 @@ org.kyerp.warehouse.BaseCategoryGrid = new Ext.grid.EditorGridPanel({
 									afterText : '条'
 								}),
 						pageSize : 20,
-						store : org.kyerp.warehouse.BaseCategoryStore,
+						store : org.kyerp.warehouse.EndItemsCategoryStore,
 						displayInfo : true,
 						displayMsg : '显示  {0} - {1} 条记录,共有 {2} 条记录',
 						emptyMsg : "没有数据"
@@ -89,21 +89,41 @@ org.kyerp.warehouse.BaseCategoryGrid = new Ext.grid.EditorGridPanel({
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.BaseCategoryPanel = Ext.extend(Ext.Panel, {
+org.kyerp.warehouse.EndItemsCategoryPanel = Ext.extend(Ext.Panel, {
 	tree : null,
 	grid : null,
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this.tree = org.kyerp.warehouse.BaseCategoryTree;
-		this.grid = org.kyerp.warehouse.BaseCategoryGrid;
-		org.kyerp.warehouse.BaseCategoryPanel.superclass.constructor.call(this,
+		this.tree = org.kyerp.warehouse.EndItemsCategoryTree;
+		this.grid = org.kyerp.warehouse.EndItemsCategoryGrid;
+		org.kyerp.warehouse.EndItemsCategoryPanel.superclass.constructor.call(this,
 				{
 					layout : 'border',
 					border : false,
 					defaults : {
 						split : true
 					},
-					items : [ {
+					items : [{
+						region : 'north',
+						border : false,
+						tbar : [{
+									text : '新增',
+									iconCls : 'icon-utils-s-add',
+									handler : function() {
+										this.createEndItemsCategory();
+									},
+									scope : this
+								}, '-', {
+									text : '删除',
+									iconCls : 'icon-utils-s-delete',
+									handler : function() {
+										Ext.Msg.confirm("系统提示", "你确定删除此记录吗?",
+												this.onDeleteEndItemsCategoryClick,
+												this);
+									},
+									scope : this
+								}, '->', '双击表格可以修改成品分类资料']
+					}, {
 						region : 'west',
 						layout : 'fit',
 						width : 180,
@@ -124,14 +144,14 @@ org.kyerp.warehouse.BaseCategoryPanel = Ext.extend(Ext.Panel, {
 		this.tree.on("click", function(node) {
 					node.expand();
 					node.select();
-					var store = org.kyerp.warehouse.BaseCategoryStore;
+					var store = org.kyerp.warehouse.EndItemsCategoryStore;
 					store.setBaseParam("parentId", node.id);
 					store.load();
 				});
 		this.grid.on('afteredit', function(e) {
 					// alert(Ext.encode(e.record.data));
 					Ext.Ajax.request({
-								url : org.kyerp.warehouse.BaseCategoryPanel_SAVE_URL,
+								url : org.kyerp.warehouse.EndItemsCategoryPanel_SAVE_URL,
 								params : {
 									id : e.record.data.id,
 									name : e.record.data.name,
@@ -141,7 +161,7 @@ org.kyerp.warehouse.BaseCategoryPanel = Ext.extend(Ext.Panel, {
 								method : 'POST',
 								success : function() {
 									e.record.commit(false);
-									var node = org.kyerp.warehouse.BaseCategoryTree
+									var node = org.kyerp.warehouse.EndItemsCategoryTree
 											.getSelectionModel()
 											.getSelectedNode().findChild('id',
 													e.record.data.id);
@@ -152,27 +172,27 @@ org.kyerp.warehouse.BaseCategoryPanel = Ext.extend(Ext.Panel, {
 							});
 				});
 	},
-	createBaseCategory : function() {
+	createEndItemsCategory : function() {
 		var node = this.tree.getSelectionModel().getSelectedNode();
 		if (node) {
 			Ext.Ajax.request({
-						url : org.kyerp.warehouse.BaseCategoryPanel_SAVE_URL,
+						url : org.kyerp.warehouse.EndItemsCategoryPanel_SAVE_URL,
 						params : {
 							parentCategoryId : node.id,
-							name : '新库存分类'
+							name : '新成品分类'
 						},
 						success : function(response) {
 							var data = Ext.decode(response.responseText);
 							if (data.success) {
 								node.appendChild(new Ext.tree.TreeNode({
 											id : data.id,
-											text : data.baseCategoryExtGridRow.name,
+											text : data.endItemsCategoryExtGridRow.name,
 											leaf : true
 										}));
 								node.getUI().removeClass('x-tree-node-leaf');
 								node.getUI().addClass('x-tree-node-expanded');
 								node.expand();
-								org.kyerp.warehouse.BaseCategoryGrid.getStore()
+								org.kyerp.warehouse.EndItemsCategoryGrid.getStore()
 										.reload();
 							} else {
 								Ext.MessageBox.alert('警告', data.msg);
@@ -182,13 +202,13 @@ org.kyerp.warehouse.BaseCategoryPanel = Ext.extend(Ext.Panel, {
 		}
 
 	},
-	onDeleteBaseCategoryClick : function(_btn) {
+	onDeleteEndItemsCategoryClick : function(_btn) {
 		if (_btn == "yes") {
-			this.onDeleteBaseCategory();
+			this.onDeleteEndItemsCategory();
 		}
 	},
 
-	onDeleteBaseCategory : function() {
+	onDeleteEndItemsCategory : function() {
 		try {
 			var id;
 			// var rec = this.grid.getSelectionModel().getSelected();
@@ -200,13 +220,13 @@ org.kyerp.warehouse.BaseCategoryPanel = Ext.extend(Ext.Panel, {
 				id = node.id;
 			}
 			Ext.Ajax.request({
-						url : org.kyerp.warehouse.BaseCategoryPanel_DELETE_URL
+						url : org.kyerp.warehouse.EndItemsCategoryPanel_DELETE_URL
 								+ "?ids=" + id,
 						method : 'POST',
 						success : function(response) {
 							var data = Ext.decode(response.responseText);
 							if (data.success) {
-								var snode = org.kyerp.warehouse.BaseCategoryTree
+								var snode = org.kyerp.warehouse.EndItemsCategoryTree
 										.getSelectionModel().getSelectedNode();
 								if (snode.id == id) { // 当前树节点是要删除的节点
 									snode.remove();
@@ -214,9 +234,9 @@ org.kyerp.warehouse.BaseCategoryPanel = Ext.extend(Ext.Panel, {
 									var node = snode.findChild('id', id);
 									node.remove();
 								}
-								org.kyerp.warehouse.BaseCategoryGrid.getStore()
+								org.kyerp.warehouse.EndItemsCategoryGrid.getStore()
 										.reload();
-								Ext.MessageBox.alert('警告', '删除库存分类资料完成。');
+								Ext.MessageBox.alert('警告', '删除成品分类资料完成。');
 							} else {
 								Ext.MessageBox.alert('警告', data.msg);
 							}
@@ -230,7 +250,7 @@ org.kyerp.warehouse.BaseCategoryPanel = Ext.extend(Ext.Panel, {
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module, {
 			init : function() {
-				this.body = new org.kyerp.warehouse.BaseCategoryPanel({
+				this.body = new org.kyerp.warehouse.EndItemsCategoryPanel({
 							border : false,
 							bodyBorder : false
 						});

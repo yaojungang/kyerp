@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="refresh" content="5; url=http://cas3.tyopf.com/logout">
 <title>注销</title>
 </head>
 <body>
-<a href="https://localhost:8443/cas/logout">CAS Logout</a>
-注销
+<a href="http://cas3.tyopf.com/logout">CAS Logout</a>
 </body>
 </html>

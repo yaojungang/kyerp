@@ -135,6 +135,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 											unitName : '',
 											price : 0,
 											billCount : 1,
+											pressworkNo : '',
 											remark : ''
 										});
 								_rs.set("materialId", rec.data.id);
@@ -183,7 +184,9 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 									var value = comboBox.getValue();
 									var _rs = this.getSelectionModel()
 											.getSelected();
-									var dataIndex = comboBox.store.find('materialId', value, 0, false,false);
+									var dataIndex = comboBox.store.find(
+											'materialId', value, 0, false,
+											false);
 									// alert(dataIndex);
 									_data = comboBox.store.getAt(dataIndex).data;
 									// alert(Ext.util.JSON.encode(_data));
@@ -222,7 +225,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 											false);
 									// alert(dataIndex);
 									_data = comboBox.store.getAt(dataIndex).data;
-									//alert(Ext.encode(_data));
+									// alert(Ext.encode(_data));
 									// alert(Ext.util.JSON.encode(value));
 									_rs.set('unitName', _data.unitName);
 									_rs.set('price', _data.price);
@@ -287,6 +290,9 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 														}, {
 															name : "remark",
 															type : "string"
+														}, {
+															name : 'pressworkNo',
+															type : 'string'
 														}])),
 										listeners : {
 											update : this.updateBillCost,
@@ -342,6 +348,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 								width : 70,
 								dataIndex : "billCount",
 								editor : new Ext.form.NumberField({
+											decimalPrecision : 4,
 											allowBlank : false
 										})
 							}, {
@@ -380,6 +387,10 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 									rootVisible : false
 								})
 
+							}, {
+								header : '生产任务单号',
+								dataIndex : "pressworkNo",
+								editor : new Ext.form.TextField()
 							}, {
 								header : '备注',
 								dataIndex : "remark",

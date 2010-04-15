@@ -16,14 +16,14 @@ org.kyerp.warehouse.MaterialCategoryStore = new Ext.data.Store({
 		});
 /** ***************************************************************************** */
 org.kyerp.warehouse.MaterialCategoryTree = new Ext.tree.TreePanel({
-	title : '物料分类',
+	title : '原料分类',
 	loader : new Ext.tree.TreeLoader({
 				dataUrl : org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL
 			}),
 	root : {
 		nodeType : 'async',
 		id : 'root',
-		text : '物料分类',
+		text : '原料分类',
 		expanded : true
 	},
 	tools : [{
@@ -44,7 +44,7 @@ org.kyerp.warehouse.MaterialCategoryTree = new Ext.tree.TreePanel({
 });
 /** ***************************************************************************** */
 org.kyerp.warehouse.MaterialCategoryGrid = new Ext.grid.EditorGridPanel({
-			title : '物料分类资料',
+			title : '原料分类资料',
 			store : org.kyerp.warehouse.MaterialCategoryStore,
 			columns : [new Ext.grid.RowNumberer(), {
 						header : '编码',
@@ -122,7 +122,7 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 												this);
 									},
 									scope : this
-								}, '->', '双击表格可以修改物料分类资料']
+								}, '->', '双击表格可以修改原料分类资料']
 					}, {
 						region : 'west',
 						layout : 'fit',
@@ -179,7 +179,7 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 						url : org.kyerp.warehouse.MaterialCategoryPanel_SAVE_URL,
 						params : {
 							parentMaterialCategoryId : node.id,
-							name : '新物料分类'
+							name : '新原料分类'
 						},
 						success : function(response) {
 							var data = Ext.decode(response.responseText);
@@ -236,7 +236,7 @@ org.kyerp.warehouse.MaterialCategoryPanel = Ext.extend(Ext.Panel, {
 								}
 								org.kyerp.warehouse.MaterialCategoryGrid.getStore()
 										.reload();
-								Ext.MessageBox.alert('警告', '删除物料分类资料完成。');
+								Ext.MessageBox.alert('警告', '删除原料分类资料完成。');
 							} else {
 								Ext.MessageBox.alert('警告', data.msg);
 							}

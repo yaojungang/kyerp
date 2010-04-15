@@ -193,6 +193,7 @@ org.kyerp.warehouse.SupplierFormPanel = Ext.extend(Ext.form.FormPanel, {
 														}, {
 															fieldLabel : '电子邮件',
 															name : 'email',
+															allowBlank : true,
 															vtype : 'email'
 														}]
 											}]

@@ -1,4 +1,93 @@
 /** ***************************************************************************** */
+org.kyerp.warehouse.PaperOfMaterialStore =new Ext.data.Store({
+					autoLoad : {
+						baseParams : {
+							limit : 20
+						}
+					},
+					url : org.kyerp.warehouse.PaperOfMaterialPanel_STORE_URL,
+					reader : new Ext.data.JsonReader({
+								totalProperty : "totalProperty",
+								root : "rows",
+								id : "id"
+							}, new Ext.data.Record.create([{
+										name : "id",
+										type : "int"
+									}, {
+										name : "serialNumber",
+										type : "string"
+									}, {
+										name : "name",
+										type : "string"
+									}, {
+										name : "materialName",
+										type : "string"
+									}, {
+										name : 'specification',
+										type : 'string'
+									}, {
+										name : "materialCategoryId",
+										type : "int"
+									}, {
+										name : "materialCategoryName",
+										type : "string"
+									}, {
+										name : 'brandId',
+										type : 'int'
+									}, {
+										name : 'brandName',
+										type : 'string'
+									}, {
+										name : 'unitId',
+										type : 'int'
+									}, {
+										name : 'unitName',
+										type : 'string'
+									}, {
+										name : 'price',
+										type : 'float'
+									}, {
+										name : 'supplierId',
+										type : 'int'
+									}, {
+										name : 'supplierName',
+										type : 'string'
+									}, {
+										name : 'warehouseId',
+										type : 'int'
+									}, {
+										name : 'warehouseName',
+										type : 'string'
+									}, {
+										name : 'paperName',
+										type : 'string'
+									}, {
+										name : 'paperType',
+										type : 'string'
+									}, {
+										name : 'paperHeight',
+										type : 'int'
+									}, {
+										name : 'paperWidth',
+										type : 'int'
+									}, {
+										name : 'paperSize',
+										type : 'string'
+									}, {
+										name : 'paperWeight',
+										type : 'float'
+									}, {
+										name : 'tonnePrice',
+										type : 'float'
+									}, {
+										name : 'squareMetrePrice',
+										type : 'float'
+									}, {
+										name : 'pricePrePage',
+										type : 'float'
+									}]))
+				});
+/** ***************************************************************************** */
 org.kyerp.warehouse.PaperOfMaterialPanelFormPanel = Ext.extend(
 		Ext.form.FormPanel, {
 			url : "",
@@ -41,6 +130,11 @@ org.kyerp.warehouse.PaperOfMaterialPanelFormPanel = Ext.extend(
 								allowBlank : false,
 								name : "paperName"
 							}, {
+								fieldLabel : "纸张克重 ",
+								allowBlank : false,
+								name : "paperWeight",
+								xtype:'numberfield'
+							}, {
 								fieldLabel : "纸宽(mm)",
 								allowBlank : false,
 								name : "paperWidth",
@@ -49,11 +143,6 @@ org.kyerp.warehouse.PaperOfMaterialPanelFormPanel = Ext.extend(
 								fieldLabel : "纸长(mm)",
 								allowBlank : false,
 								name : "paperHeight",
-								xtype:'numberfield'
-							}, {
-								fieldLabel : "纸张克重 ",
-								allowBlank : false,
-								name : "paperWeight",
 								xtype:'numberfield'
 							}, {
 								fieldLabel : "纸张吨价",
@@ -109,22 +198,6 @@ org.kyerp.warehouse.PaperOfMaterialPanelFormPanel = Ext.extend(
 								rootId : '0',
 								forceSelection : true,
 								rootVisible : false
-							}, {
-								fieldLabel : "默认仓库",
-								name : 'warehouseId',
-								hiddenName : 'warehouseId',
-								xtype : 'treecombobox',
-								editable : false,
-								mode : 'local',
-								displayField : 'name',
-								valueField : 'id',
-								triggerAction : 'all',
-								allowBlank : false,
-								treeUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL,
-								rootText : 'root',
-								rootId : '0',
-								forceSelection : true,
-								rootVisible : false
 							}]
 						});
 				this.addEvents("submit");
@@ -169,11 +242,6 @@ org.kyerp.warehouse.PaperOfMaterialPanelFormPanel = Ext.extend(
 						.get('supplierName'));
 				this.getForm().findField("supplierId").hiddenField.value = _r
 						.get('supplierId');
-				// 设置仓库
-				this.getForm().findField("warehouseId").setValue(_r
-						.get('warehouseName'));
-				this.getForm().findField("warehouseId").hiddenField.value = _r
-						.get('warehouseId');
 			},
 			reset : function() {
 				this.getForm().reset();
@@ -302,94 +370,7 @@ org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 	updateWin : new org.kyerp.warehouse.PaperOfMaterialPanelUpdateWindow(),
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this["store"] = new Ext.data.Store({
-					autoLoad : {
-						baseParams : {
-							limit : 20
-						}
-					},
-					url : org.kyerp.warehouse.PaperOfMaterialPanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								id : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "serialNumber",
-										type : "string"
-									}, {
-										name : "name",
-										type : "string"
-									}, {
-										name : "materialName",
-										type : "string"
-									}, {
-										name : 'specification',
-										type : 'string'
-									}, {
-										name : "materialCategoryId",
-										type : "int"
-									}, {
-										name : "materialCategoryName",
-										type : "string"
-									}, {
-										name : 'brandId',
-										type : 'int'
-									}, {
-										name : 'brandName',
-										type : 'string'
-									}, {
-										name : 'unitId',
-										type : 'int'
-									}, {
-										name : 'unitName',
-										type : 'string'
-									}, {
-										name : 'price',
-										type : 'float'
-									}, {
-										name : 'supplierId',
-										type : 'int'
-									}, {
-										name : 'supplierName',
-										type : 'string'
-									}, {
-										name : 'warehouseId',
-										type : 'int'
-									}, {
-										name : 'warehouseName',
-										type : 'string'
-									}, {
-										name : 'paperName',
-										type : 'string'
-									}, {
-										name : 'paperType',
-										type : 'string'
-									}, {
-										name : 'paperHeight',
-										type : 'int'
-									}, {
-										name : 'paperWidth',
-										type : 'int'
-									}, {
-										name : 'paperSize',
-										type : 'string'
-									}, {
-										name : 'paperWeight',
-										type : 'float'
-									}, {
-										name : 'tonnePrice',
-										type : 'float'
-									}, {
-										name : 'squareMetrePrice',
-										type : 'float'
-									}, {
-										name : 'pricePrePage',
-										type : 'float'
-									}]))
-				});
+		this["store"] = org.kyerp.warehouse.PaperOfMaterialStore,
 		org.kyerp.warehouse.PaperOfMaterialPanel.superclass.constructor.call(
 				this, {
 					stripeRows : true,
@@ -428,7 +409,30 @@ org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 											this.onRemove, this);
 								},
 								scope : this
-							}],
+							}, '->', '类型：', {
+						xtype : 'treecombobox',
+						name : 'materialCategoryId',
+						hiddenName : 'materialCategoryId',
+						fieldLabel : '物料分类',
+						editable : false,
+						mode : 'local',
+						displayField : 'name',
+						valueField : 'id',
+						triggerAction : 'all',
+						allowBlank : false,
+						treeUrl : org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL,
+						rootText : 'root',
+						rootId : '0',
+						forceSelection : true,
+						rootVisible : false,
+						onSelect : function(node) {
+							var store = org.kyerp.warehouse.PaperOfMaterialStore;
+							store.setBaseParam("materialCategoryId", node.id);
+							store.load();
+						}
+					}, "-", "搜索：", new Ext.ux.form.SearchField({
+								store : this.getStore()
+							})],
 					enableColumnMove : false,
 					colModel : new Ext.grid.ColumnModel([
 							new Ext.grid.RowNumberer(), {
@@ -449,11 +453,11 @@ org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 								dataIndex : "unitName",
 								menuDisabled : true
 							}, {
-								header : "价格(元/令)",
+								header : "价格(元/吨)",
 								dataIndex : "tonnePrice",
 								menuDisabled : true
 							}, {
-								header : "价格(元/吨)",
+								header : "价格(元/令)",
 								dataIndex : "price",
 								menuDisabled : true
 							}, {
@@ -471,10 +475,6 @@ org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 							}, {
 								header : "供应商",
 								dataIndex : "supplierName",
-								menuDisabled : true
-							}, {
-								header : "默认仓库",
-								dataIndex : "warehouseName",
 								menuDisabled : true
 							}]),
 					selModel : new Ext.grid.RowSelectionModel({
