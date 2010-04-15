@@ -25,6 +25,7 @@ public interface DAO<T> {
 	 * 
 	 * @param entity
 	 *            实体id
+	 * @throws Exception
 	 */
 	public void save(Object entity);
 
@@ -76,18 +77,13 @@ public interface DAO<T> {
 	 * @param maxresult
 	 *            需要获取的记录数
 	 */
-	public QueryResult<T> getScrollData(int firstindex, int maxresult,
-			String wherejpql, Object[] queryParams,
-			LinkedHashMap<String, String> orderby);
+	public QueryResult<T> getScrollData(int firstindex, int maxresult, String wherejpql, Object[] queryParams, LinkedHashMap<String, String> orderby);
 
-	public QueryResult<T> getScrollData(String wherejpql, Object[] queryParams,
-			LinkedHashMap<String, String> orderby);
+	public QueryResult<T> getScrollData(String wherejpql, Object[] queryParams, LinkedHashMap<String, String> orderby);
 
-	public QueryResult<T> getScrollData(int firstindex, int maxresult,
-			String wherejpql, Object[] queryParams);
+	public QueryResult<T> getScrollData(int firstindex, int maxresult, String wherejpql, Object[] queryParams);
 
-	public QueryResult<T> getScrollData(int firstindex, int maxresult,
-			LinkedHashMap<String, String> orderby);
+	public QueryResult<T> getScrollData(int firstindex, int maxresult, LinkedHashMap<String, String> orderby);
 
 	public QueryResult<T> getScrollData(int firstindex, int maxresult);
 
