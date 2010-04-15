@@ -32,7 +32,7 @@
 		<property name="location" value="classpath:conf/views.xml"/>		
 		<property name="order" value="0" />
 	</bean>
-	<bean id="jsonExceptionResolver" 
+	<!-- <bean id="jsonExceptionResolver" 
 		class="org.springframework.web.servlet.view.json.exception.JsonExceptionResolver">
 		<property name="exceptionView">
 			<value>jsonView</value>
@@ -54,8 +54,8 @@
 		<property name="errorCode" value="311" />
 	</bean>        
 	<bean name="modelflagError" class="org.springframework.web.servlet.view.json.error.ModelFlagError">
-		<property name="name" value="success" />
-		<property name="value" value="false"/>
+		<property name="name" value="ServerException" />
+		<property name="value" value="true"/>
 	</bean>
         
 	<bean name="stackTraceExceptionHandler" 
@@ -63,4 +63,5 @@
         
 	<bean name="exceptionMessageExceptionHandler" 
 		class="org.springframework.web.servlet.view.json.exception.ExceptionMessageExceptionHandler"/>
+		 -->
 </beans>

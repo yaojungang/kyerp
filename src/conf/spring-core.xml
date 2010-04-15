@@ -6,13 +6,13 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans   
-           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
-           http://www.springframework.org/schema/context   
-           http://www.springframework.org/schema/context/spring-context-3.0.xsd   
-           http://www.springframework.org/schema/aop   
-           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd   
-           http://www.springframework.org/schema/tx   
-           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+	http://www.springframework.org/schema/context   
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd   
+	http://www.springframework.org/schema/aop   
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd   
+	http://www.springframework.org/schema/tx   
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 	<context:annotation-config />
 	<context:component-scan base-package="org.kyerp" />
 	<bean id="propertyConfigurer"
@@ -46,16 +46,20 @@
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<!--  property name="persistenceUnitName" value="jpaUnit" -->
-		<property name="persistenceXmlLocation" value="classpath:conf/persistence.xml" />
 		<property name="dataSource" ref="dataSource" />
-		<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="database" value="MYSQL" />
-				<property name="showSql" value="false" />
-				<property name="generateDdl" value="true" />
-			</bean>
+		<property name="persistenceXmlLocation" value="classpath:conf/persistence.xml" />
+		<property name="loadTimeWeaver">
+			<bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver"/>
 		</property>
+		<!--<property name="persistenceUnitName" value="erpUnit"/>
+			<property name="jpaVendorAdapter">
+				<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+					<property name="database" value="MYSQL" />
+					<property name="showSql" value="false" />
+					<property name="generateDdl" value="true" />
+				</bean>
+			</property>
+			-->
 	</bean>
 
 	<bean id="transactionManger" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -65,12 +69,13 @@
 	<tx:annotation-driven transaction-manager="transactionManger" />
 	
 	<!-- spring mvc validation Enable annotation-based validation using Bean Validation Framework -->  
-	<bean id="configurationLoader"
+	<!--  <bean id="configurationLoader"
 		class="org.springmodules.validation.bean.conf.loader.annotation.AnnotationBeanValidationConfigurationLoader"/>
 	<bean id="validator" class="org.springmodules.validation.bean.BeanValidator"
-		p:configurationLoader-ref="configurationLoader"/>
+		p:configurationLoader-ref="configurationLoader"/>-->
+	
 	<!-- Load messages -->
-	<bean id="messageSource"
+	<!--  <bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">
 			<list>
@@ -78,4 +83,5 @@
 			</list>
 		</property>
 	</bean>
+	-->
 </beans>
