@@ -538,13 +538,11 @@ Ext.extend(Ext.ux.LoginWindow, Ext.util.Observable, {
      * @param {Ext.form.Action} action
      */
     onSuccess : function(form, action) {
-        // alert("success");
-    	 window.location = this.locationUrl;
-     //   if (action && action.result) {
+       if (action && action.result) {
       //      var lang = '?request_locale=' + Ext.getCmp(this.languageId).getValue();
             //window.location = this.locationUrl+lang;
             window.location = this.locationUrl;
-       // }
+        }
     },
     /**
      * Se receber falha

@@ -1,122 +1,12 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.OutStockStore = new Ext.data.Store({
-					autoLoad : {
-						baseParams : {
-							limit : 20
-						}
-					},
-					listeners : {
-						loadexception : function(proxy, options, response) {
-							var data = Ext.decode(response.responseText);
-							top.Ext.Msg.alert("错误", "载入数据时发生错误:"
-											+ data["exception.message"]);
-						}
-					},
-					url : org.kyerp.warehouse.OutStockPanel_STORE_URL,
-					reader : new Ext.data.JsonReader({
-								totalProperty : "totalProperty",
-								root : "rows",
-								idProperty : "id"
-							}, new Ext.data.Record.create([{
-										name : "id",
-										type : "int"
-									}, {
-										name : "serialNumber",
-										type : "string"
-									}, {
-										name : "createTime",
-										type : "date",
-										dateFormat : "Y-m-d H:i:s"
-									}, {
-										name : "statusString",
-										type : "string"
-									}, {
-										name : "writeDate",
-										type : "date",
-										dateFormat : "Y-m-d H:i:s"
-									}, {
-										name : "outDate",
-										type : "date",
-										dateFormat : "Y-m-d"
-									}, {
-										name : "billCount",
-										type : "int"
-									}, {
-										name : "billCost",
-										type : "float",
-										convert : function(value) {
-											return "￥" + value + "元"
-										}
-									}, {
-										name : "checkUserId",
-										type : "int"
-									}, {
-										name : "checkUserName",
-										type : "string"
-									}, {
-										name : 'checkEmployeeId',
-										type : 'int'
-									}, {
-										name : 'checkEmployeeName',
-										type : 'string'
-									}, {
-										name : "writeUserId",
-										type : "int"
-									}, {
-										name : "writeUserName",
-										type : "string"
-									}, {
-										name : 'writeEmployeeId',
-										type : 'int'
-									}, {
-										name : 'writeEmployeeName',
-										type : 'string'
-									}, {
-										name : "details"
-									}, {
-										name : "supplierId",
-										type : "int"
-									}, {
-										name : "supplierName",
-										type : "string"
-									}, {
-										name : "inOutTypeId"
-									}, {
-										name : "inOutTypeName"
-									}, {
-										name : "remark",
-										type : "string"
-									}, {
-										name : "editAble"
-									}, {
-										name : 'receiveDepartmentId',
-										type : 'int'
-									}, {
-										name : 'receiveDepartmentName',
-										type : 'string'
-									}, {
-										name : 'receiveEmployeeId',
-										type : 'int'
-									}, {
-										name : 'receiveEmployeeName',
-										type : 'string'
-									}, {
-										name : 'keeperId',
-										type : 'int'
-									}, {
-										name : 'keeperName',
-										type : 'string'
-									}]))
-				});
-/** ***************************************************************************** */
-org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
+org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 	detailsGrid : null,
 	selectSupplierWindow : null,
 	constructor : function(_cfg) {
 		if (_cfg == null)
 			_cfg = {};
 		Ext.apply(this, _cfg);
-		this.detailsGrid = new org.kyerp.warehouse.OutStockItemsEditorGridPanel();
+		this.detailsGrid = new org.kyerp.warehouse.InStockItemsEditorGridPanel();
 		this.selectSupplierWindow = new org.kyerp.warehouse.SelectSupplierWindow(
 				{
 					onSelect : function(rec, supplierWin) {
@@ -125,7 +15,7 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 								.findField('supplierId').setValue(rec.data.id);
 					}
 				});
-		org.kyerp.warehouse.OutStockFormPanel.superclass.constructor.call(this,
+		org.kyerp.warehouse.InStockFormPanel.superclass.constructor.call(this,
 				{
 					layout : 'border',
 					border : false,
@@ -142,7 +32,7 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 							baseCls : "x-plain",
 							bodyStyle : 'padding:10px 0 0 10px',
 							items : [{
-								columnWidth : .3,
+								columnWidth : .25,
 								xtype : 'panel',
 								layout : 'form',
 								baseCls : "x-plain",
@@ -162,15 +52,15 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 											xtype : 'displayfield',
 											name : 'statusString'
 										}, {
-											fieldLabel : '出库时间',
-											name : 'outDate',
+											fieldLabel : '入库时间',
+											name : 'arriveDate',
 											xtype : 'datefield',
 											format : 'Y-m-d',
 											emptyText : new Date()
 													.format('Y-m-d')
 										}]
 							}, {
-								columnWidth : .35,
+								columnWidth : .45,
 								xtype : 'panel',
 								layout : 'form',
 								labelWidth : 60,
@@ -181,7 +71,50 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									anchor : '-20px'
 								},
 								items : [{
-									fieldLabel : '收发类型',
+									xtype : 'panel',
+									layout : 'column',
+									baseCls : "x-plain",
+									border : false,
+									defaults : {
+										border : false
+									},
+									items : [{
+										columnWidth : 1,
+										baseCls : "x-plain",
+										items : {
+											layout : 'form',
+											border : false,
+											baseCls : "x-plain",
+											items : {
+												fieldLabel : '供应商',
+												xtype : 'combo',
+												anchor : '-3px',
+												msgTarget : 'qtip',
+												store : org.kyerp.warehouse.supplierStore,
+												hiddenName : 'supplierId',
+												pageSize : 20,
+												valueField : 'id',
+												displayField : 'name',
+												mode : 'local',
+												allowBlank : false,
+												emptyText : '请选择',
+												triggerAction : 'all'
+											}
+										}
+									}, {
+										xtype : 'panel',
+										width : 25,
+										baseCls : "x-plain",
+										items : {
+											xtype : 'button',
+											cls : 'x-btn-icon',
+											icon : 'images/ext-extend/icons/query.gif',
+											handler : this.onSelectSupplierClick,
+											scope : this
+										}
+									}]
+								}, {
+									fieldLabel : '入库类型',
 									xtype : 'treecombobox',
 									name : 'inOutTypeId',
 									hiddenName : 'inOutTypeId',
@@ -199,28 +132,10 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									treeUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL
 
 								}, {
-									fieldLabel : '领料部门',
+									fieldLabel : '经办人',
 									xtype : 'treecombobox',
-									name : 'receiveDepartmentId',
-									hiddenName : 'receiveDepartmentId',
-									allowUnLeafClick : true,
-									editable : false,
-									width : 250,
-									mode : 'local',
-									displayField : 'name',
-									valueField : 'id',
-									triggerAction : 'all',
-									allowBlank : false,
-									rootText : 'root',
-									rootId : '0',
-									forceSelection : true,
-									rootVisible : false,
-									treeUrl : org.kyerp.org.DepartmentPanel_TREE_URL
-								}, {
-									fieldLabel : '领料人',
-									xtype : 'treecombobox',
-									name : 'receiveEmployeeId',
-									hiddenName : 'receiveEmployeeId',
+									name : 'keeperId',
+									hiddenName : 'keeperId',
 									editable : false,
 									width : 250,
 									mode : 'local',
@@ -233,12 +148,13 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									forceSelection : true,
 									rootVisible : false,
 									treeUrl : org.kyerp.org.Employee_TREE_URL
+
 								}]
 							}, {
-								columnWidth : .35,
+								columnWidth : .3,
 								xtype : 'panel',
 								layout : 'form',
-								labelWidth : 60,
+								labelWidth : 40,
 								baseCls : "x-plain",
 								labelAlign : 'right',
 								defaultType : "textfield",
@@ -246,28 +162,10 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									anchor : '-20px'
 								},
 								items : [{
-											fieldLabel : '经办人',
-											xtype : 'treecombobox',
-											name : 'keeperId',
-											hiddenName : 'keeperId',
-											editable : false,
-											width : 250,
-											mode : 'local',
-											displayField : 'name',
-											valueField : 'id',
-											triggerAction : 'all',
-											allowBlank : false,
-											rootText : 'root',
-											rootId : '0',
-											forceSelection : true,
-											rootVisible : false,
-											treeUrl : org.kyerp.org.Employee_TREE_URL
-
-										}, {
 											fieldLabel : '备注',
 											name : 'remark',
 											xtype : 'textarea',
-											height : 50
+											height : 60
 										}]
 							}]
 						}]
@@ -364,7 +262,7 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 							params : _params,
 							success : this.onSubmitSuccess,
 							failure : function(form, action) {
-								Ext.Msg.alert('警告', '系统错误');
+								Ext.Msg.alert('警告', '系统错误!'+action.failureType);
 							},
 							waitTitle : "数据传送",
 							waitMsg : "数据传送中,请稍候...",
@@ -390,23 +288,15 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 			// this.onCancelClick();
 		} else {
 			// 设置createTime 的显示格式
-			this.getForm().findField("createTime").setValue(_r.createTime
-					.format('Y-m-d H:i:s'));
-					//设置入库类型
+			this.getForm().findField("createTime").setValue(_r.createTime.format('Y-m-d H:i:s'));
+			//设置入库类型
 			this.getForm().findField("inOutTypeId").setValue(_r.inOutTypeName);
 			this.getForm().findField("inOutTypeId").hiddenField.value =_r.inOutTypeId;
 			//设置经手人
 			this.getForm().findField("keeperId").setValue(_r.keeperName);
 			this.getForm().findField("keeperId").hiddenField.value =_r.keeperId;
-			//设置领料部门
-			this.getForm().findField("receiveDepartmentId").setValue(_r.receiveDepartmentName);
-			this.getForm().findField("receiveDepartmentId").hiddenField.value =_r.receiveDepartmentId;
-			//设置领料人
-			this.getForm().findField("receiveEmployeeId").setValue(_r.receiveEmployeeName);
-			this.getForm().findField("receiveEmployeeId").hiddenField.value =_r.receiveEmployeeId;
 			// 为detailsGrid设置值
-			this.detailsGrid.getStore().loadData(
-					Ext.util.JSON.decode(_r.details), false);
+			this.detailsGrid.getStore().loadData(Ext.util.JSON.decode(_r.details), false);
 		}
 	},
 	reset : function() {
@@ -421,13 +311,13 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 	}
 });
 /** ***************************************************************************** */
-org.kyerp.warehouse.OutStockInfoWindow = Ext.extend(Ext.Window, {
+org.kyerp.warehouse.InStockInfoWindow = Ext.extend(Ext.Window, {
 			url : "",
 			form : null,
 			tb : null,
 			constructor : function(_cfg) {
 				Ext.apply(this, _cfg);
-				this.form = new org.kyerp.warehouse.OutStockFormPanel({
+				this.form = new org.kyerp.warehouse.InStockFormPanel({
 							url : this.url
 						});
 				this.tb = [{
@@ -464,7 +354,7 @@ org.kyerp.warehouse.OutStockInfoWindow = Ext.extend(Ext.Window, {
 							handler : this.onCancelClick,
 							scope : this
 						}];
-				org.kyerp.warehouse.OutStockInfoWindow.superclass.constructor
+				org.kyerp.warehouse.InStockInfoWindow.superclass.constructor
 						.call(this, {
 									plain : true,
 									width : 760,
@@ -523,18 +413,18 @@ org.kyerp.warehouse.OutStockInfoWindow = Ext.extend(Ext.Window, {
 
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.OutStockInsertWindow = Ext.extend(
-		org.kyerp.warehouse.OutStockInfoWindow, {
-			title : "添加",
+org.kyerp.warehouse.InStockInsertWindow = Ext.extend(
+		org.kyerp.warehouse.InStockInfoWindow, {
+			title : "添 加",
 			iconCls : 'icon-utils-s-add',
-			url : org.kyerp.warehouse.OutStockPanel_SAVE_URL
+			url : org.kyerp.warehouse.InStock_SAVE_URL
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.OutStockUpdateWindow = Ext.extend(
-		org.kyerp.warehouse.OutStockInfoWindow, {
-			title : "打开",
+org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
+		org.kyerp.warehouse.InStockInfoWindow, {
+			title : "修改",
 			iconCls : 'icon-utils-s-edit',
-			url : org.kyerp.warehouse.OutStockPanel_SAVE_URL,
+			url : org.kyerp.warehouse.InStock_SAVE_URL,
 			pnId : "",
 			load : function(_r) {
 				this.form.setValues(_r.data);
@@ -565,52 +455,46 @@ org.kyerp.warehouse.OutStockUpdateWindow = Ext.extend(
 			// 保存单据后提交审核
 			onPostForCheck : function(_r) {
 				Ext.Ajax.request({
-							url : org.kyerp.warehouse.OutStock_PostForCheck_URL
+							url : org.kyerp.warehouse.InStock_PostForCheck_URL
 									+ "?id=" + this.pnId,
 							success : function(response) {
 								var data = Ext.util.JSON
 										.decode(response.responseText);
-								if (data.success) {
-									Ext.MessageBox.alert('提示', "单据状态改变成功!");
-								} else {
-									Ext.MessageBox.alert('警告', data.msg);
-								}
+								if (data.msg) {
+									Ext.MessageBox.alert('提示', data.msg);
+								} 
 							}
 						})
 			},// 返回编制
 			onReturnForEdit : function(_r) {
 				Ext.Ajax.request({
-							url : org.kyerp.warehouse.OutStock_ReturnForEdit_URL
+							url : org.kyerp.warehouse.InStock_ReturnForEdit_URL
 									+ "?id=" + this.pnId,
 							success : function(response) {
 								var data = Ext.util.JSON
 										.decode(response.responseText);
-								if (data.success) {
-									Ext.MessageBox.alert('提示', "单据状态改变成功!");
-								} else {
-									Ext.MessageBox.alert('警告', data.msg);
-								}
+								if (data.msg) {
+									Ext.MessageBox.alert('提示', data.msg);
+								} 
 							}
 						})
 			},// 审核
 			onCheckBill : function(_r) {
 				Ext.Ajax.request({
-							url : org.kyerp.warehouse.OutStock_CheckBill_URL
+							url : org.kyerp.warehouse.InStock_CheckBill_URL
 									+ "?id=" + this.pnId,
 							success : function(response) {
 								var data = Ext.util.JSON
 										.decode(response.responseText);
-								if (data.success) {
-									Ext.MessageBox.alert('提示', "单据状态改变成功!");
-								} else {
-									Ext.MessageBox.alert('警告', data.msg);
-								}
+								if (data.msg) {
+									Ext.MessageBox.alert('提示', data.msg);
+								} 
 							}
 						})
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
+org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 	insertWin : null,
 	updateWin : null,
 	expander : null,
@@ -619,10 +503,10 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 		this.expander = new Ext.ux.grid.RowExpander({
 					tpl : new Ext.Template('<p><b>明细:</b>')
 				});
-		this.insertWin = new org.kyerp.warehouse.OutStockInsertWindow();
-		this.updateWin = new org.kyerp.warehouse.OutStockUpdateWindow();
-		this["store"] = org.kyerp.warehouse.OutStockStore;
-		org.kyerp.warehouse.OutStockPanel.superclass.constructor.call(this, {
+		this.insertWin = new org.kyerp.warehouse.InStockInsertWindow();
+		this.updateWin = new org.kyerp.warehouse.InStockUpdateWindow();
+		this["store"] = org.kyerp.warehouse.InStockStoe;
+		org.kyerp.warehouse.InStockListGrid.superclass.constructor.call(this, {
 					stripeRows : true,
 					plugins : this.expander,
 					tbar : [{
@@ -633,7 +517,7 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 								},
 								scope : this
 							}, "-", {
-								text : "修  改",
+								text : "打  开",
 								iconCls : 'icon-utils-s-edit',
 								handler : function() {
 									// alert("edit");
@@ -671,7 +555,7 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 						rootVisible : false,
 						treeUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL,
 						onSelect : function(node) {
-							var store = org.kyerp.warehouse.OutStockStore;
+							var store = org.kyerp.warehouse.InStockStoe;
 							store.setBaseParam("inOutTypeId", node.id);
 							store.load();
 						}
@@ -694,12 +578,9 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 							}, {
 								header : '收发类型',
 								dataIndex : 'inOutTypeName'
-							},{
-								header : '领料单位',
-								dataIndex : 'receiveDepartmentName'
 							}, {
-								header : '领用人',
-								dataIndex : 'receiveEmployeeName'
+								header : '供应商',
+								dataIndex : 'supplierName'
 							}, {
 								header : "数量",
 								dataIndex : "billCount",
@@ -707,10 +588,6 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 							}, {
 								header : "金额",
 								dataIndex : "billCost",
-								menuDisabled : true
-							},{
-								header : "经手人",
-								dataIndex : "keeperName",
 								menuDisabled : true
 							}, {
 								header : "备注",
@@ -752,7 +629,8 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 		this.insertWin.on("submit", this.onInsertWinSubmit, this);
 		this.updateWin.on("submit", this.onUpdateWinSubmit, this);
 		this.updateWin.on("reloadStore", this.reloadStore, this);
-		this.addEvents("rowselect");
+		//this.addEvents("rowselect");
+		this.on("rowselect", this.onRowSelect, this);
 	},
 	loadStore : function() {
 	},
@@ -780,7 +658,7 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 		try {
 			var _sr = this.getSelected();
 			Ext.Ajax.request({
-						url : org.kyerp.warehouse.OutStockPanel_DELETE_URL,
+						url : org.kyerp.warehouse.InStock_DELETE_URL,
 						params : {
 							ids : _sr.get("id")
 						}
@@ -803,26 +681,13 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 		if (_btn == "yes")
 			this.removeItem();
 	},
-	onRowSelect : function(_sel, _index, _r) {
-		this.fireEvent("rowselect", _r);
+	onRowSelect : function(_row, _index, _r) {
+		//alert("row select");
+		var data = Ext.decode(_row.data.details);
+		org.kyerp.warehouse.InStockStoeDetainStore.loadData(data, false);
+		//this.fireEvent("rowselect", _r);
 	},
 	reloadStore : function() {
 		this.store.reload();
 	}
 });
-/** ***************************************************************************** */
-Ext.extend(org.kyerp.module, {
-			init : function() {
-				require('SelectSupplierWindow.js;' + 'SelectMaterialWindow.js;'
-								+ 'OutStockItemsEditorGridPanel.js', {
-							basedir : 'js/org/kyerp/warehouse'
-						});
-				// require('js/org/kyerp/warehouse/SelectSupplierWindow.js');
-				this.body = new org.kyerp.warehouse.OutStockPanel({
-							border : false,
-							bodyBorder : false
-						});
-				this.main.add(this.body);
-				this.main.doLayout();
-			}
-		});

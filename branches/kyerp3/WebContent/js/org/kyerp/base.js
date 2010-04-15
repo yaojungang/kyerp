@@ -123,21 +123,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 		this.logout = function() {
 			Ext.Msg.confirm('操作提示', '您确定要退出本系统?', function(btn) {
 						if ('yes' == btn) {
-							Ext.Ajax.request({
-										url : 'logout',
-										success : function() {
-											this.window.opener = null;
-											window.close();
-											if (!Ext.isIE) {
-												location = 'http://www.tyopf.com';
-											}
-										},
-										failure : function() {
-											location.reload();
-											// Ext.Msg.alert("系统提示",
-											// "退出时发生错误！");
-										}
-									});
+							location = 'logout'
 						}
 					});
 		}
@@ -290,22 +276,42 @@ Ext.onReady(function() {
 				Ext.get('loading').remove();
 				kyerpApp = new org.kyerp.base();
 			}, 250);
-		// 超时重新登录
-		// Ext.override(Ext.data.Connection, {
-		// handleResponse : Ext.data.Connection.prototype.handleResponse
-		// .createInterceptor(function(response) {
-		// if (response.getResponseHeader("LOGINED") != "YES") {
-		// Ext.Msg.alert('提示', '会话超时，请重新登录!', function(
-		// btn, text) {
-		// if (btn == 'ok') {
-		// location.reload();
-		// }
-		// });
-		// };
-		// if (response.status > 200) {
-		// alert(response.status);
-		// }
-		// })
-		// });
-
+	// 超时重新登录
+	// Ext.override(Ext.data.Connection, {
+	// handleResponse : Ext.data.Connection.prototype.handleResponse
+	// .createInterceptor(function(response) {
+	// if (response.getResponseHeader("LOGINED") != "YES") {
+	// Ext.Msg.alert('提示', '会话超时，请重新登录!', function(
+	// btn, text) {
+	// if (btn == 'ok') {
+	// location.reload();
+	// }
+	// });
+	// };
+	// if (response.status > 200) {
+	// alert(response.status);
+	// }
+	// })
+	// });
+	//超时重新登录
+	Ext.override(Ext.data.Connection, {
+		handleResponse : Ext.data.Connection.prototype.handleResponse
+				.createInterceptor(function(response) {
+//							if (response.getResponseHeader("LOGINED") == "YES") {
+//								Ext.Msg.alert('提示', '会话超时，请重新登录!', function(
+//												btn, text) {
+//											if (btn == 'ok') {
+//												location.reload();
+//											}
+//										});
+//							};
+					try {
+					//var responseBody = Ext.decode(response.responseText);
+					//alert(response.status);
+					}catch(e){
+						alert(e);
+					}
+		})
 	});
+
+});

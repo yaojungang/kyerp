@@ -37,14 +37,14 @@ org.kyerp.warehouse.MaterialPanel = Ext.extend(Ext.Panel, {
 					this.materialList.store.on('beforeload', function(thiz,
 									options) {
 								Ext.apply(thiz.baseParams, {
-											mCategoryId : node.attributes.id
+											materialCategoryId : node.attributes.id
 										});
 							}, this);
 					this.materialList.store.load({
 								params : {
 									start : 0,
 									limit : 20,
-									mCategoryId : node.attributes.id
+									materialCategoryId : node.attributes.id
 								}
 							});
 					this.materialList.setTitle(node.attributes.text);

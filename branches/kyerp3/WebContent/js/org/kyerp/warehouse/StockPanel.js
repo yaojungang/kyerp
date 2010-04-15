@@ -23,6 +23,7 @@ org.kyerp.warehouse.StockPanel = Ext.extend(Ext.Panel, {
 					border : false,
 					region : 'center'
 				});
+
 		org.kyerp.warehouse.StockPanel.superclass.constructor.call(this, {
 					layout : 'border',
 					border : false,
