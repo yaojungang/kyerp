@@ -39,8 +39,7 @@ org.kyerp.warehouse.InStockStoe = new Ext.data.Store({
 										type : "date",
 										dateFormat : "Y-m-d"
 									}, {
-										name : "billCount",
-										type : "int"
+										name : "billCount"
 									}, {
 										name : "billCost",
 										type : "float",

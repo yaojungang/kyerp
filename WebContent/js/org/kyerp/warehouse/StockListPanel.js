@@ -129,6 +129,13 @@ org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.GridPanel, {
 							this.viewWin.show();
 						},
 						scope : this
+					},{
+						text : "导  出",
+						iconCls : 'page_excel',
+						handler : function() {
+							window.open(org.kyerp.warehouse.Stock_EXCEL_URL);
+						},
+						scope : this
 					}, '->', '物料分类：', {
 						xtype : 'treecombobox',
 						fieldLabel : '物料分类',

@@ -129,11 +129,11 @@
 	</session-config>
 	<!-- 配置默认异常处理, 出错页面定义 -->
 	<error-page>
-		<exception-type>java.lang.Throwablessss</exception-type>
+		<exception-type>java.lang.Throwables</exception-type>
 		<location>/WEB-INF/jsp/share/500.jsp</location>
 	</error-page>
 	<error-page>
-		<error-code>505</error-code>
+		<error-code>500</error-code>
 		<location>/WEB-INF/jsp/share/500.jsp</location>
 	</error-page>
 	<error-page>

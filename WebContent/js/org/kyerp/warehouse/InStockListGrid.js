@@ -262,7 +262,8 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 							params : _params,
 							success : this.onSubmitSuccess,
 							failure : function(form, action) {
-								Ext.Msg.alert('警告', '系统错误!'+action.failureType);
+								Ext.Msg.alert('警告', '系统错误!'
+												+ action.failureType);
 							},
 							waitTitle : "数据传送",
 							waitMsg : "数据传送中,请稍候...",
@@ -288,15 +289,17 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 			// this.onCancelClick();
 		} else {
 			// 设置createTime 的显示格式
-			this.getForm().findField("createTime").setValue(_r.createTime.format('Y-m-d H:i:s'));
-			//设置入库类型
+			this.getForm().findField("createTime").setValue(_r.createTime
+					.format('Y-m-d H:i:s'));
+			// 设置入库类型
 			this.getForm().findField("inOutTypeId").setValue(_r.inOutTypeName);
-			this.getForm().findField("inOutTypeId").hiddenField.value =_r.inOutTypeId;
-			//设置经手人
+			this.getForm().findField("inOutTypeId").hiddenField.value = _r.inOutTypeId;
+			// 设置经手人
 			this.getForm().findField("keeperId").setValue(_r.keeperName);
-			this.getForm().findField("keeperId").hiddenField.value =_r.keeperId;
+			this.getForm().findField("keeperId").hiddenField.value = _r.keeperId;
 			// 为detailsGrid设置值
-			this.detailsGrid.getStore().loadData(Ext.util.JSON.decode(_r.details), false);
+			this.detailsGrid.getStore().loadData(
+					Ext.util.JSON.decode(_r.details), false);
 		}
 	},
 	reset : function() {
@@ -462,7 +465,7 @@ org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
 										.decode(response.responseText);
 								if (data.msg) {
 									Ext.MessageBox.alert('提示', data.msg);
-								} 
+								}
 							}
 						})
 			},// 返回编制
@@ -475,7 +478,7 @@ org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
 										.decode(response.responseText);
 								if (data.msg) {
 									Ext.MessageBox.alert('提示', data.msg);
-								} 
+								}
 							}
 						})
 			},// 审核
@@ -488,7 +491,7 @@ org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
 										.decode(response.responseText);
 								if (data.msg) {
 									Ext.MessageBox.alert('提示', data.msg);
-								} 
+								}
 							}
 						})
 			}
@@ -539,29 +542,29 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 								},
 								scope : this
 							}, '->', '收发类型：', {
-						xtype : 'treecombobox',
-						fieldLabel : '供应商类型',
-						name : 'inOutTypeId',
-						hiddenName : 'inOutTypeId',
-						editable : false,
-						mode : 'local',
-						displayField : 'name',
-						valueField : 'id',
-						triggerAction : 'all',
-						allowBlank : false,
-						rootText : 'root',
-						rootId : '0',
-						forceSelection : true,
-						rootVisible : false,
-						treeUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL,
-						onSelect : function(node) {
-							var store = org.kyerp.warehouse.InStockStoe;
-							store.setBaseParam("inOutTypeId", node.id);
-							store.load();
-						}
-					}, "-", "搜索：", new Ext.ux.form.SearchField({
-								store : this.getStore()
-							})],
+								xtype : 'treecombobox',
+								fieldLabel : '供应商类型',
+								name : 'inOutTypeId',
+								hiddenName : 'inOutTypeId',
+								editable : false,
+								mode : 'local',
+								displayField : 'name',
+								valueField : 'id',
+								triggerAction : 'all',
+								allowBlank : false,
+								rootText : 'root',
+								rootId : '0',
+								forceSelection : true,
+								rootVisible : false,
+								treeUrl : org.kyerp.warehouse.InOutTypePanel_TREE_URL,
+								onSelect : function(node) {
+									var store = org.kyerp.warehouse.InStockStoe;
+									store.setBaseParam("inOutTypeId", node.id);
+									store.load();
+								}
+							}, "-", "搜索：", new Ext.ux.form.SearchField({
+										store : this.getStore()
+									})],
 					enableColumnMove : false,
 					colModel : new Ext.grid.ColumnModel([this.expander, {
 								header : "单据编号",
@@ -584,10 +587,12 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 							}, {
 								header : "数量",
 								dataIndex : "billCount",
+								align : 'right',
 								menuDisabled : true
 							}, {
 								header : "金额",
 								dataIndex : "billCost",
+								align : 'right',
 								menuDisabled : true
 							}, {
 								header : "备注",
@@ -629,7 +634,7 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 		this.insertWin.on("submit", this.onInsertWinSubmit, this);
 		this.updateWin.on("submit", this.onUpdateWinSubmit, this);
 		this.updateWin.on("reloadStore", this.reloadStore, this);
-		//this.addEvents("rowselect");
+		// this.addEvents("rowselect");
 		this.on("rowselect", this.onRowSelect, this);
 	},
 	loadStore : function() {
@@ -682,10 +687,10 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 			this.removeItem();
 	},
 	onRowSelect : function(_row, _index, _r) {
-		//alert("row select");
+		// alert("row select");
 		var data = Ext.decode(_row.data.details);
 		org.kyerp.warehouse.InStockStoeDetainStore.loadData(data, false);
-		//this.fireEvent("rowselect", _r);
+		// this.fireEvent("rowselect", _r);
 	},
 	reloadStore : function() {
 		this.store.reload();
