@@ -430,6 +430,10 @@
 	background: url(../images/ext-extend/icons/topic.gif) no-repeat left
 		!important;
 }
+.icon-utils-s-excel {
+	background: url(../images/ext-extend/icons/excel.png) no-repeat left
+		!important;
+}
 
 .icon-utils-s-add {
 	background: url(../images/ext-extend/icons/add.gif) no-repeat left

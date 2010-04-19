@@ -91,6 +91,7 @@ org.kyerp.warehouse.PurchaseOrder_PostForCheck_URL = "warehouse/PurchaseOrder/js
 org.kyerp.warehouse.PurchaseOrder_ReturnForEdit_URL = "warehouse/PurchaseOrder/jsonReturnForEdit.html";
 org.kyerp.warehouse.PurchaseOrder_CheckBill_URL = "warehouse/PurchaseOrder/jsonCheckBill.html";
 /** ***************************************************************************** */
+org.kyerp.warehouse.Stock_EXCEL_URL = "warehouse/Stock/excel.html";
 org.kyerp.warehouse.StockListPanel_STORE_URL = "warehouse/Stock/jsonList.html";
 /** ***************************************************************************** */
 org.kyerp.warehouse.StockDetail_URL = "warehouse/StockDetail/jsonList.html";

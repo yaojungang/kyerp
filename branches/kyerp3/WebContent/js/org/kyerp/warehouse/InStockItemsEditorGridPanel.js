@@ -189,11 +189,13 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 								header : '品名型号',
 								width : 250,
 								dataIndex : "materialId",
+								menuDisabled : true,
 								renderer : Ext.ux.renderer
 										.Combo(this.materialCombo),
 								editor : this.materialCombo
 							}, {
 								header : '库房',
+								menuDisabled : true,
 								width : 80,
 								dataIndex : "warehouseId",
 								renderer : Ext.ux.renderer
@@ -201,12 +203,15 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 								editor : this.warehouseCombo
 							}, {
 								header : '单位',
+								menuDisabled : true,
 								width : 40,
 								dataIndex : "unitName"
 							}, {
 								header : "数量",
 								width : 70,
 								dataIndex : "billCount",
+								menuDisabled : true,
+								align : 'right',
 								editor : new Ext.form.NumberField({
 											decimalPrecision : 4,
 											allowBlank : false
@@ -215,6 +220,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 								header : "单价",
 								width : 70,
 								dataIndex : "price",
+								menuDisabled : true,
 								editor : new Ext.form.NumberField({
 											allowBlank : false,
 											minValue : 0
@@ -222,15 +228,19 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 							}, {
 								header : "金额",
 								width : 80,
-								dataIndex : "billCost"
+								dataIndex : "billCost",
+								menuDisabled : true,
+								align : 'right'
 							}, {
 								header : "批次号",
 								width : 100,
 								dataIndex : 'batchNumber',
+								menuDisabled : true,
 								editor : new Ext.form.TextField()
 							}, {
 								header : '备注',
 								dataIndex : "remark",
+								menuDisabled : true,
 								editor : new Ext.form.TextArea()
 							}]
 						});
