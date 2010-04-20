@@ -56,6 +56,118 @@ public class InStockService extends DaoSupport<InStock> implements IInStockServi
 		save(e);
 	}
 
+/*
+ * public String checkInStock00(InStock inStock) throws Exception {
+ * if(BillStatus.CHECKED == inStock.getStatus()) {
+ * return "该单据已经审核过，不能再审核。";
+ * }
+ * // 循环取出入库单明细里的每个条目；
+ * for (InStockDetail d : inStock.getDetails()) {
+ * if(inStock.getDetails().size() == 0) {
+ * continue;
+ * }
+ * // 查询库存主表如果存在该Id的物料则选中这条库存记录
+ * String wherejpql = "o.material.id=" + d.getMaterial().getId();
+ * logger.debug("jpql:" + wherejpql);
+ * Stock stock = new Stock();
+ * if(stockService.getScrollData(wherejpql, null, null).getTotalrecord() > 0) {
+ * stock = stockService.getScrollData(wherejpql, null, null).getResultlist().get(0);
+ * }
+ * if(null != stock.getId()) {
+ * // 查询库存明细表中是否存在 同批次号、同库房的库存记录，如果存在则选中
+ * String wherejpql2 = "o.batchNumber='" + d.getBatchNumber() + "' and o.warehouse.id=" + d.getWarehouse().getId();
+ * logger.debug("查询库存明细表中是否存在 同批次号、同库房的库存记录，如果存在则选中jpql:" + wherejpql2);
+ * StockDetail stockDetail = new StockDetail();
+ * if(stockDetailService.getScrollData(wherejpql2, null, null).getTotalrecord() > 0) {
+ * stockDetail = stockDetailService.getScrollData(wherejpql2, null, null).getResultlist().get(0);
+ * // 更新这个批次并且存放在这个库房的物料的数量
+ * stockDetail.setAmount(stockDetail.getAmount().add(d.getInStockCount()));
+ * // 如果库存总数为0则删除这条库存记录，否则更新库存金额和绝对平均价格
+ * if(BigDecimal.ZERO.compareTo(stockDetail.getAmount()) == 0) {
+ * stockDetailService.delete(stockDetail.getId());
+ * } else {
+ * stockDetail.setCost(stockDetail.getCost().add(d.getBillCost()));
+ * stockDetail.setPrice(stockDetail.getCost().divide(stockDetail.getAmount(), 4, BigDecimal.ROUND_HALF_UP));
+ * stockDetailService.update(stockDetail);
+ * }
+ * } else {
+ * stockDetail.setStock(stock);
+ * // 如果没有设置批次号，则设置批次号
+ * if(null == d.getBatchNumber() || d.getBatchNumber().length() == 0) {
+ * // 如果没有填写单号则设置单号
+ * String jpql = "select count(o) from StockDetail o where o.stock.id=" + stock.getId() + " and o.createTime>=?1";
+ * try {
+ * stockDetail.setBatchNumber(SerialNumberHelper.buildSerialNumber(em, jpql));
+ * } catch (ParseException e1) {
+ * e1.printStackTrace();
+ * }
+ * } else {
+ * stockDetail.setBatchNumber(d.getBatchNumber());
+ * }
+ * 
+ * stockDetail.setWarehouse(d.getWarehouse());
+ * stockDetail.setAmount(d.getInStockCount());
+ * stockDetail.setUnit(d.getUnit());
+ * stockDetail.setPrice(d.getPrice());
+ * stockDetail.setCost(d.getBillCost());
+ * stockDetailService.save(stockDetail);
+ * }
+ * 
+ * // 更新库存表的总数量
+ * stock.setTotalAmount(stock.getTotalAmount().add(d.getInStockCount()));
+ * // 如果库存总数为0则删除这条库存记录，否则更新库存金额和绝对平均价格
+ * if(BigDecimal.ZERO.compareTo(stock.getTotalAmount()) == 0) {
+ * stockService.delete(stock.getId());
+ * } else {
+ * stock.setCost(stock.getCost().add(d.getBillCost()));
+ * stock.setPrice(stock.getCost().divide(stock.getTotalAmount(), 4, BigDecimal.ROUND_HALF_UP));
+ * stockService.update(stock);
+ * }
+ * } else {
+ * // stock = new Stock();
+ * stock.setMaterial(d.getMaterial());
+ * // 库存编号与物料编号一致
+ * stock.setSerialNumber(d.getMaterial().getSerialNumber());
+ * stock.setUnit(d.getUnit());
+ * stock.setTotalAmount(d.getInStockCount());
+ * stock.setPrice(d.getPrice());
+ * stock.setCost(d.getBillCost());
+ * stockService.save(stock);
+ * 
+ * StockDetail stockDetail = new StockDetail();
+ * stockDetail.setStock(stock);
+ * // 如果没有设置批次号，则设置批次号
+ * if(null == d.getBatchNumber() || d.getBatchNumber().length() == 0) {
+ * // 如果没有填写单号则设置单号
+ * String jpql = "select count(o) from StockDetail o where o.stock.id=" + stock.getId() + " and o.createTime>=?1";
+ * try {
+ * stockDetail.setBatchNumber(SerialNumberHelper.buildSerialNumber(em, jpql));
+ * } catch (ParseException e1) {
+ * e1.printStackTrace();
+ * }
+ * } else {
+ * stockDetail.setBatchNumber(d.getBatchNumber());
+ * }
+ * stockDetail.setWarehouse(d.getWarehouse());
+ * stockDetail.setAmount(d.getInStockCount());
+ * stockDetail.setUnit(d.getUnit());
+ * stockDetail.setPrice(d.getPrice());
+ * stockDetail.setCost(d.getBillCost());
+ * stockDetailService.save(stockDetail);
+ * }
+ * 
+ * }
+ * // 设置单据状态
+ * inStock.setStatus(BillStatus.CHECKED);
+ * // 设置审核日期
+ * inStock.setCheckDate(new Date());
+ * // 设置审核人
+ * inStock.setCheckUser(WebUtil.getCurrentUser());
+ * inStock.setCheckEmployee(WebUtil.getCurrentEmployee());
+ * update(inStock);
+ * return "success";
+ * }
+ */
 	/*
 	 * 审核入库单 改变状态为已审核,设置审核人，审核时间
 	 * 
@@ -68,83 +180,56 @@ public class InStockService extends DaoSupport<InStock> implements IInStockServi
 		if(BillStatus.CHECKED == inStock.getStatus()) {
 			return "该单据已经审核过，不能再审核。";
 		}
+
+		// 设置单据状态
+		inStock.setStatus(BillStatus.CHECKED);
+		// 设置审核日期
+		inStock.setCheckDate(new Date());
+		// 设置审核人
+		inStock.setCheckUser(WebUtil.getCurrentUser());
+		inStock.setCheckEmployee(WebUtil.getCurrentEmployee());
 		// 循环取出入库单明细里的每个条目；
-		for (InStockDetail d : inStock.getDetails()) {
+		for (InStockDetail inStockDetail : inStock.getDetails()) {
 			if(inStock.getDetails().size() == 0) {
-				continue;
+				return "至少需要一条入库项目！";
 			}
 			// 查询库存主表如果存在该Id的物料则选中这条库存记录
-			String wherejpql = "o.material.id=" + d.getMaterial().getId();
+			String wherejpql = "o.material.id=" + inStockDetail.getMaterial().getId();
 			logger.debug("jpql:" + wherejpql);
 			Stock stock = new Stock();
 			if(stockService.getScrollData(wherejpql, null, null).getTotalrecord() > 0) {
 				stock = stockService.getScrollData(wherejpql, null, null).getResultlist().get(0);
 			}
-			if(null != stock.getId()) {
-				// 查询库存明细表中是否存在 同批次号、同库房的库存记录，如果存在则选中
-				String wherejpql2 = "o.batchNumber='" + d.getBatchNumber() + "' and o.warehouse.id=" + d.getWarehouse().getId();
-				logger.debug("查询库存明细表中是否存在 同批次号、同库房的库存记录，如果存在则选中jpql:" + wherejpql2);
-				StockDetail stockDetail = new StockDetail();
-				if(stockDetailService.getScrollData(wherejpql2, null, null).getTotalrecord() > 0) {
-					stockDetail = stockDetailService.getScrollData(wherejpql2, null, null).getResultlist().get(0);
-					// 更新这个批次并且存放在这个库房的物料的数量
-					stockDetail.setAmount(stockDetail.getAmount().add(d.getBillCount()));
-					// 如果库存总数为0则删除这条库存记录，否则更新库存金额和绝对平均价格
-					if(BigDecimal.ZERO.compareTo(stockDetail.getAmount()) == 0) {
-						stockDetailService.delete(stockDetail.getId());
-					} else {
-						stockDetail.setCost(stockDetail.getCost().add(d.getBillCost()));
-						stockDetail.setPrice(stockDetail.getCost().divide(stockDetail.getAmount(), 4, BigDecimal.ROUND_HALF_UP));
-						stockDetailService.update(stockDetail);
-					}
-				} else {
-					stockDetail.setStock(stock);
-					// 如果没有设置批次号，则设置批次号
-					if(null == d.getBatchNumber() || d.getBatchNumber().length() == 0) {
-						// 如果没有填写单号则设置单号
-						String jpql = "select count(o) from StockDetail o where o.stock.id=" + stock.getId() + " and o.createTime>=?1";
-						try {
-							stockDetail.setBatchNumber(SerialNumberHelper.buildSerialNumber(em, jpql));
-						} catch (ParseException e1) {
-							e1.printStackTrace();
-						}
-					} else {
-						stockDetail.setBatchNumber(d.getBatchNumber());
-					}
+			saveInStockDetail(stock, inStockDetail);
+		}
+		update(inStock);
+		return "success";
+	}
 
-					stockDetail.setWarehouse(d.getWarehouse());
-					stockDetail.setAmount(d.getBillCount());
-					stockDetail.setUnit(d.getUnit());
-					stockDetail.setPrice(d.getPrice());
-					stockDetail.setCost(d.getBillCost());
-					stockDetailService.save(stockDetail);
-				}
+	@Transactional(rollbackFor = Exception.class)
+	private void saveInStockDetail(Stock stock, InStockDetail inStockDetail) {
 
-				// 更新库存表的总数量
-				stock.setTotalAmount(stock.getTotalAmount().add(d.getBillCount()));
+		if(null != stock.getId()) {
+			// 查询库存明细表中是否存在 同批次号、同库房的库存记录，如果存在则选中
+			String wherejpql2 = "o.batchNumber='" + inStockDetail.getBatchNumber() + "' and o.warehouse.id=" + inStockDetail.getWarehouse().getId();
+			logger.debug("查询库存明细表中是否存在 同批次号、同库房的库存记录，如果存在则选中jpql:" + wherejpql2);
+			StockDetail stockDetail = new StockDetail();
+			if(stockDetailService.getScrollData(wherejpql2, null, null).getTotalrecord() > 0) {
+				stockDetail = stockDetailService.getScrollData(wherejpql2, null, null).getResultlist().get(0);
+				// 更新这个批次并且存放在这个库房的物料的数量
+				stockDetail.setAmount(stockDetail.getAmount().add(inStockDetail.getInStockCount()));
 				// 如果库存总数为0则删除这条库存记录，否则更新库存金额和绝对平均价格
-				if(BigDecimal.ZERO.compareTo(stock.getTotalAmount()) == 0) {
-					stockService.delete(stock.getId());
+				if(BigDecimal.ZERO.compareTo(stockDetail.getAmount()) == 0) {
+					stockDetailService.delete(stockDetail.getId());
 				} else {
-					stock.setCost(stock.getCost().add(d.getBillCost()));
-					stock.setPrice(stock.getCost().divide(stock.getTotalAmount(), 4, BigDecimal.ROUND_HALF_UP));
-					stockService.update(stock);
+					stockDetail.setCost(stockDetail.getCost().add(inStockDetail.getBillCost()));
+					stockDetail.setPrice(stockDetail.getCost().divide(stockDetail.getAmount(), 4, BigDecimal.ROUND_HALF_UP));
+					stockDetailService.update(stockDetail);
 				}
 			} else {
-				// stock = new Stock();
-				stock.setMaterial(d.getMaterial());
-				// 库存编号与物料编号一致
-				stock.setSerialNumber(d.getMaterial().getSerialNumber());
-				stock.setUnit(d.getUnit());
-				stock.setTotalAmount(d.getBillCount());
-				stock.setPrice(d.getPrice());
-				stock.setCost(d.getBillCost());
-				stockService.save(stock);
-
-				StockDetail stockDetail = new StockDetail();
 				stockDetail.setStock(stock);
 				// 如果没有设置批次号，则设置批次号
-				if(null == d.getBatchNumber() || d.getBatchNumber().length() == 0) {
+				if(null == inStockDetail.getBatchNumber() || inStockDetail.getBatchNumber().length() == 0) {
 					// 如果没有填写单号则设置单号
 					String jpql = "select count(o) from StockDetail o where o.stock.id=" + stock.getId() + " and o.createTime>=?1";
 					try {
@@ -153,25 +238,59 @@ public class InStockService extends DaoSupport<InStock> implements IInStockServi
 						e1.printStackTrace();
 					}
 				} else {
-					stockDetail.setBatchNumber(d.getBatchNumber());
+					stockDetail.setBatchNumber(inStockDetail.getBatchNumber());
 				}
-				stockDetail.setWarehouse(d.getWarehouse());
-				stockDetail.setAmount(d.getBillCount());
-				stockDetail.setUnit(d.getUnit());
-				stockDetail.setPrice(d.getPrice());
-				stockDetail.setCost(d.getBillCost());
+
+				stockDetail.setWarehouse(inStockDetail.getWarehouse());
+				stockDetail.setAmount(inStockDetail.getInStockCount());
+				stockDetail.setUnit(inStockDetail.getUnit());
+				stockDetail.setPrice(inStockDetail.getPrice());
+				stockDetail.setCost(inStockDetail.getBillCost());
 				stockDetailService.save(stockDetail);
 			}
 
+			// 更新库存表的总数量
+			stock.setTotalAmount(stock.getTotalAmount().add(inStockDetail.getInStockCount()));
+			// 如果库存总数为0则删除这条库存记录，否则更新库存金额和绝对平均价格
+			if(BigDecimal.ZERO.compareTo(stock.getTotalAmount()) == 0) {
+				stockService.delete(stock.getId());
+			} else {
+				stock.setCost(stock.getCost().add(inStockDetail.getBillCost()));
+				stock.setPrice(stock.getCost().divide(stock.getTotalAmount(), 4, BigDecimal.ROUND_HALF_UP));
+				stockService.update(stock);
+			}
+		} else {
+			// stock = new Stock();
+			stock.setMaterial(inStockDetail.getMaterial());
+			// 库存编号与物料编号一致
+			stock.setSerialNumber(inStockDetail.getMaterial().getSerialNumber());
+			stock.setUnit(inStockDetail.getUnit());
+			stock.setTotalAmount(inStockDetail.getInStockCount());
+			stock.setPrice(inStockDetail.getPrice());
+			stock.setCost(inStockDetail.getBillCost());
+			stockService.save(stock);
+
+			StockDetail stockDetail = new StockDetail();
+			stockDetail.setStock(stock);
+			// 如果没有设置批次号，则设置批次号
+			if(null == inStockDetail.getBatchNumber() || inStockDetail.getBatchNumber().length() == 0) {
+				// 如果没有填写单号则设置批次号
+				String jpql = "select count(o) from StockDetail o where o.stock.id=" + stock.getId() + " and o.createTime>=?1";
+				try {
+					stockDetail.setBatchNumber(SerialNumberHelper.buildSerialNumber(em, jpql));
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			} else {
+				stockDetail.setBatchNumber(inStockDetail.getBatchNumber());
+			}
+			stockDetail.setWarehouse(inStockDetail.getWarehouse());
+			stockDetail.setAmount(inStockDetail.getInStockCount());
+			stockDetail.setUnit(inStockDetail.getUnit());
+			stockDetail.setPrice(inStockDetail.getPrice());
+			stockDetail.setCost(inStockDetail.getBillCost());
+			stockDetailService.save(stockDetail);
 		}
-		// 设置单据状态
-		inStock.setStatus(BillStatus.CHECKED);
-		// 设置审核日期
-		inStock.setCheckDate(new Date());
-		// 设置审核人
-		inStock.setCheckUser(WebUtil.getCurrentUser());
-		inStock.setCheckEmployee(WebUtil.getCurrentEmployee());
-		update(inStock);
-		return "success";
+
 	}
 }

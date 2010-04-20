@@ -15,12 +15,14 @@ import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.warehouse.BillStatus;
 import org.kyerp.domain.warehouse.InStock;
 import org.kyerp.domain.warehouse.InStockDetail;
+import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.service.org.IEmployeeService;
 import org.kyerp.service.security.IUserService;
 import org.kyerp.service.warehouse.IInOutTypeService;
 import org.kyerp.service.warehouse.IInStockDetailService;
 import org.kyerp.service.warehouse.IInStockService;
 import org.kyerp.service.warehouse.IMaterialService;
+import org.kyerp.service.warehouse.IStockService;
 import org.kyerp.service.warehouse.ISupplierService;
 import org.kyerp.service.warehouse.IWarehouseService;
 import org.kyerp.utils.WebUtil;
@@ -41,6 +43,8 @@ public class InStockController extends BaseController{
 	IInStockService			inStockService;
 	@Autowired
 	IInStockDetailService	inStockDetailService;
+	@Autowired
+	IStockService			stockService;
 	@Autowired
 	IMaterialService		materialService;
 	@Autowired
@@ -83,7 +87,7 @@ public class InStockController extends BaseController{
 			wherejpql.append(" or o.remark like ?").append(queryParams.size() + 1).append(")");
 			queryParams.add("%" + query.trim() + "%");
 		}
-		System.out.println("jpql:" + wherejpql);
+		logger.debug("jpql:" + wherejpql);
 		QueryResult<InStock> queryResult = inStockService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
 
 		List<InStockExtGridRow> rows = new ArrayList<InStockExtGridRow>();
@@ -203,7 +207,7 @@ public class InStockController extends BaseController{
 						row.setUnitName(detail.getUnit().getName());
 					}
 					/** 数量 */
-					row.setBillCount(detail.getBillCount());
+					row.setBillCount(detail.getInStockCount());
 					/** 金额 */
 					row.setBillCost(detail.getBillCost());
 					/** 价格 */
@@ -297,7 +301,7 @@ public class InStockController extends BaseController{
 					// 单位为物料单位
 					detail.setUnit(materialService.find(jsonObject.getLong("materialId")).getUnit());
 					// 数量
-					detail.setBillCount(new BigDecimal(jsonObject.getString("billCount")));
+					detail.setInStockCount(new BigDecimal(jsonObject.getString("billCount")));
 					// 备注
 					if(null != jsonObject.getString("remark")) {
 						detail.setRemark(jsonObject.getString("remark"));
@@ -386,6 +390,29 @@ public class InStockController extends BaseController{
 	public String checkBill(ModelMap model, Long id) {
 		try {
 			InStock inStock = inStockService.find(id);
+			for (InStockDetail inStockDetail : inStock.getDetails()) {
+				if(inStock.getDetails().size() == 0) {
+					return "至少需要一条入库项目！";
+				}
+				// 查询库存主表如果存在该Id的物料则选中这条库存记录
+				String wherejpql = "o.material.id=" + inStockDetail.getMaterial().getId();
+				logger.debug("jpql:" + wherejpql);
+				Stock stock = new Stock();
+				if(stockService.getScrollData(wherejpql, null, null).getTotalrecord() > 0) {
+					stock = stockService.getScrollData(wherejpql, null, null).getResultlist().get(0);
+				}
+				if(null == stock.getId()) {
+					// stock = new Stock();
+					stock.setMaterial(inStockDetail.getMaterial());
+					// 库存编号与物料编号一致
+					stock.setSerialNumber(inStockDetail.getMaterial().getSerialNumber());
+					stock.setUnit(inStockDetail.getUnit());
+					stock.setTotalAmount(new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP));
+					stock.setPrice(new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP));
+					stock.setCost(new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP));
+					stockService.save(stock);
+				}
+			}
 			String result = inStockService.checkInStock(inStock);
 			if(result.equals("success")) {
 				model.addAttribute("msg", "单据审核成功！");
