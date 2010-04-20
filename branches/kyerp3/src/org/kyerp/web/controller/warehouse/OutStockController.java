@@ -138,10 +138,18 @@ public class OutStockController extends BaseController{
 				n.setWriteUserId(o.getWriteUser().getId());
 				n.setWriteUserName(o.getWriteUser().getUsername());
 			}
+			if(null != o.getWriteEmployee()) {
+				n.setWriteEmployeeId(o.getWriteEmployee().getId());
+				n.setWriteEmployeeName(o.getWriteEmployee().getName());
+			}
 			/** 审核人 */
 			if(null != o.getCheckUser()) {
 				n.setCheckUserId(o.getCheckUser().getId());
 				n.setCheckUserName(o.getCheckUser().getUsername());
+			}
+			if(null != o.getCheckEmployee()) {
+				n.setCheckEmployeeId(o.getCheckEmployee().getId());
+				n.setCheckEmployeeName(o.getCheckEmployee().getName());
 			}
 			/** 填写时间 */
 			if(null != o.getWriteDate()) {
@@ -206,7 +214,7 @@ public class OutStockController extends BaseController{
 						row.setUnitName(detail.getUnit().getName());
 					}
 					/** 数量 */
-					row.setBillCount(detail.getBillCount());
+					row.setBillCount(detail.getOutStockCount());
 					/** 金额 */
 					row.setBillCost(detail.getBillCost());
 					/** 价格 */
@@ -303,7 +311,7 @@ public class OutStockController extends BaseController{
 				// 单位为物料单位
 				detail.setUnit(materialService.find(jsonObject.getLong("materialId")).getUnit());
 				// 数量
-				detail.setBillCount(new BigDecimal(jsonObject.getString("billCount")));
+				detail.setOutStockCount(new BigDecimal(jsonObject.getString("billCount")));
 				/** 生产任务单号 */
 				if(null != jsonObject.getString("pressworkNo")) {
 					detail.setPressworkNo(jsonObject.getString("pressworkNo").toUpperCase());

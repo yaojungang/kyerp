@@ -37,9 +37,13 @@ public class OutStockExtGridRow{
 	/** 填单人 */
 	private long		writeUserId;
 	private String		writeUserName;
+	private Long		writeEmployeeId;
+	private String		writeEmployeeName;
 	/** 审核人 */
 	private long		checkUserId;
 	private String		checkUserName;
+	private Long		checkEmployeeId;
+	private String		checkEmployeeName;
 	/** 填写时间 */
 	private String		writeDate;
 	/** 审核时间 */
@@ -103,6 +107,38 @@ public class OutStockExtGridRow{
 
 	public void setReceiveEmployeeId(Long receiveEmployeeId) {
 		this.receiveEmployeeId = receiveEmployeeId;
+	}
+
+	public Long getWriteEmployeeId() {
+		return writeEmployeeId;
+	}
+
+	public void setWriteEmployeeId(Long writeEmployeeId) {
+		this.writeEmployeeId = writeEmployeeId;
+	}
+
+	public String getWriteEmployeeName() {
+		return writeEmployeeName;
+	}
+
+	public void setWriteEmployeeName(String writeEmployeeName) {
+		this.writeEmployeeName = writeEmployeeName;
+	}
+
+	public Long getCheckEmployeeId() {
+		return checkEmployeeId;
+	}
+
+	public void setCheckEmployeeId(Long checkEmployeeId) {
+		this.checkEmployeeId = checkEmployeeId;
+	}
+
+	public String getCheckEmployeeName() {
+		return checkEmployeeName;
+	}
+
+	public void setCheckEmployeeName(String checkEmployeeName) {
+		this.checkEmployeeName = checkEmployeeName;
 	}
 
 	public String getReceiveEmployeeName() {

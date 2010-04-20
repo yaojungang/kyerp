@@ -80,7 +80,7 @@ public class OutStockService extends DaoSupport<OutStock> implements IOutStockSe
 // return "库存数量不足：" + materialName + "[" + outStockDetail.getBatchNumber() + "]只有" + stockDetail.getAmount() + "(" + stockDetail.getUnit().getName() + ")";
 // }
 					// 更新这个批次并且存放在这个库房的物料的数量
-					stockDetail.setAmount(stockDetail.getAmount().subtract(outStockDetail.getBillCount()));
+					stockDetail.setAmount(stockDetail.getAmount().subtract(outStockDetail.getOutStockCount()));
 
 					// 如果库存总数为0则删除这条库存记录，否则更新库存金额和绝对平均价格
 					if(BigDecimal.ZERO.compareTo(stockDetail.getAmount()) == 0) {
@@ -95,7 +95,7 @@ public class OutStockService extends DaoSupport<OutStock> implements IOutStockSe
 						stockDetailService.update(stockDetail);
 					}
 					// 更新库存表的总数量
-					stock.setTotalAmount(stock.getTotalAmount().subtract(outStockDetail.getBillCount()));
+					stock.setTotalAmount(stock.getTotalAmount().subtract(outStockDetail.getOutStockCount()));
 					// 如果库存总数为0则删除这条库存记录，否则更新库存金额和绝对平均价格
 					if(BigDecimal.ZERO.compareTo(stock.getTotalAmount()) == 0) {
 						stockService.delete(stock.getId());
@@ -117,6 +117,7 @@ public class OutStockService extends DaoSupport<OutStock> implements IOutStockSe
 		outStock.setCheckDate(new Date());
 		// 设置审核人
 		outStock.setCheckUser(WebUtil.getCurrentUser());
+		outStock.setCheckEmployee(WebUtil.getCurrentEmployee());
 		update(outStock);
 		return "success";
 	}
