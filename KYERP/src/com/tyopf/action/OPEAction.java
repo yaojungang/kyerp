@@ -951,7 +951,9 @@ public class OPEAction extends ActionSupport {
 		// 修改印数
 		// af.setAmount(0L);
 		// 修改YZ单号
-		if (Pattern.compile("^YZ").matcher(af.getPcAf().toUpperCase()).find()) {
+		if (null != af.getPcAf()
+				&& Pattern.compile("^YZ").matcher(af.getPcAf().toUpperCase())
+						.find()) {
 			GregorianCalendar gc = new GregorianCalendar();
 			af.setPcAf("YZ" + gc.get(Calendar.YEAR));
 		}
