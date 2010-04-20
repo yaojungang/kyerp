@@ -191,28 +191,28 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 							height : 40
 						},
 						items : [{
-									flex : 1,
+									flex : .8,
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '编制人',
 												name : "writeEmployeeName"
 											}]
 								}, {
-									flex : 1.5,
+									flex : 1.2,
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '编制时间',
 												name : "createTime"
 											}]
 								}, {
-									flex : 1,
+									flex : .8,
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '审核',
 												name : "checkEmployeeName"
 											}]
 								}, {
-									flex : .8,
+									flex : 1,
 									items : [{
 												xtype : "displayfield",
 												fieldLabel : '合计数量',
@@ -360,7 +360,7 @@ org.kyerp.warehouse.InStockInfoWindow = Ext.extend(Ext.Window, {
 				org.kyerp.warehouse.InStockInfoWindow.superclass.constructor
 						.call(this, {
 									plain : true,
-									width : 760,
+									width : 790,
 									height : 450,
 									layout : 'fit',
 									minimizable : true,
@@ -535,6 +535,7 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 								scope : this
 							}, "-", {
 								text : "删  除",
+								hidden: true,
 								iconCls : 'icon-utils-s-delete',
 								handler : function() {
 									Ext.Msg.confirm("系统提示", "你确定删除此记录吗?",
