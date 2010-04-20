@@ -433,6 +433,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 							unitName : '',
 							price : 0,
 							billCount : 1,
+							pressworkNo : '',
 							remark : ''
 						});
 				this.inserted.push(_rs);
