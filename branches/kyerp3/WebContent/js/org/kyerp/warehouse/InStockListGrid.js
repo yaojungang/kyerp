@@ -297,13 +297,14 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 			// 设置经手人
 			this.getForm().findField("keeperId").setValue(_r.keeperName);
 			this.getForm().findField("keeperId").hiddenField.value = _r.keeperId;
+			// alert(Ext.encode(_r));
 			// 为detailsGrid设置值
-			this.detailsGrid.getStore().loadData(
-					Ext.util.JSON.decode(_r.details), false);
+			// this.detailsGrid.getStore().loadData(
+			// Ext.util.JSON.decode(_r.details), false);
 		}
 	},
 	reset : function() {
-		this.detailsGrid.getStore().removeAll();
+		// this.detailsGrid.getStore().removeAll();
 		this.getForm().reset();
 	},
 	onSubmitSuccess : function(_form, _action) {
@@ -511,11 +512,13 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 		this["store"] = org.kyerp.warehouse.InStockStoe;
 		org.kyerp.warehouse.InStockListGrid.superclass.constructor.call(this, {
 					stripeRows : true,
-					plugins : this.expander,
+					// plugins : this.expander,
 					tbar : [{
 								text : "添  加",
 								iconCls : 'icon-utils-s-add',
 								handler : function() {
+									org.kyerp.warehouse.InStockDetailStore
+											.removeAll();
 									this.insertWin.show();
 								},
 								scope : this
@@ -535,7 +538,7 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 								scope : this
 							}, "-", {
 								text : "删  除",
-								hidden: true,
+								hidden : true,
 								iconCls : 'icon-utils-s-delete',
 								handler : function() {
 									Ext.Msg.confirm("系统提示", "你确定删除此记录吗?",
@@ -567,7 +570,7 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 										store : this.getStore()
 									})],
 					enableColumnMove : false,
-					colModel : new Ext.grid.ColumnModel([this.expander, {
+					colModel : new Ext.grid.ColumnModel([{
 								header : "单据编号",
 								dataIndex : "serialNumber",
 								width : 100,
@@ -596,13 +599,17 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 								align : 'right',
 								menuDisabled : true
 							}, {
-								header : "备注",
-								id : "remark",
-								dataIndex : "remark",
+								header : "操作员",
+								dataIndex : "writeEmployeeName",
 								menuDisabled : true
 							}, {
 								header : "状态",
 								dataIndex : "statusString",
+								menuDisabled : true
+							}, {
+								header : "备注",
+								id : "remark",
+								dataIndex : "remark",
 								menuDisabled : true
 							}]),
 					autoExpandColumn : 'remark',
@@ -637,6 +644,17 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 		this.updateWin.on("reloadStore", this.reloadStore, this);
 		// this.addEvents("rowselect");
 		this.on("rowselect", this.onRowSelect, this);
+		this.on("rowdblclick", this.onRrowdblclick, this);
+	},
+	onRrowdblclick : function() {
+		this.updateWin.show();
+		try {
+			this.updateWin.load(this.getSelected());
+		} catch (_err) {
+			Ext.Msg.alert("打开失败", _err);
+			this.updateWin.close();
+		}
+
 	},
 	loadStore : function() {
 	},
@@ -688,10 +706,38 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 			this.removeItem();
 	},
 	onRowSelect : function(_row, _index, _r) {
-		// alert("row select");
+		// alert(_row.data.details);
 		var data = Ext.decode(_row.data.details);
-		org.kyerp.warehouse.InStockStoeDetainStore.loadData(data, false);
-		// this.fireEvent("rowselect", _r);
+		// alert(data);
+		org.kyerp.warehouse.InStockDetailStore.loadData(data, false);
+//		var _store = org.kyerp.warehouse.materialStore;
+//		_store.load({
+//					params : {
+//						limit : 20000
+//					}
+//				});
+		// var _temp = {};
+		// var _rows = [];
+		// for (var _i = 0; _i < data.length; _i++) {
+		// var _oneData = {};
+		// _rows.push(Ext.apply(_oneData, {
+		// materialId : data[_i].materialName,
+		// id : data[_i].materialId,
+		// name : data[_i].materialName
+		// }));
+		// };
+		// Ext.apply(_temp, {
+		// rows : _rows
+		// });
+		// //var data1 = _store.recordType(rows);
+		// //_store.loadData(data1,false);
+		// _store.loadData(_temp, false);
+		// var test = [];
+		// _store.each(function(rec) {
+		// test.push(rec.data);
+		// });
+
+		// alert(Ext.encode(test));
 	},
 	reloadStore : function() {
 		this.store.reload();
