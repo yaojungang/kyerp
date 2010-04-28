@@ -1,19 +1,4 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.WarehouseStore = new Ext.data.Store({
-			autoLoad : true,
-			proxy : new Ext.data.HttpProxy({
-						url : org.kyerp.warehouse.Warehouse_ALL_LIST_URL
-					}),
-			reader : new Ext.data.JsonReader({
-						totalProperty : "totalProperty",
-						root : "rows",
-						id : "id"
-					}, ['id', 'createTime', 'updateTime', 'name',
-							'serialNumber', 'note', 'childWarehouseIds',
-							'childWarehouseNames', 'parentWarehouseId',
-							'parentWarehouseName'])
-		});
-/** ***************************************************************************** */
 org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 		Ext.grid.EditorGridPanel, {
 			inserted : [],
@@ -67,7 +52,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 							hiddenName : 'materialId',
 							typeAhead : true,
 							lazyRender : true,
-							pageSize : 20,
+							pageSize : 20000,
 							listWidth : 360,
 							valueField : 'id',
 							displayField : 'name',
@@ -90,7 +75,6 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 									// alert(Ext.util.JSON.encode(_data));
 									_rs.set('unitName', _data.unitName);
 									_rs.set('price', _data.price);
-									_rs.set('warehouseId', _data.warehouseId);
 								},
 								scope : this
 							}
@@ -113,50 +97,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 						});
 				org.kyerp.warehouse.InStockItemsEditorGridPanel.superclass.constructor
 						.call(this, {
-							store : new Ext.data.Store({
-										reader : new Ext.data.JsonReader({},
-												new Ext.data.Record.create([{
-															name : "id",
-															type : "int"
-														}, {
-															name : "billCount",
-															type : "float"
-														}, {
-															name : "billCost",
-															type : "float"
-														}, {
-															name : "materialId",
-															type : "int"
-														}, {
-															name : "materialName",
-															type : "string"
-														}, {
-															name : 'batchNumber',
-															type : 'string'
-														}, {
-															name : "warehouseId",
-															type : "int"
-														}, {
-															name : "warehouseName",
-															type : "string"
-														}, {
-															name : "unitId",
-															type : "int"
-														}, {
-															name : "unitName",
-															type : "string"
-														}, {
-															name : "price",
-															type : "float"
-														}, {
-															name : "remark",
-															type : "string"
-														}])),
-										listeners : {
-											update : this.updateBillCost,
-											scope : this
-										}
-									}),
+							store : org.kyerp.warehouse.InStockDetailStore,
 							autoScroll : true,
 							sm : new Ext.grid.RowSelectionModel({
 										singleSelect : true
@@ -190,16 +131,14 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 								width : 250,
 								dataIndex : "materialId",
 								menuDisabled : true,
-								renderer : Ext.ux.renderer
-										.Combo(this.materialCombo),
+								renderer : Ext.ux.renderer.Combo(this.materialCombo),
 								editor : this.materialCombo
 							}, {
 								header : '库房',
 								menuDisabled : true,
 								width : 80,
 								dataIndex : "warehouseId",
-								renderer : Ext.ux.renderer
-										.Combo(this.warehouseCombo),
+								renderer : Ext.ux.renderer.Combo(this.warehouseCombo),
 								editor : this.warehouseCombo
 							}, {
 								header : '单位',
@@ -244,10 +183,6 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 								editor : new Ext.form.TextArea()
 							}]
 						});
-			},
-			updateBillCost : function() {
-				var _rs = this.getSelectionModel().getSelected();
-				_rs.set('billCost', _rs.get('price') * _rs.get('billCount'));
 			},
 			onSaveButtonClick : function() {
 				var _m = this.getStore().modified;

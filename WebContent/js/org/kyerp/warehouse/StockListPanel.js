@@ -62,7 +62,7 @@ org.kyerp.warehouse.StockListPanelViewWindow = Ext.extend(Ext.Window, {
 			constructor : function(_cfg) {
 				Ext.apply(this, _cfg);
 				this.store = org.kyerp.warehouse.StockDetailStore;
-				this.grid = new Ext.grid.GridPanel({
+				this.grid = new Ext.grid.EditorGridPanel({
 							border : false,
 							region : 'center',
 							store : this.store,
@@ -103,18 +103,11 @@ org.kyerp.warehouse.StockListPanelViewWindow = Ext.extend(Ext.Window, {
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.GridPanel, {
+org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 	expander : null,
 	viewWin : null,
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this.expander = new Ext.ux.grid.RowExpander({
-					lazyRender : true,
-					tpl : new Ext.XTemplate('<p><b>明细:</b></p>',
-							'<tpl for=".">', '{materialName}=={details}',
-							'<tpl for="details">', '{materialName}', '</tpl>',
-							'</tpl>')
-				});
 		this["store"] = org.kyerp.warehouse.StockStore;
 		this.viewWin = new org.kyerp.warehouse.StockListPanelViewWindow();
 		org.kyerp.warehouse.StockListGrid.superclass.constructor.call(this, {
@@ -162,7 +155,7 @@ org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.GridPanel, {
 							})],
 			enableColumnMove : false,
 			plugins : this.expander,
-			colModel : new Ext.grid.ColumnModel([this.expander,
+			colModel : new Ext.grid.ColumnModel([
 					new Ext.grid.RowNumberer(), {
 						header : "物料名称",
 						dataIndex : "materialName",
@@ -188,7 +181,12 @@ org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.GridPanel, {
 						dataIndex : "cost",
 						width : 80,
 						menuDisabled : true
-					}]),
+					}, {
+					header : '备注',
+					dataIndex : 'remark',
+					width : 200,
+					editor: new Ext.form.TextArea()
+				}]),
 			selModel : new Ext.grid.RowSelectionModel({
 						singleSelect : true,
 						listeners : {
@@ -217,7 +215,19 @@ org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.GridPanel, {
 		});
 		// this.addEvents("rowselect");
 		this.on("rowselect", this.onRowSelect, this);
-		
+		this.on("afteredit",function(e){
+					Ext.Ajax.request({
+								url : org.kyerp.warehouse.Stock_SAVE_URL,
+								params : {
+									id : e.record.data.id,
+									remark : e.record.data.remark
+								},
+								method : 'POST',
+								success : function() {
+									e.record.commit(false);
+								}
+							});
+				});
 	},
 	getSelected : function(_grid) {
 		var _sm = this.getSelectionModel();
@@ -263,7 +273,7 @@ org.kyerp.warehouse.StockDetailGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 				}];
 		org.kyerp.warehouse.StockDetailGrid.superclass.initComponent.call(this);
 		this.on("afteredit",function(e){
-					//alert(Ext.encode(e.record.data));
+					// alert(Ext.encode(e.record.data));
 					Ext.Ajax.request({
 								url : org.kyerp.warehouse.StockDetail_SAVE_URL,
 								params : {
