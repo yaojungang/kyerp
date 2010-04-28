@@ -24,7 +24,7 @@
 酷印通印刷企业管理系统 <br />
 <span id="loading-msg">加载样式和图片...</span></div>
 </div>
-<script type="text/javascript">document.getElementById('loading-msg').innerHTML = '加载Extjs库 ...';</script>
+<script type="text/javascript">document.getElementById('loading-msg').innerHTML = '加载js库 ...';</script>
 <script type="text/javascript" src="js/ext/adapter/ext/ext-base.js"></script>
 <script type="text/javascript" src="js/ext/ext-all-debug.js"></script>
 <script type="text/javascript" src="js/ext/ext-lang-zh_CN.js"></script>
