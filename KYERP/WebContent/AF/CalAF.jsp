@@ -88,7 +88,7 @@
 	<tr>
 		<td width="12%" align="center" bgcolor="#FFFFFF"><span
 			class="item">委印单位</span></td>
-		<td colspan="7" bgcolor="#FFFFFF"><span class="text"> <s:property
+		<td colspan="6" bgcolor="#FFFFFF"><span class="text"> <s:property
 			value="#af.client" /> </span></td>
 		<td width="10%" align="center" bgcolor="#FFFFFF"><span
 			class="item">印单号</span></td>
@@ -98,8 +98,10 @@
 	<tr>
 		<td width="12%" align="center" bgcolor="#FFFFFF"><span
 			class="item">印品名称</span></td>
-		<td colspan="7" bgcolor="#FFFFFF"><span class="text"> <s:property
+		<td colspan="4" bgcolor="#FFFFFF"><span class="text"> <s:property
 			value="#af.presswork" /> </span></td>
+		<td bgcolor="#FFFFFF" align="center"><span class="item">印数</span></td>
+		<td bgcolor="#FFFFFF"><span class="text"> <s:property value="#af.amount" /></span></td>
 		<td width="10%" align="center" bgcolor="#FFFFFF"><span
 			class="item">经手人</span></td>
 		<td bgcolor="#FFFFFF"><span class="text"> <s:property
@@ -117,8 +119,6 @@
 		<td width="8%" align="center" bgcolor="#FFFFFF"><span
 			class="item">版次</span></td>
 		<td width="8%" align="center" bgcolor="#FFFFFF"><span
-			class="text"> <s:property value="#af.edition" /> </span></td>
-		<td width="8%" align="center" bgcolor="#FFFFFF"><span
 			class="item">订法</span></td>
 		<td width="8%" align="center" bgcolor="#FFFFFF"><span
 			class="text"> <s:property value="#af.bm" /> </span></td>
@@ -126,18 +126,17 @@
 		<td bgcolor="#FFFFFF" class="text"><s:property value="#af.tel" /></td>
 	</tr>
 	<tr>
-		<td colspan="10" align="center" bgcolor="#f0f0f0"><span
+		<td colspan="9" align="center" bgcolor="#f0f0f0"><span
 			class="bigitem">主要元件</span></td>
 	</tr>
 	<tr>
-		<td colspan="10" align="center" bgcolor="#FFFFFF">
+		<td colspan="9" align="center" bgcolor="#FFFFFF">
 		<table width="100%" border="1" cellpadding="3" cellspacing="0"
 			bordercolor="#000000" style="border-collapse: collapse">
 			<tr>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">类型</span></td>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">机型</span></td>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">印张</span></td>
-				<td align="center" bgcolor="#FFFFFF"><span class="item">印数</span></td>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">开本</span></td>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">墨色</span></td>
 				<td align="center" bgcolor="#FFFFFF"><span class="item">印版</span></td>
@@ -155,8 +154,6 @@
 					<td align="center" bgcolor="#FFFFFF" class="text"><s:property
 						value="EPs" /></td>
 					<td align="center" bgcolor="#FFFFFF" class="text"><s:property
-						value="EAmount" /></td>
-					<td align="center" bgcolor="#FFFFFF" class="text"><s:property
 						value="EFormat" /></td>
 					<td align="center" bgcolor="#FFFFFF" class="text"><s:property
 						value="EColorFrontN" />+<s:property value="EColorBackN" /></td>
@@ -173,7 +170,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td colspan="10" align="center" bgcolor="#f0f0f0"><span
+		<td colspan="9" align="center" bgcolor="#f0f0f0"><span
 			class="bigitem">其它项目</span></td>
 	</tr>
 	<tr>
@@ -181,7 +178,6 @@
 			class="item">工艺类型</span></td>
 		<td colspan="3" align="center" bgcolor="#FFFFFF"><span
 			class="item">工艺名称</span></td>
-		<td align="center" bgcolor="#FFFFFF"><span class="item">数量</span></td>
 		<td colspan="3" align="center" bgcolor="#FFFFFF"><span
 			class="item">工厂</span></td>
 		<td align="center" bgcolor="#FFFFFF"><span class="item">备注</span></td>
@@ -192,8 +188,6 @@
 				class="text"> <s:property value="afEType" /> </span></td>
 			<td colspan="3" align="center" bgcolor="#FFFFFF"><span
 				class="text"> <s:property value="afDItem" /> </span></td>
-			<td align="center" bgcolor="#FFFFFF"><span class="text">
-			<s:property value="afDAmount" /> </span></td>
 			<td colspan="3" align="center" bgcolor="#FFFFFF"><span
 				class="text"> <s:property value="afDFactory" /> </span></td>
 			<td align="center" bgcolor="#FFFFFF"><span class="text">
@@ -201,11 +195,11 @@
 		</tr>
 	</s:iterator>
 	<tr>
-		<td colspan="10" align="center" bgcolor="#f0f0f0"><span
+		<td colspan="9" align="center" bgcolor="#f0f0f0"><span
 			class="bigitem">计价明细</span></td>
 	</tr>
 	<tr>
-		<td colspan="10" align="center" bgcolor="#FFFFFF">
+		<td colspan="9" align="center" bgcolor="#FFFFFF">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
 				<td width="70%" valign="top">
@@ -410,7 +404,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td colspan="10" align="center" bgcolor="#f0f0f0"><span
+		<td colspan="9" align="center" bgcolor="#f0f0f0"><span
 			class="bigitem">统 计</span></td>
 	</tr>
 	<tr>
@@ -419,7 +413,7 @@
 			value="#af.cp" /> </span></td>
 		<td colspan="2" align="center" bgcolor="#FFFFFF"><span
 			class="item">应收金额(大写)</span></td>
-		<td colspan="4" align="left" bgcolor="#FFFFFF"><s:if
+		<td colspan="3" align="left" bgcolor="#FFFFFF"><s:if
 			test="#af.moneyShould > 0">
 			<span class="text"><script type="text/javascript">
 var ysBig = cmycurd(<s:property value="#af.moneyShould" />);
@@ -435,7 +429,7 @@ document.write(ysBig);</script></span>
 			value="#af.moneyGiveMan" /> </span></td>
 		<td colspan="2" align="center" bgcolor="#FFFFFF"><span
 			class="item">实收金额(大写)</span></td>
-		<td colspan="4" align="left" bgcolor="#FFFFFF"><s:if
+		<td colspan="3" align="left" bgcolor="#FFFFFF"><s:if
 			test="#af.moneyFact > 0">
 			<span class="text"><script type="text/javascript">
 var ssBig = cmycurd(<s:property value="#af.moneyFact" />);
@@ -446,11 +440,11 @@ document.write(ssBig);</script></span>
 			value="#af.moneyFact" /> </span></td>
 	</tr>
 	<tr>
-		<td colspan="10" align="center" bgcolor="#F0F0F0"><span
+		<td colspan="9" align="center" bgcolor="#F0F0F0"><span
 			class="bigitem">备注</span></td>
 	</tr>
 	<tr>
-		<td colspan="10" align="left" bgcolor="#FFFFFF">
+		<td colspan="9" align="left" bgcolor="#FFFFFF">
 		<div style="min-height: 60px"><span class="item">计价备注:</span><span
 			class="text"><s:property value="#af.moneyInputRemark" /></span><br>
 		<span class="item">收款备注:</span><span class="text"><s:property
@@ -460,7 +454,7 @@ document.write(ssBig);</script></span>
 </table>
 <table width="98%" border="0" align="center" cellpadding="8"
 	cellspacing="0">
-	<tr>
+<tr>
 		<td><span class="bottomtext">计价员: <s:property
 			value="#af.moneyInputMan" /></span></td>
 		<td><span class="bottomtext">计价时间: <s:date
