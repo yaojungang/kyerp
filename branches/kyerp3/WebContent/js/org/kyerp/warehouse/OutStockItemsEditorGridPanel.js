@@ -1,53 +1,4 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.StockStore = new Ext.data.Store({
-			autoLoad : {
-				baseParams : {
-					limit : 20
-				}
-			},
-			url : org.kyerp.warehouse.StockListPanel_STORE_URL,
-			reader : new Ext.data.JsonReader({
-						totalProperty : "totalProperty",
-						root : "rows",
-						idProperty : "id"
-					}, new Ext.data.Record.create([{
-								name : "id",
-								type : "int"
-							}, {
-								name : "serialNumber",
-								type : "string"
-							}, {
-								name : "createTime",
-								type : "date",
-								dateFormat : "Y-m-d H:i:s"
-							}, {
-								name : "updateTime",
-								type : "date",
-								dateFormat : "Y-m-d H:i:s"
-							}, {
-								name : "totalAmount"
-							}, {
-								name : "materialId",
-								type : "int"
-							}, {
-								name : "materialName",
-								type : "string"
-							}, {
-								name : 'unitId',
-								type : 'int'
-							}, {
-								name : 'unitName',
-								type : 'string'
-							}, {
-								name : 'price',
-								type : 'string'
-							}, {
-								name : 'cost'
-							}, {
-								name : "details"
-							}]))
-		});
-/** ***************************************************************************** */
 org.kyerp.warehouse.StockDetailStore = new Ext.data.Store({
 			reader : new Ext.data.JsonReader({}, new Ext.data.Record.create([{
 								name : "id",
@@ -129,16 +80,18 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 								var _rs = new Ext.data.Record({
 											id : '',
 											materialId : '',
-											warehouseId : 2,
+											materialName : '请输入物料名称',
+											warehouseId : 4,
 											batchNumber : '',
 											unitId : '',
 											unitName : '',
 											price : 0,
-											billCount : 1,
-											pressworkNo : '',
+											billCount : '',
+											pressworkNo : 'SK2010',
 											remark : ''
 										});
 								_rs.set("materialId", rec.data.id);
+								_rs.set("materialName", rec.data.name);
 								_rs.set("unitName", rec.data.unitName);
 								_rs.set("price", rec.data.price);
 
@@ -193,6 +146,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 									_rs.set('unitName', _data.unitName);
 									_rs.set('price', _data.price);
 									_rs.set('warehouseId', _data.warehouseId);
+									_rs.set('materialName', _data.materialName);
 									// alert(_data.details);
 									org.kyerp.warehouse.StockDetailStore
 											.loadData(Ext.util.JSON.decode(
@@ -230,7 +184,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 									_rs.set('unitName', _data.unitName);
 									_rs.set('price', _data.price);
 									_rs.set('warehouseId', _data.warehouseId);
-									_rs.set('billCount', _data.amount);
+									//_rs.set('billCount', _data.amount);
 								},
 								scope : this
 							}
@@ -331,18 +285,24 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 								header : '品名型号',
 								width : 250,
 								dataIndex : "materialId",
-								renderer : Ext.ux.renderer
-										.Combo(this.materialCombo),
+								//renderer : Ext.ux.renderer.Combo(this.materialCombo),
+								renderer : function(value, metadate,
+												record, colIndex, rowIndex) {
+											// 要显示的数据
+											var result = record.get("materialName");
+											//alert(Ext.encode(record.data));
+											return result;
+										},
 								editor : this.materialCombo
 							}, {
+								header : '生产任务单号',
+								dataIndex : "pressworkNo",
+								editor : new Ext.form.TextField()
+							}, {
 								header : "批次号",
-								width : 100,
+								width : 90,
 								dataIndex : 'batchNumber',
 								editor : this.stockDetailCombo
-							}, {
-								header : '单位',
-								width : 40,
-								dataIndex : "unitName"
 							}, {
 								header : "数量",
 								width : 70,
@@ -352,25 +312,26 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 											allowBlank : false
 										})
 							}, {
+								header : '单位',
+								width : 40,
+								dataIndex : "unitName"
+							}, {
 								header : "单价",
-								width : 70,
+								width : 50,
 								dataIndex : "price",
 								editor : new Ext.form.NumberField({
 											allowBlank : false,
 											minValue : 0
 										})
 							}, {
-								header : "金额",
-								width : 80,
-								dataIndex : "billCost"
-							}, {
 								header : '库房',
 								width : 150,
 								dataIndex : "warehouseId",
 								renderer : Ext.ux.renderer
 										.Combo(this.warehouseCombo),
-								editor : new Ext.ux.form.TreeComboBox({
-									fieldLabel : "默认仓库",
+								editor :this.warehouseCombo,
+								editor0 : new Ext.ux.form.TreeComboBox({
+									fieldLabel : "仓库",
 									name : 'warehouseId',
 									hiddenName : 'warehouseId',
 									xtype : 'treecombobox',
@@ -385,12 +346,10 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 									rootId : '0',
 									forceSelection : true,
 									rootVisible : false
-								})
-
-							}, {
-								header : '生产任务单号',
-								dataIndex : "pressworkNo",
-								editor : new Ext.form.TextField()
+								})}, {
+								header : "金额",
+								width : 80,
+								dataIndex : "billCost"
 							}, {
 								header : '备注',
 								dataIndex : "remark",
@@ -427,12 +386,13 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 				var _rs = new Ext.data.Record({
 							id : '',
 							materialId : '',
+							materialName : '请选择物料',
 							batchNumber : '',
-							warehouseId : 2,
+							warehouseId : '',
 							unitId : '',
 							unitName : '',
 							price : 0,
-							billCount : 1,
+							billCount : '',
 							pressworkNo : '',
 							remark : ''
 						});

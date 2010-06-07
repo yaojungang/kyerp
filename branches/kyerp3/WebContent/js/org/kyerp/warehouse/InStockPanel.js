@@ -43,7 +43,7 @@ org.kyerp.warehouse.materialStore = new Ext.data.Store({
 								type : 'string'
 							}, {
 								name : 'price',
-								type : 'string'
+								type : 'float'
 							}, {
 								name : 'supplierId',
 								type : 'int'
@@ -108,13 +108,11 @@ org.kyerp.warehouse.InStockStoe = new Ext.data.Store({
 								type : "date",
 								dateFormat : "Y-m-d"
 							}, {
-								name : "billCount"
+								name : "billCount",
+								type : 'float'
 							}, {
 								name : "billCost",
-								type : "float",
-								convert : function(value) {
-									return "￥" + Number(value).toFixed(2) + "元"
-								}
+								type : "float"
 							}, {
 								name : "checkUserId",
 								type : "int"
@@ -301,13 +299,6 @@ Ext.extend(org.kyerp.module, {
 						'SelectSupplierWindow.js;SelectMaterialWindow.js;InStockListGrid.js;'
 								+ 'InStockItemsEditorGridPanel.js', {
 							basedir : 'js/org/kyerp/warehouse'
-						});
-				// require('js/org/kyerp/warehouse/SelectSupplierWindow.js');
-				var _store = org.kyerp.warehouse.materialStore;
-				_store.load({
-							params : {
-								limit : 20000
-							}
 						});
 				this.body = new org.kyerp.warehouse.InStockPanel({
 							border : false,

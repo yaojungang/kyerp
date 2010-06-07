@@ -20,7 +20,8 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 								var _rs = new Ext.data.Record({
 											id : '',
 											materialId : '',
-											warehouseId : 2,
+											materialName : '请选择物料',
+											warehouseId : 4,
 											batchNumber : '',
 											unitId : '',
 											unitName : '',
@@ -29,6 +30,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 											remark : ''
 										});
 								_rs.set("materialId", rec.data.id);
+								_rs.set("materialName", rec.data.name);
 								_rs.set("unitName", rec.data.unitName);
 								_rs.set("price", rec.data.price);
 
@@ -66,6 +68,34 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 							minChars : 2,
 							queryDelay : 300,
 							queryParam : 'query',
+							listeners : {
+								select : function(comboBox) {
+									var value = comboBox.getValue();
+									var _rs = this.getSelectionModel()
+											.getSelected();
+									_data = comboBox.store.getById(value).data;
+									// alert(Ext.util.JSON.encode(_data));
+									_rs.set('materialName', _data.name);
+									_rs.set('unitName', _data.unitName);
+									_rs.set('price', _data.price);
+								},
+								scope : this
+							}
+						});
+				this.materialCombo1 = new Ext.form.ComboBox({
+							hiddenName : 'materialId',
+							typeAhead : true,
+							lazyRender : true,
+							pageSize : 20000,
+							listWidth : 360,
+							valueField : 'id',
+							displayField : 'name',
+							mode : 'local',
+							selectOnFocus : true,
+							allowBlank : false,
+							emptyText : '请选择',
+							// triggerAction : 'all',
+							store : org.kyerp.warehouse.materialStore,
 							listeners : {
 								select : function(comboBox) {
 									var value = comboBox.getValue();
@@ -131,23 +161,25 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 								width : 250,
 								dataIndex : "materialId",
 								menuDisabled : true,
-								renderer : Ext.ux.renderer.Combo(this.materialCombo),
+								// renderer :
+								// Ext.ux.renderer.Combo(this.materialCombo),
+								renderer : function(value, metadate, record,
+										colIndex, rowIndex) {
+									// 要显示的数据
+									var result = record.get("materialName");
+									// alert(Ext.encode(record.data));
+									return result;
+								},
 								editor : this.materialCombo
 							}, {
-								header : '库房',
+								header : "批次号",
+								width : 90,
+								dataIndex : 'batchNumber',
 								menuDisabled : true,
-								width : 80,
-								dataIndex : "warehouseId",
-								renderer : Ext.ux.renderer.Combo(this.warehouseCombo),
-								editor : this.warehouseCombo
-							}, {
-								header : '单位',
-								menuDisabled : true,
-								width : 40,
-								dataIndex : "unitName"
+								editor : new Ext.form.TextField()
 							}, {
 								header : "数量",
-								width : 70,
+								width : 60,
 								dataIndex : "billCount",
 								menuDisabled : true,
 								align : 'right',
@@ -156,8 +188,13 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 											allowBlank : false
 										})
 							}, {
+								header : '单位',
+								menuDisabled : true,
+								width : 40,
+								dataIndex : "unitName"
+							}, {
 								header : "单价",
-								width : 70,
+								width : 50,
 								dataIndex : "price",
 								menuDisabled : true,
 								editor : new Ext.form.NumberField({
@@ -165,17 +202,36 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 											minValue : 0
 										})
 							}, {
+								header : '仓库',
+								menuDisabled : true,
+								width : 150,
+								dataIndex : "warehouseId",
+								renderer : Ext.ux.renderer
+										.Combo(this.warehouseCombo),
+								editor : this.warehouseCombo
+//								editor : new Ext.ux.form.TreeComboBox({
+//									fieldLabel : "仓库",
+//									name : 'warehouseId',
+//									hiddenName : 'warehouseId',
+//									xtype : 'treecombobox',
+//									editable : false,
+//									mode : 'local',
+//									displayField : 'name',
+//									valueField : 'id',
+//									triggerAction : 'all',
+//									allowBlank : false,
+//									treeUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL,
+//									rootText : 'root',
+//									rootId : '0',
+//									forceSelection : true,
+//									rootVisible : false
+//								})
+							}, {
 								header : "金额",
 								width : 80,
 								dataIndex : "billCost",
 								menuDisabled : true,
 								align : 'right'
-							}, {
-								header : "批次号",
-								width : 100,
-								dataIndex : 'batchNumber',
-								menuDisabled : true,
-								editor : new Ext.form.TextField()
 							}, {
 								header : '备注',
 								dataIndex : "remark",
@@ -209,6 +265,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 				var _rs = new Ext.data.Record({
 							id : '',
 							materialId : '',
+							materialName : '请选择物料',
 							batchNumber : '',
 							warehouseId : 2,
 							unitId : '',
