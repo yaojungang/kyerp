@@ -996,7 +996,7 @@ public class OPEAction extends ActionSupport {
 		}
 		if (af != null) {
 			// 设置送样书时间和送货时间
-			// af.setPlanSendSample(new Date());
+			af.setPlanSendSample(null);
 			af.setPlanDeliver(new Date());
 			// 设置接洽人
 			Map session = ActionContext.getContext().getSession();
