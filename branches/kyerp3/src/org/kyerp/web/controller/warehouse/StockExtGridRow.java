@@ -27,8 +27,18 @@ public class StockExtGridRow{
 	private BigDecimal	cost;
 	/** 明细表 */
 	private String		details;
+	/** 备注 */
+	private String		remark;
 
 	public StockExtGridRow() {
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Long getId() {

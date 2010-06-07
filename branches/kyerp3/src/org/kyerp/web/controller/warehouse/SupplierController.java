@@ -13,6 +13,7 @@ import org.kyerp.domain.warehouse.Supplier;
 import org.kyerp.domain.warehouse.SupplierType;
 import org.kyerp.service.warehouse.ISupplierService;
 import org.kyerp.service.warehouse.ISupplierTypeService;
+import org.kyerp.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class SupplierController{
+public class SupplierController extends BaseController{
 	@Autowired
 	ISupplierService		supplierService;
 	@Autowired
@@ -58,7 +59,7 @@ public class SupplierController{
 			wherejpql.append(" or o.serialNumber like ?").append(queryParams.size() + 1).append(")");
 			queryParams.add("%" + query.trim() + "%");
 		}
-		System.out.print(wherejpql.toString() + "  -  " + queryParams.toArray());
+		// logger.info(wherejpql.toString() + "  -  " + queryParams.toArray());
 		QueryResult<Supplier> queryResult = supplierService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
 
 		List<SupplierExtGridRow> rows = new ArrayList<SupplierExtGridRow>();

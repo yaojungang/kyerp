@@ -23,4 +23,16 @@ public interface IOutStockService extends DAO<OutStock>{
 	 */
 	String checkOutStock(OutStock outStock) throws Exception;
 
+	/**
+	 * 冲销出库单生成冲销入库单
+	 * 
+	 * @return String
+	 * @throws Exception
+	 */
+	String congXiao(Long outStockId) throws Exception;
+
+	/**
+	 * 下一个单号
+	 * */
+	String nextSerialNumber() throws Exception;
 }

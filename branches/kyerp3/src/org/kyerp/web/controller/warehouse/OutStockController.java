@@ -24,13 +24,13 @@ import org.kyerp.service.warehouse.IOutStockDetailService;
 import org.kyerp.service.warehouse.IOutStockService;
 import org.kyerp.service.warehouse.ISupplierService;
 import org.kyerp.service.warehouse.IWarehouseService;
-import org.kyerp.utils.WebUtil;
 import org.kyerp.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -86,7 +86,7 @@ public class OutStockController extends BaseController{
 			wherejpql.append(" or o.remark like ?").append(queryParams.size() + 1).append(")");
 			queryParams.add("%" + query.trim() + "%");
 		}
-		System.out.println("jpql:" + wherejpql);
+		// System.out.println("jpql:" + wherejpql);
 		QueryResult<OutStock> queryResult = outStockService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
 
 		List<OutStockExtGridRow> rows = new ArrayList<OutStockExtGridRow>();
@@ -167,7 +167,8 @@ public class OutStockController extends BaseController{
 			/**
 			 * 能否编辑 只有本人可以编辑
 			 * */
-			if("0".equals(WebUtil.getCurrentUser().getId()) || (BillStatus.WRITING.equals(o.getStatus()) && o.getWriteUser().getId().toString().equals(WebUtil.getCurrentUser().getId().toString()))) {
+			// if("admin".equals(WebUtil.getCurrentUser().getUsername()) || "y109".equals(WebUtil.getCurrentUser().getUsername()) || (BillStatus.WRITING.equals(o.getStatus()) && o.getWriteUser().getId().toString().equals(WebUtil.getCurrentUser().getId().toString()))) {
+			if(BillStatus.WRITING.equals(o.getStatus())) {
 				n.setEditAble("true");
 			} else {
 				n.setEditAble("false");
@@ -287,20 +288,23 @@ public class OutStockController extends BaseController{
 			outStockService.saveOutStock(outStock);
 		}
 		// 保存物料批次信息
+		StringBuffer workNos = new StringBuffer();
 		if(null != row.getDetails() && row.getDetails().length() > 0) {
 			List<OutStockDetail> pods = new ArrayList<OutStockDetail>();
 			JSONArray jsonArray = new JSONArray();
 			JSONObject jsonObject = new JSONObject();
 			jsonArray = JSONArray.fromObject(row.getDetails());
 			for (int i = 0; i < jsonArray.size(); i++) {
-				OutStockDetail detail = new OutStockDetail();
+				OutStockDetail detail = null;
 				jsonObject = jsonArray.getJSONObject(i);
 				String idString = jsonObject.getString("id");
-				if(null != idString && idString.length() > 0) {
+				if(StringUtils.hasText(idString)) {
 					detail = outStockDetailService.find(new Long(idString));
+				} else {
+					detail = new OutStockDetail();
 				}
 				// 物料
-				logger.info("save material id:" + jsonObject.getLong("materialId"));
+				// logger.info("save material id:" + jsonObject.getLong("materialId"));
 				detail.setMaterial(materialService.find(jsonObject.getLong("materialId")));
 				// 批次号
 				detail.setBatchNumber(jsonObject.getString("batchNumber"));
@@ -315,6 +319,7 @@ public class OutStockController extends BaseController{
 				/** 生产任务单号 */
 				if(null != jsonObject.getString("pressworkNo")) {
 					detail.setPressworkNo(jsonObject.getString("pressworkNo").toUpperCase());
+					workNos.append(jsonObject.getString("pressworkNo").toUpperCase()).append(";");
 				}
 				// 备注
 				if(null != jsonObject.getString("remark")) {
@@ -322,7 +327,7 @@ public class OutStockController extends BaseController{
 				}
 				detail.setOutStock(outStock);
 
-				if(null != idString && idString.length() > 0) {
+				if(StringUtils.hasText(idString)) {
 					outStockDetailService.update(detail);
 				} else {
 					outStockDetailService.save(detail);
@@ -330,6 +335,11 @@ public class OutStockController extends BaseController{
 				pods.add(detail);
 			}
 			outStock.setDetails(pods);
+		}
+		if(0 == outStock.getVersion()) {
+			if(StringUtils.hasText(workNos.toString())) {
+				outStock.setRemark((StringUtils.hasText(outStock.getRemark()) ? (outStock.getRemark() + ";") : "") + "任务单:" + workNos.toString());
+			}
 		}
 		outStockService.update(outStock);
 		long id = outStock.getId() > 0 ? outStock.getId() : outStockService.findLast().getId();
@@ -401,4 +411,48 @@ public class OutStockController extends BaseController{
 		return "jsonView";
 	}
 
+	/**
+	 * 冲销单据
+	 */
+	@RequestMapping("/warehouse/OutStock/jsonCongXiao.html")
+	public String congXiao(ModelMap model, Long id) throws Exception {
+		String result = outStockService.congXiao(id);
+		if(result.equals("success")) {
+			model.addAttribute("success", true);
+		} else {
+			model.addAttribute("failure", true);
+			model.addAttribute("msg", result);
+		}
+		return "jsonView";
+	}
+
+	/**
+	 * 重设出库单的单号
+	 * 
+	 * @throws Exception
+	 */
+	@Secured( { "ROLE_ADMIN" })
+	@RequestMapping("/warehouse/OutStock/resetSerialNumber.html")
+	public String resetSerialNumber(ModelMap model) throws Exception {
+		try {
+			LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+			orderby.put("serialNumber", "desc");
+			List<OutStock> list = outStockService.getScrollData(null, null, orderby).getResultlist();
+			for (OutStock outStock : list) {
+				outStock.setSerialNumber(null);
+				outStockService.save(outStock);
+			}
+			for (OutStock outStock : list) {
+				outStock.setSerialNumber(outStockService.nextSerialNumber());
+				outStockService.save(outStock);
+			}
+			model.addAttribute("msg", "重设出库单的单号成功!");
+			model.addAttribute("success", true);
+		} catch (Exception e) {
+			model.addAttribute("msg", "重设出库单的单号失败!");
+			model.addAttribute("success", false);
+		}
+
+		return "jsonView";
+	}
 }
