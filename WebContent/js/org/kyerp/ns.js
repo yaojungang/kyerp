@@ -61,6 +61,7 @@ org.kyerp.warehouse.PaperOfMaterialPanel_SAVE_URL = "warehouse/PaperOfMaterial/j
 org.kyerp.warehouse.PaperOfMaterialPanel_DELETE_URL = "warehouse/PaperOfMaterial/jsonDelete.html";
 /** ***************************************************************************** */
 org.kyerp.warehouse.MaterialPanel_STORE_URL = "warehouse/Material/jsonList.html";
+org.kyerp.warehouse.Material_STORE_ALL_URL = "warehouse/Material/jsonListAll.html";
 /** ***************************************************************************** */
 org.kyerp.warehouse.Supplier_TREE_URL = "warehouse/Supplier/jsonTree.html";
 org.kyerp.warehouse.SupplierPanel_STORE_URL = "warehouse/Supplier/jsonList.html";
@@ -93,6 +94,9 @@ org.kyerp.warehouse.PurchaseOrder_CheckBill_URL = "warehouse/PurchaseOrder/jsonC
 /** ***************************************************************************** */
 org.kyerp.warehouse.Stock_EXCEL_URL = "warehouse/Stock/excel.html";
 org.kyerp.warehouse.StockListPanel_STORE_URL = "warehouse/Stock/jsonList.html";
+org.kyerp.warehouse.Stock_SAVE_URL = "warehouse/Stock/jsonSave.html";
+/** ***************************************************************************** */
+org.kyerp.warehouse.InventoryDetail_STORE_URL = "warehouse/InventoryDetail/jsonList.html";
 /** ***************************************************************************** */
 org.kyerp.warehouse.StockDetail_URL = "warehouse/StockDetail/jsonList.html";
 org.kyerp.warehouse.StockDetail_SAVE_URL = "warehouse/StockDetail/jsonSave.html";
@@ -114,6 +118,7 @@ org.kyerp.warehouse.OutStockDetail_DELETE_URL = "warehouse/OutStockDetail/jsonDe
 org.kyerp.warehouse.OutStock_PostForCheck_URL = "warehouse/OutStock/jsonPostForCheck.html";
 org.kyerp.warehouse.OutStock_ReturnForEdit_URL = "warehouse/OutStock/jsonReturnForEdit.html";
 org.kyerp.warehouse.OutStock_CheckBill_URL = "warehouse/OutStock/jsonCheckBill.html";
+org.kyerp.warehouse.OutStock_CongXiao_URL = "warehouse/OutStock/jsonCongXiao.html";
 /** ***************************************************************************** */
 
 /** ***************************************************************************** */

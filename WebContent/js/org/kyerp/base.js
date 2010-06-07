@@ -15,7 +15,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 		this.tree = new Ext.tree.TreePanel({
 					region : 'west',
 					title : '功能导航',
-					width : 150,
+					width : 126,
 					minSize : 100,
 					maxSize : 300,
 					split : true,
@@ -62,10 +62,10 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 			title : '首页',
 			iconCls : 'icon-root-s',
 			items : [{
-				columnWidth : .5,
+				columnWidth : .58,
 				style : 'padding:10px 0 10px 10px',
 				defaults : {
-					bodyStyle : 'padding:10px',
+					bodyStyle : 'padding:0px',
 					tools : [{
 								id : 'close',
 								handler : function(e, target, panel) {
@@ -76,7 +76,8 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 				items : [{
 					title : '清华大学焦点新闻',
 					height : 220,
-					html : '<iframe src="http://news.tsinghua.edu.cn/new/headnews.php" frameborder="0" width="100%" height="100%"></iframe>'
+					bodyStyle : 'padding:0px',
+					html : '<iframe src="http://news.tsinghua.edu.cn/new/headnews.php" style="padding:0px;" frameborder="0" width="100%" height="100%"></iframe>'
 				}, {
 					title : '清华大学办公通知',
 					height : 200,
@@ -88,10 +89,10 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 					html : '<iframe src="http://oars.tsinghua.edu.cn/comm/news.nsf/portalpost?openview&count=10" frameborder="0" width="100%" height="100%"></iframe>'
 				}]
 			}, {
-				columnWidth : .5,
+				columnWidth : .42,
 				style : 'padding:10px 10px 10px 10px',
 				defaults : {
-					bodyStyle : 'padding:10px',
+					bodyStyle : 'padding:4px',
 					tools : [{
 								id : 'close',
 								handler : function(e, target, panel) {
@@ -160,8 +161,6 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 					}]
 				}
 			}, '->', '欢迎使用！', {
-				text : '修改密码'
-			}, {
 				text : '退出',
 				handler : this.logout
 			}]
@@ -268,51 +267,100 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 Ext.BLANK_IMAGE_URL = 'images/s.gif';
 Ext.form.Field.prototype.msgTarget = 'side';
 Ext.onReady(function() {
-	Ext.QuickTips.init();
-	Ext.lib.Ajax.defaultPostHeader += ";charset=utf-8";
-	Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+			Ext.QuickTips.init();
+			Ext.lib.Ajax.defaultPostHeader += ";charset=utf-8";
+			Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 
-	setTimeout(function() {
-				Ext.get('loading').remove();
-				kyerpApp = new org.kyerp.base();
-			}, 250);
-	// 超时重新登录
-	// Ext.override(Ext.data.Connection, {
-	// handleResponse : Ext.data.Connection.prototype.handleResponse
-	// .createInterceptor(function(response) {
-	// if (response.getResponseHeader("LOGINED") != "YES") {
-	// Ext.Msg.alert('提示', '会话超时，请重新登录!', function(
-	// btn, text) {
-	// if (btn == 'ok') {
-	// location.reload();
-	// }
-	// });
-	// };
-	// if (response.status > 200) {
-	// alert(response.status);
-	// }
-	// })
-	// });
-	//超时重新登录
-	Ext.override(Ext.data.Connection, {
-		handleResponse : Ext.data.Connection.prototype.handleResponse
-				.createInterceptor(function(response) {
-//							if (response.getResponseHeader("LOGINED") == "YES") {
-//								Ext.Msg.alert('提示', '会话超时，请重新登录!', function(
-//												btn, text) {
-//											if (btn == 'ok') {
-//												location.reload();
-//											}
-//										});
-//							};
-					try {
-					//var responseBody = Ext.decode(response.responseText);
-					//alert(response.status);
-					}catch(e){
-						alert(e);
-					}
-		})
-	});
-	
+			setTimeout(function() {
+						Ext.get('loading').remove();
+						kyerpApp = new org.kyerp.base();
+					}, 250);
+			// 超时重新登录
+			// Ext.override(Ext.data.Connection, {
+			// handleResponse : Ext.data.Connection.prototype.handleResponse
+			// .createInterceptor(function(response) {
+			// if (response.getResponseHeader("LOGINED") != "YES") {
+			// Ext.Msg.alert('提示', '会话超时，请重新登录!', function(
+			// btn, text) {
+			// if (btn == 'ok') {
+			// location.reload();
+			// }
+			// });
+			// };
+			// if (response.status > 200) {
+			// alert(response.status);
+			// }
+			// })
+			// });
+			// 超时重新登录
+			Ext.override(Ext.data.Connection, {
+						handleResponse : Ext.data.Connection.prototype.handleResponse
+								.createInterceptor(function(response) {
+											// if
+											// (response.getResponseHeader("LOGINED")
+											// == "YES") {
+											// Ext.Msg.alert('提示',
+											// '会话超时，请重新登录!', function(
+											// btn, text) {
+											// if (btn == 'ok') {
+											// location.reload();
+											// }
+											// });
+											// };
+											try {
+												// var responseBody =
+												// Ext.decode(response.responseText);
+												// alert(response.status);
+											} catch (e) {
+												alert(e);
+											}
+										})
+					});
 
-});
+		});
+
+Number.prototype.toFixed = function(d) {
+	var s = this + "";
+	if (!d)
+		d = 0;
+	if (s.indexOf(".") == -1)
+		s += ".";
+	s += new Array(d + 1).join("0");
+	if (new RegExp("^(-|\\+)?(\\d+(\\.\\d{0," + (d + 1) + "})?)\\d*$").test(s)) {
+		var s = "0" + RegExp.$2, pm = RegExp.$1, a = RegExp.$3.length, b = true;
+		if (a == d + 2) {
+			a = s.match(/\d/g);
+			if (parseInt(a[a.length - 1]) > 4) {
+				for (var i = a.length - 2; i >= 0; i--) {
+					a[i] = parseInt(a[i]) + 1;
+					if (a[i] == 10) {
+						a[i] = 0;
+						b = i != 1;
+					} else
+						break;
+				}
+			}
+			s = a.join("").replace(new RegExp("(\\d+)(\\d{" + d + "})\\d$"),
+					"$1.$2");
+		}
+		if (b)
+			s = s.substr(1);
+		return (pm + s).replace(/\.$/, "");
+	}
+	return this + "";
+};
+
+statusRenderer = function(value) {
+									switch (value){
+										case '编制' :
+											return "<font color=blue>"+value+"</font>";
+										case '等待审核' :
+											return "<font color=purple>"+value+"</font>";
+										case '已审核' :
+											return "<font color=black>"+value+"</font>";
+										case '已冲销' :
+											return "<font color=red>"+value+"</font>";
+										default:
+											return value;
+									}
+								};

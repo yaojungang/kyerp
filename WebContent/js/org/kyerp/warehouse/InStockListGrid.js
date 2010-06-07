@@ -297,6 +297,9 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 			// 设置经手人
 			this.getForm().findField("keeperId").setValue(_r.keeperName);
 			this.getForm().findField("keeperId").hiddenField.value = _r.keeperId;
+			//设置供应商
+			this.getForm().findField("supplierId").setValue(_r.supplierName);
+			this.getForm().findField("supplierId").hiddenField.value = _r.supplierId;
 			// alert(Ext.encode(_r));
 			// 为detailsGrid设置值
 			// this.detailsGrid.getStore().loadData(
@@ -498,15 +501,12 @@ org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
+org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 	insertWin : null,
 	updateWin : null,
 	expander : null,
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this.expander = new Ext.ux.grid.RowExpander({
-					tpl : new Ext.Template('<p><b>明细:</b>')
-				});
 		this.insertWin = new org.kyerp.warehouse.InStockInsertWindow();
 		this.updateWin = new org.kyerp.warehouse.InStockUpdateWindow();
 		this["store"] = org.kyerp.warehouse.InStockStoe;
@@ -572,45 +572,56 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 					enableColumnMove : false,
 					colModel : new Ext.grid.ColumnModel([{
 								header : "单据编号",
+								align : 'center',
 								dataIndex : "serialNumber",
 								width : 100,
 								menuDisabled : true
 							}, {
 								header : "单据时间",
+								align : 'center',
+								width : 80,
 								dataIndex : "createTime",
-								renderer : Ext.util.Format
-										.dateRenderer('Y-m-d'),
+								renderer : Ext.util.Format.dateRenderer('Y-m-d'),
 								width : 100,
 								menuDisabled : true
 							}, {
 								header : '收发类型',
+								width : 80,
 								dataIndex : 'inOutTypeName'
 							}, {
 								header : '供应商',
+								width : 80,
 								dataIndex : 'supplierName'
 							}, {
 								header : "数量",
+								width : 80,
 								dataIndex : "billCount",
 								align : 'right',
 								menuDisabled : true
 							}, {
 								header : "金额",
+								width : 80,
 								dataIndex : "billCost",
 								align : 'right',
+								renderer: 'usMoney',
 								menuDisabled : true
 							}, {
 								header : "操作员",
+								width : 60,
 								dataIndex : "writeEmployeeName",
 								menuDisabled : true
 							}, {
 								header : "状态",
 								dataIndex : "statusString",
+								renderer : statusRenderer,
+								align:'center',
 								menuDisabled : true
 							}, {
 								header : "备注",
 								id : "remark",
 								dataIndex : "remark",
-								menuDisabled : true
+								menuDisabled : true,
+					editor: new Ext.form.TextArea()
 							}]),
 					autoExpandColumn : 'remark',
 					selModel : new Ext.grid.RowSelectionModel({
@@ -644,9 +655,9 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 		this.updateWin.on("reloadStore", this.reloadStore, this);
 		// this.addEvents("rowselect");
 		this.on("rowselect", this.onRowSelect, this);
-		this.on("rowdblclick", this.onRrowdblclick, this);
+		this.on("rowdblclick", this.onRowdblclick, this);
 	},
-	onRrowdblclick : function() {
+	onRowdblclick : function() {
 		this.updateWin.show();
 		try {
 			this.updateWin.load(this.getSelected());
@@ -706,38 +717,8 @@ org.kyerp.warehouse.InStockListGrid = Ext.extend(Ext.grid.GridPanel, {
 			this.removeItem();
 	},
 	onRowSelect : function(_row, _index, _r) {
-		// alert(_row.data.details);
 		var data = Ext.decode(_row.data.details);
-		// alert(data);
 		org.kyerp.warehouse.InStockDetailStore.loadData(data, false);
-//		var _store = org.kyerp.warehouse.materialStore;
-//		_store.load({
-//					params : {
-//						limit : 20000
-//					}
-//				});
-		// var _temp = {};
-		// var _rows = [];
-		// for (var _i = 0; _i < data.length; _i++) {
-		// var _oneData = {};
-		// _rows.push(Ext.apply(_oneData, {
-		// materialId : data[_i].materialName,
-		// id : data[_i].materialId,
-		// name : data[_i].materialName
-		// }));
-		// };
-		// Ext.apply(_temp, {
-		// rows : _rows
-		// });
-		// //var data1 = _store.recordType(rows);
-		// //_store.loadData(data1,false);
-		// _store.loadData(_temp, false);
-		// var test = [];
-		// _store.each(function(rec) {
-		// test.push(rec.data);
-		// });
-
-		// alert(Ext.encode(test));
 	},
 	reloadStore : function() {
 		this.store.reload();
