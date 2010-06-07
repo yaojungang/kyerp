@@ -73,12 +73,14 @@ public class InStockDetail extends InventoryDetail implements Serializable{
 
 	private void updatePurchase() {
 		InStock bill = this.getInStock();
+		// System.out.println("update count:" + bill.getBillCount());
 		bill.setBillCount(new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP));
 		bill.setBillCost(new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP));
 		for (InStockDetail detail : bill.getDetails()) {
 			bill.setBillCount(bill.getBillCount().add(detail.getInStockCount()));
 			bill.setBillCost(bill.getBillCost().add(detail.getBillCost()));
 		}
+		// System.out.println("update count:" + bill.getBillCount());
 	}
 
 	/**

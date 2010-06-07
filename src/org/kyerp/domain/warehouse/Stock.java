@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -21,27 +22,29 @@ import org.kyerp.domain.BaseDomain;
 @Entity
 public class Stock extends BaseDomain implements Serializable{
 
-	private static final long		serialVersionUID	= 1L;
+	private static final long	serialVersionUID	= 1L;
 	/** 编号 **/
-	private String					serialNumber;
+	private String				serialNumber;
 	/** 物料 */
 	@ManyToOne
-	private Material				material;
+	private Material			material;
 	/** 物料明细 */
-	@OneToMany(mappedBy = "stock",cascade = { CascadeType.ALL })
-	private final List<StockDetail>	stockDetails		= new ArrayList<StockDetail>();
+	@OneToMany(mappedBy = "stock",cascade = { CascadeType.ALL },fetch = FetchType.EAGER)
+	private List<StockDetail>	stockDetails		= new ArrayList<StockDetail>();
 	/** 总数量 */
 	@Column(precision = 12,scale = 4)
-	private BigDecimal				totalAmount			= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
+	private BigDecimal			totalAmount			= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 单位 */
 	@ManyToOne
-	private Unit					unit;
+	private Unit				unit;
 	/** 绝对平均价格 */
 	@Column(precision = 12,scale = 4)
-	private BigDecimal				price				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
+	private BigDecimal			price				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 总金额 */
 	@Column(precision = 12,scale = 4)
-	private BigDecimal				cost				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
+	private BigDecimal			cost				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
+	/** 备注 */
+	private String				remark;
 
 	public Stock() {
 	}
@@ -70,6 +73,14 @@ public class Stock extends BaseDomain implements Serializable{
 		this.unit = unit;
 	}
 
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -96,6 +107,10 @@ public class Stock extends BaseDomain implements Serializable{
 
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
+	}
+
+	public void setStockDetails(List<StockDetail> stockDetails) {
+		this.stockDetails = stockDetails;
 	}
 
 }

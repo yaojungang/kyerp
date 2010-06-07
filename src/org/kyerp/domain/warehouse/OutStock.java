@@ -73,19 +73,27 @@ public class OutStock extends Inventory implements Serializable{
 
 	@Override
 	public void prePersist() {
+		this.updateBill();
 		super.prePersist();
-		this.preUpdate();
 	}
 
 	@Override
 	public void preUpdate() {
-		this.setBillCount(new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP));
-		this.setBillCost(new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP));
-		for (OutStockDetail detail : this.getDetails()) {
-			this.setBillCount(this.getBillCount().add(detail.getOutStockCount()));
-			this.setBillCost(this.getBillCost().add(detail.getBillCost()));
-		}
+		this.updateBill();
 		super.preUpdate();
+	}
+
+	private void updateBill() {
+		BigDecimal _billCountBigDecimal = new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
+		BigDecimal _billCostBigDecimal = new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
+		this.setBillCount(BigDecimal.ZERO);
+		this.setBillCost(BigDecimal.ZERO);
+		for (OutStockDetail detail : this.getDetails()) {
+			_billCountBigDecimal = this.getBillCount().add(detail.getInStockCount());
+			_billCostBigDecimal = this.getBillCost().add(detail.getBillCost());
+		}
+		this.setBillCount(_billCountBigDecimal);
+		this.setBillCost(_billCostBigDecimal);
 	}
 
 	public Department getReceiveDepartment() {
@@ -112,12 +120,16 @@ public class OutStock extends Inventory implements Serializable{
 		this.outDate = outDate;
 	}
 
-	public List<OutStockDetail> getDetails() {
+	public List<OutStockDetail> OutStockDetail() {
 		return details;
 	}
 
 	public void setDetails(List<OutStockDetail> details) {
 		this.details = details;
+	}
+
+	public List<OutStockDetail> getDetails() {
+		return details;
 	}
 
 }

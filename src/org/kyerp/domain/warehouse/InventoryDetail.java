@@ -28,10 +28,10 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 	@ManyToOne
 	private Warehouse			warehouse;
 	/** 入库数量 */
-	@Column(precision = 12,scale = 4)
+	@Column(precision = 12,scale = 4,nullable = false)
 	private BigDecimal			inStockCount		= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 出库数量 */
-	@Column(precision = 12,scale = 4)
+	@Column(precision = 12,scale = 4,nullable = false)
 	private BigDecimal			outStockCount		= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 单位 */
 	@ManyToOne
@@ -43,6 +43,11 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 	private String				remark;
 
 	public InventoryDetail() {
+	}
+
+	public BigDecimal getCost() {
+
+		return this.price.multiply(this.inStockCount.subtract(this.outStockCount));
 	}
 
 	public Material getMaterial() {
