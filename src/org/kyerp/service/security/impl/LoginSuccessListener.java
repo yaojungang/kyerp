@@ -2,6 +2,8 @@ package org.kyerp.service.security.impl;
 
 import java.util.Date;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kyerp.domain.security.User;
 import org.kyerp.service.security.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,8 @@ import org.springframework.security.core.Authentication;
 @SuppressWarnings("unchecked")
 public class LoginSuccessListener implements ApplicationListener{
 	@Autowired
-	IUserService	userService;
+	IUserService		userService;
+	protected final Log	logger	= LogFactory.getLog(getClass());
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
@@ -38,7 +41,7 @@ public class LoginSuccessListener implements ApplicationListener{
 			user.setLastLoginTime(new Date());
 			userService.update(user);
 
-			System.out.println("[" + userName + "]成功登录...");
+			logger.info("[" + userName + "] loging success ...");
 		}
 	}
 }

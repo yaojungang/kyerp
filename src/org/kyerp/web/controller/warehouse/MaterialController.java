@@ -102,6 +102,60 @@ public class MaterialController extends BaseController{
 		return "jsonView";
 	}
 
+	@RequestMapping("/warehouse/Material/jsonListAll.html")
+	public String listAll(String query, Long materialCategoryId, Model model, HttpServletRequest request) {
+		StringBuffer jpql = new StringBuffer("");
+		List<Object> params = new ArrayList<Object>();
+		jpql.append(" 1=?").append((params.size() + 1));
+		params.add(1);
+		// 类型ID
+		if(null != materialCategoryId && materialCategoryId > 0) {
+			if(params.size() > 0) {
+				jpql.append(" and ");
+			}
+			jpql.append(" o.materialCategory.id=?").append((params.size() + 1));
+			params.add(materialCategoryId);
+		}
+		// 名称关键字
+		if(StringUtils.hasText(query)) {
+			jpql.append(" and (o.name like ?").append(params.size() + 1);
+			params.add("%" + query.trim() + "%");
+			jpql.append(" or o.serialNumber like ?").append(params.size() + 1).append(")");
+			params.add("%" + query.trim() + "%");
+
+		}
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("id", "asc");
+		QueryResult<Material> queryResult = materialService.getScrollData(jpql.toString(), params.toArray(), orderby);
+		List<MaterialExtGridRow> rows = new ArrayList<MaterialExtGridRow>();
+		for (Material m : queryResult.getResultlist()) {
+			MaterialExtGridRow rr = new MaterialExtGridRow();
+			rr.setId(m.getId());
+			rr.setName(m.getName());
+			rr.setMaterialName(m.getMaterialName());
+			rr.setAmount(m.getAmount());
+			rr.setSpecification(m.getSpecification());
+			rr.setSerialNumber(m.getSerialNumber());
+			if(null != m.getMaterialCategory()) {
+				rr.setMaterialCategoryId(m.getMaterialCategory().getId());
+				rr.setMaterialCategoryName(m.getMaterialCategory().getName());
+			}
+			if(null != m.getBrand()) {
+				rr.setBrandId(m.getBrand().getId());
+				rr.setBrandName(m.getBrand().getName());
+			}
+			if(null != m.getUnit()) {
+				rr.setUnitId(m.getUnit().getId());
+				rr.setUnitName(m.getUnit().getName());
+			}
+			rr.setPrice(m.getPrice());
+			rows.add(rr);
+		}
+		model.addAttribute("totalProperty", queryResult.getTotalrecord());
+		model.addAttribute("rows", rows);
+		return "jsonView";
+	}
+
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/Material/jsonSave.html")
 	public String save(MaterialExtGridRow materialRow, ModelMap model) {

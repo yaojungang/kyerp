@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class InStockDetailService extends DaoSupport<InStockDetail> implements IInStockDetailService{
 	@Override
-	@Transactional(rollbackFor = { Exception.class, Throwable.class })
+	@Transactional(rollbackFor = { Exception.class })
 	public void saveInStockDetail(InStockDetail e) {
 		if(null == e.getBatchNumber() || e.getBatchNumber().length() == 0) {
 			// 如果没有填写单号则设置单号
@@ -26,6 +26,6 @@ public class InStockDetailService extends DaoSupport<InStockDetail> implements I
 				e1.printStackTrace();
 			}
 		}
-		save(e);
+		super.save(e);
 	}
 }

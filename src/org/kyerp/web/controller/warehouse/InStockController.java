@@ -15,7 +15,6 @@ import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.warehouse.BillStatus;
 import org.kyerp.domain.warehouse.InStock;
 import org.kyerp.domain.warehouse.InStockDetail;
-import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.service.org.IEmployeeService;
 import org.kyerp.service.security.IUserService;
 import org.kyerp.service.warehouse.IInOutTypeService;
@@ -32,6 +31,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -87,7 +87,6 @@ public class InStockController extends BaseController{
 			wherejpql.append(" or o.remark like ?").append(queryParams.size() + 1).append(")");
 			queryParams.add("%" + query.trim() + "%");
 		}
-		logger.debug("jpql:" + wherejpql);
 		QueryResult<InStock> queryResult = inStockService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
 
 		List<InStockExtGridRow> rows = new ArrayList<InStockExtGridRow>();
@@ -161,7 +160,7 @@ public class InStockController extends BaseController{
 			/**
 			 * 能否编辑 只有本人可以编辑
 			 * */
-			if("0".equals(WebUtil.getCurrentUser().getId()) || (BillStatus.WRITING.equals(o.getStatus()) && o.getWriteUser().getId().toString().equals(WebUtil.getCurrentUser().getId().toString()))) {
+			if("0".equals(WebUtil.getCurrentUser().getId()) || "y109".equals(WebUtil.getCurrentUser().getUsername()) || (BillStatus.WRITING.equals(o.getStatus()) && o.getWriteUser().getId().toString().equals(WebUtil.getCurrentUser().getId().toString()))) {
 				n.setEditAble("true");
 			} else {
 				n.setEditAble("false");
@@ -287,8 +286,9 @@ public class InStockController extends BaseController{
 					InStockDetail detail = new InStockDetail();
 					jsonObject = jsonArray.getJSONObject(i);
 					String idString = jsonObject.getString("id");
-					if(null != idString && idString.length() > 0) {
+					if(StringUtils.hasText(idString)) {
 						detail = inStockDetailService.find(new Long(idString));
+						// logger.debug("找到了detail:" + detail.getId());
 					}
 					// 物料
 					detail.setMaterial(materialService.find(jsonObject.getLong("materialId")));
@@ -308,8 +308,9 @@ public class InStockController extends BaseController{
 					}
 					detail.setInStock(inStock);
 
-					if(null != idString && idString.length() > 0) {
+					if(StringUtils.hasText(idString)) {
 						inStockDetailService.update(detail);
+						// logger.debug("更新detail:" + detail.getId());
 					} else {
 						inStockDetailService.saveInStockDetail(detail);
 					}
@@ -355,7 +356,7 @@ public class InStockController extends BaseController{
 			InStock inStock = inStockService.find(id);
 			inStock.setStatus(BillStatus.WAITING_FOR_CHECK);
 			inStockService.save(inStock);
-			model.addAttribute("msg", "单据提交审核成功，您将不能修改这个单据！");
+			model.addAttribute("msg", "单据提交审核成功，您将不能修改这个单据，欲修改这个单据请先返回编制状态！");
 		} catch (Exception e) {
 			model.addAttribute("msg", "单据提交审核时发生异常！");
 		}
@@ -389,31 +390,7 @@ public class InStockController extends BaseController{
 	@RequestMapping("/warehouse/InStock/jsonCheckBill.html")
 	public String checkBill(ModelMap model, Long id) {
 		try {
-			InStock inStock = inStockService.find(id);
-			for (InStockDetail inStockDetail : inStock.getDetails()) {
-				if(inStock.getDetails().size() == 0) {
-					return "至少需要一条入库项目！";
-				}
-				// 查询库存主表如果存在该Id的物料则选中这条库存记录
-				String wherejpql = "o.material.id=" + inStockDetail.getMaterial().getId();
-				logger.debug("jpql:" + wherejpql);
-				Stock stock = new Stock();
-				if(stockService.getScrollData(wherejpql, null, null).getTotalrecord() > 0) {
-					stock = stockService.getScrollData(wherejpql, null, null).getResultlist().get(0);
-				}
-				if(null == stock.getId()) {
-					// stock = new Stock();
-					stock.setMaterial(inStockDetail.getMaterial());
-					// 库存编号与物料编号一致
-					stock.setSerialNumber(inStockDetail.getMaterial().getSerialNumber());
-					stock.setUnit(inStockDetail.getUnit());
-					stock.setTotalAmount(new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP));
-					stock.setPrice(new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP));
-					stock.setCost(new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP));
-					stockService.save(stock);
-				}
-			}
-			String result = inStockService.checkInStock(inStock);
+			String result = inStockService.checkInStock(id);
 			if(result.equals("success")) {
 				model.addAttribute("msg", "单据审核成功！");
 			} else {
@@ -421,7 +398,8 @@ public class InStockController extends BaseController{
 				model.addAttribute("msg", result);
 			}
 		} catch (Exception e) {
-			model.addAttribute("msg", "审核单据时发生异常！<br />" + e.getMessage());
+			e.printStackTrace();
+			model.addAttribute("msg", "审核单据时发生异常：" + e.getMessage());
 		}
 
 		return "jsonView";
@@ -441,6 +419,55 @@ public class InStockController extends BaseController{
 			inStockDetailService.update(sd);
 		}
 		model.addAttribute("success", true);
+		return "jsonView";
+	}
+
+	/**
+	 * 冲销单据
+	 */
+	@RequestMapping("/warehouse/InStock/jsonCongXiao.html")
+	public String congXiao(ModelMap model, Long id) throws Exception {
+		String result = inStockService.congXiao(id);
+		if(result.equals("success")) {
+			model.addAttribute("success", true);
+		} else {
+			model.addAttribute("failure", true);
+			model.addAttribute("msg", result);
+		}
+		return "jsonView";
+	}
+
+	/**
+	 * 重设入库单的单号
+	 * 
+	 * @throws Exception
+	 */
+	@Secured( { "ROLE_ADMIN" })
+	@RequestMapping("/warehouse/InStock/resetSerialNumber.html")
+	public String resetSerialNumber(ModelMap model) throws Exception {
+		try {
+			LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+			orderby.put("serialNumber", "desc");
+			List<InStock> list = inStockService.getScrollData(null, null, orderby).getResultlist();
+			for (InStock inStock : list) {
+				inStock.setSerialNumber(null);
+				inStockService.save(inStock);
+			}
+			for (InStock inStock : list) {
+				inStock.setSerialNumber(inStockService.nextSerialNumber());
+				inStockService.save(inStock);
+			}
+			for (InStock inStock : list) {
+				inStock.setSerialNumber(inStockService.nextSerialNumber());
+				inStockService.save(inStock);
+			}
+			model.addAttribute("msg", "重设入库单的单号成功!");
+			model.addAttribute("success", true);
+		} catch (Exception e) {
+			model.addAttribute("msg", "重设入库单的单号失败!");
+			model.addAttribute("success", false);
+		}
+
 		return "jsonView";
 	}
 }
