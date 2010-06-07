@@ -78,6 +78,10 @@ public class Inventory extends BaseDomain implements Serializable{
 		super.prePersist();
 	}
 
+	public String nextCode() {
+		return null;
+	};
+
 	public String getSerialNumber() {
 		return serialNumber;
 	}

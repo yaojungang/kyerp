@@ -58,7 +58,7 @@ public class BaseDomain{
 	public void postUpdate() {
 	}
 
-	/** 再对象删除前执行 */
+	/** 在对象删除前执行 */
 	@PreDestroy
 	public void preDestory() {
 	}

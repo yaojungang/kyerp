@@ -29,6 +29,12 @@ public enum BillStatus {
 		public String getName() {
 			return "已审核";
 		}
+	},
+	CONGXIAO {
+		@Override
+		public String getName() {
+			return "已冲销";
+		}
 	};
 	public abstract String getName();
 }

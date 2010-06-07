@@ -143,7 +143,7 @@ public class User extends BaseDomain implements Serializable,UserDetails{
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 		for (Role role : roles) {
 			for (SystemResource systemResource : role.getSystemResources()) {
-				// System.out.println("systemResource.getContent():" + systemResource.getContent());
+				// ("systemResource.getContent():" + systemResource.getContent());
 				grantedAuthorities.add(new GrantedAuthorityImpl(systemResource.getContent()));
 			}
 		}
