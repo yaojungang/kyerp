@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:sec="http://www.springframework.org/schema/security" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context   
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd   
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	<sec:global-method-security secured-annotations="enabled" jsr250-annotations="enabled" pre-post-annotations="enabled"></sec:global-method-security>
+	<!-- 对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
+	<context:component-scan base-package="org.kyerp.web" />
+
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	
+	<!--  对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+	<bean name="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1" />
+	</bean>	
+	<bean name="jsonViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="location" value="classpath:conf/views.xml"/>		
+		<property name="order" value="0" />
+	</bean>
+	<!-- <bean id="jsonExceptionResolver" 
+		class="org.springframework.web.servlet.view.json.exception.JsonExceptionResolver">
+		<property name="exceptionView">
+			<value>jsonView</value>
+		</property>
+		<property name="errorHandler">
+			<list>
+				<ref bean="statusError" />
+				<ref bean="modelflagError" />
+			</list>
+		</property>
+		<property name="exceptionHandler">
+			<list>
+				<ref bean="stackTraceExceptionHandler" />
+				<ref bean="exceptionMessageExceptionHandler" />
+			</list>
+		</property>
+	</bean>
+	<bean name="statusError" class="org.springframework.web.servlet.view.json.error.HttpStatusError">
+		<property name="errorCode" value="311" />
+	</bean>        
+	<bean name="modelflagError" class="org.springframework.web.servlet.view.json.error.ModelFlagError">
+		<property name="name" value="ServerException" />
+		<property name="value" value="true"/>
+	</bean>
+        
+	<bean name="stackTraceExceptionHandler" 
+		class="org.springframework.web.servlet.view.json.exception.StackTraceExceptionHandler"/>
+        
+	<bean name="exceptionMessageExceptionHandler" 
+		class="org.springframework.web.servlet.view.json.exception.ExceptionMessageExceptionHandler"/>
+		 -->
+</beans>
