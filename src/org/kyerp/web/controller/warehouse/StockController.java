@@ -462,7 +462,7 @@ public class StockController{
 			orderby.put("id", "desc");
 			List<Stock> list = stockService.getScrollData(null, null, orderby).getResultlist();
 			for (Stock stock : list) {
-				stockService.resetStockAmount(stock.getId());
+				stockService.updateAmountPriceAndCost(stock.getId());
 			}
 
 			model.addAttribute("msg", "重新计算库存数量成功!");

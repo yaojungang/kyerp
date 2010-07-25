@@ -13,7 +13,7 @@ public interface IOutStockService extends DAO<OutStock>{
 	/**
 	 * 保存出库单 如果没有填写单号则设置单号
 	 */
-	void saveOutStock(OutStock outStock);
+	void saveOutStock(OutStock outStock) throws Exception;
 
 	/**
 	 * 审核出库单 改变状态为已审核,设置审核人，审核时间
@@ -35,4 +35,10 @@ public interface IOutStockService extends DAO<OutStock>{
 	 * 下一个单号
 	 * */
 	String nextSerialNumber() throws Exception;
+	/**
+	 * 更新出库单的数量和总金额
+	 * @param outStock
+	 * @throws Exception
+	 */
+	void updateOutStockCountAndCost(OutStock outStock) throws Exception;
 }

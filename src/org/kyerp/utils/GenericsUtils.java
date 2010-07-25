@@ -25,7 +25,8 @@ public class GenericsUtils {
 	 *         <code>Object.class</code>
 	 */
 	@SuppressWarnings("unchecked")
-	public static Class getSuperClassGenricType(Class clazz, int index) {
+	public static Class<Object> getSuperClassGenricType(Class<?> clazz,
+			int index) {
 		Type genType = clazz.getGenericSuperclass();// 得到泛型父类
 		// 如果没有实现ParameterizedType接口，即不支持泛型，直接返回Object.class
 		if (!(genType instanceof ParameterizedType)) {
@@ -41,7 +42,7 @@ public class GenericsUtils {
 		if (!(params[index] instanceof Class)) {
 			return Object.class;
 		}
-		return (Class) params[index];
+		return (Class<Object>) params[index];
 	}
 
 	/**
@@ -52,8 +53,7 @@ public class GenericsUtils {
 	 * @return 泛型参数的实际类型, 如果没有实现ParameterizedType接口，即不支持泛型，所以直接返回
 	 *         <code>Object.class</code>
 	 */
-	@SuppressWarnings("unchecked")
-	public static Class getSuperClassGenricType(Class clazz) {
+	public static Class<Object> getSuperClassGenricType(Class<?> clazz) {
 		return getSuperClassGenricType(clazz, 0);
 	}
 
@@ -66,7 +66,8 @@ public class GenericsUtils {
 	 *         <code>Object.class</code>
 	 */
 	@SuppressWarnings("unchecked")
-	public static Class getMethodGenericReturnType(Method method, int index) {
+	public static Class<Object> getMethodGenericReturnType(Method method,
+			int index) {
 		Type returnType = method.getGenericReturnType();
 		if (returnType instanceof ParameterizedType) {
 			ParameterizedType type = (ParameterizedType) returnType;
@@ -75,7 +76,7 @@ public class GenericsUtils {
 				throw new RuntimeException("你输入的索引"
 						+ (index < 0 ? "不能小于0" : "超出了参数的总数"));
 			}
-			return (Class) typeArguments[index];
+			return (Class<Object>) typeArguments[index];
 		}
 		return Object.class;
 	}
@@ -88,8 +89,7 @@ public class GenericsUtils {
 	 * @return 泛型参数的实际类型, 如果没有实现ParameterizedType接口，即不支持泛型，所以直接返回
 	 *         <code>Object.class</code>
 	 */
-	@SuppressWarnings("unchecked")
-	public static Class getMethodGenericReturnType(Method method) {
+	public static Class<Object> getMethodGenericReturnType(Method method) {
 		return getMethodGenericReturnType(method, 0);
 	}
 
@@ -101,7 +101,7 @@ public class GenericsUtils {
 	 *            method 方法
 	 * @return 输入参数的泛型参数的实际类型集合, 如果没有实现ParameterizedType接口，即不支持泛型，所以直接返回空集合
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public static List<Class> getMethodGenericParameterTypes(Method method,
 			int index) {
 		List<Class> results = new ArrayList<Class>();
@@ -115,7 +115,7 @@ public class GenericsUtils {
 			ParameterizedType aType = (ParameterizedType) genericParameterType;
 			Type[] parameterArgTypes = aType.getActualTypeArguments();
 			for (Type parameterArgType : parameterArgTypes) {
-				Class parameterArgClass = (Class) parameterArgType;
+				Class<?> parameterArgClass = (Class<?>) parameterArgType;
 				results.add(parameterArgClass);
 			}
 			return results;
@@ -131,7 +131,7 @@ public class GenericsUtils {
 	 *            method 方法
 	 * @return 输入参数的泛型参数的实际类型集合, 如果没有实现ParameterizedType接口，即不支持泛型，所以直接返回空集合
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public static List<Class> getMethodGenericParameterTypes(Method method) {
 		return getMethodGenericParameterTypes(method, 0);
 	}
@@ -143,7 +143,7 @@ public class GenericsUtils {
 	 *            field 字段
 	 */
 	@SuppressWarnings("unchecked")
-	public static Class getFieldGenericType(Field field, int index) {
+	public static Class<Object> getFieldGenericType(Field field, int index) {
 		Type genericFieldType = field.getGenericType();
 
 		if (genericFieldType instanceof ParameterizedType) {
@@ -153,7 +153,7 @@ public class GenericsUtils {
 				throw new RuntimeException("你输入的索引"
 						+ (index < 0 ? "不能小于0" : "超出了参数的总数"));
 			}
-			return (Class) fieldArgTypes[index];
+			return (Class<Object>) fieldArgTypes[index];
 		}
 		return Object.class;
 	}
@@ -164,8 +164,7 @@ public class GenericsUtils {
 	 * @param Field
 	 *            field 字段
 	 */
-	@SuppressWarnings("unchecked")
-	public static Class getFieldGenericType(Field field) {
+	public static Class<Object> getFieldGenericType(Field field) {
 		return getFieldGenericType(field, 0);
 	}
 }

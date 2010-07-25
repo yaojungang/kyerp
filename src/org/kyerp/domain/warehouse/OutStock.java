@@ -1,7 +1,6 @@
 package org.kyerp.domain.warehouse;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,66 +34,63 @@ public class OutStock extends Inventory implements Serializable{
 	@OneToMany(mappedBy = "outStock",cascade = { CascadeType.ALL })
 	private List<OutStockDetail>	details				= new ArrayList<OutStockDetail>();
 
-// /** 单号 */
-// private String serialNumber;
-// /** 收发类型 */
-// @ManyToOne
-// private InOutType inOutType;
-// /** 备注 */
-// private String remark;
-// /** 总数量 */
-// @Column(precision = 12,scale = 4)
-// private BigDecimal billCount = new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
-// /** 总费用 */
-// @Column(precision = 12,scale = 4)
-// private BigDecimal billCost = new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
-// /** 经办人 */
-// @ManyToOne
-// private Employee keeper;
-// /** 填单人 */
-// @ManyToOne
-// private User writeUser;
-// @ManyToOne
-// private Employee writeEmployee;
-// /** 审核人 */
-// @ManyToOne
-// private User checkUser;
-// @ManyToOne
-// private Employee checkEmployee;
-// /** 填写时间 */
-// private Date writeDate;
-// /** 审核时间 */
-// private Date checkDate;
-// /** 单据状态 */
-// private BillStatus status;
-
 	public OutStock() {
 	}
+	
+	@Override
+	public String toString() {
+		return "OutStock [getBillCount()=" + getBillCount()
+				+ ", getBillCost()=" + getBillCost() + ", getId()=" + getId()
+				+ "]";
+	}
 
 	@Override
-	public void prePersist() {
-		this.updateBill();
-		super.prePersist();
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((details == null) ? 0 : details.hashCode());
+		result = prime * result + ((outDate == null) ? 0 : outDate.hashCode());
+		result = prime
+				* result
+				+ ((receiveDepartment == null) ? 0 : receiveDepartment
+						.hashCode());
+		result = prime * result
+				+ ((receiveEmployee == null) ? 0 : receiveEmployee.hashCode());
+		return result;
 	}
 
 	@Override
-	public void preUpdate() {
-		this.updateBill();
-		super.preUpdate();
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OutStock other = (OutStock) obj;
+		if (details == null) {
+			if (other.details != null)
+				return false;
+		} else if (!details.equals(other.details))
+			return false;
+		if (outDate == null) {
+			if (other.outDate != null)
+				return false;
+		} else if (!outDate.equals(other.outDate))
+			return false;
+		if (receiveDepartment == null) {
+			if (other.receiveDepartment != null)
+				return false;
+		} else if (!receiveDepartment.equals(other.receiveDepartment))
+			return false;
+		if (receiveEmployee == null) {
+			if (other.receiveEmployee != null)
+				return false;
+		} else if (!receiveEmployee.equals(other.receiveEmployee))
+			return false;
+		return true;
 	}
 
-	private void updateBill() {
-		BigDecimal _billCountBigDecimal = new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
-		BigDecimal _billCostBigDecimal = new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
-		this.setBillCount(BigDecimal.ZERO);
-		this.setBillCost(BigDecimal.ZERO);
-		for (OutStockDetail detail : this.getDetails()) {
-			_billCountBigDecimal = this.getBillCount().add(detail.getInStockCount());
-			_billCostBigDecimal = this.getBillCost().add(detail.getBillCost());
-		}
-		this.setBillCount(_billCountBigDecimal);
-		this.setBillCost(_billCostBigDecimal);
-	}
 
 	public Department getReceiveDepartment() {
 		return receiveDepartment;

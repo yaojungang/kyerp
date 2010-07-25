@@ -160,7 +160,7 @@ public class InStockController extends BaseController{
 			/**
 			 * 能否编辑 只有本人可以编辑
 			 * */
-			if("0".equals(WebUtil.getCurrentUser().getId()) || "y109".equals(WebUtil.getCurrentUser().getUsername()) || (BillStatus.WRITING.equals(o.getStatus()) && o.getWriteUser().getId().toString().equals(WebUtil.getCurrentUser().getId().toString()))) {
+			if("0".equals(WebUtil.getCurrentUser().getId()) || (BillStatus.WRITING.equals(o.getStatus()) && o.getWriteUser().getId().toString().equals(WebUtil.getCurrentUser().getId().toString()))) {
 				n.setEditAble("true");
 			} else {
 				n.setEditAble("false");
@@ -236,9 +236,11 @@ public class InStockController extends BaseController{
 	@RequestMapping("/warehouse/InStock/jsonSave.html")
 	public String save(InStockExtGridRow row, ModelMap model) throws Exception {
 		try {
-			InStock inStock = new InStock();
+			InStock inStock = null;
 			if(null != row.getId() && row.getId() > 0) {
 				inStock = inStockService.find(row.getId());
+			}else {
+				inStock = new InStock();
 			}
 			// 保存单号
 			if(null != row.getSerialNumber()) {
@@ -310,7 +312,6 @@ public class InStockController extends BaseController{
 
 					if(StringUtils.hasText(idString)) {
 						inStockDetailService.update(detail);
-						// logger.debug("更新detail:" + detail.getId());
 					} else {
 						inStockDetailService.saveInStockDetail(detail);
 					}
@@ -318,6 +319,7 @@ public class InStockController extends BaseController{
 				}
 				inStock.setDetails(pods);
 			}
+			inStockService.updateInStockCountAndCost(inStock);
 			inStockService.update(inStock);
 			long id = inStock.getId() > 0 ? inStock.getId() : inStockService.findLast().getId();
 			model.addAttribute("success", true);

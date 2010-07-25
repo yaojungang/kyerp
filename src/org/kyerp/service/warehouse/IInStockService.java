@@ -2,7 +2,6 @@ package org.kyerp.service.warehouse;
 
 import org.kyerp.dao.DAO;
 import org.kyerp.domain.warehouse.InStock;
-import org.kyerp.domain.warehouse.InStockDetail;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,14 +37,10 @@ public interface IInStockService extends DAO<InStock>{
 	 * */
 	String nextSerialNumber() throws Exception;
 
-	/**
-	 * 添加入库项目
-	 * */
-	void addInStockDetail(InStockDetail inStockDetail) throws Exception;
 
 	/**
 	 * 计算入库单数量、金额、单价
 	 * */
-	void calculateInStockCount(InStock inStock) throws Exception;
+	void updateInStockCountAndCost(InStock inStock) throws Exception;
 
 }
