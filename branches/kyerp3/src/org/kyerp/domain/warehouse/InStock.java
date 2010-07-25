@@ -34,6 +34,58 @@ public class InStock extends Inventory implements Serializable{
 	public InStock() {
 	}
 
+	@Override
+	public String toString() {
+		return "InStock [getId()=" + getId() + ", getBillCount()="
+				+ getBillCount() + ", getBillCost()=" + getBillCost() + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((arriveDate == null) ? 0 : arriveDate.hashCode());
+		result = prime * result + ((details == null) ? 0 : details.hashCode());
+		result = prime * result
+				+ ((purchaseOrder == null) ? 0 : purchaseOrder.hashCode());
+		result = prime * result
+				+ ((supplier == null) ? 0 : supplier.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		InStock other = (InStock) obj;
+		if (arriveDate == null) {
+			if (other.arriveDate != null)
+				return false;
+		} else if (!arriveDate.equals(other.arriveDate))
+			return false;
+		if (details == null) {
+			if (other.details != null)
+				return false;
+		} else if (!details.equals(other.details))
+			return false;
+		if (purchaseOrder == null) {
+			if (other.purchaseOrder != null)
+				return false;
+		} else if (!purchaseOrder.equals(other.purchaseOrder))
+			return false;
+		if (supplier == null) {
+			if (other.supplier != null)
+				return false;
+		} else if (!supplier.equals(other.supplier))
+			return false;
+		return true;
+	}
+
 	public PurchaseOrder getPurchaseOrder() {
 		return purchaseOrder;
 	}

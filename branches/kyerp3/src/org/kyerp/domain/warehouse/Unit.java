@@ -37,6 +37,14 @@ public class Unit extends BaseDomain implements Serializable {
 	public Unit() {
 	}
 
+	@Override
+	public String toString() {
+		return "Unit [serialNumber=" + serialNumber + ", name=" + name
+				+ ", nameSpell=" + nameSpell + ", note=" + note
+				+ ", childUnits=" + childUnits + ", parentUnit=" + parentUnit
+				+ "]";
+	}
+
 	public String getSerialNumber() {
 		return serialNumber;
 	}

@@ -34,7 +34,7 @@ public class SendHttpPost {
 	 * @return response结果
 	 * @author Jingbao Xu
 	 */
-	@SuppressWarnings( { "unchecked", "deprecation" })
+	@SuppressWarnings( { "deprecation" })
 	public static String sendPostByHC(String requestUrl,
 			Map<String, Object> requestParamsMap) {
 		HttpClient client = new HttpClient();
@@ -49,8 +49,9 @@ public class SendHttpPost {
 				nameValuePairPairs = new NameValuePair[requestParamsMap.size()];
 				int i = 0;
 				// 组织请求参数
-				Iterator it = requestParamsMap.entrySet().iterator();
+				Iterator<?> it = requestParamsMap.entrySet().iterator();
 				while (it.hasNext()) {
+					@SuppressWarnings("rawtypes")
 					Map.Entry element = (Map.Entry) it.next();
 					nameValuePair = new NameValuePair();
 					nameValuePair.setName(String.valueOf(element.getKey()));
@@ -91,7 +92,7 @@ public class SendHttpPost {
 	 * @return response结果
 	 * @author Jingbao Xu
 	 */
-	@SuppressWarnings( { "unchecked" })
+	@SuppressWarnings( { })
 	static String sendPost(String requestUrl,
 			Map<String, Object> requestParamsMap) {
 		PrintWriter printWriter = null;
@@ -100,8 +101,9 @@ public class SendHttpPost {
 		StringBuffer params = new StringBuffer();
 		HttpURLConnection httpURLConnection = null;
 		// 组织请求参数
-		Iterator it = requestParamsMap.entrySet().iterator();
+		Iterator<?> it = requestParamsMap.entrySet().iterator();
 		while (it.hasNext()) {
+			@SuppressWarnings("rawtypes")
 			Map.Entry element = (Map.Entry) it.next();
 			params.append(element.getKey());
 			params.append("=");

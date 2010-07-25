@@ -248,9 +248,12 @@ public class OutStockController extends BaseController{
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/OutStock/jsonSave.html")
 	public String save(OutStockExtGridRow row, ModelMap model) throws Exception {
-		OutStock outStock = new OutStock();
+		
+		OutStock outStock = null;
 		if(null != row.getId() && row.getId() > 0) {
 			outStock = outStockService.find(row.getId());
+		}else {
+			 outStock = new OutStock();
 		}
 		// 保存单号
 		if(null != row.getSerialNumber()) {
@@ -281,10 +284,11 @@ public class OutStockController extends BaseController{
 		if(null != row.getRemark()) {
 			outStock.setRemark(row.getRemark());
 		}
-
 		if(null != row.getId() && row.getId() > 0) {
+			outStockService.updateOutStockCountAndCost(outStock);
 			outStockService.update(outStock);
 		} else {
+			outStockService.updateOutStockCountAndCost(outStock);
 			outStockService.saveOutStock(outStock);
 		}
 		// 保存物料批次信息
@@ -341,6 +345,7 @@ public class OutStockController extends BaseController{
 				outStock.setRemark((StringUtils.hasText(outStock.getRemark()) ? (outStock.getRemark() + ";") : "") + "任务单:" + workNos.toString());
 			}
 		}
+		outStockService.updateOutStockCountAndCost(outStock);
 		outStockService.update(outStock);
 		long id = outStock.getId() > 0 ? outStock.getId() : outStockService.findLast().getId();
 		model.addAttribute("success", true);
@@ -401,7 +406,14 @@ public class OutStockController extends BaseController{
 	@RequestMapping("/warehouse/OutStock/jsonCheckBill.html")
 	public String checkBill(ModelMap model, Long id) throws Exception {
 		OutStock outStock = outStockService.find(id);
-		String result = outStockService.checkOutStock(outStock);
+		String result = null;
+		try {
+			result = outStockService.checkOutStock(outStock);
+		} catch (Exception e) {
+			model.addAttribute("failure", true);
+			model.addAttribute("msg", e.getLocalizedMessage());
+			return "jsonView";
+		}
 		if(result.equals("success")) {
 			model.addAttribute("success", true);
 		} else {

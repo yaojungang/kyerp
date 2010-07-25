@@ -18,7 +18,7 @@ import org.springframework.security.core.Authentication;
  * @author y109
  *         2010-3-23上午12:09:14
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public class LoginSuccessListener implements ApplicationListener{
 	@Autowired
 	IUserService		userService;

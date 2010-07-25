@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public abstract class DaoSupport<T> implements DAO<T>{
 	protected final Log		logger		= LogFactory.getLog(getClass());
-	protected Class<T>		entityClass	= GenericsUtils.getSuperClassGenricType(this.getClass());
+	protected Class<T>		entityClass	= (Class<T>) GenericsUtils.getSuperClassGenricType(this.getClass());
 	@PersistenceContext
 	protected EntityManager	em;
 
@@ -101,7 +101,7 @@ public abstract class DaoSupport<T> implements DAO<T>{
 
 	@Transactional(readOnly = true,propagation = Propagation.NOT_SUPPORTED)
 	public QueryResult<T> getScrollData(int firstindex, int maxresult, String wherejpql, Object[] queryParams, LinkedHashMap<String, String> orderby) {
-		QueryResult qr = new QueryResult<T>();
+		QueryResult<T> qr = new QueryResult<T>();
 		String entityname = getEntityName(this.entityClass);
 		Query query = em.createQuery("select o from " + entityname + " o " + (wherejpql == null || "".equals(wherejpql.trim()) ? "" : "where " + wherejpql) + buildOrderby(orderby));
 		setQueryParams(query, queryParams);
