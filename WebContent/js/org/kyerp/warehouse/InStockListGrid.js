@@ -261,10 +261,7 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 							url : this.url,
 							params : _params,
 							success : this.onSubmitSuccess,
-							failure : function(form, action) {
-								Ext.Msg.alert('警告', '系统错误!'
-												+ action.failureType);
-							},
+							failure : onSubmitFailureGetMessage,
 							waitTitle : "数据传送",
 							waitMsg : "数据传送中,请稍候...",
 							scope : this
@@ -422,14 +419,14 @@ org.kyerp.warehouse.InStockInfoWindow = Ext.extend(Ext.Window, {
 /** ***************************************************************************** */
 org.kyerp.warehouse.InStockInsertWindow = Ext.extend(
 		org.kyerp.warehouse.InStockInfoWindow, {
-			title : "添 加",
+			title : "添 加入库单",
 			iconCls : 'icon-utils-s-add',
 			url : org.kyerp.warehouse.InStock_SAVE_URL
 		});
 /** ***************************************************************************** */
 org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
 		org.kyerp.warehouse.InStockInfoWindow, {
-			title : "修改",
+			title : "修改入库单",
 			iconCls : 'icon-utils-s-edit',
 			url : org.kyerp.warehouse.InStock_SAVE_URL,
 			pnId : "",
@@ -467,8 +464,8 @@ org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
 							success : function(response) {
 								var data = Ext.util.JSON
 										.decode(response.responseText);
-								if (data.msg) {
-									Ext.MessageBox.alert('提示', data.msg);
+								if (data.message) {
+									Ext.MessageBox.alert('提示', data.message);
 								}
 							}
 						})
@@ -480,8 +477,8 @@ org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
 							success : function(response) {
 								var data = Ext.util.JSON
 										.decode(response.responseText);
-								if (data.msg) {
-									Ext.MessageBox.alert('提示', data.msg);
+								if (data.message) {
+									Ext.MessageBox.alert('提示', data.message);
 								}
 							}
 						})
@@ -493,8 +490,8 @@ org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
 							success : function(response) {
 								var data = Ext.util.JSON
 										.decode(response.responseText);
-								if (data.msg) {
-									Ext.MessageBox.alert('提示', data.msg);
+								if (data.message) {
+									Ext.MessageBox.alert('提示', data.message);
 								}
 							}
 						})

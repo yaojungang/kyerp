@@ -46,6 +46,9 @@ org.kyerp.warehouse.StockStore = new Ext.data.Store({
 								name : 'cost',
 								type : 'float'
 							}, {
+								name : "remark",
+								type : "string"
+							}, {
 								name : "details"
 							}]))
 		});
@@ -107,11 +110,20 @@ org.kyerp.warehouse.InventoryDetailStroe = new Ext.data.Store({
 								name : 'outStockCount',
 								type : 'float'
 							}, {
+								name : 'begingStockCount',
+								type : 'float'
+							}, {
+								name : 'currentStockCount',
+								type : 'float'
+							}, {
 								name : 'inOutType',
 								type : 'string'
 							}, {
 								name : 'cost',
 								type : 'float'
+							}, {
+								name : "remark",
+								type : "string"
 							}]))
 		});
 /** ***************************************************************************** */
@@ -150,12 +162,20 @@ org.kyerp.warehouse.InventoryDetailWindow = Ext.extend(Ext.Window, {
 								header : '生产任务单号',
 								dataIndex : 'pressworkNo'
 							}, {
+								header : '期初余额',
+								dataIndex : 'begingStockCount',
+								align : 'right'
+							}, {
 								header : '入库数量',
 								dataIndex : 'inStockCount',
 								align : 'right'
 							}, {
 								header : '出库数量',
 								dataIndex : 'outStockCount',
+								align : 'right'
+							}, {
+								header : '当前余额',
+								dataIndex : 'currentStockCount',
 								align : 'right'
 							}, {
 								header : '单位',
