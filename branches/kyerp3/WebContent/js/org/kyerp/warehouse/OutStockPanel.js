@@ -406,9 +406,7 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 							url : this.url,
 							params : _params,
 							success : this.onSubmitSuccess,
-							failure : function(form, action) {
-								Ext.Msg.alert('警告', '系统错误');
-							},
+							failure : onSubmitFailureGetMessage,
 							waitTitle : "数据传送",
 							waitMsg : "数据传送中,请稍候...",
 							scope : this
@@ -464,6 +462,7 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 	onSubmitClick : function() {
 		this.submit();
 	}
+	
 });
 /** ***************************************************************************** */
 org.kyerp.warehouse.OutStockInfoWindow = Ext.extend(Ext.Window, {
@@ -584,14 +583,14 @@ org.kyerp.warehouse.OutStockInfoWindow = Ext.extend(Ext.Window, {
 /** ***************************************************************************** */
 org.kyerp.warehouse.OutStockInsertWindow = Ext.extend(
 		org.kyerp.warehouse.OutStockInfoWindow, {
-			title : "添加",
+			title : "添加出库单",
 			iconCls : 'icon-utils-s-add',
 			url : org.kyerp.warehouse.OutStockPanel_SAVE_URL
 		});
 /** ***************************************************************************** */
 org.kyerp.warehouse.OutStockUpdateWindow = Ext.extend(
 		org.kyerp.warehouse.OutStockInfoWindow, {
-			title : "打开",
+			title : "修改出库单",
 			iconCls : 'icon-utils-s-edit',
 			url : org.kyerp.warehouse.OutStockPanel_SAVE_URL,
 			pnId : "",
@@ -636,7 +635,7 @@ org.kyerp.warehouse.OutStockUpdateWindow = Ext.extend(
 								if (data.success) {
 									Ext.MessageBox.alert('提示', "单据状态改变成功!");
 								} else {
-									Ext.MessageBox.alert('警告', data.msg);
+									Ext.MessageBox.alert('警告', data.message);
 								}
 							}
 						})
@@ -652,7 +651,7 @@ org.kyerp.warehouse.OutStockUpdateWindow = Ext.extend(
 								if (data.success) {
 									Ext.MessageBox.alert('提示', "单据状态改变成功!");
 								} else {
-									Ext.MessageBox.alert('警告', data.msg);
+									Ext.MessageBox.alert('警告', data.message);
 								}
 							}
 						})
@@ -668,7 +667,7 @@ org.kyerp.warehouse.OutStockUpdateWindow = Ext.extend(
 									Ext.MessageBox.alert('提示',
 											"生成冲销单成功，请审核相应的入库单!");
 								} else {
-									Ext.MessageBox.alert('警告', data.msg);
+									Ext.MessageBox.alert('警告', data.message);
 								}
 							}
 						})
@@ -684,7 +683,7 @@ org.kyerp.warehouse.OutStockUpdateWindow = Ext.extend(
 								if (data.success) {
 									Ext.MessageBox.alert('提示', "单据状态改变成功!");
 								} else {
-									Ext.MessageBox.alert('警告', data.msg);
+									Ext.MessageBox.alert('警告', data.message);
 								}
 							}
 						})

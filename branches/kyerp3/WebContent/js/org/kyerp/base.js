@@ -54,7 +54,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 			margins : '0 0 5 0',
 			border : false,
 			height : 39,
-			html : '<div style="background:url(images/hd-bg.gif); height:39px;"><img src="images/logo.gif" /><div style="float:right;padding:10px 20px 0px 0px;color:#ffffff;">Version 3.0 bate</div></div>'
+			html : '<div style="background:url(images/hd-bg.gif); height:39px;"><img src="images/logo.gif" /><div style="float:right;padding:10px 20px 0px 0px;color:#ffffff;">Version 3.0 bate v20100728</div></div>'
 		});
 		// 首页
 		this.indexTab = {
@@ -62,7 +62,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 			title : '首页',
 			iconCls : 'icon-root-s',
 			items : [{
-				columnWidth : .58,
+				columnWidth : .56,
 				style : 'padding:10px 0 10px 10px',
 				defaults : {
 					bodyStyle : 'padding:0px',
@@ -89,7 +89,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 					html : '<iframe src="http://oars.tsinghua.edu.cn/comm/news.nsf/portalpost?openview&count=10" frameborder="0" width="100%" height="100%"></iframe>'
 				}]
 			}, {
-				columnWidth : .42,
+				columnWidth : .44,
 				style : 'padding:10px 10px 10px 10px',
 				defaults : {
 					bodyStyle : 'padding:4px',
@@ -240,7 +240,6 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 			// 如果模块类已存在，就直接实例化
 			model = new this[node.id](tab);
 		} else {
-			this.loadMask.show();
 			Ext.Ajax.request({
 						method : 'GET',
 						url : 'js/' + url + '.js',
@@ -249,14 +248,6 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 							this[node.id] = eval(response.responseText);
 							// 实例化模块类
 							model = new this[node.id](tab);
-							this.loadMask.hide();
-						},
-						failure : function() {
-							this.loadMask.hide();
-							Ext.Msg.alert('提示', '[' + node.text
-											+ '] 尚未实现，敬请期待！');
-							// 关闭tab
-							this.body.remove(this.body.getActiveTab());
 						}
 					});
 		}
@@ -272,7 +263,7 @@ Ext.onReady(function() {
 			Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
 
 			setTimeout(function() {
-						Ext.get('loading').remove();
+						Ext.get('loading').hide();
 						kyerpApp = new org.kyerp.base();
 					}, 250);
 			// 超时重新登录
@@ -292,32 +283,7 @@ Ext.onReady(function() {
 			// }
 			// })
 			// });
-			// 超时重新登录
-			Ext.override(Ext.data.Connection, {
-						handleResponse : Ext.data.Connection.prototype.handleResponse
-								.createInterceptor(function(response) {
-											// if
-											// (response.getResponseHeader("LOGINED")
-											// == "YES") {
-											// Ext.Msg.alert('提示',
-											// '会话超时，请重新登录!', function(
-											// btn, text) {
-											// if (btn == 'ok') {
-											// location.reload();
-											// }
-											// });
-											// };
-											try {
-												// var responseBody =
-												// Ext.decode(response.responseText);
-												// alert(response.status);
-											} catch (e) {
-												alert(e);
-											}
-										})
-					});
-
-		});
+});
 
 Number.prototype.toFixed = function(d) {
 	var s = this + "";
