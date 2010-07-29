@@ -32,7 +32,7 @@
 		<property name="location" value="classpath:conf/views.xml"/>		
 		<property name="order" value="0" />
 	</bean>
-	<!-- <bean id="jsonExceptionResolver" 
+	<bean id="jsonExceptionResolver" 
 		class="org.springframework.web.servlet.view.json.exception.JsonExceptionResolver">
 		<property name="exceptionView">
 			<value>jsonView</value>
@@ -52,16 +52,19 @@
 	</bean>
 	<bean name="statusError" class="org.springframework.web.servlet.view.json.error.HttpStatusError">
 		<property name="errorCode" value="311" />
-	</bean>        
+	</bean>       
 	<bean name="modelflagError" class="org.springframework.web.servlet.view.json.error.ModelFlagError">
-		<property name="name" value="ServerException" />
+		<property name="name" value="failure" />
 		<property name="value" value="true"/>
 	</bean>
         
 	<bean name="stackTraceExceptionHandler" 
-		class="org.springframework.web.servlet.view.json.exception.StackTraceExceptionHandler"/>
+		class="org.springframework.web.servlet.view.json.exception.StackTraceExceptionHandler">
+		<property name="modelKey" value="message_exceptionStackTrace"/>
+	</bean>
         
 	<bean name="exceptionMessageExceptionHandler" 
-		class="org.springframework.web.servlet.view.json.exception.ExceptionMessageExceptionHandler"/>
-		 -->
+		class="org.springframework.web.servlet.view.json.exception.ExceptionMessageExceptionHandler">
+	<property name="modelKey" value="message_exceptionMessage"/>
+	</bean>
 </beans>
