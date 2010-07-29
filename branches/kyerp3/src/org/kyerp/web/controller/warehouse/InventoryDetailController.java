@@ -25,7 +25,7 @@ public class InventoryDetailController extends BaseController{
 	IInventoryDetailService	inventoryDetailService;
 
 	@RequestMapping("/warehouse/InventoryDetail/jsonList.html")
-	public String list(Model model, Integer start, Integer limit, Long materialId, String query) {
+	public String list(Model model, Integer start, Integer limit, Long materialId, String query) throws Exception {
 		QueryResult<InventoryDetail> queryResult = getList(model, start, limit, materialId, query);
 
 		List<InventoryDetailExtGridRow> rows = new ArrayList<InventoryDetailExtGridRow>();
@@ -60,11 +60,14 @@ public class InventoryDetailController extends BaseController{
 				// 收发类型
 				n.setInOutType(outStockDetail.getOutStock().getInOutType().getName());
 			}
-
+			/** 期初余额 */
+			n.setBegingStockCount(o.getBegingStockCount());
 			/** 入库数量 */
 			n.setInStockCount(o.getInStockCount());
 			/** 出库数量 */
 			n.setOutStockCount(o.getOutStockCount());
+			/**当前余额**/
+			n.setCurrentStockCount(o.getCurrentStockCount());
 			/** 仓库 */
 			if(null != o.getWarehouse()) {
 				n.setWarehouseId(o.getWarehouse().getId());

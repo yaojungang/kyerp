@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.kyerp.dao.DaoSupport;
 import org.kyerp.domain.warehouse.InStockDetail;
-import org.kyerp.domain.warehouse.InventoryDetail;
 import org.kyerp.domain.warehouse.OutStockDetail;
 import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.domain.warehouse.StockDetail;
@@ -20,156 +19,178 @@ import org.springframework.transaction.annotation.Transactional;
  * @author y109 2009-11-30上午02:26:14
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class StockService extends DaoSupport<Stock> implements IStockService {
 	@Autowired
 	IStockDetailService stockDetailService;
 
 	public Stock findStockByMaterialId(Long materailId) {
 		String wherejpql = "o.material.id = " + materailId;
-		logger.debug(wherejpql);
+		logger.debug("查找Id为：" + materailId + " 的库存记录");
 		List<Stock> stocks = getScrollData(wherejpql, null, null)
 				.getResultlist();
 		if (stocks.size() > 0) {
+			logger.debug("找到了Id为：" + materailId + " 的库存记录");
 			return stocks.get(0);
 		} else {
+			logger.debug("没有找到了Id为：" + materailId + " 的库存记录，创建了一条库存记录");
 			return null;
 		}
 	}
 
+	@Override
 	/**
-	 * 判断是否存在同类物料（同ID，批次，库房的物料）
-	 * 
-	 * @param inStockDetail
-	 * @param queryParams
-	 * @return
+	 * 思路：先查找库存记录
 	 */
-	@Override
-	public boolean isContainedSameMaterial(InventoryDetail inventoryDetail) {
-		return null != stockDetailService
-				.findStockDetailByMaterialIdAndMaterialBatchNumberAndWarehouseId(
-						inventoryDetail.getMaterial().getId(), inventoryDetail
-								.getBatchNumber(), inventoryDetail
-								.getWarehouse().getId());
-	}
-
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void inStock(InStockDetail inStockDetail) throws Exception {
+	public StockDetail inStock(InStockDetail inStockDetail) throws Exception {
+		StockDetail stockDetail = stockDetailService.find(inStockDetail
+				.getMaterial().getId(), inStockDetail.getBatchNumber(),
+				inStockDetail.getWarehouse().getId());
 		Stock stock = null;
-		if (null != findStockByMaterialId(inStockDetail.getMaterial().getId()) && findStockByMaterialId(inStockDetail
-				.getMaterial().getId()).getId() >0) {
+		if (null != stockDetail) {
+			logger.debug("库中存在同批次、同Id、同库房的物料，直接在相应批次上加数"
+					+ inStockDetail.toString());
+			stock = stockDetail.getStock();
+			stockDetail = stockDetailService.in(stockDetail, inStockDetail);
+		} else {
 			stock = findStockByMaterialId(inStockDetail.getMaterial().getId());
-		} else {
-			stock = new Stock();
-		}
-		stock.setTotalAmount(stock.getTotalAmount().add(
-				inStockDetail.getInStockCount()));
-		if (isContainedSameMaterial(inStockDetail)) {
-			stockDetailService.in(inStockDetail);
-		} else {
-			stockDetailService.addStockDetailfromInstockDetail(inStockDetail);
-		}
-		if (0 == BigDecimal.ZERO.compareTo(stock.getTotalAmount())) {
-			logger.debug("delete:" + stock.toString());
-			delete(stock.getId());
-		}
-	}
-
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void outStock(OutStockDetail outStockDetail) throws Exception {
-		if (isContainedSameMaterial(outStockDetail)) {
-			Stock stock = findStockByMaterialId(outStockDetail.getMaterial()
-					.getId());
-			stock.setTotalAmount(stock.getTotalAmount().subtract(
-					outStockDetail.getOutStockCount()));
-
-			if (0 == BigDecimal.ZERO.compareTo(stock.getTotalAmount())) {
-				logger.debug("delete:" + stock.toString());
-				delete(stock.getId());
+			if (null != stock && stock.getId() > 0) {
+				logger.debug("库中不存在同批次、同Id、同库房的物料，入库一个新批次"
+						+ inStockDetail.toString());
+				stockDetail = stockDetailService
+						.addStockDetailfromInstockDetail(stock, inStockDetail);
 			} else {
-				StockDetail stockDetail = stockDetailService
-						.findStockDetailByMaterialIdAndMaterialBatchNumberAndWarehouseId(
-								outStockDetail.getMaterial().getId(),
-								outStockDetail.getBatchNumber(), outStockDetail
-										.getWarehouse().getId());
-				if (0 == stockDetail.getAmount().compareTo(
-						outStockDetail.getOutStockCount())) {
-					logger.debug("库存量 = 出库量: 正好出完，删除这条记录");
-					deleteStockDetail(stockDetail);
-					logger.debug("保存 Stock" + stock.toString());
-				} else {
-					logger.debug("正常出库");
-					stockDetailService.out(outStockDetail);
-				}
-				updateAmountPriceAndCost(stock);
-				save(stock);
+				stock = add(inStockDetail);
+				stockDetail = stock.getStockDetails().get(0);
 			}
-		} else {
-			throw new Exception("没有找到相应的库存记录,请核对批次号");
 		}
+
+		if (0 == updateAmountPriceAndCost(stock)) {
+			logger.debug("入库后，库存物料数量为零，删除库存记录 " + stock.toString());
+			delete(stock.getId());
+		} else {
+			logger.debug("更新库存记录 " + stock.toString());
+			update(stock);
+		}
+		return stockDetail;
 	}
 
 	@Override
-	public void deleteStockDetail(StockDetail stockDetail) throws Exception {
-		Stock stock = stockDetail.getStock();
-		List<StockDetail> stockDetails = stock.getStockDetails();
-		Iterator<StockDetail> iterator = stockDetails.iterator();
-		while (iterator.hasNext()) {
-			if (0 == iterator.next().getId().compareTo(stockDetail.getId())) {
-				iterator.remove();
+	public StockDetail outStock(OutStockDetail outStockDetail) throws Exception {
+		StockDetail stockDetail = stockDetailService.find(outStockDetail
+				.getMaterial().getId(), outStockDetail.getBatchNumber(),
+				outStockDetail.getWarehouse().getId());
+		if (null != stockDetail) {
+			stockDetail = stockDetailService.out(stockDetail, outStockDetail);
+			Stock stock = stockDetail.getStock();
+			if (0 == updateAmountPriceAndCost(stock)) {
+				logger.debug("出库后，库存物料数量为零，删除库存记录 " + stock.toString());
+				delete(stockDetail.getStock().getId());
+			} else {
+				logger.debug("保存库存记录 " + stock);
+				update(stock);
 			}
+			return stockDetail;
+		} else {
+			throw new Exception("没有找到相应的库存批次,请核对物料名称、批次号、库房");
 		}
-		stockDetailService.delete(stockDetail.getId());
-		stock.setStockDetails(stockDetails);
-		updateAmountPriceAndCost(stock);
-		update(stock);
 	}
 
 	public void updateAmountPriceAndCost(Long stockId) throws Exception {
 		Stock stock = find(stockId);
-		if (null != stock && stock.getId()>0) {
-			updateAmountPriceAndCost(stock);
-			update(stock);
-		}else {
-			throw new Exception("没有找到Id为："+stockId+" 的库存记录");
+		if (null != stock && stock.getId() > 0) {
+			if (0 == updateAmountPriceAndCost(stock)) {
+				delete(stock.getId());
+			} else {
+				update(stock);
+			}
+
+		} else {
+			throw new Exception("没有找到Id为：" + stockId + " 的库存记录");
 		}
-		
+
 	}
 
-	public void updateAmountPriceAndCost(Stock stock) throws Exception {
+	/**
+	 * 返回 总数量与0的比值 0:库存量为零 1:库存量为正数 -1:库存量为负数数
+	 */
+	public int updateAmountPriceAndCost(Stock stock) throws Exception {
+		logger.debug("更新数量，金额和单价，并删除记录为零的批次");
 		if (null != stock.getStockDetails()
 				&& stock.getStockDetails().size() > 0) {
 			stock.setTotalAmount(new BigDecimal("0.0000").setScale(4,
 					BigDecimal.ROUND_HALF_UP));
 			stock.setCost(new BigDecimal("0.0000").setScale(4,
 					BigDecimal.ROUND_HALF_UP));
-			//更新数量和总金额
+			// 更新数量和总金额
 			for (StockDetail detail : stock.getStockDetails()) {
 				stock.setTotalAmount(stock.getTotalAmount().add(
 						detail.getAmount()));
 				stock.setCost(stock.getCost().add(detail.getCost()));
 			}
-			//更新价格（平均价格）
-			if (1 == stock.getCost().compareTo(BigDecimal.ZERO) && 1 == stock.getTotalAmount().compareTo(BigDecimal.ZERO)) {
-				stock.setPrice(stock.getCost().divide(stock.getTotalAmount()));
-			}else {
+			// 更新价格（平均价格）
+			// logger.info("stock:"+stock.toString());
+			if (1 == stock.getCost().compareTo(BigDecimal.ZERO)
+					&& 1 == stock.getTotalAmount().compareTo(BigDecimal.ZERO)) {
+				stock.setPrice(stock.getCost().divide(stock.getTotalAmount(),
+						BigDecimal.ROUND_HALF_UP));
+			} else {
 				stock.setPrice(BigDecimal.ZERO);
 			}
-			//删除数量为零 的批次的库存记录
+			// 删除数量为零 的批次的库存记录
 			List<StockDetail> stockDetails = stock.getStockDetails();
 			Iterator<StockDetail> iterator = stockDetails.iterator();
 			while (iterator.hasNext()) {
 				StockDetail stockDetail = iterator.next();
 				if (0 == BigDecimal.ZERO.compareTo(stockDetail.getAmount())) {
 					iterator.remove();
+					logger.debug("删除数量为零的库存批次" + stockDetail.toString());
 					stockDetailService.delete(stockDetail.getId());
 				}
 			}
 			stock.setStockDetails(stockDetails);
-		}else {
-			throw new Exception("库存记录没有具体的批次记录，不能更新");
+			return stock.getTotalAmount().compareTo(BigDecimal.ZERO);
+		} else {
+			logger.debug("库存记录中没有具体的批次，不能更新  stockdetails size:"
+					+ stock.getStockDetails().size());
+			throw new Exception("库存记录中没有具体的批次，不能更新");
 		}
 
+	}
+
+	@Override
+	public Stock add(InStockDetail inStockDetail) throws Exception {
+		if (null != findStockByMaterialId(inStockDetail.getMaterial().getId())) {
+			throw new Exception("material Id="
+					+ inStockDetail.getMaterial().getId() + "记录已经存在，不用创建");
+		} else {
+			Stock stock = new Stock();
+			stock.setMaterial(inStockDetail.getMaterial());
+			stock.setUnit(inStockDetail.getMaterial().getUnit());
+			stock.setTotalAmount(inStockDetail.getInStockCount());
+			stock.setPrice(inStockDetail.getPrice());
+			stock.setCost(inStockDetail.getCost());
+			stock.setRemark(inStockDetail.getRemark());
+			StockDetail stockDetailNew = stockDetailService
+					.createStockDetailfromInstockDetail(inStockDetail);
+			stockDetailNew.setStock(stock);
+			List<StockDetail> stockDetails = stock.getStockDetails();
+			stockDetails.add(stockDetailNew);
+			stock.setStockDetails(stockDetails);
+			save(stock);
+			logger.debug("创建了一条新的库存记录" + stock.toString());
+			return stock;
+		}
+	}
+
+	@Override
+	public void removeZeroStock(Stock stock) throws Exception {
+		if (0 == updateAmountPriceAndCost(stock)) {
+			logger.debug("入库后，库存物料数量为零，删除库存记录 " + stock.toString());
+			delete(stock.getId());
+		} else {
+			logger.debug("更新库存记录 " + stock.toString());
+			update(stock);
+		}
 	}
 }

@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.kyerp.domain.warehouse.InStock;
 import org.kyerp.domain.warehouse.InStockDetail;
 import org.kyerp.domain.warehouse.OutStock;
 import org.kyerp.domain.warehouse.OutStockDetail;
+import org.kyerp.domain.warehouse.StockDetail;
 import org.kyerp.service.warehouse.IInOutTypeService;
 import org.kyerp.service.warehouse.IInStockDetailService;
 import org.kyerp.service.warehouse.IInStockService;
@@ -30,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author y109 2009-11-30上午02:26:14
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class OutStockService extends DaoSupport<OutStock> implements
 		IOutStockService {
 	@Autowired
@@ -46,8 +49,7 @@ public class OutStockService extends DaoSupport<OutStock> implements
 	ISupplierService supplierService;
 
 	@Override
-	@Transactional(rollbackFor = { Exception.class })
-	public void saveOutStock(OutStock outStock) throws Exception {
+	public void save(OutStock outStock) throws Exception {
 		if (null == outStock.getSerialNumber() || outStock.getSerialNumber().length() == 0) {
 			// 如果没有填写单号则设置单号
 			try {
@@ -57,31 +59,36 @@ public class OutStockService extends DaoSupport<OutStock> implements
 			}
 		}
 		updateOutStockCountAndCost(outStock);
-		save(outStock);
+		super.save(outStock);
 	}
 
 	/*
-	 * 审核入库单 改变状态为已审核,设置审核人，审核时间
+	 * 审核出库单 改变状态为已审核,设置审核人，审核时间
 	 * 
 	 * @see org.kyerp.service.warehouse.IOutStockService#checkOutStock(
 	 * org.kyerp.domain.warehouse.OutStock)
 	 */
 	@Override
-	@Transactional(rollbackFor = { Exception.class, Throwable.class })
-	public String checkOutStock(OutStock outStock) throws Exception {
+	public void checkOutStock(Long outStockId) throws Exception {
+		OutStock outStock = find(outStockId);
 		if (BillStatus.CHECKED == outStock.getStatus()) {
-			return "该单据已经审核过，不能再审核。";
+			throw new Exception("出库单("+outStockId+")已经审核过，不能再审核。");
 		}
 		// 循环取出入库单明细里的每个条目；
 		for (OutStockDetail outStockDetail : outStock.getDetails()) {
 			if (outStock.getDetails().size() == 0) {
-				continue;
+				throw new Exception("至少需要一条出库项目！");
 			}
 			try {
-				stockService.outStock(outStockDetail);
+				StockDetail stockDetail = stockService.outStock(outStockDetail);
+				//设置当前余额
+				outStockDetail.setCurrentStockCount(stockDetail.getAmount());
+				//反查期初余额
+				outStockDetail.setBegingStockCount(stockDetail.getAmount().add(outStockDetail.getOutStockCount()));
+			
 			} catch (Exception e) {
-				logger.info("没有找到相应的库存记录");
-				return e.getLocalizedMessage();
+				e.printStackTrace();
+				throw new Exception("审核出库项目时发生错误:"+e.getLocalizedMessage());
 			}
 		}
 		// 设置单据状态
@@ -91,11 +98,8 @@ public class OutStockService extends DaoSupport<OutStock> implements
 		// 设置审核人
 		outStock.setCheckUser(WebUtil.getCurrentUser());
 		outStock.setCheckEmployee(WebUtil.getCurrentEmployee());
-		logger.info("before update outStock:" + outStock.toString());
 		updateOutStockCountAndCost(outStock);
-		logger.info("after update outStock:" + outStock.toString());
 		update(outStock);
-		return "success";
 	}
 
 	/*
@@ -105,11 +109,11 @@ public class OutStockService extends DaoSupport<OutStock> implements
 	 * org.kyerp.service.warehouse.IOutStockService#congXiao(java.lang.Long)
 	 */
 	@Override
-	public String congXiao(Long outStockId) throws Exception {
+	public void congXiao(Long outStockId) throws Exception {
 		OutStock outStock = find(outStockId);
 		if (null != outStock) {
 			if (BillStatus.CONGXIAO.equals(outStock.getStatus())) {
-				return "已经冲销，不能再次冲销！";
+				throw new Exception("出库单(Id=" + outStockId + ")已经冲销，不能再次冲销！");
 			} else {
 				InStock inStock = new InStock();
 				// 设置收发类型为 "冲销入库"
@@ -117,12 +121,11 @@ public class OutStockService extends DaoSupport<OutStock> implements
 				inStock.setWriteDate(new Date());
 				inStock.setWriteEmployee(WebUtil.getCurrentEmployee());
 				inStock.setKeeper(WebUtil.getCurrentEmployee());
-				inStock.setRemark("出库单：" + outStock.getSerialNumber() + "的冲销单");
+				inStock.setRemark("" + outStock.getSerialNumber() + "的冲销单");
 				inStock.setStatus(BillStatus.WAITING_FOR_CHECK);
 				// 设置供应商为 "不详"
 				inStock.setSupplier(supplierService.find(26L));
-
-				inStockService.saveInStock(inStock);
+				inStockService.save(inStock);
 				List<InStockDetail> inStockDetails = new ArrayList<InStockDetail>();
 				for (OutStockDetail outStockDetail : outStock.getDetails()) {
 					InStockDetail inStockDetail = new InStockDetail();
@@ -144,12 +147,11 @@ public class OutStockService extends DaoSupport<OutStock> implements
 				inStockService.update(inStock);
 
 				outStock.setStatus(BillStatus.CONGXIAO);
-				outStock.setRemark("已经冲销!入库单号：" + inStock.getSerialNumber());
+				outStock.setRemark("已冲销!单号：" + inStock.getSerialNumber());
 				update(outStock);
-				return "success";
 			}
 		} else {
-			return "没有找到相应的出库单！";
+			throw new Exception("出库单(Id=" + outStockId + ")没有找到！");
 		}
 	}
 
@@ -190,5 +192,19 @@ public class OutStockService extends DaoSupport<OutStock> implements
 					detail.getOutStockCount()));
 			outStock.setBillCost(outStock.getBillCost().add(detail.getBillCost()));
 		}
+		// 删除数量为零 入库记录
+		List<OutStockDetail> outStockDetails = outStock.getDetails();
+		Iterator<OutStockDetail> iterator = outStockDetails.iterator();
+		while (iterator.hasNext()) {
+			OutStockDetail outStockDetail = iterator.next();
+			if (0 == BigDecimal.ZERO.compareTo(outStockDetail.getOutStockCount())) {
+				iterator.remove();
+				if (null != outStockDetail.getId()) {
+					logger.debug("删除数量为零的库存批次" + outStockDetail.toString());
+					inStockDetailService.delete(outStockDetail.getId());
+				}
+			}
+		}
+		outStock.setDetails(outStockDetails);
 	}
 }

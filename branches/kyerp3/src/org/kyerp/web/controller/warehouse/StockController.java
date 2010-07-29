@@ -13,6 +13,7 @@ import net.sf.json.JSONArray;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFFooter;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -29,7 +30,9 @@ import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.domain.warehouse.StockDetail;
 import org.kyerp.service.warehouse.IStockService;
+import org.kyerp.utils.MathTools;
 import org.kyerp.utils.WebUtil;
+import org.kyerp.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -41,7 +44,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class StockController{
+public class StockController extends BaseController{
 	@Autowired
 	IStockService	stockService;
 
@@ -76,7 +79,8 @@ public class StockController{
 			n.setPrice(o.getPrice());
 			/** 总金额 */
 			n.setCost(o.getCost());
-
+			/**备注**/
+			n.setRemark(o.getRemark());
 			/** 明细 */
 			if(null != o.getStockDetails() && o.getStockDetails().size() > 0) {
 				List<StockDetailExtGridRow> itemRows = new ArrayList<StockDetailExtGridRow>();
@@ -140,7 +144,8 @@ public class StockController{
 	public void excel(Model model, Long mCategoryId, String query, HttpServletResponse response, HttpServletRequest request) throws Exception {
 
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
-		orderby.put("id", "asc");
+		//orderby.put("id", "asc");
+		orderby.put("material.name", "asc");
 		// build where jpql
 		StringBuffer wherejpql = new StringBuffer("");
 		List<Object> queryParams = new ArrayList<Object>();
@@ -179,12 +184,12 @@ public class StockController{
 		List<ExcelTitleColumn> excelTitleColumns = new ArrayList<ExcelTitleColumn>();
 		excelTitleColumns.add(new ExcelTitleColumn("序号", 1500));
 		excelTitleColumns.add(new ExcelTitleColumn("名称", 9000));
-		excelTitleColumns.add(new ExcelTitleColumn("批次", 3550));
+		excelTitleColumns.add(new ExcelTitleColumn("批次", 4000));
 		excelTitleColumns.add(new ExcelTitleColumn("单位", 1500));
 		excelTitleColumns.add(new ExcelTitleColumn("单价", 2500));
 		excelTitleColumns.add(new ExcelTitleColumn("数量", 3500));
-		excelTitleColumns.add(new ExcelTitleColumn("金额", 2000));
-		excelTitleColumns.add(new ExcelTitleColumn("备注", 2000));
+		excelTitleColumns.add(new ExcelTitleColumn("金额", 2500));
+		excelTitleColumns.add(new ExcelTitleColumn("备注", 2500));
 		createHeaderRow(workbook, sheet, excelTitleColumns, ++rowNumber);
 
 		// 设置字体
@@ -206,7 +211,20 @@ public class StockController{
 		cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
 		cellStyle.setBorderTop(CellStyle.BORDER_THIN);
 		cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
-
+		
+		CellStyle cellStyle1 = workbook.createCellStyle();
+		cellStyle1.setFont(font);
+		cellStyle1.setBorderBottom(CellStyle.BORDER_THIN);
+		cellStyle1.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+		cellStyle1.setBorderLeft(CellStyle.BORDER_THIN);
+		cellStyle1.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+		cellStyle1.setBorderRight(CellStyle.BORDER_THIN);
+		cellStyle1.setRightBorderColor(IndexedColors.BLACK.getIndex());
+		cellStyle1.setBorderTop(CellStyle.BORDER_THIN);
+		cellStyle1.setTopBorderColor(IndexedColors.BLACK.getIndex());
+		//设置小数位数
+		HSSFDataFormat format = workbook.createDataFormat();
+		 cellStyle1.setDataFormat(format.getFormat("#,##0.000")); //  四位小数
 		// 填充主体数据
 		int stockNumber = 0;
 		for (Stock stock : queryResult.getResultlist()) {
@@ -218,6 +236,7 @@ public class StockController{
 			cell01.setCellValue(++stockNumber);
 			cell01.setCellStyle(cellStyle);
 			Cell cell02 = row.createCell(columnNumber++);
+			logger.debug("export stock: stockId:"+stock.getId()+";materialName:"+stock.getMaterial().getName());
 			cell02.setCellValue(createHelper.createRichTextString(stock.getMaterial().getName()));
 			cell02.setCellStyle(cellStyle);
 			Cell cell03 = row.createCell(columnNumber++);
@@ -229,17 +248,17 @@ public class StockController{
 			cell04.setCellStyle(cellStyle);
 
 			Cell cellPrice01 = row.createCell(columnNumber++);
-			cellPrice01.setCellValue(stock.getMaterial().getPrice().toString());
-			cellPrice01.setCellStyle(cellStyle);
+			cellPrice01.setCellValue(Double.parseDouble(MathTools.removeTailZero(stock.getMaterial().getPrice())));
+			cellPrice01.setCellStyle(cellStyle1);
 
 			Cell cell05 = row.createCell(columnNumber++);
-			cell05.setCellValue(stock.getTotalAmount().toString());
-			cell05.setCellStyle(cellStyle);
+			cell05.setCellValue(Double.parseDouble(MathTools.removeTailZero(stock.getTotalAmount())));
+			cell05.setCellStyle(cellStyle1);
 
 			Cell money01 = row.createCell(columnNumber++);
 			// System.out.println("stock.getCost().toString()" + stock.getCost().toString());
-			money01.setCellValue(stock.getCost().toString());
-			money01.setCellStyle(cellStyle);
+			money01.setCellValue(Double.parseDouble(MathTools.removeTailZero(stock.getCost())));
+			money01.setCellStyle(cellStyle1);
 
 			Cell cell06 = row.createCell(columnNumber++);
 			cell06.setCellValue(stock.getRemark());
@@ -262,17 +281,17 @@ public class StockController{
 				cell4.setCellStyle(cellStyle);
 
 				Cell cellPrice = detailRow.createCell(columnNumber++);
-				cellPrice.setCellValue(stockDetail.getPrice().toString());
-				cellPrice.setCellStyle(cellStyle);
+				cellPrice.setCellValue(Double.parseDouble(MathTools.removeTailZero(stockDetail.getPrice())));
+				cellPrice.setCellStyle(cellStyle1);
 
 				Cell cell5 = detailRow.createCell(columnNumber++);
-				cell5.setCellValue(stockDetail.getAmount().toString());
-				cell5.setCellStyle(cellStyle);
+				cell5.setCellValue(Double.parseDouble(MathTools.removeTailZero(stockDetail.getAmount())));
+				cell5.setCellStyle(cellStyle1);
 
 				Cell money1 = detailRow.createCell(columnNumber++);
 				// System.out.println("stockDetail.getCost().toString()" + stockDetail.getCost().toString());
-				money1.setCellValue(stockDetail.getCost().toString());
-				money1.setCellStyle(cellStyle);
+				money1.setCellValue(Double.parseDouble(MathTools.removeTailZero(stockDetail.getCost())));
+				money1.setCellStyle(cellStyle1);
 
 				Cell cell6 = detailRow.createCell(columnNumber++);
 				cell6.setCellValue(stockDetail.getRemark());

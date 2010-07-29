@@ -32,7 +32,7 @@ public class BuyerOfInStock extends InStock implements Serializable{
 	}
 
 	@Override
-	public void prePersist() {
+	public void prePersist() throws Exception {
 		super.prePersist();
 		this.inputTime = new Date();
 	}

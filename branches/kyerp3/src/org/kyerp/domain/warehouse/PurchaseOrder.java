@@ -17,7 +17,6 @@ import org.kyerp.domain.BaseDomain;
 import org.kyerp.domain.org.Department;
 import org.kyerp.domain.org.Employee;
 import org.kyerp.domain.security.User;
-import org.kyerp.utils.WebUtil;
 
 /**
  * 采购申请单
@@ -73,40 +72,6 @@ public class PurchaseOrder extends BaseDomain implements Serializable{
 	private List<PurchaseOrderDetail>	details				= new ArrayList<PurchaseOrderDetail>();
 
 	public PurchaseOrder() {
-	}
-
-	@Override
-	public void prePersist() {
-		// 设置填单时间
-		this.setWriteDate(new Date());
-		// 设置单据状态
-		this.setStatus(BillStatus.WRITING);
-		// 保存填单人
-		try {
-			this.setWriteUser(WebUtil.getCurrentUser());
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			this.setWriteEmployee(WebUtil.getCurrentEmployee());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		super.prePersist();
-		this.preUpdate();
-	}
-
-	@Override
-	public void preUpdate() {
-		this.setBillCount(new BigDecimal("0"));
-		this.setBillCost(new BigDecimal("0"));
-		for (PurchaseOrderDetail detail : this.getDetails()) {
-			this.setBillCount(this.getBillCount().add(detail.getBillCount()));
-			this.setBillCost(this.getBillCost().add(detail.getBillCost()));
-		}
-		super.preUpdate();
 	}
 
 	public String getSerialNumber() {

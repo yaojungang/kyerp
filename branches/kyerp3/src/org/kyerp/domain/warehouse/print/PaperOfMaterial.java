@@ -63,19 +63,21 @@ public class PaperOfMaterial extends Material implements Serializable{
 		super.setSpecification(String.valueOf(this.getPaperWidth()) + "*" + String.valueOf(this.getPaperHeight()));
 	}
 
-	/** 在对象新建前保存建立时间 */
+	/** 在对象新建前保存建立时间 
+	 * @throws Exception */
 	@Override
 	@PrePersist
-	public void prePersist() {
+	public void prePersist() throws Exception {
 		this.setMaterialName();
 		this.setSpecification();
 		super.prePersist();
 	}
 
-	/** 在对象更新前保存修改时间 */
+	/** 在对象更新前保存修改时间 
+	 * @throws Exception */
 	@PreUpdate
 	@Override
-	public void preUpdate() {
+	public void preUpdate() throws Exception {
 		this.setMaterialName();
 		this.setSpecification();
 		super.preUpdate();
