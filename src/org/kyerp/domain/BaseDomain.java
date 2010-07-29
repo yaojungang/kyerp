@@ -36,36 +36,37 @@ public class BaseDomain{
 	@Version
 	private Integer		version;
 
-	/** 在对象新建前保存建立时间 */
+	/** 在对象新建前保存建立时间 
+	 * @throws Exception */
 	@PrePersist
-	public void prePersist() {
+	public void prePersist() throws Exception {
 		this.createTime = new Date();
 	}
 
 	/** 在实体成为持久实体后，调用该实体的 @PostPersist 回调方法 */
 	@PostPersist
-	public void postPersist() {
+	public void postPersist()throws Exception  {
 	}
 
 	/** 在对象更新前保存修改时间 */
 	@PreUpdate
-	public void preUpdate() {
+	public void preUpdate()throws Exception  {
 		this.updateTime = new Date();
 	}
 
 	/** 在对实体数据进行了数据库更新操作后，调用实体的 @PostUpdate 回调方法 */
 	@PostUpdate
-	public void postUpdate() {
+	public void postUpdate() throws Exception {
 	}
 
 	/** 在对象删除前执行 */
 	@PreDestroy
-	public void preDestory() {
+	public void preDestory()throws Exception  {
 	}
 
 	/** 在删除实体后，调用该实体的 @PostRemove 回调方法 */
 	@PostRemove
-	public void postRemove() {
+	public void postRemove() throws Exception {
 	}
 
 	public Long getId() {

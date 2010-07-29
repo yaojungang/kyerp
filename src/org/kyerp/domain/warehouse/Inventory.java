@@ -62,7 +62,7 @@ public class Inventory extends BaseDomain implements Serializable{
 	}
 
 	@Override
-	public void prePersist() {
+	public void prePersist() throws Exception {
 // 设置单据状态
 		this.setStatus(BillStatus.WRITING);
 		// 保存填单时间
@@ -74,8 +74,108 @@ public class Inventory extends BaseDomain implements Serializable{
 			this.setWriteEmployee(WebUtil.getCurrentEmployee());
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new Exception("");
 		}
 		super.prePersist();
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((billCost == null) ? 0 : billCost.hashCode());
+		result = prime * result
+				+ ((billCount == null) ? 0 : billCount.hashCode());
+		result = prime * result
+				+ ((checkDate == null) ? 0 : checkDate.hashCode());
+		result = prime * result
+				+ ((checkEmployee == null) ? 0 : checkEmployee.hashCode());
+		result = prime * result
+				+ ((checkUser == null) ? 0 : checkUser.hashCode());
+		result = prime * result
+				+ ((inOutType == null) ? 0 : inOutType.hashCode());
+		result = prime * result + ((keeper == null) ? 0 : keeper.hashCode());
+		result = prime * result
+				+ ((serialNumber == null) ? 0 : serialNumber.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result
+				+ ((writeDate == null) ? 0 : writeDate.hashCode());
+		result = prime * result
+				+ ((writeEmployee == null) ? 0 : writeEmployee.hashCode());
+		result = prime * result
+				+ ((writeUser == null) ? 0 : writeUser.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Inventory other = (Inventory) obj;
+		if (billCost == null) {
+			if (other.billCost != null)
+				return false;
+		} else if (!billCost.equals(other.billCost))
+			return false;
+		if (billCount == null) {
+			if (other.billCount != null)
+				return false;
+		} else if (!billCount.equals(other.billCount))
+			return false;
+		if (checkDate == null) {
+			if (other.checkDate != null)
+				return false;
+		} else if (!checkDate.equals(other.checkDate))
+			return false;
+		if (checkEmployee == null) {
+			if (other.checkEmployee != null)
+				return false;
+		} else if (!checkEmployee.equals(other.checkEmployee))
+			return false;
+		if (checkUser == null) {
+			if (other.checkUser != null)
+				return false;
+		} else if (!checkUser.equals(other.checkUser))
+			return false;
+		if (inOutType == null) {
+			if (other.inOutType != null)
+				return false;
+		} else if (!inOutType.equals(other.inOutType))
+			return false;
+		if (keeper == null) {
+			if (other.keeper != null)
+				return false;
+		} else if (!keeper.equals(other.keeper))
+			return false;
+		if (serialNumber == null) {
+			if (other.serialNumber != null)
+				return false;
+		} else if (!serialNumber.equals(other.serialNumber))
+			return false;
+		if (status != other.status)
+			return false;
+		if (writeDate == null) {
+			if (other.writeDate != null)
+				return false;
+		} else if (!writeDate.equals(other.writeDate))
+			return false;
+		if (writeEmployee == null) {
+			if (other.writeEmployee != null)
+				return false;
+		} else if (!writeEmployee.equals(other.writeEmployee))
+			return false;
+		if (writeUser == null) {
+			if (other.writeUser != null)
+				return false;
+		} else if (!writeUser.equals(other.writeUser))
+			return false;
+		return true;
 	}
 
 	public String nextCode() {

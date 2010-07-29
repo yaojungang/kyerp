@@ -42,43 +42,6 @@ public class PurchaseOrderDetail extends BaseDomain implements Serializable{
 	}
 
 	/**
-	 * 明细保存时同时更新订单的总数量及总订单金额
-	 */
-	@Override
-	public void postPersist() {
-		super.postPersist();
-		updatePurchase();
-	}
-
-	/**
-	 * 明细更新时同时更新订单的总数量及总订单金额
-	 */
-	@Override
-	public void preUpdate() {
-		super.preUpdate();
-		updatePurchase();
-	}
-
-	/**
-	 * 明细删除时同时更新订单的总数量及部订单金额
-	 */
-	@Override
-	public void preDestory() {
-		super.preDestory();
-		updatePurchase();
-	}
-
-	private void updatePurchase() {
-		PurchaseOrder bill = this.getPurchaseOrder();
-		bill.setBillCount(new BigDecimal("0"));
-		bill.setBillCost(new BigDecimal("0"));
-		for (PurchaseOrderDetail detail : bill.getDetails()) {
-			bill.setBillCount(bill.getBillCount().add(detail.getBillCount()));
-			bill.setBillCost(bill.getBillCost().add(detail.getBillCost()));
-		}
-	}
-
-	/**
 	 * 订单的采购金额
 	 */
 	public BigDecimal getBillCost() {

@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface IInStockDetailService extends DAO<InStockDetail>{
-	public void saveInStockDetail(InStockDetail e);
+	public void save(InStockDetail e);
 }

@@ -2,7 +2,6 @@ package org.kyerp.service.warehouse;
 
 import org.kyerp.dao.DAO;
 import org.kyerp.domain.warehouse.InStockDetail;
-import org.kyerp.domain.warehouse.InventoryDetail;
 import org.kyerp.domain.warehouse.OutStockDetail;
 import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.domain.warehouse.StockDetail;
@@ -20,37 +19,41 @@ public interface IStockService extends DAO<Stock> {
 	 */
 	Stock findStockByMaterialId(Long materailId);
 	/**
-	 * 判断是否存在同类物料（同ID，批次，库房的物料）
-	 * @param inStockDetail
-	 * @return
-	 */
-	boolean isContainedSameMaterial(InventoryDetail inventoryDetail);
-	/**
 	 * 入库
 	 * 
 	 * @param stockDetail
 	 */
-	void inStock(InStockDetail inStockDetail) throws Exception;
+	StockDetail inStock(InStockDetail inStockDetail) throws Exception;
 
 	/**
 	 * 出库
 	 * 
 	 * @param stockDetail
 	 */
-	void outStock(OutStockDetail outStockDetail) throws Exception;
+	StockDetail outStock(OutStockDetail outStockDetail) throws Exception;
 	/**
-	 * 删除库存项目
-	 * @param stockDetail
-	 */
-	void deleteStockDetail(StockDetail stockDetail) throws Exception;
-	/**
-	 * 更新Stock的数量，金额和价格
+	 * 更新Stock的数量，金额和价格，删除数量为零的批次，并保存stock
 	 * @param stockId
 	 */
 	void updateAmountPriceAndCost(Long stockId) throws Exception;
 	/**
-	 * 更新Stock的数量，金额和价格
+	 * 更新Stock的数量，金额和价格，删除数量为零的批次，不保存Stock
+	 * 返回 总数量与0的比值
+		0:库存量为零
+		1:库存量为正数
+		-1:库存量为负数数
 	 * @param stock
 	 */
-	void updateAmountPriceAndCost(Stock stock) throws Exception;
+	int updateAmountPriceAndCost(Stock stock) throws Exception;
+	/**
+	 * 根据入库项目，创建一个新的库存记录，并保存stock
+	 * @param inStockDetail
+	 * @return
+	 */
+	Stock add(InStockDetail inStockDetail) throws Exception ;
+	/**
+	 * 删除余额为零的记录
+	 * @throws Exception
+	 */
+	void removeZeroStock(Stock stock) throws Exception;
 }

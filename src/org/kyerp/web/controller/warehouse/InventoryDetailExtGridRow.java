@@ -2,6 +2,8 @@ package org.kyerp.web.controller.warehouse;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+
 /**
  *org.kyerp.web.controller.warehouse.InventoryDetailExtGridRow.java
  * 
@@ -28,10 +30,16 @@ public class InventoryDetailExtGridRow{
 	/** 仓库 */
 	private Long		warehouseId;
 	private String		warehouseName;
+	
+	/** 期初余额 */
+	private BigDecimal	begingStockCount	= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 入库数量 */
 	private BigDecimal	inStockCount	= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 出库数量 */
 	private BigDecimal	outStockCount	= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
+	/** 当前数量 */
+	@Column(precision = 12,scale = 4,nullable = false)
+	private BigDecimal			currentStockCount		= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 单位 */
 	private Long		unitId;
 	private String		unitName;
@@ -65,12 +73,28 @@ public class InventoryDetailExtGridRow{
 		return materialName;
 	}
 
+	public BigDecimal getCurrentStockCount() {
+		return currentStockCount;
+	}
+
+	public void setCurrentStockCount(BigDecimal currentStockCount) {
+		this.currentStockCount = currentStockCount;
+	}
+
 	public String getBatchNumber() {
 		return batchNumber;
 	}
 
 	public void setBatchNumber(String batchNumber) {
 		this.batchNumber = batchNumber;
+	}
+
+	public BigDecimal getBegingStockCount() {
+		return begingStockCount;
+	}
+
+	public void setBegingStockCount(BigDecimal begingStockCount) {
+		this.begingStockCount = begingStockCount;
 	}
 
 	public String getSerialNumber() {

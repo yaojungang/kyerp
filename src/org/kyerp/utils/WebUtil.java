@@ -30,7 +30,7 @@ public class WebUtil{
 			User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			return (Employee) currentUser.getEmployee();
 		} catch (Exception e) {
-			throw new Exception("获取当前登录用户失败");
+			throw new Exception("获取当前登录员工信息失败");
 		}
 
 	}
@@ -44,7 +44,7 @@ public class WebUtil{
 		try {
 			return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		} catch (Exception e) {
-			throw new Exception("获取当前登录用户失败");
+			throw new Exception("获取当前登录用户信息失败");
 		}
 
 	}

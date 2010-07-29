@@ -48,18 +48,20 @@ public class Material extends BaseItem implements Serializable{
 	public Material() {
 	}
 
-	/** 在对象新建前设置物料全称 */
+	/** 在对象新建前设置物料全称 
+	 * @throws Exception */
 	@Override
 	@PrePersist
-	public void prePersist() {
+	public void prePersist() throws Exception {
 		this.setFullName();
 		super.prePersist();
 	}
 
-	/** 在对象更新前设置物料全称 */
+	/** 在对象更新前设置物料全称 
+	 * @throws Exception */
 	@Override
 	@PreUpdate
-	public void preUpdate() {
+	public void preUpdate() throws Exception {
 		this.setFullName();
 		super.preUpdate();
 	}

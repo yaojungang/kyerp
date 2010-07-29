@@ -14,7 +14,13 @@ public interface IInStockService extends DAO<InStock>{
 	 * 
 	 * @throws Exception
 	 */
-	void saveInStock(InStock inStock) throws Exception;
+	void save(InStock inStock) throws Exception;
+	/**
+	 * 更新入库单，修改入库数量、金额,并保存
+	 * @param inStock
+	 * @throws Exception
+	 */
+	void update(InStock inStock) throws Exception;
 
 	/**
 	 * 审核入库单 改变状态为已审核,设置审核人，审核时间
@@ -22,7 +28,7 @@ public interface IInStockService extends DAO<InStock>{
 	 * @return String
 	 * @throws Exception
 	 */
-	String checkInStock(Long inStockId) throws Exception;
+	void checkInStock(Long inStockId) throws Exception;
 
 	/**
 	 * 冲销入库单生成冲销出库单
@@ -30,7 +36,7 @@ public interface IInStockService extends DAO<InStock>{
 	 * @return String
 	 * @throws Exception
 	 */
-	String congXiao(Long inStockId) throws Exception;
+	void congXiao(Long inStockId) throws Exception;
 
 	/**
 	 * 下一个单号
@@ -39,7 +45,8 @@ public interface IInStockService extends DAO<InStock>{
 
 
 	/**
-	 * 计算入库单数量、金额、单价
+	 * 更新入库单，修改入库数量、金额,不保存
+	 * 删除入库数量为零的记录
 	 * */
 	void updateInStockCountAndCost(InStock inStock) throws Exception;
 

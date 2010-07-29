@@ -29,10 +29,17 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 	private Warehouse			warehouse;
 	/** 入库数量 */
 	@Column(precision = 12,scale = 4,nullable = false)
+	private BigDecimal			begingStockCount		= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
+	
+	/** 入库数量 */
+	@Column(precision = 12,scale = 4,nullable = false)
 	private BigDecimal			inStockCount		= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 出库数量 */
 	@Column(precision = 12,scale = 4,nullable = false)
 	private BigDecimal			outStockCount		= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
+	/** 当前数量 */
+	@Column(precision = 12,scale = 4,nullable = false)
+	private BigDecimal			currentStockCount		= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 单位 */
 	@ManyToOne
 	private Unit				unit;
@@ -43,6 +50,94 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 	private String				remark;
 
 	public InventoryDetail() {
+	}
+
+	@Override
+	public String toString() {
+		return "InventoryDetail [getId()=" + getId() + ", inStockCount="
+				+ inStockCount + ", outStockCount=" + outStockCount
+				+ ", currentStockCount=" + currentStockCount + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((batchNumber == null) ? 0 : batchNumber.hashCode());
+		result = prime
+				* result
+				+ ((currentStockCount == null) ? 0 : currentStockCount
+						.hashCode());
+		result = prime * result
+				+ ((inStockCount == null) ? 0 : inStockCount.hashCode());
+		result = prime * result
+				+ ((material == null) ? 0 : material.hashCode());
+		result = prime * result
+				+ ((outStockCount == null) ? 0 : outStockCount.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((remark == null) ? 0 : remark.hashCode());
+		result = prime * result + ((unit == null) ? 0 : unit.hashCode());
+		result = prime * result
+				+ ((warehouse == null) ? 0 : warehouse.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		InventoryDetail other = (InventoryDetail) obj;
+		if (batchNumber == null) {
+			if (other.batchNumber != null)
+				return false;
+		} else if (!batchNumber.equals(other.batchNumber))
+			return false;
+		if (currentStockCount == null) {
+			if (other.currentStockCount != null)
+				return false;
+		} else if (!currentStockCount.equals(other.currentStockCount))
+			return false;
+		if (inStockCount == null) {
+			if (other.inStockCount != null)
+				return false;
+		} else if (!inStockCount.equals(other.inStockCount))
+			return false;
+		if (material == null) {
+			if (other.material != null)
+				return false;
+		} else if (!material.equals(other.material))
+			return false;
+		if (outStockCount == null) {
+			if (other.outStockCount != null)
+				return false;
+		} else if (!outStockCount.equals(other.outStockCount))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (remark == null) {
+			if (other.remark != null)
+				return false;
+		} else if (!remark.equals(other.remark))
+			return false;
+		if (unit == null) {
+			if (other.unit != null)
+				return false;
+		} else if (!unit.equals(other.unit))
+			return false;
+		if (warehouse == null) {
+			if (other.warehouse != null)
+				return false;
+		} else if (!warehouse.equals(other.warehouse))
+			return false;
+		return true;
 	}
 
 	public BigDecimal getCost() {
@@ -56,6 +151,14 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 
 	public void setMaterial(Material material) {
 		this.material = material;
+	}
+
+	public BigDecimal getBegingStockCount() {
+		return begingStockCount;
+	}
+
+	public void setBegingStockCount(BigDecimal begingStockCount) {
+		this.begingStockCount = begingStockCount;
 	}
 
 	public String getBatchNumber() {
@@ -86,6 +189,14 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 		return price;
 	}
 
+	public BigDecimal getCurrentStockCount() {
+		return currentStockCount;
+	}
+
+	public void setCurrentStockCount(BigDecimal currentStockCount) {
+		this.currentStockCount = currentStockCount;
+	}
+
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
@@ -98,7 +209,7 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 		this.remark = remark;
 	}
 
-	public BigDecimal getInStockCount() {
+	public BigDecimal getInStockCount() throws Exception {
 		return inStockCount;
 	}
 
@@ -106,7 +217,7 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 		this.inStockCount = inStockCount;
 	}
 
-	public BigDecimal getOutStockCount() {
+	public BigDecimal getOutStockCount() throws Exception {
 		return outStockCount;
 	}
 

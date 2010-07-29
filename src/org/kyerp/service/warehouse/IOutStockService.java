@@ -13,7 +13,7 @@ public interface IOutStockService extends DAO<OutStock>{
 	/**
 	 * 保存出库单 如果没有填写单号则设置单号
 	 */
-	void saveOutStock(OutStock outStock) throws Exception;
+	void save(OutStock outStock) throws Exception;
 
 	/**
 	 * 审核出库单 改变状态为已审核,设置审核人，审核时间
@@ -21,7 +21,7 @@ public interface IOutStockService extends DAO<OutStock>{
 	 * @return String
 	 * @throws Exception
 	 */
-	String checkOutStock(OutStock outStock) throws Exception;
+	void checkOutStock(Long outStockId) throws Exception;
 
 	/**
 	 * 冲销出库单生成冲销入库单
@@ -29,7 +29,7 @@ public interface IOutStockService extends DAO<OutStock>{
 	 * @return String
 	 * @throws Exception
 	 */
-	String congXiao(Long outStockId) throws Exception;
+	void congXiao(Long outStockId) throws Exception;
 
 	/**
 	 * 下一个单号

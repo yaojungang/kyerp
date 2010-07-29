@@ -38,312 +38,349 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class InStockController extends BaseController{
+public class InStockController extends BaseController {
 	@Autowired
-	IInStockService			inStockService;
+	IInStockService inStockService;
 	@Autowired
-	IInStockDetailService	inStockDetailService;
+	IInStockDetailService inStockDetailService;
 	@Autowired
-	IStockService			stockService;
+	IStockService stockService;
 	@Autowired
-	IMaterialService		materialService;
+	IMaterialService materialService;
 	@Autowired
-	ISupplierService		supplierService;
+	ISupplierService supplierService;
 	@Autowired
-	IUserService			userService;
+	IUserService userService;
 	@Autowired
-	IWarehouseService		warehouseService;
+	IWarehouseService warehouseService;
 	@Autowired
-	IInOutTypeService		inOutTypeService;
+	IInOutTypeService inOutTypeService;
 	@Autowired
-	IEmployeeService		employeeService;
+	IEmployeeService employeeService;
 
 	@RequestMapping("/warehouse/InStock/jsonList.html")
-	public String list(Model model, Integer start, Long inOutTypeId, Long supplierId, String query, Integer limit) throws Exception {
-		start = null == start ? 0 : start;
-		limit = null == limit ? 20 : limit;
-		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
-		orderby.put("id", "desc");
-		// build where jpql
-		StringBuffer wherejpql = new StringBuffer("");
-		List<Object> queryParams = new ArrayList<Object>();
-		wherejpql.append(" 1=?").append((queryParams.size() + 1));
-		queryParams.add(1);
-		// set parent id
-		if(null != supplierId) {
-			wherejpql.append(" and o.supplier.id=?").append(queryParams.size() + 1);
-			queryParams.add(supplierId);
-		}
-		// set inOutTypeId
-		if(null != inOutTypeId) {
-			wherejpql.append(" and o.inOutType.id=?").append(queryParams.size() + 1);
-			queryParams.add(inOutTypeId);
-		}
-		// set query
-		if(null != query && !query.equals("") && query.trim().length() > 0) {
-			wherejpql.append(" and (o.serialNumber like ?").append(queryParams.size() + 1);
-			queryParams.add("%" + query.trim() + "%");
-			// material's serialNumber
-			wherejpql.append(" or o.remark like ?").append(queryParams.size() + 1).append(")");
-			queryParams.add("%" + query.trim() + "%");
-		}
-		QueryResult<InStock> queryResult = inStockService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
-
-		List<InStockExtGridRow> rows = new ArrayList<InStockExtGridRow>();
-		for (InStock o : queryResult.getResultlist()) {
-			InStockExtGridRow n = new InStockExtGridRow();
-			/** id */
-			n.setId(o.getId());
-			/** 时间 */
-			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
-			/** 修改时间 */
-			if(null != o.getUpdateTime()) {
-				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
+	public String list(Model model, Integer start, Long inOutTypeId,
+			Long supplierId, String query, Integer limit) throws Exception {
+		try {
+			start = null == start ? 0 : start;
+			limit = null == limit ? 20 : limit;
+			LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+			orderby.put("id", "desc");
+			// build where jpql
+			StringBuffer wherejpql = new StringBuffer("");
+			List<Object> queryParams = new ArrayList<Object>();
+			wherejpql.append(" 1=?").append((queryParams.size() + 1));
+			queryParams.add(1);
+			// set parent id
+			if (null != supplierId) {
+				wherejpql.append(" and o.supplier.id=?").append(
+						queryParams.size() + 1);
+				queryParams.add(supplierId);
 			}
-			/** 申请单号 */
-			n.setSerialNumber(o.getSerialNumber());
-			/** 收发类型 */
-			if(null != o.getInOutType()) {
-				n.setInOutTypeId(o.getInOutType().getId());
-				n.setInOutTypeName(o.getInOutType().getName());
+			// set inOutTypeId
+			if (null != inOutTypeId) {
+				wherejpql.append(" and o.inOutType.id=?").append(
+						queryParams.size() + 1);
+				queryParams.add(inOutTypeId);
 			}
-			/** 供应商 */
-			if(null != o.getSupplier()) {
-				n.setSupplierId(o.getSupplier().getId());
-				n.setSupplierName(o.getSupplier().getName());
+			// set query
+			if (null != query && !query.equals("") && query.trim().length() > 0) {
+				wherejpql.append(" and (o.serialNumber like ?").append(
+						queryParams.size() + 1);
+				queryParams.add("%" + query.trim() + "%");
+				// material's serialNumber
+				wherejpql.append(" or o.remark like ?")
+						.append(queryParams.size() + 1).append(")");
+				queryParams.add("%" + query.trim() + "%");
 			}
-			/** 备注 */
-			if(null != o.getRemark()) {
-				n.setRemark(o.getRemark());
-			}
-			/** 总数量 */
-			n.setBillCount(o.getBillCount());
-			/** 总费用 */
-			if(null != o.getBillCost()) {
-				n.setBillCost(o.getBillCost());
-			}
-			/** 填单人 */
-			if(null != o.getWriteUser()) {
-				n.setWriteUserId(o.getWriteUser().getId());
-				n.setWriteUserName(o.getWriteUser().getUsername());
-			}
-			if(null != o.getWriteEmployee()) {
-				n.setWriteEmployeeId(o.getWriteEmployee().getId());
-				n.setWriteEmployeeName(o.getWriteEmployee().getName());
-			}
-			/** 经手人 */
-			if(null != o.getKeeper()) {
-				n.setKeeperId(o.getKeeper().getId());
-				n.setKeeperName(o.getKeeper().getName());
-			}
-			/** 审核人 */
-			if(null != o.getCheckUser()) {
-				n.setCheckUserId(o.getCheckUser().getId());
-				n.setCheckUserName(o.getCheckUser().getUsername());
-			}
-			if(null != o.getCheckEmployee()) {
-				n.setCheckEmployeeId(o.getCheckEmployee().getId());
-				n.setCheckEmployeeName(o.getCheckEmployee().getName());
-			}
-			/** 填写时间 */
-			if(null != o.getWriteDate()) {
-				n.setWriteDate(DateFormatUtils.format(o.getWriteDate(), "yyyy-MM-dd HH:mm:ss"));
-			}
-			/** 审核时间 */
-			if(null != o.getCheckDate()) {
-				n.setCheckDate(DateFormatUtils.format(o.getCheckDate(), "yyyy-MM-dd HH:mm:ss"));
-			}
-			/** 单据状态 */
-			if(null != o.getStatus()) {
-				n.setStatusString(o.getStatus().getName());
-			}
-			/**
-			 * 能否编辑 只有本人可以编辑
-			 * */
-			if("0".equals(WebUtil.getCurrentUser().getId()) || (BillStatus.WRITING.equals(o.getStatus()) && o.getWriteUser().getId().toString().equals(WebUtil.getCurrentUser().getId().toString()))) {
-				n.setEditAble("true");
-			} else {
-				n.setEditAble("false");
-			}
-
-			/** 入库日期 */
-			if(null != o.getArriveDate()) {
-				n.setArriveDate(DateFormatUtils.format(o.getArriveDate(), "yyyy-MM-dd"));
-			}
-			/** 明细 */
-			if(null != o.getDetails() && o.getDetails().size() > 0) {
-				List<InStockItemExtGridRow> itemRows = new ArrayList<InStockItemExtGridRow>();
-				for (InStockDetail detail : o.getDetails()) {
-					InStockItemExtGridRow row = new InStockItemExtGridRow();
-					/** id */
-					row.setId(detail.getId());
-					/** 时间 */
-					row.setCreateTime(DateFormatUtils.format(detail.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
-					/** 修改时间 */
-					if(null != detail.getUpdateTime()) {
-						row.setUpdateTime(DateFormatUtils.format(detail.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
-					}
-					/** 采购申请单 */
-					if(null != detail.getInStock()) {
-						row.setInStockId(detail.getInStock().getId());
-						row.setInStockSerialNumber(detail.getInStock().getSerialNumber());
-					}
-					/** 物料 */
-					if(null != detail.getMaterial()) {
-						row.setMaterialId(detail.getMaterial().getId());
-						row.setMaterialName(detail.getMaterial().getName());
-					}
-					// 批次号
-					row.setBatchNumber(detail.getBatchNumber());
-					/** 仓库 */
-					if(null != detail.getWarehouse()) {
-						row.setWarehouseId(detail.getWarehouse().getId());
-						row.setWarehouseName(detail.getWarehouse().getName());
-					}
-					/** 单位 */
-					if(null != detail.getUnit()) {
-						row.setUnitId(detail.getUnit().getId());
-						row.setUnitName(detail.getUnit().getName());
-					}
-					/** 数量 */
-					row.setBillCount(detail.getInStockCount());
-					/** 金额 */
-					row.setBillCost(detail.getBillCost());
-					/** 价格 */
-					if(null != detail.getPrice()) {
-						row.setPrice(detail.getPrice());
-					}
-					/** 备注 */
-					if(null != detail.getRemark()) {
-						row.setRemark(detail.getRemark());
-					}
-					itemRows.add(row);
+			QueryResult<InStock> queryResult = inStockService.getScrollData(
+					start, limit, wherejpql.toString(), queryParams.toArray(),
+					orderby);
+			List<InStockExtGridRow> rows = new ArrayList<InStockExtGridRow>();
+			for (InStock o : queryResult.getResultlist()) {
+				InStockExtGridRow n = new InStockExtGridRow();
+				/** id */
+				n.setId(o.getId());
+				/** 时间 */
+				n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
+						"yyyy-MM-dd HH:mm:ss"));
+				/** 修改时间 */
+				if (null != o.getUpdateTime()) {
+					n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(),
+							"yyyy-MM-dd HH:mm:ss"));
 				}
-				JSONArray rowArrayItems = new JSONArray();
-				rowArrayItems = JSONArray.fromObject(itemRows);
-				n.setDetails(rowArrayItems.toString());
+				/** 申请单号 */
+				n.setSerialNumber(o.getSerialNumber());
+				/** 收发类型 */
+				if (null != o.getInOutType()) {
+					n.setInOutTypeId(o.getInOutType().getId());
+					n.setInOutTypeName(o.getInOutType().getName());
+				}
+				/** 供应商 */
+				if (null != o.getSupplier()) {
+					n.setSupplierId(o.getSupplier().getId());
+					n.setSupplierName(o.getSupplier().getName());
+				}
+				/** 备注 */
+				if (null != o.getRemark()) {
+					n.setRemark(o.getRemark());
+				}
+				/** 总数量 */
+				n.setBillCount(o.getBillCount());
+				/** 总费用 */
+				if (null != o.getBillCost()) {
+					n.setBillCost(o.getBillCost());
+				}
+				/** 填单人 */
+				if (null != o.getWriteUser()) {
+					n.setWriteUserId(o.getWriteUser().getId());
+					n.setWriteUserName(o.getWriteUser().getUsername());
+				}
+				if (null != o.getWriteEmployee()) {
+					n.setWriteEmployeeId(o.getWriteEmployee().getId());
+					n.setWriteEmployeeName(o.getWriteEmployee().getName());
+				}
+				/** 经手人 */
+				if (null != o.getKeeper()) {
+					n.setKeeperId(o.getKeeper().getId());
+					n.setKeeperName(o.getKeeper().getName());
+				}
+				/** 审核人 */
+				if (null != o.getCheckUser()) {
+					n.setCheckUserId(o.getCheckUser().getId());
+					n.setCheckUserName(o.getCheckUser().getUsername());
+				}
+				if (null != o.getCheckEmployee()) {
+					n.setCheckEmployeeId(o.getCheckEmployee().getId());
+					n.setCheckEmployeeName(o.getCheckEmployee().getName());
+				}
+				/** 填写时间 */
+				if (null != o.getWriteDate()) {
+					n.setWriteDate(DateFormatUtils.format(o.getWriteDate(),
+							"yyyy-MM-dd HH:mm:ss"));
+				}
+				/** 审核时间 */
+				if (null != o.getCheckDate()) {
+					n.setCheckDate(DateFormatUtils.format(o.getCheckDate(),
+							"yyyy-MM-dd HH:mm:ss"));
+				}
+				/** 单据状态 */
+				if (null != o.getStatus()) {
+					n.setStatusString(o.getStatus().getName());
+				}
+				try {
+					/**
+					 * 能否编辑 只有本人可以编辑
+					 * */
+					if ("0".equals(WebUtil.getCurrentUser().getId())
+							|| (BillStatus.WRITING.equals(o.getStatus()) && o
+									.getWriteUser()
+									.getId()
+									.toString()
+									.equals(WebUtil.getCurrentUser().getId()
+											.toString()))) {
+						n.setEditAble("true");
+					} else {
+						n.setEditAble("false");
+					}
+				} catch (Exception e) {
+					model.addAttribute("failure", true);
+					model.addAttribute("message", "请重新登录！<br />" + e.getLocalizedMessage());
+				}
+				/** 入库日期 */
+				if (null != o.getArriveDate()) {
+					n.setArriveDate(DateFormatUtils.format(o.getArriveDate(),
+							"yyyy-MM-dd"));
+				}
+				/** 明细 */
+				if (null != o.getDetails() && o.getDetails().size() > 0) {
+					List<InStockItemExtGridRow> itemRows = new ArrayList<InStockItemExtGridRow>();
+					for (InStockDetail detail : o.getDetails()) {
+						InStockItemExtGridRow row = new InStockItemExtGridRow();
+						/** id */
+						row.setId(detail.getId());
+						/** 时间 */
+						row.setCreateTime(DateFormatUtils.format(
+								detail.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+						/** 修改时间 */
+						if (null != detail.getUpdateTime()) {
+							row.setUpdateTime(DateFormatUtils.format(
+									detail.getUpdateTime(),
+									"yyyy-MM-dd HH:mm:ss"));
+						}
+						/** 采购申请单 */
+						if (null != detail.getInStock()) {
+							row.setInStockId(detail.getInStock().getId());
+							row.setInStockSerialNumber(detail.getInStock()
+									.getSerialNumber());
+						}
+						/** 物料 */
+						if (null != detail.getMaterial()) {
+							row.setMaterialId(detail.getMaterial().getId());
+							row.setMaterialName(detail.getMaterial().getName());
+						}
+						// 批次号
+						row.setBatchNumber(detail.getBatchNumber());
+						/** 仓库 */
+						if (null != detail.getWarehouse()) {
+							row.setWarehouseId(detail.getWarehouse().getId());
+							row.setWarehouseName(detail.getWarehouse()
+									.getName());
+						}
+						/** 单位 */
+						if (null != detail.getUnit()) {
+							row.setUnitId(detail.getUnit().getId());
+							row.setUnitName(detail.getUnit().getName());
+						}
+						/** 数量 */
+						row.setBillCount(detail.getInStockCount());
+						/** 金额 */
+						row.setBillCost(detail.getBillCost());
+						/** 价格 */
+						if (null != detail.getPrice()) {
+							row.setPrice(detail.getPrice());
+						}
+						/** 备注 */
+						if (null != detail.getRemark()) {
+							row.setRemark(detail.getRemark());
+						}
+						itemRows.add(row);
+					}
+					JSONArray rowArrayItems = new JSONArray();
+					rowArrayItems = JSONArray.fromObject(itemRows);
+					n.setDetails(rowArrayItems.toString());
+				}
+				rows.add(n);
 			}
-			rows.add(n);
+			model.addAttribute("start", limit);
+			model.addAttribute("limit", limit);
+			model.addAttribute("totalProperty", queryResult.getTotalrecord());
+			model.addAttribute("rows", rows);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("failure", true);
+			model.addAttribute("message", "获取数据失败！<br />" + e.getLocalizedMessage());
 		}
-		model.addAttribute("start", limit);
-		model.addAttribute("limit", limit);
-		model.addAttribute("totalProperty", queryResult.getTotalrecord());
-		model.addAttribute("rows", rows);
 		return "jsonView";
 	}
 
-	@Secured( { "ROLE_ADMIN" })
+	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/InStock/jsonSave.html")
 	public String save(InStockExtGridRow row, ModelMap model) throws Exception {
 		try {
 			InStock inStock = null;
-			if(null != row.getId() && row.getId() > 0) {
+			if (null != row.getId() && row.getId() > 0) {
 				inStock = inStockService.find(row.getId());
-			}else {
+			} else {
 				inStock = new InStock();
 			}
 			// 保存单号
-			if(null != row.getSerialNumber()) {
+			if (null != row.getSerialNumber()) {
 				inStock.setSerialNumber(row.getSerialNumber());
 			}
 			// 保存收发类型
-			if(null != row.getInOutTypeId()) {
+			if (null != row.getInOutTypeId()) {
 				inStock.setInOutType(inOutTypeService.find(row.getInOutTypeId()));
 			}
 			// 保存填单日期
-			if(null != row.getWriteDate()) {
-				inStock.setWriteDate(DateUtils.parseDate(row.getWriteDate(), new String[] { "yyyy-MM-dd" }));
+			if (null != row.getWriteDate()) {
+				inStock.setWriteDate(DateUtils.parseDate(row.getWriteDate(),
+						new String[] { "yyyy-MM-dd" }));
 			}
 			// 保存入库时间
-			if(null != row.getArriveDate()) {
-				inStock.setArriveDate(DateUtils.parseDate(row.getArriveDate(), new String[] { "yyyy-MM-dd" }));
+			if (null != row.getArriveDate()) {
+				inStock.setArriveDate(DateUtils.parseDate(row.getArriveDate(),
+						new String[] { "yyyy-MM-dd" }));
 			}
-			// 保存填单人
-			// inStock.setWriteUser(user.getEmployee());
 			// 保存经手人
-			if(null != row.getKeeperId()) {
+			if (null != row.getKeeperId()) {
 				inStock.setKeeper(employeeService.find(row.getKeeperId()));
 			}
-			/** 供应商 */
-			if(null != row.getSupplierId()) {
+			// 供应商
+			if (null != row.getSupplierId()) {
 				inStock.setSupplier(supplierService.find(row.getSupplierId()));
 			}
 			// 保存备注
-			if(null != row.getRemark()) {
+			if (null != row.getRemark()) {
 				inStock.setRemark(row.getRemark());
 			}
-
-			if(null != row.getId() && row.getId() > 0) {
-				inStockService.update(inStock);
-			} else {
-				inStockService.saveInStock(inStock);
-			}
 			// 保存物料批次信息
-			if(null != row.getDetails() && row.getDetails().length() > 0) {
+			if (null != row.getDetails() && row.getDetails().length() > 0) {
 				List<InStockDetail> pods = new ArrayList<InStockDetail>();
 				JSONArray jsonArray = new JSONArray();
 				JSONObject jsonObject = new JSONObject();
 				jsonArray = JSONArray.fromObject(row.getDetails());
 				for (int i = 0; i < jsonArray.size(); i++) {
 					InStockDetail detail = new InStockDetail();
-					jsonObject = jsonArray.getJSONObject(i);
-					String idString = jsonObject.getString("id");
-					if(StringUtils.hasText(idString)) {
-						detail = inStockDetailService.find(new Long(idString));
-						// logger.debug("找到了detail:" + detail.getId());
-					}
-					// 物料
-					detail.setMaterial(materialService.find(jsonObject.getLong("materialId")));
-					// 批次号
-					detail.setBatchNumber(jsonObject.getString("batchNumber").toUpperCase());
-					// 仓库
-					detail.setWarehouse(warehouseService.find(jsonObject.getLong("warehouseId")));
-					detail.setPrice(new BigDecimal(jsonObject.getString("price")));
-
-					// 单位为物料单位
-					detail.setUnit(materialService.find(jsonObject.getLong("materialId")).getUnit());
-					// 数量
-					detail.setInStockCount(new BigDecimal(jsonObject.getString("billCount")));
-					// 备注
-					if(null != jsonObject.getString("remark")) {
-						detail.setRemark(jsonObject.getString("remark"));
-					}
-					detail.setInStock(inStock);
-
-					if(StringUtils.hasText(idString)) {
-						inStockDetailService.update(detail);
-					} else {
-						inStockDetailService.saveInStockDetail(detail);
+					String idString;
+					try {
+						jsonObject = jsonArray.getJSONObject(i);
+						idString = jsonObject.getString("id");
+						if (StringUtils.hasText(idString)) {
+							detail = inStockDetailService.find(new Long(
+									idString));
+						}
+						// 物料
+						detail.setMaterial(materialService.find(jsonObject
+								.getLong("materialId")));
+						// 批次号
+						detail.setBatchNumber(jsonObject.getString(
+								"batchNumber").toUpperCase());
+						// 仓库
+						detail.setWarehouse(warehouseService.find(jsonObject
+								.getLong("warehouseId")));
+						detail.setPrice(new BigDecimal(jsonObject
+								.getString("price")));
+						// 单位为物料单位
+						detail.setUnit(materialService.find(
+								jsonObject.getLong("materialId")).getUnit());
+						// 数量
+						detail.setInStockCount(new BigDecimal(jsonObject
+								.getString("billCount")));
+						// 备注
+						if (null != jsonObject.getString("remark")) {
+							detail.setRemark(jsonObject.getString("remark"));
+						}
+						detail.setInStock(inStock);
+					} catch (Exception e) {
+						e.printStackTrace();
+						model.addAttribute("failure", true);
+						model.addAttribute("message", "数据绑定失败，请检查您输入的数据！<br />" + e.getLocalizedMessage());
+						return "jsonView";
 					}
 					pods.add(detail);
 				}
 				inStock.setDetails(pods);
 			}
-			inStockService.updateInStockCountAndCost(inStock);
-			inStockService.update(inStock);
-			long id = inStock.getId() > 0 ? inStock.getId() : inStockService.findLast().getId();
+			if (null != inStock.getId()) {
+				inStockService.update(inStock);
+			} else {
+				inStockService.save(inStock);
+			}
+			long id = inStock.getId() > 0 ? inStock.getId() : inStockService
+					.findLast().getId();
+			model.addAttribute("message", "保存成功!");
 			model.addAttribute("success", true);
 			model.addAttribute("id", id);
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("msg", "保存失败!<br />" + e.getMessage());
+			model.addAttribute("message", "保存失败!<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
 
-	@Secured( { "ROLE_ADMIN" })
+	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/InStock/jsonDelete.html")
 	public String delete(ModelMap model, Long[] ids) {
-		inStockService.delete((Serializable[]) ids);
-		model.addAttribute("success", true);
-		return "jsonView";
-	}
-
-	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/InStockDetail/jsonDelete.html")
-	public String deleteDetail(ModelMap model, Long[] ids) {
-		inStockDetailService.delete((Serializable[]) ids);
-		model.addAttribute("success", true);
+		try {
+			inStockService.delete((Serializable[]) ids);
+			model.addAttribute("success", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("failure", true);
+			model.addAttribute("message", "删除失败!<br />" + e.getLocalizedMessage());
+		}
 		return "jsonView";
 	}
 
@@ -357,10 +394,13 @@ public class InStockController extends BaseController{
 		try {
 			InStock inStock = inStockService.find(id);
 			inStock.setStatus(BillStatus.WAITING_FOR_CHECK);
-			inStockService.save(inStock);
-			model.addAttribute("msg", "单据提交审核成功，您将不能修改这个单据，欲修改这个单据请先返回编制状态！");
+			inStockService.update(inStock);
+			model.addAttribute("success", true);
+			model.addAttribute("message", "单据提交审核成功，您将不能修改这个单据，欲修改这个单据请先返回编制状态！");
 		} catch (Exception e) {
-			model.addAttribute("msg", "单据提交审核时发生异常！");
+			e.printStackTrace();
+			model.addAttribute("failure", true);
+			model.addAttribute("message", "单据提交审核失败！<br />"+e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
@@ -372,17 +412,20 @@ public class InStockController extends BaseController{
 	public String returnForEdit(ModelMap model, Long id) {
 		try {
 			InStock inStock = inStockService.find(id);
-			if(BillStatus.CHECKED == inStock.getStatus()) {
-				model.addAttribute("msg", "单据已经审核过，不能再修改。");
+			if (BillStatus.CHECKED == inStock.getStatus()) {
+				model.addAttribute("failure", true);
+				model.addAttribute("message", "单据已经审核过，不能再修改。");
 			} else {
 				inStock.setStatus(BillStatus.WRITING);
 				inStockService.save(inStock);
-				model.addAttribute("msg", "单据返回编制状态，可以修改。");
+				model.addAttribute("success", true);
+				model.addAttribute("message", "单据返回编制状态，可以修改。");
 			}
 		} catch (Exception e) {
-			model.addAttribute("msg", "单据返回编制状态时发生异常。");
+			e.printStackTrace();
+			model.addAttribute("failure", true);
+			model.addAttribute("message", "单据返回编制状态失败！<br />"+e.getLocalizedMessage());
 		}
-
 		return "jsonView";
 	}
 
@@ -392,18 +435,14 @@ public class InStockController extends BaseController{
 	@RequestMapping("/warehouse/InStock/jsonCheckBill.html")
 	public String checkBill(ModelMap model, Long id) {
 		try {
-			String result = inStockService.checkInStock(id);
-			if(result.equals("success")) {
-				model.addAttribute("msg", "单据审核成功！");
-			} else {
-				model.addAttribute("failure", true);
-				model.addAttribute("msg", result);
-			}
+			inStockService.checkInStock(id);
+			model.addAttribute("success", true);
+			model.addAttribute("message", "单据审核成功！");
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("msg", "审核单据时发生异常：" + e.getMessage());
+			model.addAttribute("failure", true);
+			model.addAttribute("message", "审核单据时发生异常：" + e.getMessage());
 		}
-
 		return "jsonView";
 	}
 
@@ -412,15 +451,23 @@ public class InStockController extends BaseController{
 	 */
 	@RequestMapping("/warehouse/InStockDetail/jsonSave.html")
 	public String save(InStockItemExtGridRow row, ModelMap model) {
-		InStockDetail sd = new InStockDetail();
-		if(null != row.getId() && row.getId() > 0) {
-			sd = inStockDetailService.find(row.getId());
+		try {
+			InStockDetail sd = null;
+			if (null != row.getId() && row.getId() > 0) {
+				sd = inStockDetailService.find(row.getId());
+				sd.setRemark(row.getRemark());
+				inStockDetailService.update(sd);
+				model.addAttribute("success", true);
+				model.addAttribute("message", "修改入库单的备注！");
+			} else {
+				model.addAttribute("failure", true);
+				model.addAttribute("message", "入库单的ID不能为空！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("failure", true);
+			model.addAttribute("message", "修改入库单的备注失败！<br />"+e.getLocalizedMessage());
 		}
-		sd.setRemark(row.getRemark());
-		if(null != row.getId() && row.getId() > 0) {
-			inStockDetailService.update(sd);
-		}
-		model.addAttribute("success", true);
 		return "jsonView";
 	}
 
@@ -429,12 +476,14 @@ public class InStockController extends BaseController{
 	 */
 	@RequestMapping("/warehouse/InStock/jsonCongXiao.html")
 	public String congXiao(ModelMap model, Long id) throws Exception {
-		String result = inStockService.congXiao(id);
-		if(result.equals("success")) {
+		try {
+			inStockService.congXiao(id);
 			model.addAttribute("success", true);
-		} else {
+			model.addAttribute("message", "冲销单据成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("msg", result);
+			model.addAttribute("message", "冲销单据时失败！<br />" + e.getMessage());
 		}
 		return "jsonView";
 	}
@@ -444,13 +493,14 @@ public class InStockController extends BaseController{
 	 * 
 	 * @throws Exception
 	 */
-	@Secured( { "ROLE_ADMIN" })
+	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/InStock/resetSerialNumber.html")
 	public String resetSerialNumber(ModelMap model) throws Exception {
 		try {
 			LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 			orderby.put("serialNumber", "desc");
-			List<InStock> list = inStockService.getScrollData(null, null, orderby).getResultlist();
+			List<InStock> list = inStockService.getScrollData(null, null,
+					orderby).getResultlist();
 			for (InStock inStock : list) {
 				inStock.setSerialNumber(null);
 				inStockService.save(inStock);
@@ -463,13 +513,13 @@ public class InStockController extends BaseController{
 				inStock.setSerialNumber(inStockService.nextSerialNumber());
 				inStockService.save(inStock);
 			}
-			model.addAttribute("msg", "重设入库单的单号成功!");
+			model.addAttribute("message", "重设入库单的单号成功!");
 			model.addAttribute("success", true);
 		} catch (Exception e) {
-			model.addAttribute("msg", "重设入库单的单号失败!");
-			model.addAttribute("success", false);
+			e.printStackTrace();
+			model.addAttribute("failure", true);
+			model.addAttribute("message", "重设入库单的单号失败！<br />" + e.getMessage());
 		}
-
 		return "jsonView";
 	}
 }
