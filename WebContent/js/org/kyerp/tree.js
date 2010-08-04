@@ -83,6 +83,11 @@
 									ns : 'org.kyerp.warehouse',
 									text : "收发类别",
 									leaf : true
+								}, {
+									id : "InventoryOwnerPanel",
+									ns : 'org.kyerp.warehouse',
+									text : "所有者",
+									leaf : true
 								}]
 					}]
 		}, {

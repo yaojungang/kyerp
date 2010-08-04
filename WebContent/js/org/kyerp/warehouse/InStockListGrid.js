@@ -44,10 +44,10 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 									labelAlign : 'left'
 								},
 								items : [{
-											fieldLabel : '单据编号',
-											xtype : "displayfield",
-											name : 'serialNumber'
-										}, {
+									fieldLabel : '单据编号',
+									xtype : "displayfield",
+									name : 'serialNumber'
+								}, {
 											fieldLabel : '单据状态',
 											xtype : 'displayfield',
 											name : 'statusString'
@@ -249,7 +249,7 @@ org.kyerp.warehouse.InStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 		}
 		_s.each(function(rec) {
 					_opeItemStr.push(rec.data);
-				})
+				});
 		if (_params == null)
 			_params = {};
 		Ext.apply(_params, {
@@ -419,7 +419,7 @@ org.kyerp.warehouse.InStockInfoWindow = Ext.extend(Ext.Window, {
 /** ***************************************************************************** */
 org.kyerp.warehouse.InStockInsertWindow = Ext.extend(
 		org.kyerp.warehouse.InStockInfoWindow, {
-			title : "添 加入库单",
+			title : "添加入库单",
 			iconCls : 'icon-utils-s-add',
 			url : org.kyerp.warehouse.InStock_SAVE_URL
 		});
@@ -468,7 +468,7 @@ org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
 									Ext.MessageBox.alert('提示', data.message);
 								}
 							}
-						})
+						});
 			},// 返回编制
 			onReturnForEdit : function(_r) {
 				Ext.Ajax.request({
@@ -481,7 +481,7 @@ org.kyerp.warehouse.InStockUpdateWindow = Ext.extend(
 									Ext.MessageBox.alert('提示', data.message);
 								}
 							}
-						})
+						});
 			},// 审核
 			onCheckBill : function(_r) {
 				Ext.Ajax.request({
