@@ -50,6 +50,31 @@ public class OutStockService extends DaoSupport<OutStock> implements
 
 	@Override
 	public void save(OutStock outStock) throws Exception {
+		if ("+".equals(outStock.getInOutType().getInOutMark())) {
+			throw new Exception(outStock.getInOutType().getName()+"是一个入库类型，请选择一个出库类型");
+		}
+		if (outStock.getDetails().size() == 0) {
+			throw new Exception("至少需要一条出库项目！");
+		}
+		for (int i = 0; i < outStock.getDetails().size(); i++) {
+			if (null == outStock.getDetails().get(i).getOutStockCount()) {
+				throw new Exception("第" + i + 1 + "条出库记录，入库数量为空");
+			} else if (0 == BigDecimal.ZERO.compareTo(outStock.getDetails()
+					.get(i).getOutStockCount())) {
+				throw new Exception("第" + i + 1 + "条出库记录，入库数量为零");
+			}
+		}
+		// 设置单据状态
+		outStock.setStatus(BillStatus.WRITING);
+		// 设置填单人
+		if (null == outStock.getWriteUser()) {
+			outStock.setWriteUser(WebUtil.getCurrentUser());
+			outStock.setWriteEmployee(WebUtil.getCurrentEmployee());
+		}
+		// 设置填单时间
+		if (null == outStock.getWriteDate()) {
+			outStock.setWriteDate(new Date());
+		}
 		if (null == outStock.getSerialNumber() || outStock.getSerialNumber().length() == 0) {
 			// 如果没有填写单号则设置单号
 			try {
@@ -80,6 +105,7 @@ public class OutStockService extends DaoSupport<OutStock> implements
 				throw new Exception("至少需要一条出库项目！");
 			}
 			try {
+				outStockDetail.setHappenDate(outStockDetail.getOutStock().getOutDate());
 				StockDetail stockDetail = stockService.outStock(outStockDetail);
 				//设置当前余额
 				outStockDetail.setCurrentStockCount(stockDetail.getAmount());
@@ -206,5 +232,11 @@ public class OutStockService extends DaoSupport<OutStock> implements
 			}
 		}
 		outStock.setDetails(outStockDetails);
+	}
+
+	@Override
+	public void update(OutStock outStock) throws Exception {
+		updateOutStockCountAndCost(outStock);
+		super.update(outStock);
 	}
 }

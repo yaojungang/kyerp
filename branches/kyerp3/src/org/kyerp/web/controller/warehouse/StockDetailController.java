@@ -25,7 +25,7 @@ public class StockDetailController{
 	IStockDetailService	stockDetailService;
 
 	@RequestMapping("/warehouse/StockDetail/jsonList.html")
-	public String list(Integer start, Integer limit, Long mCategoryId, String query, Long stockId, Model model) {
+	public String list(Integer start, Integer limit, Long mCategoryId,String query, Long stockId, Model model) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
 
@@ -37,7 +37,7 @@ public class StockDetailController{
 		wherejpql.append(" 1=?").append((queryParams.size() + 1));
 		queryParams.add(1);
 		// set 库存 id
-		if(null != mCategoryId) {
+		if(null != stockId) {
 			wherejpql.append(" and o.stock.id=?").append(queryParams.size() + 1);
 			queryParams.add(stockId);
 		}

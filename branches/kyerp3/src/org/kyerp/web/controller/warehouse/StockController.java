@@ -44,34 +44,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class StockController extends BaseController{
+public class StockController extends BaseController {
 	@Autowired
-	IStockService	stockService;
+	IStockService stockService;
 
 	@RequestMapping("/warehouse/Stock/jsonList.html")
-	public String list(Model model, Integer start, Integer limit, Long mCategoryId, String query) {
-		QueryResult<Stock> queryResult = getList(model, start, limit, mCategoryId, query);
+	public String list(Model model, Integer start, Integer limit,
+			Long mCategoryId, Long ownerId, String query) {
+		QueryResult<Stock> queryResult = getList(model, start, limit,
+				ownerId,mCategoryId,  query);
 
 		List<StockExtGridRow> rows = new ArrayList<StockExtGridRow>();
 		for (Stock o : queryResult.getResultlist()) {
 			StockExtGridRow n = new StockExtGridRow();
 			n.setId(o.getId());
 			/** 建立时间 */
-			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
+					"yyyy-MM-dd HH:mm:ss"));
 			/** 修改时间 */
-			if(null != o.getUpdateTime()) {
-				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
+			if (null != o.getUpdateTime()) {
+				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(),
+						"yyyy-MM-dd HH:mm:ss"));
+			}
+			/** 所有者 */
+			if (null != o.getOwner()) {
+				n.setOwnerId(o.getOwner().getId());
+				n.setOwnerName(o.getOwner().getName());
 			}
 			/** 物料 */
-			if(null != o.getMaterial()) {
-				// System.out.println("o.getMaterial().getId():" + o.getMaterial().getId());
+			if (null != o.getMaterial()) {
 				n.setMaterialId(o.getMaterial().getId());
 				n.setMaterialName(o.getMaterial().getName());
 			}
 			/** 总数量 */
 			n.setTotalAmount(o.getTotalAmount());
 			/** 单位 */
-			if(null != o.getUnit()) {
+			if (null != o.getUnit()) {
 				n.setUnitId(o.getUnit().getId());
 				n.setUnitName(o.getUnit().getName());
 			}
@@ -79,40 +87,42 @@ public class StockController extends BaseController{
 			n.setPrice(o.getPrice());
 			/** 总金额 */
 			n.setCost(o.getCost());
-			/**备注**/
+			/** 备注 **/
 			n.setRemark(o.getRemark());
 			/** 明细 */
-			if(null != o.getStockDetails() && o.getStockDetails().size() > 0) {
+			if (null != o.getStockDetails() && o.getStockDetails().size() > 0) {
 				List<StockDetailExtGridRow> itemRows = new ArrayList<StockDetailExtGridRow>();
 				for (StockDetail detail : o.getStockDetails()) {
 					StockDetailExtGridRow row = new StockDetailExtGridRow();
 					/** id */
 					row.setId(detail.getId());
 					/** 时间 */
-					row.setCreateTime(DateFormatUtils.format(detail.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+					row.setCreateTime(DateFormatUtils.format(
+							detail.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
 					/** 修改时间 */
-					if(null != detail.getUpdateTime()) {
-						row.setUpdateTime(DateFormatUtils.format(detail.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
+					if (null != detail.getUpdateTime()) {
+						row.setUpdateTime(DateFormatUtils.format(
+								detail.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
 					}
 					/** 库存单 */
 					row.setStockId(o.getId());
 					row.setStockSerialNumber(o.getSerialNumber());
 					/** 物料 */
-					if(null != o.getMaterial()) {
+					if (null != o.getMaterial()) {
 						row.setMaterialId(o.getMaterial().getId());
 						row.setMaterialName(o.getMaterial().getName());
 					}
 					/** 仓库 */
-					if(null != detail.getWarehouse()) {
+					if (null != detail.getWarehouse()) {
 						row.setWarehouseId(detail.getWarehouse().getId());
 						row.setWarehouseName(detail.getWarehouse().getName());
 					}
 					/** 批次号 */
-					if(null != detail.getBatchNumber()) {
+					if (null != detail.getBatchNumber()) {
 						row.setBatchNumber(detail.getBatchNumber());
 					}
 					/** 单位 */
-					if(null != detail.getUnit()) {
+					if (null != detail.getUnit()) {
 						row.setUnitId(detail.getUnit().getId());
 						row.setUnitName(detail.getUnit().getName());
 					}
@@ -121,7 +131,7 @@ public class StockController extends BaseController{
 					/** 金额 */
 					row.setCost(detail.getCost());
 					/** 价格 */
-					if(null != detail.getPrice()) {
+					if (null != detail.getPrice()) {
 						row.setPrice(detail.getPrice());
 					}
 					/** 备注 */
@@ -141,10 +151,12 @@ public class StockController extends BaseController{
 	}
 
 	@RequestMapping("/warehouse/Stock/excel.html")
-	public void excel(Model model, Long mCategoryId, String query, HttpServletResponse response, HttpServletRequest request) throws Exception {
+	public void excel(Model model, Long mCategoryId, String query,
+			HttpServletResponse response, HttpServletRequest request)
+			throws Exception {
 
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
-		//orderby.put("id", "asc");
+		// orderby.put("id", "asc");
 		orderby.put("material.name", "asc");
 		// build where jpql
 		StringBuffer wherejpql = new StringBuffer("");
@@ -152,22 +164,31 @@ public class StockController extends BaseController{
 		wherejpql.append(" 1=?").append((queryParams.size() + 1));
 		queryParams.add(1);
 		// set parent id
-		if(null != mCategoryId) {
-			wherejpql.append(" and o.material.materialCategory.id=?").append(queryParams.size() + 1);
+		if (null != mCategoryId) {
+			wherejpql.append(" and o.material.materialCategory.id=?").append(
+					queryParams.size() + 1);
 			queryParams.add(mCategoryId);
 		}
 		// set query
-		if(null != query && !query.equals("") && query.trim().length() > 0) {
-			wherejpql.append(" and (o.material.name like ?").append(queryParams.size() + 1);
+		if (null != query && !query.equals("") && query.trim().length() > 0) {
+			wherejpql.append(" and (o.material.name like ?").append(
+					queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 			// material's serialNumber
-			wherejpql.append(" or o.material.serialNumber like ?").append(queryParams.size() + 1).append(")");
+			wherejpql.append(" or o.material.serialNumber like ?")
+					.append(queryParams.size() + 1).append(")");
 			queryParams.add("%" + query.trim() + "%");
 		}
 		// System.out.println("jpql:" + wherejpql);
-		QueryResult<Stock> queryResult = stockService.getScrollData(wherejpql.toString(), queryParams.toArray(), orderby);
+		QueryResult<Stock> queryResult = stockService.getScrollData(
+				wherejpql.toString(), queryParams.toArray(), orderby);
 
-		response.setHeader("Content-disposition", "attachment;" + "filename=" + new String(("库存" + System.currentTimeMillis()).getBytes("GBK"), "ISO_8859_1") + ".xls");
+		response.setHeader(
+				"Content-disposition",
+				"attachment;"
+						+ "filename="
+						+ new String(("库存" + System.currentTimeMillis())
+								.getBytes("GBK"), "ISO_8859_1") + ".xls");
 		response.setContentType("application/vnd.ms-excel");
 
 		// 新建一个Excel文件
@@ -211,7 +232,7 @@ public class StockController extends BaseController{
 		cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
 		cellStyle.setBorderTop(CellStyle.BORDER_THIN);
 		cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
-		
+
 		CellStyle cellStyle1 = workbook.createCellStyle();
 		cellStyle1.setFont(font);
 		cellStyle1.setBorderBottom(CellStyle.BORDER_THIN);
@@ -222,9 +243,9 @@ public class StockController extends BaseController{
 		cellStyle1.setRightBorderColor(IndexedColors.BLACK.getIndex());
 		cellStyle1.setBorderTop(CellStyle.BORDER_THIN);
 		cellStyle1.setTopBorderColor(IndexedColors.BLACK.getIndex());
-		//设置小数位数
+		// 设置小数位数
 		HSSFDataFormat format = workbook.createDataFormat();
-		 cellStyle1.setDataFormat(format.getFormat("#,##0.000")); //  四位小数
+		cellStyle1.setDataFormat(format.getFormat("#,##0.000")); // 四位小数
 		// 填充主体数据
 		int stockNumber = 0;
 		for (Stock stock : queryResult.getResultlist()) {
@@ -236,8 +257,10 @@ public class StockController extends BaseController{
 			cell01.setCellValue(++stockNumber);
 			cell01.setCellStyle(cellStyle);
 			Cell cell02 = row.createCell(columnNumber++);
-			logger.debug("export stock: stockId:"+stock.getId()+";materialName:"+stock.getMaterial().getName());
-			cell02.setCellValue(createHelper.createRichTextString(stock.getMaterial().getName()));
+			logger.debug("export stock: stockId:" + stock.getId()
+					+ ";materialName:" + stock.getMaterial().getName());
+			cell02.setCellValue(createHelper.createRichTextString(stock
+					.getMaterial().getName()));
 			cell02.setCellStyle(cellStyle);
 			Cell cell03 = row.createCell(columnNumber++);
 			cell03.setCellValue("");
@@ -248,16 +271,20 @@ public class StockController extends BaseController{
 			cell04.setCellStyle(cellStyle);
 
 			Cell cellPrice01 = row.createCell(columnNumber++);
-			cellPrice01.setCellValue(Double.parseDouble(MathTools.removeTailZero(stock.getMaterial().getPrice())));
+			cellPrice01.setCellValue(Double.parseDouble(MathTools
+					.removeTailZero(stock.getMaterial().getPrice())));
 			cellPrice01.setCellStyle(cellStyle1);
 
 			Cell cell05 = row.createCell(columnNumber++);
-			cell05.setCellValue(Double.parseDouble(MathTools.removeTailZero(stock.getTotalAmount())));
+			cell05.setCellValue(Double.parseDouble(MathTools
+					.removeTailZero(stock.getTotalAmount())));
 			cell05.setCellStyle(cellStyle1);
 
 			Cell money01 = row.createCell(columnNumber++);
-			// System.out.println("stock.getCost().toString()" + stock.getCost().toString());
-			money01.setCellValue(Double.parseDouble(MathTools.removeTailZero(stock.getCost())));
+			// System.out.println("stock.getCost().toString()" +
+			// stock.getCost().toString());
+			money01.setCellValue(Double.parseDouble(MathTools
+					.removeTailZero(stock.getCost())));
 			money01.setCellStyle(cellStyle1);
 
 			Cell cell06 = row.createCell(columnNumber++);
@@ -281,16 +308,20 @@ public class StockController extends BaseController{
 				cell4.setCellStyle(cellStyle);
 
 				Cell cellPrice = detailRow.createCell(columnNumber++);
-				cellPrice.setCellValue(Double.parseDouble(MathTools.removeTailZero(stockDetail.getPrice())));
+				cellPrice.setCellValue(Double.parseDouble(MathTools
+						.removeTailZero(stockDetail.getPrice())));
 				cellPrice.setCellStyle(cellStyle1);
 
 				Cell cell5 = detailRow.createCell(columnNumber++);
-				cell5.setCellValue(Double.parseDouble(MathTools.removeTailZero(stockDetail.getAmount())));
+				cell5.setCellValue(Double.parseDouble(MathTools
+						.removeTailZero(stockDetail.getAmount())));
 				cell5.setCellStyle(cellStyle1);
 
 				Cell money1 = detailRow.createCell(columnNumber++);
-				// System.out.println("stockDetail.getCost().toString()" + stockDetail.getCost().toString());
-				money1.setCellValue(Double.parseDouble(MathTools.removeTailZero(stockDetail.getCost())));
+				// System.out.println("stockDetail.getCost().toString()" +
+				// stockDetail.getCost().toString());
+				money1.setCellValue(Double.parseDouble(MathTools
+						.removeTailZero(stockDetail.getCost())));
 				money1.setCellStyle(cellStyle1);
 
 				Cell cell6 = detailRow.createCell(columnNumber++);
@@ -298,11 +329,11 @@ public class StockController extends BaseController{
 				cell6.setCellStyle(cellStyle);
 			}
 		}
-// sheet.autoSizeColumn((short) 0);
-// sheet.autoSizeColumn((short) 1);
-// sheet.autoSizeColumn((short) 2);
-// sheet.autoSizeColumn((short) 3);
-// 工作表打印设置
+		// sheet.autoSizeColumn((short) 0);
+		// sheet.autoSizeColumn((short) 1);
+		// sheet.autoSizeColumn((short) 2);
+		// sheet.autoSizeColumn((short) 3);
+		// 工作表打印设置
 		PrintSetup ps = sheet.getPrintSetup();
 		// 缩放
 		// ps.setScale((short) 100);
@@ -329,31 +360,35 @@ public class StockController extends BaseController{
 		sheet.setAutobreaks(true);
 
 		// 仅仅设置顶端标题行：
-// HSSFWorkbook#setRepeatingRowsAndColumns(intsheetIndex,
-// intstartColumn,
-// intendColumn,
-// intstartRow,
-// intendRow);
+		// HSSFWorkbook#setRepeatingRowsAndColumns(intsheetIndex,
+		// intstartColumn,
+		// intendColumn,
+		// intstartRow,
+		// intendRow);
 		workbook.setRepeatingRowsAndColumns(0, -1, -1, 0, 1);
 
-// 工作表页眉设置
+		// 工作表页眉设置
 		// HSSFHeader header = sheet.getHeader();
 		// header.setCenter("库存状况报表");
-// 工作表页脚设置
+		// 工作表页脚设置
 		HSSFFooter footer = sheet.getFooter();
 		Date date = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		footer.setCenter("操作员：" + WebUtil.getCurrentEmployee().getName() + "  导出时间：" + df.format(date));
-		footer.setRight("第" + HSSFFooter.page() + "页,共" + HSSFFooter.numPages() + "页");
+		footer.setCenter("操作员：" + WebUtil.getCurrentEmployee().getName()
+				+ "  导出时间：" + df.format(date));
+		footer.setRight("第" + HSSFFooter.page() + "页,共" + HSSFFooter.numPages()
+				+ "页");
 
 		workbook.write(response.getOutputStream());
 		response.getOutputStream().flush();
 		response.getOutputStream().close();
 	}
 
-	private QueryResult<Stock> getList(Model model, Integer start, Integer limit, Long mCategoryId, String query) {
+	private QueryResult<Stock> getList(Model model, Integer start,
+			Integer limit, Long ownerId, Long mCategoryId, String query) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
+		//ownerId = null == ownerId ? 2 : ownerId;
 
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("material.name", "desc");
@@ -362,33 +397,38 @@ public class StockController extends BaseController{
 		List<Object> queryParams = new ArrayList<Object>();
 		wherejpql.append(" 1=?").append((queryParams.size() + 1));
 		queryParams.add(1);
+		// set owner id
+		if (null != ownerId) {
+			wherejpql.append(" and o.owner.id=?").append(
+					queryParams.size() + 1);
+			queryParams.add(ownerId);
+		}
 		// set parent id
-		if(null != mCategoryId) {
-			wherejpql.append(" and o.material.materialCategory.id=?").append(queryParams.size() + 1);
+		if (null != mCategoryId) {
+			wherejpql.append(" and o.material.materialCategory.id=?").append(
+					queryParams.size() + 1);
 			queryParams.add(mCategoryId);
 		}
 		// set query
-		if(null != query && !query.equals("") && query.trim().length() > 0) {
+		if (null != query && !query.equals("") && query.trim().length() > 0) {
 			// 物料名称
-			wherejpql.append(" and (o.material.name like ?").append(queryParams.size() + 1);
+			wherejpql.append(" and (o.material.name like ?").append(
+					queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 
 			// material's serialNumber
-			wherejpql.append(" or o.material.serialNumber like ?").append(queryParams.size() + 1).append(")");
+			wherejpql.append(" or o.material.serialNumber like ?")
+					.append(queryParams.size() + 1).append(")");
 			queryParams.add("%" + query.trim().toUpperCase() + "%");
 		}
-		// System.out.println("jpql:" + wherejpql);
-		QueryResult<Stock> queryResult = stockService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
-		// 批次号
-// wherejpql.append(" or o.material.name like ?").append(queryParams.size() + 1);
-// queryParams.add("%" + query.trim() + "%");
-// for (Stock stock : queryResult.getResultlist()) {
-//			
-// }
+		logger.debug("查询库存:\njpql=" + wherejpql.toString()+"\n参数="+queryParams.toString());
+		QueryResult<Stock> queryResult = stockService.getScrollData(start,
+				limit, wherejpql.toString(), queryParams.toArray(), orderby);
 		return queryResult;
 	}
 
-	private void createTitleRow(HSSFWorkbook workbook, HSSFSheet sheet, String title, int rowNumber, int firstColumn, int lastColoumn) {
+	private void createTitleRow(HSSFWorkbook workbook, HSSFSheet sheet,
+			String title, int rowNumber, int firstColumn, int lastColoumn) {
 		// 设置字体
 		HSSFFont font = workbook.createFont();
 		font.setFontHeightInPoints((short) 16); // 字体高度
@@ -412,14 +452,16 @@ public class StockController extends BaseController{
 		cell.setCellValue(title);
 		cell.setCellStyle(cellStyle);
 		// 指定合并区域
-		sheet.addMergedRegion(new CellRangeAddress(rowNumber, // first row (0-based)
-			rowNumber, // last row (0-based)
-			firstColumn, // first column (0-based)
-			lastColoumn // last column (0-based)
-			));
+		sheet.addMergedRegion(new CellRangeAddress(rowNumber, // first row
+																// (0-based)
+				rowNumber, // last row (0-based)
+				firstColumn, // first column (0-based)
+				lastColoumn // last column (0-based)
+		));
 	};
 
-	private void createHeaderRow(HSSFWorkbook workbook, HSSFSheet sheet, List<ExcelTitleColumn> excelTitleColumns, int rowNumber) {
+	private void createHeaderRow(HSSFWorkbook workbook, HSSFSheet sheet,
+			List<ExcelTitleColumn> excelTitleColumns, int rowNumber) {
 		// 设置字体
 		HSSFFont font = workbook.createFont();
 		font.setFontHeightInPoints((short) 12); // 字体高度
@@ -448,7 +490,8 @@ public class StockController extends BaseController{
 			cell.setCellStyle(cellStyle);
 			cell.setCellValue(excelTitleColumns.get(i).getName());
 			sheet.setColumnWidth(i, excelTitleColumns.get(i).getWidth());
-			// System.out.println("width:" + i + " - " + excelTitleColumns.get(i).getWidth());
+			// System.out.println("width:" + i + " - " +
+			// excelTitleColumns.get(i).getWidth());
 			// sheet.autoSizeColumn((short) headerNumber);
 		}
 	}
@@ -456,12 +499,12 @@ public class StockController extends BaseController{
 	@RequestMapping("/warehouse/Stock/jsonSave.html")
 	public String save(StockExtGridRow row, ModelMap model) {
 		Stock stock = new Stock();
-		if(null != row.getId() && row.getId() > 0) {
+		if (null != row.getId() && row.getId() > 0) {
 			stock = stockService.find(row.getId());
 		}
 		stock.setRemark(row.getRemark());
 
-		if(null != row.getId() && row.getId() > 0) {
+		if (null != row.getId() && row.getId() > 0) {
 			stockService.update(stock);
 		}
 		model.addAttribute("success", true);
@@ -473,13 +516,14 @@ public class StockController extends BaseController{
 	 * 
 	 * @throws Exception
 	 */
-	@Secured( { "ROLE_ADMIN" })
+	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/Stock/resetStockAmount.html")
 	public String resetStockAmount(ModelMap model) throws Exception {
 		try {
 			LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 			orderby.put("id", "desc");
-			List<Stock> list = stockService.getScrollData(null, null, orderby).getResultlist();
+			List<Stock> list = stockService.getScrollData(null, null, orderby)
+					.getResultlist();
 			for (Stock stock : list) {
 				stockService.updateAmountPriceAndCost(stock.getId());
 			}

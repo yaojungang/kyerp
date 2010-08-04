@@ -19,6 +19,7 @@ import org.kyerp.service.org.IDepartmentService;
 import org.kyerp.service.org.IEmployeeService;
 import org.kyerp.service.security.IUserService;
 import org.kyerp.service.warehouse.IInOutTypeService;
+import org.kyerp.service.warehouse.IInventoryOwnerService;
 import org.kyerp.service.warehouse.IMaterialService;
 import org.kyerp.service.warehouse.IOutStockDetailService;
 import org.kyerp.service.warehouse.IOutStockService;
@@ -37,28 +38,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-public class OutStockController extends BaseController{
+public class OutStockController extends BaseController {
 	@Autowired
-	IOutStockService		outStockService;
+	IOutStockService outStockService;
 	@Autowired
-	IOutStockDetailService	outStockDetailService;
+	IOutStockDetailService outStockDetailService;
 	@Autowired
-	IMaterialService		materialService;
+	IMaterialService materialService;
 	@Autowired
-	ISupplierService		supplierService;
+	ISupplierService supplierService;
 	@Autowired
-	IUserService			userService;
+	IUserService userService;
 	@Autowired
-	IWarehouseService		warehouseService;
+	IWarehouseService warehouseService;
 	@Autowired
-	IInOutTypeService		inOutTypeService;
+	IInOutTypeService inOutTypeService;
 	@Autowired
-	IDepartmentService		departmentService;
+	IDepartmentService departmentService;
 	@Autowired
-	IEmployeeService		employeeService;
+	IEmployeeService employeeService;
+	@Autowired
+	IInventoryOwnerService inventoryOwnerService;
 
 	@RequestMapping("/warehouse/OutStock/jsonList.html")
-	public String list(Model model, Integer start, Long inOutTypeId, Long supplierId, String query, Integer limit) throws Exception {
+	public String list(Model model, Integer start, Long inOutTypeId,
+			Long supplierId, String query, Integer limit) throws Exception {
 		try {
 			start = null == start ? 0 : start;
 			limit = null == limit ? 20 : limit;
@@ -70,25 +74,31 @@ public class OutStockController extends BaseController{
 			wherejpql.append(" 1=?").append((queryParams.size() + 1));
 			queryParams.add(1);
 			// set parent id
-			if(null != supplierId) {
-				wherejpql.append(" and o.supplier.id=?").append(queryParams.size() + 1);
+			if (null != supplierId) {
+				wherejpql.append(" and o.supplier.id=?").append(
+						queryParams.size() + 1);
 				queryParams.add(supplierId);
 			}
 			// set inOutTypeId
-			if(null != inOutTypeId) {
-				wherejpql.append(" and o.inOutType.id=?").append(queryParams.size() + 1);
+			if (null != inOutTypeId) {
+				wherejpql.append(" and o.inOutType.id=?").append(
+						queryParams.size() + 1);
 				queryParams.add(inOutTypeId);
 			}
 			// set query
-			if(null != query && !query.equals("") && query.trim().length() > 0) {
-				wherejpql.append(" and (o.serialNumber like ?").append(queryParams.size() + 1);
+			if (null != query && !query.equals("") && query.trim().length() > 0) {
+				wherejpql.append(" and (o.serialNumber like ?").append(
+						queryParams.size() + 1);
 				queryParams.add("%" + query.trim() + "%");
 				// material's serialNumber
-				wherejpql.append(" or o.remark like ?").append(queryParams.size() + 1).append(")");
+				wherejpql.append(" or o.remark like ?")
+						.append(queryParams.size() + 1).append(")");
 				queryParams.add("%" + query.trim() + "%");
 			}
 			// System.out.println("jpql:" + wherejpql);
-			QueryResult<OutStock> queryResult = outStockService.getScrollData(start, limit, wherejpql.toString(), queryParams.toArray(), orderby);
+			QueryResult<OutStock> queryResult = outStockService.getScrollData(
+					start, limit, wherejpql.toString(), queryParams.toArray(),
+					orderby);
 
 			List<OutStockExtGridRow> rows = new ArrayList<OutStockExtGridRow>();
 			for (OutStock o : queryResult.getResultlist()) {
@@ -96,122 +106,142 @@ public class OutStockController extends BaseController{
 				/** id */
 				n.setId(o.getId());
 				/** 时间 */
-				n.setCreateTime(DateFormatUtils.format(o.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+				n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
+						"yyyy-MM-dd HH:mm:ss"));
 				/** 修改时间 */
-				if(null != o.getUpdateTime()) {
-					n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
+				if (null != o.getUpdateTime()) {
+					n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(),
+							"yyyy-MM-dd HH:mm:ss"));
 				}
 				/** 申请单号 */
 				n.setSerialNumber(o.getSerialNumber());
 				/** 收发类型 */
-				if(null != o.getInOutType()) {
+				if (null != o.getInOutType()) {
 					n.setInOutTypeId(o.getInOutType().getId());
 					n.setInOutTypeName(o.getInOutType().getName());
 				}
 				/** 出库时间 */
-				if(null != o.getOutDate()) {
-					n.setOutDate(DateFormatUtils.format(o.getOutDate(), "yyyy-MM-dd"));
+				if (null != o.getOutDate()) {
+					n.setOutDate(DateFormatUtils.format(o.getOutDate(),
+							"yyyy-MM-dd"));
 				}
 				/**
 				 * 领取部门、人员
 				 */
-				if(null != o.getReceiveDepartment()) {
+				if (null != o.getReceiveDepartment()) {
 					n.setReceiveDepartmentId(o.getReceiveDepartment().getId());
-					n.setReceiveDepartmentName(o.getReceiveDepartment().getName());
+					n.setReceiveDepartmentName(o.getReceiveDepartment()
+							.getName());
 				}
-				if(null != o.getReceiveEmployee()) {
+				if (null != o.getReceiveEmployee()) {
 					n.setReceiveEmployeeId(o.getReceiveEmployee().getId());
 					n.setReceiveEmployeeName(o.getReceiveEmployee().getName());
 				}
 
 				/** 备注 */
-				if(null != o.getRemark()) {
+				if (null != o.getRemark()) {
 					n.setRemark(o.getRemark());
 				}
 				/** 总数量 */
 				n.setBillCount(o.getBillCount());
 				/** 总费用 */
-				if(null != o.getBillCost()) {
+				if (null != o.getBillCost()) {
 					n.setBillCost(o.getBillCost());
 				}
 				/** 填单人 */
-				if(null != o.getWriteUser()) {
+				if (null != o.getWriteUser()) {
 					n.setWriteUserId(o.getWriteUser().getId());
 					n.setWriteUserName(o.getWriteUser().getUsername());
 				}
-				if(null != o.getWriteEmployee()) {
+				if (null != o.getWriteEmployee()) {
 					n.setWriteEmployeeId(o.getWriteEmployee().getId());
 					n.setWriteEmployeeName(o.getWriteEmployee().getName());
 				}
 				/** 审核人 */
-				if(null != o.getCheckUser()) {
+				if (null != o.getCheckUser()) {
 					n.setCheckUserId(o.getCheckUser().getId());
 					n.setCheckUserName(o.getCheckUser().getUsername());
 				}
-				if(null != o.getCheckEmployee()) {
+				if (null != o.getCheckEmployee()) {
 					n.setCheckEmployeeId(o.getCheckEmployee().getId());
 					n.setCheckEmployeeName(o.getCheckEmployee().getName());
 				}
 				/** 填写时间 */
-				if(null != o.getWriteDate()) {
-					n.setWriteDate(DateFormatUtils.format(o.getWriteDate(), "yyyy-MM-dd HH:mm:ss"));
+				if (null != o.getWriteDate()) {
+					n.setWriteDate(DateFormatUtils.format(o.getWriteDate(),
+							"yyyy-MM-dd HH:mm:ss"));
 				}
 				/** 审核时间 */
-				if(null != o.getCheckDate()) {
-					n.setCheckDate(DateFormatUtils.format(o.getCheckDate(), "yyyy-MM-dd HH:mm:ss"));
+				if (null != o.getCheckDate()) {
+					n.setCheckDate(DateFormatUtils.format(o.getCheckDate(),
+							"yyyy-MM-dd HH:mm:ss"));
 				}
 				/** 单据状态 */
-				if(null != o.getStatus()) {
+				if (null != o.getStatus()) {
 					n.setStatus(o.getStatus());
 					n.setStatusString(o.getStatus().getName());
 				}
 				/**
 				 * 能否编辑 只有本人可以编辑
 				 * */
-				// if("admin".equals(WebUtil.getCurrentUser().getUsername()) || "y109".equals(WebUtil.getCurrentUser().getUsername()) || (BillStatus.WRITING.equals(o.getStatus()) && o.getWriteUser().getId().toString().equals(WebUtil.getCurrentUser().getId().toString()))) {
-				if(BillStatus.WRITING.equals(o.getStatus())) {
+				// if("admin".equals(WebUtil.getCurrentUser().getUsername()) ||
+				// "y109".equals(WebUtil.getCurrentUser().getUsername()) ||
+				// (BillStatus.WRITING.equals(o.getStatus()) &&
+				// o.getWriteUser().getId().toString().equals(WebUtil.getCurrentUser().getId().toString())))
+				// {
+				if (BillStatus.WRITING.equals(o.getStatus())) {
 					n.setEditAble("true");
 				} else {
 					n.setEditAble("false");
 				}
 
 				/** 明细 */
-				if(null != o.getDetails() && o.getDetails().size() > 0) {
+				if (null != o.getDetails() && o.getDetails().size() > 0) {
 					List<OutStockItemExtGridRow> itemRows = new ArrayList<OutStockItemExtGridRow>();
 					for (OutStockDetail detail : o.getDetails()) {
 						OutStockItemExtGridRow row = new OutStockItemExtGridRow();
 						/** id */
 						row.setId(detail.getId());
 						/** 时间 */
-						row.setCreateTime(DateFormatUtils.format(detail.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+						row.setCreateTime(DateFormatUtils.format(
+								detail.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
 						/** 修改时间 */
-						if(null != detail.getUpdateTime()) {
-							row.setUpdateTime(DateFormatUtils.format(detail.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
+						if (null != detail.getUpdateTime()) {
+							row.setUpdateTime(DateFormatUtils.format(
+									detail.getUpdateTime(),
+									"yyyy-MM-dd HH:mm:ss"));
+						}
+						/** 所有者 */
+						if (null != detail.getOwner()) {
+							row.setOwnerId(detail.getOwner().getId());
+							row.setOwnerName(detail.getOwner().getName());
 						}
 						/** 采购申请单 */
-						if(null != detail.getOutStock()) {
+						if (null != detail.getOutStock()) {
 							row.setOutStockId(detail.getOutStock().getId());
-							row.setOutStockSerialNumber(detail.getOutStock().getSerialNumber());
+							row.setOutStockSerialNumber(detail.getOutStock()
+									.getSerialNumber());
 						}
 						/** 物料 */
-						if(null != detail.getMaterial()) {
+						if (null != detail.getMaterial()) {
 							row.setMaterialId(detail.getMaterial().getId());
 							row.setMaterialName(detail.getMaterial().getName());
 						}
 						/** 经手人 */
-						if(null != o.getKeeper()) {
+						if (null != o.getKeeper()) {
 							n.setKeeperId(o.getKeeper().getId());
 							n.setKeeperName(o.getKeeper().getName());
 						}
 						// 批次号
 						row.setBatchNumber(detail.getBatchNumber());
 						/** 仓库 */
-						if(null != detail.getWarehouse()) {
+						if (null != detail.getWarehouse()) {
 							row.setWarehouseId(detail.getWarehouse().getId());
-							row.setWarehouseName(detail.getWarehouse().getName());
+							row.setWarehouseName(detail.getWarehouse()
+									.getName());
 						}
 						/** 单位 */
-						if(null != detail.getUnit()) {
+						if (null != detail.getUnit()) {
 							row.setUnitId(detail.getUnit().getId());
 							row.setUnitName(detail.getUnit().getName());
 						}
@@ -220,15 +250,15 @@ public class OutStockController extends BaseController{
 						/** 金额 */
 						row.setBillCost(detail.getBillCost());
 						/** 价格 */
-						if(null != detail.getPrice()) {
+						if (null != detail.getPrice()) {
 							row.setPrice(detail.getPrice());
 						}
 						/** 生产任务单号 */
-						if(null != detail.getPressworkNo()) {
+						if (null != detail.getPressworkNo()) {
 							row.setPressworkNo(detail.getPressworkNo());
 						}
 						/** 备注 */
-						if(null != detail.getRemark()) {
+						if (null != detail.getRemark()) {
 							row.setRemark(detail.getRemark());
 						}
 						itemRows.add(row);
@@ -246,12 +276,13 @@ public class OutStockController extends BaseController{
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "获取数据失败！<br />" + e.getLocalizedMessage());
+			model.addAttribute("message",
+					"获取数据失败！<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
 
-	@Secured( { "ROLE_ADMIN" })
+	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/OutStock/jsonSave.html")
 	public String save(OutStockExtGridRow row, ModelMap model) throws Exception {
 		try {
@@ -311,9 +342,13 @@ public class OutStockController extends BaseController{
 					}
 					try {
 						// 物料
-						// logger.info("save material id:" + jsonObject.getLong("materialId"));
+						// logger.info("save material id:" +
+						// jsonObject.getLong("materialId"));
 						detail.setMaterial(materialService.find(jsonObject
 								.getLong("materialId")));
+						// 所有者
+						detail.setOwner(inventoryOwnerService.find(jsonObject
+								.getLong("ownerId")));
 						// 批次号
 						detail.setBatchNumber(jsonObject
 								.getString("batchNumber"));
@@ -359,12 +394,13 @@ public class OutStockController extends BaseController{
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "保存失败!<br />" + e.getLocalizedMessage());
+			model.addAttribute("message",
+					"保存失败!<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
 
-	@Secured( { "ROLE_ADMIN" })
+	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/OutStock/jsonDelete.html")
 	public String delete(ModelMap model, Long[] ids) {
 		try {
@@ -373,7 +409,8 @@ public class OutStockController extends BaseController{
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "删除失败!<br />" + e.getLocalizedMessage());
+			model.addAttribute("message",
+					"删除失败!<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
@@ -390,11 +427,13 @@ public class OutStockController extends BaseController{
 			outStock.setStatus(BillStatus.WAITING_FOR_CHECK);
 			outStockService.update(outStock);
 			model.addAttribute("success", true);
-			model.addAttribute("message", "单据提交审核成功，您将不能修改这个单据，欲修改这个单据请先返回编制状态！");
+			model.addAttribute("message",
+					"单据提交审核成功，您将不能修改这个单据，欲修改这个单据请先返回编制状态！");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "单据提交审核失败！<br />"+e.getLocalizedMessage());
+			model.addAttribute("message",
+					"单据提交审核失败！<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
@@ -418,7 +457,8 @@ public class OutStockController extends BaseController{
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "单据返回编制状态失败！<br />"+e.getLocalizedMessage());
+			model.addAttribute("message",
+					"单据返回编制状态失败！<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
@@ -462,13 +502,14 @@ public class OutStockController extends BaseController{
 	 * 
 	 * @throws Exception
 	 */
-	@Secured( { "ROLE_ADMIN" })
+	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/OutStock/resetSerialNumber.html")
 	public String resetSerialNumber(ModelMap model) throws Exception {
 		try {
 			LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 			orderby.put("serialNumber", "desc");
-			List<OutStock> list = outStockService.getScrollData(null, null, orderby).getResultlist();
+			List<OutStock> list = outStockService.getScrollData(null, null,
+					orderby).getResultlist();
 			for (OutStock outStock : list) {
 				outStock.setSerialNumber(null);
 				outStockService.save(outStock);

@@ -50,6 +50,9 @@ public class InStockService extends DaoSupport<InStock> implements
 
 	@Override
 	public void save(InStock inStock) throws Exception {
+		if ("-".equals(inStock.getInOutType().getInOutMark())) {
+			throw new Exception(inStock.getInOutType().getName()+"是一个出库类型，请选择一个入库类型");
+		}
 		if (inStock.getDetails().size() == 0) {
 			throw new Exception("至少需要一条入库项目！");
 		}
@@ -107,6 +110,7 @@ public class InStockService extends DaoSupport<InStock> implements
 				throw new Exception("至少需要一条入库项目！");
 			}
 			try {
+				inStockDetail.setHappenDate(inStockDetail.getInStock().getArriveDate());
 				StockDetail stockDetail = stockService.inStock(inStockDetail);
 				// 设置当前余额
 				inStockDetail.setCurrentStockCount(stockDetail.getAmount());

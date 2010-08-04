@@ -13,11 +13,12 @@ import org.springframework.stereotype.Service;
 @Service
 public interface IStockService extends DAO<Stock> {
 	/**
-	 * 根据materialId查询Stock
+	 * 根据materialId和ownerId查询Stock
 	 * @param materailId
+	 * @param ownerId
 	 * @return
 	 */
-	Stock findStockByMaterialId(Long materailId);
+	Stock findStockByMaterialIdAndOwnerId(Long materailId,Long ownerId);
 	/**
 	 * 入库
 	 * 
@@ -51,6 +52,12 @@ public interface IStockService extends DAO<Stock> {
 	 * @return
 	 */
 	Stock add(InStockDetail inStockDetail) throws Exception ;
+	/**
+	 * 根据出库项目，创建一个新的库存记录，并保存stock
+	 * @param inStockDetail
+	 * @return
+	 */
+	Stock add(OutStockDetail outStockDetail) throws Exception ;
 	/**
 	 * 删除余额为零的记录
 	 * @throws Exception
