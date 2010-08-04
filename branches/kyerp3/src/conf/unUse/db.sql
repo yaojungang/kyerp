@@ -1,0 +1,1 @@
+UPDATE `kyerp3_0730`.`stock` SET `owner_id` = '2' WHERE `stock`.`id` >0;
