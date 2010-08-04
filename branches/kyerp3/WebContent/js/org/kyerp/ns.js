@@ -120,6 +120,10 @@ org.kyerp.warehouse.OutStock_ReturnForEdit_URL = "warehouse/OutStock/jsonReturnF
 org.kyerp.warehouse.OutStock_CheckBill_URL = "warehouse/OutStock/jsonCheckBill.html";
 org.kyerp.warehouse.OutStock_CongXiao_URL = "warehouse/OutStock/jsonCongXiao.html";
 /** ***************************************************************************** */
+org.kyerp.warehouse.InventoryOwnerPanel_STORE_URL = "warehouse/InventoryOwner/jsonList.html";
+org.kyerp.warehouse.InventoryOwnerPanel_SAVE_URL = "warehouse/InventoryOwner/jsonSave.html";
+org.kyerp.warehouse.InventoryOwnerPanel_DELETE_URL = "warehouse/InventoryOwner/jsonDelete.html";
+/** ***************************************************************************** */
 
 /** ***************************************************************************** */
 /** 客户管理模块 */

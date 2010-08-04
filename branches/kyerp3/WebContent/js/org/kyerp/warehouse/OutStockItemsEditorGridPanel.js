@@ -1,4 +1,24 @@
 /** ***************************************************************************** */
+org.kyerp.warehouse.InventoryOwnerStore = new Ext.data.Store( {
+	autoLoad : {
+		baseParams : {
+			limit : 20
+		}
+	},
+	url : org.kyerp.warehouse.InventoryOwnerPanel_STORE_URL,
+	reader : new Ext.data.JsonReader( {
+		totalProperty : "totalProperty",
+		root : "rows",
+		idProperty : "id"
+	}, new Ext.data.Record.create( [ {
+		name : "id",
+		type : "int"
+	}, {
+		name : "name",
+		type : "string"
+	} ]))
+});
+/** ***************************************************************************** */
 org.kyerp.warehouse.StockDetailStore = new Ext.data.Store({
 			reader : new Ext.data.JsonReader({}, new Ext.data.Record.create([{
 								name : "id",
@@ -73,9 +93,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 				this.selectMaterialWindow = new org.kyerp.warehouse.SelectMaterialWindow(
 						{
 							onSelect : function(rec, win) {
-								// alert(Ext.encode(rec.data));
 								win.hide();
-								// var _win = Ext.WindowMgr.getActive();
 								var _detailsGrid = Ext.WindowMgr.getActive().form.detailsGrid;
 								var _rs = new Ext.data.Record({
 											id : '',
@@ -105,15 +123,27 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 								_detailsGrid.fireEvent('rowclick',
 										_detailsGrid, _detailsGrid.getStore()
 												.getCount()
-												- 1)
+												- 1);
 								_detailsGrid.startEditing(_detailsGrid
 												.getStore().getCount()
 												- 1, 0);
-
-								// Ext.WindowMgr.getActive().form.form
-								// .findField('supplierId').setValue(rec.data.id);
 							}
 						});
+				this.ownerCombo =  new Ext.form.ComboBox({
+					hiddenName : 'ownerId',
+					typeAhead : true,
+					lazyRender : true,
+					pageSize : 20,
+					listWidth : 360,
+					valueField : 'id',
+					displayField : 'name',
+					mode : 'local',
+					selectOnFocus : true,
+					allowBlank : false,
+					emptyText : '请选择',
+					triggerAction : 'all',
+					store : org.kyerp.warehouse.InventoryOwnerStore
+				});
 				this.materialCombo = new Ext.form.ComboBox({
 							hiddenName : 'materialId',
 							typeAhead : true,
@@ -133,6 +163,11 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 							queryDelay : 300,
 							queryParam : 'query',
 							listeners : {
+								beforequery : function(qe){
+									var store = org.kyerp.warehouse.StockStore;
+									var combo = qe.combo;
+									store.setBaseParam("ownerId", this.ownerCombo.getValue());
+								},
 								select : function(comboBox) {
 									var value = comboBox.getValue();
 									var _rs = this.getSelectionModel()
@@ -140,14 +175,11 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 									var dataIndex = comboBox.store.find(
 											'materialId', value, 0, false,
 											false);
-									// alert(dataIndex);
 									_data = comboBox.store.getAt(dataIndex).data;
-									// alert(Ext.util.JSON.encode(_data));
 									_rs.set('unitName', _data.unitName);
 									_rs.set('price', _data.price);
 									_rs.set('warehouseId', _data.warehouseId);
 									_rs.set('materialName', _data.materialName);
-									// alert(_data.details);
 									org.kyerp.warehouse.StockDetailStore
 											.loadData(Ext.util.JSON.decode(
 													_data.details, false));
@@ -177,14 +209,10 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 									var dataIndex = comboBox.store.find(
 											'batchNumber', value, 0, false,
 											false);
-									// alert(dataIndex);
 									_data = comboBox.store.getAt(dataIndex).data;
-									// alert(Ext.encode(_data));
-									// alert(Ext.util.JSON.encode(value));
 									_rs.set('unitName', _data.unitName);
 									_rs.set('price', _data.price);
 									_rs.set('warehouseId', _data.warehouseId);
-									//_rs.set('billCount', _data.amount);
 								},
 								scope : this
 							}
@@ -204,6 +232,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 							triggerAction : 'all',
 							store : org.kyerp.warehouse.WarehouseStore
 						});
+				
 				org.kyerp.warehouse.OutStockItemsEditorGridPanel.superclass.constructor
 						.call(this, {
 							store : new Ext.data.Store({
@@ -247,6 +276,12 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 														}, {
 															name : 'pressworkNo',
 															type : 'string'
+														}, {
+															name : "ownerId",
+															type : "int"
+														}, {
+															name : "ownerName",
+															type : "string"
 														}])),
 										listeners : {
 											update : this.updateBillCost,
@@ -282,15 +317,19 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 										scope : this
 									}, '->', '双击表格可以修改资料'],
 							columns : [new Ext.grid.RowNumberer(), {
+								header : '所有者',
+								width : 60,
+								dataIndex : "ownerId",
+								renderer : Ext.ux.renderer.Combo(this.ownerCombo),
+								editor : this.ownerCombo
+							},{
 								header : '品名型号',
 								width : 250,
 								dataIndex : "materialId",
-								//renderer : Ext.ux.renderer.Combo(this.materialCombo),
 								renderer : function(value, metadate,
 												record, colIndex, rowIndex) {
 											// 要显示的数据
 											var result = record.get("materialName");
-											//alert(Ext.encode(record.data));
 											return result;
 										},
 								editor : this.materialCombo
@@ -329,24 +368,7 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 								dataIndex : "warehouseId",
 								renderer : Ext.ux.renderer
 										.Combo(this.warehouseCombo),
-								editor :this.warehouseCombo,
-								editor0 : new Ext.ux.form.TreeComboBox({
-									fieldLabel : "仓库",
-									name : 'warehouseId',
-									hiddenName : 'warehouseId',
-									xtype : 'treecombobox',
-									editable : false,
-									mode : 'local',
-									displayField : 'name',
-									valueField : 'id',
-									triggerAction : 'all',
-									allowBlank : false,
-									treeUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL,
-									rootText : 'root',
-									rootId : '0',
-									forceSelection : true,
-									rootVisible : false
-								})}, {
+								editor :this.warehouseCombo}, {
 								header : "金额",
 								width : 80,
 								dataIndex : "billCost"

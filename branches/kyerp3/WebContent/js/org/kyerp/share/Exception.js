@@ -99,7 +99,6 @@ Ext.override(Ext.data.Connection, {
 				var status = response.status;
 				var text = response.responseText;
 				showExtLoadException(null, null, response, e);
-
 			})
 });
 

@@ -198,10 +198,15 @@ org.kyerp.warehouse.InStockDetailStore = new Ext.data.Store({
 							}, {
 								name : "remark",
 								type : "string"
+							}, {
+								name : "ownerId",
+								type : "int"
+							}, {
+								name : "ownerName",
+								type : "string"
 							}])),
 			listeners : {
 				update : function(store, record, operation) {
-					// alert("update"+Ext.encode(record.data));
 					var _rData = record.data;
 					record.set('billCost', Number(_rData.price
 									* _rData.billCount).toFixed(2));
@@ -250,7 +255,6 @@ org.kyerp.warehouse.InStockDetailGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 		org.kyerp.warehouse.InStockDetailGrid.superclass.initComponent
 				.call(this);
 		this.on("afteredit", function(e) {
-					// alert(Ext.encode(e.record.data));
 					Ext.Ajax.request({
 								url : org.kyerp.warehouse.InStockDetail_SAVE_URL,
 								params : {

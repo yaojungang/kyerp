@@ -1,4 +1,9 @@
-﻿/* --------------- 修改 Ext CSS FF下中文显示 */
+﻿/* Override some cached style sheets */ 
+.x-grid3 table { 
+    table-layout:fixed; 
+} 
+table.x-date-inner{width:130px;table-layout:fixed;}
+/* --------------- 修改 Ext CSS FF下中文显示 */
 .x-window-footer {
 	position: relative;
 	top: 0;
