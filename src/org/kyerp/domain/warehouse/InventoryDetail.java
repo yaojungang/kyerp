@@ -2,6 +2,7 @@ package org.kyerp.domain.warehouse;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,11 @@ import org.kyerp.domain.BaseDomain;
 @Entity
 public class InventoryDetail extends BaseDomain implements Serializable{
 	private static final long	serialVersionUID	= 1L;
+	/**
+	 * 所有者
+	 */
+	@ManyToOne
+	private InventoryOwner owner;
 	/** 物料 */
 	@ManyToOne
 	private Material			material;
@@ -48,15 +54,23 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 	private BigDecimal			price				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 备注 */
 	private String				remark;
-
+	/**
+	 * 发生日期
+	 */
+	private Date happenDate;
 	public InventoryDetail() {
 	}
+	//获取单据日期
+	public Date getInputDate(){
+		return super.getUpdateTime();
+		};
 
 	@Override
 	public String toString() {
-		return "InventoryDetail [getId()=" + getId() + ", inStockCount="
-				+ inStockCount + ", outStockCount=" + outStockCount
-				+ ", currentStockCount=" + currentStockCount + "]";
+		return "InventoryDetail [owner=" + owner + ", batchNumber="
+				+ batchNumber + ", inStockCount=" + inStockCount
+				+ ", material=" + material + ", outStockCount=" + outStockCount
+				+ ", getId()=" + getId() + "]";
 	}
 
 	@Override
@@ -67,6 +81,9 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 				+ ((batchNumber == null) ? 0 : batchNumber.hashCode());
 		result = prime
 				* result
+				+ ((begingStockCount == null) ? 0 : begingStockCount.hashCode());
+		result = prime
+				* result
 				+ ((currentStockCount == null) ? 0 : currentStockCount
 						.hashCode());
 		result = prime * result
@@ -75,6 +92,7 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 				+ ((material == null) ? 0 : material.hashCode());
 		result = prime * result
 				+ ((outStockCount == null) ? 0 : outStockCount.hashCode());
+		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((remark == null) ? 0 : remark.hashCode());
 		result = prime * result + ((unit == null) ? 0 : unit.hashCode());
@@ -97,6 +115,11 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 				return false;
 		} else if (!batchNumber.equals(other.batchNumber))
 			return false;
+		if (begingStockCount == null) {
+			if (other.begingStockCount != null)
+				return false;
+		} else if (!begingStockCount.equals(other.begingStockCount))
+			return false;
 		if (currentStockCount == null) {
 			if (other.currentStockCount != null)
 				return false;
@@ -116,6 +139,11 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 			if (other.outStockCount != null)
 				return false;
 		} else if (!outStockCount.equals(other.outStockCount))
+			return false;
+		if (owner == null) {
+			if (other.owner != null)
+				return false;
+		} else if (!owner.equals(other.owner))
 			return false;
 		if (price == null) {
 			if (other.price != null)
@@ -145,6 +173,12 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 		return this.price.multiply(this.inStockCount.subtract(this.outStockCount));
 	}
 
+	public Date getHappenDate() {
+		return happenDate;
+	}
+	public void setHappenDate(Date happenDate) {
+		this.happenDate = happenDate;
+	}
 	public Material getMaterial() {
 		return material;
 	}
@@ -223,6 +257,14 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 
 	public void setOutStockCount(BigDecimal outStockCount) {
 		this.outStockCount = outStockCount;
+	}
+
+	public InventoryOwner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(InventoryOwner owner) {
+		this.owner = owner;
 	}
 
 }

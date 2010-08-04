@@ -20,6 +20,7 @@ import org.kyerp.service.security.IUserService;
 import org.kyerp.service.warehouse.IInOutTypeService;
 import org.kyerp.service.warehouse.IInStockDetailService;
 import org.kyerp.service.warehouse.IInStockService;
+import org.kyerp.service.warehouse.IInventoryOwnerService;
 import org.kyerp.service.warehouse.IMaterialService;
 import org.kyerp.service.warehouse.IStockService;
 import org.kyerp.service.warehouse.ISupplierService;
@@ -57,6 +58,8 @@ public class InStockController extends BaseController {
 	IInOutTypeService inOutTypeService;
 	@Autowired
 	IEmployeeService employeeService;
+	@Autowired
+	IInventoryOwnerService inventoryOwnerService;
 
 	@RequestMapping("/warehouse/InStock/jsonList.html")
 	public String list(Model model, Integer start, Long inOutTypeId,
@@ -185,7 +188,8 @@ public class InStockController extends BaseController {
 					}
 				} catch (Exception e) {
 					model.addAttribute("failure", true);
-					model.addAttribute("message", "请重新登录！<br />" + e.getLocalizedMessage());
+					model.addAttribute("message",
+							"请重新登录！<br />" + e.getLocalizedMessage());
 				}
 				/** 入库日期 */
 				if (null != o.getArriveDate()) {
@@ -207,6 +211,11 @@ public class InStockController extends BaseController {
 							row.setUpdateTime(DateFormatUtils.format(
 									detail.getUpdateTime(),
 									"yyyy-MM-dd HH:mm:ss"));
+						}
+						// 所有者
+						if (null != detail.getOwner()) {
+							row.setOwnerId(detail.getOwner().getId());
+							row.setOwnerName(detail.getOwner().getName());
 						}
 						/** 采购申请单 */
 						if (null != detail.getInStock()) {
@@ -259,7 +268,8 @@ public class InStockController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "获取数据失败！<br />" + e.getLocalizedMessage());
+			model.addAttribute("message",
+					"获取数据失败！<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
@@ -274,6 +284,7 @@ public class InStockController extends BaseController {
 			} else {
 				inStock = new InStock();
 			}
+
 			// 保存单号
 			if (null != row.getSerialNumber()) {
 				inStock.setSerialNumber(row.getSerialNumber());
@@ -320,6 +331,9 @@ public class InStockController extends BaseController {
 							detail = inStockDetailService.find(new Long(
 									idString));
 						}
+						// 所有者
+						detail.setOwner(inventoryOwnerService.find(jsonObject
+								.getLong("ownerId")));
 						// 物料
 						detail.setMaterial(materialService.find(jsonObject
 								.getLong("materialId")));
@@ -345,7 +359,8 @@ public class InStockController extends BaseController {
 					} catch (Exception e) {
 						e.printStackTrace();
 						model.addAttribute("failure", true);
-						model.addAttribute("message", "数据绑定失败，请检查您输入的数据！<br />" + e.getLocalizedMessage());
+						model.addAttribute("message", "数据绑定失败，请检查您输入的数据！<br />"
+								+ e.getLocalizedMessage());
 						return "jsonView";
 					}
 					pods.add(detail);
@@ -365,7 +380,8 @@ public class InStockController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "保存失败!<br />" + e.getLocalizedMessage());
+			model.addAttribute("message",
+					"保存失败!<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
@@ -379,7 +395,8 @@ public class InStockController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "删除失败!<br />" + e.getLocalizedMessage());
+			model.addAttribute("message",
+					"删除失败!<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
@@ -396,11 +413,13 @@ public class InStockController extends BaseController {
 			inStock.setStatus(BillStatus.WAITING_FOR_CHECK);
 			inStockService.update(inStock);
 			model.addAttribute("success", true);
-			model.addAttribute("message", "单据提交审核成功，您将不能修改这个单据，欲修改这个单据请先返回编制状态！");
+			model.addAttribute("message",
+					"单据提交审核成功，您将不能修改这个单据，欲修改这个单据请先返回编制状态！");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "单据提交审核失败！<br />"+e.getLocalizedMessage());
+			model.addAttribute("message",
+					"单据提交审核失败！<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
@@ -424,7 +443,8 @@ public class InStockController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "单据返回编制状态失败！<br />"+e.getLocalizedMessage());
+			model.addAttribute("message",
+					"单据返回编制状态失败！<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
@@ -466,7 +486,8 @@ public class InStockController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "修改入库单的备注失败！<br />"+e.getLocalizedMessage());
+			model.addAttribute("message",
+					"修改入库单的备注失败！<br />" + e.getLocalizedMessage());
 		}
 		return "jsonView";
 	}
@@ -483,7 +504,7 @@ public class InStockController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("failure", true);
-			model.addAttribute("message", "冲销单据时失败！<br />" + e.getMessage());
+			model.addAttribute("message", "冲销单据失败！<br />" + e.getMessage());
 		}
 		return "jsonView";
 	}

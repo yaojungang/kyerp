@@ -11,9 +11,13 @@ import org.springframework.stereotype.Service;
 public interface IOutStockService extends DAO<OutStock>{
 
 	/**
-	 * 保存出库单 如果没有填写单号则设置单号
+	 * 保存出库单,如果没有填写单号则设置单号
 	 */
 	void save(OutStock outStock) throws Exception;
+	/**
+	 * 更新出库单,更新出库单的数量和总金额
+	 */
+	void update(OutStock outStock) throws Exception;
 
 	/**
 	 * 审核出库单 改变状态为已审核,设置审核人，审核时间

@@ -25,6 +25,9 @@ public class Stock extends BaseDomain implements Serializable{
 	private static final long	serialVersionUID	= 1L;
 	/** 编号 **/
 	private String				serialNumber;
+	/** 所有者*/
+	@ManyToOne
+	private InventoryOwner owner;
 	/** 物料 */
 	@ManyToOne
 	private Material			material;
@@ -131,6 +134,16 @@ public class Stock extends BaseDomain implements Serializable{
 	public Material getMaterial() {
 		return material;
 	}
+
+	public InventoryOwner getOwner() {
+		return owner;
+	}
+
+
+	public void setOwner(InventoryOwner owner) {
+		this.owner = owner;
+	}
+
 
 	public void setMaterial(Material material) {
 		this.material = material;

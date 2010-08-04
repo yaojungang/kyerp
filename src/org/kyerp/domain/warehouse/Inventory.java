@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 import org.kyerp.domain.BaseDomain;
 import org.kyerp.domain.org.Employee;
 import org.kyerp.domain.security.User;
-import org.kyerp.utils.WebUtil;
 
 /**
  * 库存表
@@ -61,22 +60,16 @@ public class Inventory extends BaseDomain implements Serializable{
 	public Inventory() {
 	}
 
-	@Override
-	public void prePersist() throws Exception {
-// 设置单据状态
-		this.setStatus(BillStatus.WRITING);
-		// 保存填单时间
-		this.setWriteDate(new Date());
-		// 保存填单人
 
-		try {
-			this.setWriteUser(WebUtil.getCurrentUser());
-			this.setWriteEmployee(WebUtil.getCurrentEmployee());
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception("");
-		}
-		super.prePersist();
+	@Override
+	public String toString() {
+		return "Inventory [serialNumber=" + serialNumber + ", inOutType="
+				+ inOutType + ", billCount=" + billCount + ", billCost="
+				+ billCost + ", writeUser=" + writeUser + ", writeEmployee="
+				+ writeEmployee + ", checkUser=" + checkUser
+				+ ", checkEmployee=" + checkEmployee + ", keeper=" + keeper
+				+ ", writeDate=" + writeDate + ", checkDate=" + checkDate
+				+ ", status=" + status + ", remark=" + remark + "]";
 	}
 
 
@@ -97,6 +90,7 @@ public class Inventory extends BaseDomain implements Serializable{
 		result = prime * result
 				+ ((inOutType == null) ? 0 : inOutType.hashCode());
 		result = prime * result + ((keeper == null) ? 0 : keeper.hashCode());
+		result = prime * result + ((remark == null) ? 0 : remark.hashCode());
 		result = prime * result
 				+ ((serialNumber == null) ? 0 : serialNumber.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
@@ -108,6 +102,7 @@ public class Inventory extends BaseDomain implements Serializable{
 				+ ((writeUser == null) ? 0 : writeUser.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -153,6 +148,11 @@ public class Inventory extends BaseDomain implements Serializable{
 				return false;
 		} else if (!keeper.equals(other.keeper))
 			return false;
+		if (remark == null) {
+			if (other.remark != null)
+				return false;
+		} else if (!remark.equals(other.remark))
+			return false;
 		if (serialNumber == null) {
 			if (other.serialNumber != null)
 				return false;
@@ -177,6 +177,7 @@ public class Inventory extends BaseDomain implements Serializable{
 			return false;
 		return true;
 	}
+
 
 	public String nextCode() {
 		return null;

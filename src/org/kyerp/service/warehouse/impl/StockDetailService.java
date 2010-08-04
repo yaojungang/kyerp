@@ -1,10 +1,12 @@
 package org.kyerp.service.warehouse.impl;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 
 import org.kyerp.dao.DaoSupport;
 import org.kyerp.domain.warehouse.InStockDetail;
+import org.kyerp.domain.warehouse.InventoryDetail;
 import org.kyerp.domain.warehouse.OutStockDetail;
 import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.domain.warehouse.StockDetail;
@@ -25,58 +27,79 @@ public class StockDetailService extends DaoSupport<StockDetail> implements
 	IStockService stockService;
 
 	@Override
-	/**
-	 * TODO 加上对 所有者的判断
-	 */
-	public StockDetail find(Long materailId, String materialBatchNumber, Long warehouseId) {
-		String wherejpql = "o.stock.material.id = " + materailId
+	public StockDetail find(Long ownerId, Long materailId,
+			String materialBatchNumber, Long warehouseId, BigDecimal price) {
+		String wherejpql = "o.stock.owner.id = " + ownerId
+				+ " and o.stock.material.id = " + materailId
 				+ " and o.batchNumber like \'" + materialBatchNumber
 				+ "\' and o.warehouse.id = " + warehouseId;
-		logger.debug(wherejpql);
+		logger.debug("查找物料,jpql="+wherejpql);
 		List<StockDetail> stockDetails = getScrollData(wherejpql, null, null)
 				.getResultlist();
 		if (stockDetails.size() > 0) {
-			logger.debug("找到了o.stock.material.id = " + materailId
-				+ " and o.batchNumber like \'" + materialBatchNumber
-				+ "\' and o.warehouse.id = " + warehouseId+"的物料批次");
-			return stockDetails.get(0);
+			if (null != price && 0!= BigDecimal.ZERO.compareTo(price)) {
+				logger.debug("单价不为空，不为零，比较单价"+price.toString());
+				for (int i = 0; i < stockDetails.size(); i++) {
+					StockDetail stockDetail = stockDetails.get(i);
+					if (0 == stockDetail.getPrice().compareTo(price)) {
+						logger.debug("找到了单价相同的物料jpql="+wherejpql);
+						return stockDetails.get(i);
+					}
+				}
+				logger.debug("没有找到同样单价的物料jpql="+wherejpql);
+				return null;
+			} else {
+				logger.debug("单价为空，或为零，不比较单价");
+				logger.debug("找到了物料jpql="+wherejpql);
+				return stockDetails.get(0);
+			}
+
 		} else {
-			logger.debug("没有找到了o.stock.material.id = " + materailId
-					+ " and o.batchNumber like \'" + materialBatchNumber
-					+ "\' and o.warehouse.id = " + warehouseId+"的物料批次");
+			logger.debug("没有找到物料jpql="+wherejpql);
 			return null;
 		}
 	}
 
 	@Override
-	public StockDetail in(StockDetail stockDetail ,InStockDetail inStockDetail) throws Exception {
-		logger.debug("入库：" + stockDetail.getBatchNumber() +"数量"+stockDetail.getAmount()+" + "+inStockDetail.getInStockCount());
-		stockDetail.setAmount(stockDetail.getAmount().add(inStockDetail.getInStockCount()));
+	public StockDetail in(StockDetail stockDetail, InStockDetail inStockDetail)
+			throws Exception {
+		logger.debug("入库：" + stockDetail.getBatchNumber() + "数量"
+				+ stockDetail.getAmount() + " + "
+				+ inStockDetail.getInStockCount());
+		stockDetail.setAmount(stockDetail.getAmount().add(
+				inStockDetail.getInStockCount()));
 		stockDetail.setPrice(stockDetail.getPrice());
-		stockDetail.setCost(stockDetail.getAmount().multiply(stockDetail.getPrice()));
+		stockDetail.setCost(stockDetail.getAmount().multiply(
+				stockDetail.getPrice()));
 		update(stockDetail);
 		return stockDetail;
 	}
 
 	@Override
-	public StockDetail out(StockDetail stockDetail ,OutStockDetail outStockDetail) throws Exception {
-		logger.debug("出库：批次号：" + stockDetail.getBatchNumber() +"  数量 = "+stockDetail.getAmount()+" - "+ outStockDetail.getOutStockCount());
+	public StockDetail out(StockDetail stockDetail,
+			OutStockDetail outStockDetail) throws Exception {
+		logger.debug("出库：批次号：" + stockDetail.getBatchNumber() + "  数量 = "
+				+ stockDetail.getAmount() + " - "
+				+ outStockDetail.getOutStockCount());
 		stockDetail.setAmount(stockDetail.getAmount().subtract(
 				outStockDetail.getOutStockCount()));
-		stockDetail.setCost(stockDetail.getAmount().multiply(stockDetail.getPrice()));
+		stockDetail.setCost(stockDetail.getAmount().multiply(
+				stockDetail.getPrice()));
 		update(stockDetail);
 		return stockDetail;
 	}
 
 	@Override
-	public StockDetail addStockDetailfromInstockDetail(Stock stock,InStockDetail inStockDetail) throws Exception {
-		StockDetail stockDetail = createStockDetailfromInstockDetail(inStockDetail);
+	public StockDetail addStockDetailfromInstockDetail(Stock stock,
+			InStockDetail inStockDetail) throws Exception {
+		StockDetail stockDetail = createStockDetailfromInventoryDetail(inStockDetail);
 		stockDetail.setStock(stock);
 		List<StockDetail> stockDetails = stock.getStockDetails();
 		stockDetails.add(stockDetail);
 		stock.setStockDetails(stockDetails);
 		return stockDetail;
 	}
+
 	@Override
 	public void deleteStockDetail(StockDetail stockDetail) throws Exception {
 		Stock stock = stockDetail.getStock();
@@ -94,17 +117,18 @@ public class StockDetailService extends DaoSupport<StockDetail> implements
 	}
 
 	@Override
-	public StockDetail createStockDetailfromInstockDetail(InStockDetail inStockDetail)
-			throws Exception {
+	public StockDetail createStockDetailfromInventoryDetail(
+			InventoryDetail inventoryDetail) throws Exception {
 		StockDetail stockDetail = new StockDetail();
-		stockDetail.setUnit(inStockDetail.getMaterial().getUnit());
-		stockDetail.setBatchNumber(inStockDetail.getBatchNumber());
-		stockDetail.setWarehouse(inStockDetail.getWarehouse());
-		stockDetail.setAmount(inStockDetail.getInStockCount());
-		stockDetail.setPrice(inStockDetail.getPrice());
-		stockDetail.setCost(inStockDetail.getCost());
-		//save(stockDetail);
-		//直接由stock保存了，所以这里不用保存stockdetail
+		stockDetail.setUnit(inventoryDetail.getMaterial().getUnit());
+		stockDetail.setBatchNumber(inventoryDetail.getBatchNumber());
+		stockDetail.setWarehouse(inventoryDetail.getWarehouse());
+		stockDetail.setAmount(inventoryDetail.getInStockCount().subtract(
+				inventoryDetail.getOutStockCount()));
+		stockDetail.setPrice(inventoryDetail.getPrice());
+		stockDetail.setCost(inventoryDetail.getCost());
+		// save(stockDetail);
+		// 直接由stock保存了，所以这里不用保存stockdetail
 		return stockDetail;
 	}
 }

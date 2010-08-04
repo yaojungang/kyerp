@@ -1,7 +1,10 @@
 package org.kyerp.service.warehouse;
 
+import java.math.BigDecimal;
+
 import org.kyerp.dao.DAO;
 import org.kyerp.domain.warehouse.InStockDetail;
+import org.kyerp.domain.warehouse.InventoryDetail;
 import org.kyerp.domain.warehouse.OutStockDetail;
 import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.domain.warehouse.StockDetail;
@@ -19,7 +22,7 @@ public interface IStockDetailService extends DAO<StockDetail> {
 	 * @param warehouseId
 	 * @return
 	 */
-	StockDetail find(Long materailId, String materialBatchNumber, Long warehouseId);
+	StockDetail find(Long ownerId,Long materailId, String materialBatchNumber, Long warehouseId,BigDecimal price);
 	/**
 	 * 入库
 	 * @param stockDetail
@@ -33,10 +36,10 @@ public interface IStockDetailService extends DAO<StockDetail> {
 	 */
 	StockDetail out(StockDetail stockDetail ,OutStockDetail outStockDetail) throws Exception;
 	/**
-	 * 把入库单中的入库项目，转换为库存项目
+	 * 把入库单/出库单中的项目，转换为库存项目
 	 * @param inStockDetail
 	 */
-	StockDetail createStockDetailfromInstockDetail(InStockDetail inStockDetail) throws Exception;
+	StockDetail createStockDetailfromInventoryDetail(InventoryDetail inventoryDetail) throws Exception;
 	/**
 	 * 删除库存项目
 	 * @param stockDetail
