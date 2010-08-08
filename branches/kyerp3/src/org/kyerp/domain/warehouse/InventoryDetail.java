@@ -54,6 +54,10 @@ public class InventoryDetail extends BaseDomain implements Serializable{
 	private BigDecimal			price				= new BigDecimal("0.0000").setScale(4, BigDecimal.ROUND_HALF_UP);
 	/** 备注 */
 	private String				remark;
+	
+	public StockDetail caculateStockDetail(StockDetail stockDetail,InventoryDetail inventoryDetail) throws Exception {
+		throw new Exception("必须实现caculateStockDetail 方法！");
+	}
 	/**
 	 * 发生日期
 	 */

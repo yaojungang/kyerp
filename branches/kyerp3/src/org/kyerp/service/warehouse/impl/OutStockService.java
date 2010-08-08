@@ -106,7 +106,8 @@ public class OutStockService extends DaoSupport<OutStock> implements
 			}
 			try {
 				outStockDetail.setHappenDate(outStockDetail.getOutStock().getOutDate());
-				StockDetail stockDetail = stockService.outStock(outStockDetail);
+				//StockDetail stockDetail = stockService.outStock(outStockDetail);
+				StockDetail stockDetail = stockService.dealWithInventoryDetail(outStockDetail);
 				//设置当前余额
 				outStockDetail.setCurrentStockCount(stockDetail.getAmount());
 				//反查期初余额

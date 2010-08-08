@@ -24,6 +24,17 @@ public class OutStockDetail extends InventoryDetail implements Serializable{
 	}
 
 	@Override
+	public StockDetail caculateStockDetail(StockDetail stockDetail,
+			InventoryDetail inventoryDetail) throws Exception {
+		logger.debug("出库：" + stockDetail.getBatchNumber() + "数量"
+				+ stockDetail.getAmount() + " - "
+				+ inventoryDetail.getOutStockCount());
+		stockDetail.setAmount(stockDetail.getAmount().subtract(
+				inventoryDetail.getOutStockCount()));
+		return stockDetail;
+	}
+
+	@Override
 	public String toString() {
 		try {
 			return "OutStockDetail [pressworkNo=" + pressworkNo + ", getId()="

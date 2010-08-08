@@ -127,9 +127,15 @@ public class StockController extends BaseController {
 						row.setUnitName(detail.getUnit().getName());
 					}
 					/** 数量 */
-					row.setAmount(detail.getAmount());
+					if (null != detail.getAmount()) {
+						row.setAmount(detail.getAmount());
+					}
+					
 					/** 金额 */
-					row.setCost(detail.getCost());
+					if (null != detail.getCost()) {
+						row.setCost(detail.getCost());
+					}
+					
 					/** 价格 */
 					if (null != detail.getPrice()) {
 						row.setPrice(detail.getPrice());
@@ -421,7 +427,7 @@ public class StockController extends BaseController {
 					.append(queryParams.size() + 1).append(")");
 			queryParams.add("%" + query.trim().toUpperCase() + "%");
 		}
-		logger.debug("查询库存:\njpql=" + wherejpql.toString()+"\n参数="+queryParams.toString());
+		//logger.debug("查询库存:\njpql=" + wherejpql.toString()+"\n参数="+queryParams.toString());
 		QueryResult<Stock> queryResult = stockService.getScrollData(start,
 				limit, wherejpql.toString(), queryParams.toArray(), orderby);
 		return queryResult;

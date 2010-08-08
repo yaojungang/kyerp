@@ -16,6 +16,9 @@ public class InventoryDetailExtGridRow{
 	private String		createTime;
 	/** 修改时间 */
 	private String		updateTime;
+	/** 所有者 */
+	private Long		ownerId;
+	private String		ownerName;
 	/** 物料 */
 	private Long		materialId;
 	private String		materialName;
@@ -67,6 +70,22 @@ public class InventoryDetailExtGridRow{
 
 	public void setMaterialId(Long materialId) {
 		this.materialId = materialId;
+	}
+
+	public Long getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(Long ownerId) {
+		this.ownerId = ownerId;
+	}
+
+	public String getOwnerName() {
+		return ownerName;
+	}
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 
 	public String getMaterialName() {

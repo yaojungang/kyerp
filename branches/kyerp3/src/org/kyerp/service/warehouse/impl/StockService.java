@@ -5,8 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kyerp.dao.DaoSupport;
-import org.kyerp.domain.warehouse.InStockDetail;
-import org.kyerp.domain.warehouse.OutStockDetail;
+import org.kyerp.domain.warehouse.InventoryDetail;
 import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.domain.warehouse.StockDetail;
 import org.kyerp.service.warehouse.IInventoryOwnerService;
@@ -37,15 +36,45 @@ public class StockService extends DaoSupport<Stock> implements IStockService {
 			logger.debug("找到了的库存记录,jpql=" + wherejpql);
 			return stocks.get(0);
 		} else {
-			logger.debug("没有找到库存记录，创建了一条库存记录,jpql=" + wherejpql);
+			logger.debug("没有找到库存记录,jpql=" + wherejpql);
 			return null;
 		}
 	}
 
 	@Override
-	/**
-	 * 思路：先查找库存记录
-	 */
+	public StockDetail dealWithInventoryDetail(InventoryDetail inventoryDetail) throws Exception {
+		StockDetail stockDetail = stockDetailService.find(inventoryDetail
+				.getOwner().getId(), inventoryDetail.getMaterial().getId(),
+				inventoryDetail.getBatchNumber(), inventoryDetail.getWarehouse()
+						.getId(), inventoryDetail.getPrice());
+		Stock stock = null;
+		if (null != stockDetail) {
+			stock = stockDetail.getStock();
+			stockDetail = stockDetailService.dealWithInventoryDetail(stockDetail, inventoryDetail);
+		} else {
+			stock = findStockByMaterialIdAndOwnerId(inventoryDetail.getMaterial()
+					.getId(), inventoryDetail.getOwner().getId());
+			if (null != stock && stock.getId() > 0) {
+				logger.debug("一个新批次 " + inventoryDetail.toString());
+				stockDetail = stockDetailService
+						.addStockDetailfromInventoryDetail(stock, inventoryDetail);
+			} else {
+				stock = add(inventoryDetail);
+				stockDetail = stock.getStockDetails().get(0);
+				logger.debug("stockDetail.amount:" + stockDetail.getAmount());
+			}
+		}
+
+		if (0 == updateAmountPriceAndCost(stock)) {
+			logger.debug("库存物料数量为零，删除库存记录 " + stock.toString());
+			delete(stock.getId());
+		} else {
+			logger.debug("更新库存记录 " + stock.toString());
+			update(stock);
+		}
+		return stockDetail;
+	}
+	/*@Override
 	public StockDetail inStock(InStockDetail inStockDetail) throws Exception {
 		StockDetail stockDetail = stockDetailService.find(inStockDetail
 				.getOwner().getId(), inStockDetail.getMaterial().getId(),
@@ -65,11 +94,12 @@ public class StockService extends DaoSupport<Stock> implements IStockService {
 				logger.debug("库中不存在同批次、同Id、同库房的物料，入库一个新批次"
 						+ inStockDetail.toString());
 				stockDetail = stockDetailService
-						.addStockDetailfromInstockDetail(stock, inStockDetail);
+						.addStockDetailfromInventoryDetail(stock, inStockDetail);
 			} else {
 				logger.debug("库中不存在同ownerId ,同物料ID的记录");
 				stock = add(inStockDetail);
 				stockDetail = stock.getStockDetails().get(0);
+				logger.debug("stockDetail.amount:" + stockDetail.getAmount());
 			}
 		}
 
@@ -85,29 +115,50 @@ public class StockService extends DaoSupport<Stock> implements IStockService {
 
 	@Override
 	public StockDetail outStock(OutStockDetail outStockDetail) throws Exception {
+		Stock stock = null;
 		StockDetail stockDetail = stockDetailService.find(outStockDetail
 				.getOwner().getId(), outStockDetail.getMaterial().getId(),
 				outStockDetail.getBatchNumber(), outStockDetail.getWarehouse()
 						.getId(), outStockDetail.getPrice());
 		if (null != stockDetail) {
 			stockDetail = stockDetailService.out(stockDetail, outStockDetail);
-			Stock stock = stockDetail.getStock();
+			stock = stockDetail.getStock();
 			if (0 == updateAmountPriceAndCost(stock)) {
 				logger.debug("出库后，库存物料数量为零，删除库存记录 " + stock.toString());
 				delete(stockDetail.getStock().getId());
-			} else {
-				logger.debug("保存库存记录 " + stock);
-				update(stock);
 			}
-			return stockDetail;
 		} else {
 			// throw new Exception("没有找到相应的库存批次,请核对物料所有者，名称、批次号、库房,价格");
-			logger.debug("没有找到相应的库存批次,请核对物料所有者，名称、批次号、库房,价格");
-			return stockDetailService
+			logger.debug("所有者:" + outStockDetail.getOwner().getId()
+					+ ",没有找到相应的库存批次(物料所有者，名称、批次号、库房,价格)");
+			stock = findStockByMaterialIdAndOwnerId(outStockDetail
+					.getMaterial().getId(), outStockDetail.getOwner().getId());
+			stockDetail = stockDetailService
 					.createStockDetailfromInventoryDetail(outStockDetail);
-		}
-	}
+			if (null != stock && stock.getId() > 0) {
+				logger.debug("库中存在同ownerId ,同物料ID的记录");
+				logger.debug("库中不存在同批次、同Id、同库房的物料，出库一个新批次 "
+						+ outStockDetail.toString());
+				stockDetail = stockDetailService.addStockDetailfromInventoryDetail(stock,outStockDetail);
 
+			} else {
+				logger.debug("库中不存在同ownerId ,同物料ID的记录");
+				stock = add(outStockDetail);
+				stockDetail = stock.getStockDetails().get(0);
+				logger.debug("stockDetail.amount:" + stockDetail.getAmount());
+			}
+			
+		}
+		if (0 == updateAmountPriceAndCost(stock)) {
+			logger.debug("出库后，库存物料数量为零，删除库存记录 " + stock.toString());
+			delete(stock.getId());
+		} else {
+			logger.debug("更新库存记录 " + stock.toString());
+			update(stock);
+		}
+		return stockDetail;
+	}
+	*/
 	public void updateAmountPriceAndCost(Long stockId) throws Exception {
 		Stock stock = find(stockId);
 		if (null != stock && stock.getId() > 0) {
@@ -171,53 +222,24 @@ public class StockService extends DaoSupport<Stock> implements IStockService {
 	}
 
 	@Override
-	public Stock add(InStockDetail inStockDetail) throws Exception {
-		if (null != findStockByMaterialIdAndOwnerId(inStockDetail.getMaterial()
-				.getId(), inStockDetail.getOwner().getId())) {
-			throw new Exception("owner Id=" + inStockDetail.getOwner().getId()
-					+ "material Id=" + inStockDetail.getMaterial().getId()
-					+ "的库存记录已经存在，不用创建");
+	public Stock add(InventoryDetail inventoryDetail) throws Exception {
+		if (null != findStockByMaterialIdAndOwnerId(inventoryDetail
+				.getMaterial().getId(), inventoryDetail.getOwner().getId())) {
+			throw new Exception("owner Id="
+					+ inventoryDetail.getOwner().getId() + "material Id="
+					+ inventoryDetail.getMaterial().getId() + "的库存记录已经存在，不用创建");
 		} else {
 			Stock stock = new Stock();
-			stock.setOwner(inventoryOwnerService.find(inStockDetail
-					.getInStock().getId()));
-			stock.setMaterial(inStockDetail.getMaterial());
-			stock.setOwner(inStockDetail.getOwner());
-			stock.setUnit(inStockDetail.getMaterial().getUnit());
-			stock.setTotalAmount(inStockDetail.getInStockCount());
-			stock.setPrice(inStockDetail.getPrice());
-			stock.setCost(inStockDetail.getCost());
-			stock.setRemark(inStockDetail.getRemark());
+			stock.setOwner(inventoryDetail.getOwner());
+			stock.setMaterial(inventoryDetail.getMaterial());
+			stock.setUnit(inventoryDetail.getMaterial().getUnit());
+			stock.setTotalAmount(inventoryDetail.getInStockCount().subtract(
+					inventoryDetail.getOutStockCount()));
+			stock.setPrice(inventoryDetail.getPrice());
+			stock.setCost(inventoryDetail.getCost());
+			stock.setRemark(inventoryDetail.getRemark());
 			StockDetail stockDetailNew = stockDetailService
-					.createStockDetailfromInventoryDetail(inStockDetail);
-			stockDetailNew.setStock(stock);
-			List<StockDetail> stockDetails = stock.getStockDetails();
-			stockDetails.add(stockDetailNew);
-			stock.setStockDetails(stockDetails);
-			save(stock);
-			logger.debug("创建了一条新的库存记录" + stock.toString());
-			return stock;
-		}
-	}
-
-	@Override
-	public Stock add(OutStockDetail outStockDetail) throws Exception {
-		if (null != findStockByMaterialIdAndOwnerId(outStockDetail
-				.getMaterial().getId(), outStockDetail.getOwner().getId())) {
-			throw new Exception("owner Id=" + outStockDetail.getOwner().getId()
-					+ "material Id=" + outStockDetail.getMaterial().getId()
-					+ "的库存记录已经存在，不用创建");
-		} else {
-			Stock stock = new Stock();
-			stock.setOwner(outStockDetail.getOwner());
-			stock.setMaterial(outStockDetail.getMaterial());
-			stock.setUnit(outStockDetail.getMaterial().getUnit());
-			stock.setTotalAmount(outStockDetail.getInStockCount());
-			stock.setPrice(outStockDetail.getPrice());
-			stock.setCost(outStockDetail.getCost());
-			stock.setRemark(outStockDetail.getRemark());
-			StockDetail stockDetailNew = stockDetailService
-					.createStockDetailfromInventoryDetail(outStockDetail);
+					.createStockDetailfromInventoryDetail(inventoryDetail);
 			stockDetailNew.setStock(stock);
 			List<StockDetail> stockDetails = stock.getStockDetails();
 			stockDetails.add(stockDetailNew);
