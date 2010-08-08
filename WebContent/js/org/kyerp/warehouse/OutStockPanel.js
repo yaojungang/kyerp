@@ -51,13 +51,6 @@ org.kyerp.warehouse.OutStockStore = new Ext.data.Store({
 					limit : 20
 				}
 			},
-			listeners : {
-				loadexception : function(proxy, options, response) {
-					var data = Ext.decode(response.responseText);
-					top.Ext.Msg.alert("错误", "载入数据时发生错误:"
-									+ data["exception.message"]);
-				}
-			},
 			url : org.kyerp.warehouse.OutStockPanel_STORE_URL,
 			reader : new Ext.data.JsonReader({
 						totalProperty : "totalProperty",
@@ -316,7 +309,6 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 						}]
 					}, {
 						region : 'south',
-						// autoHeight : true,
 						height : 40,
 						frame : false,
 						border : false,
@@ -418,7 +410,6 @@ org.kyerp.warehouse.OutStockFormPanel = Ext.extend(Ext.form.FormPanel, {
 		this.selectSupplierWindow.show();
 	},
 	getValues : function() {
-		// && this.detailsGrid.getStore().getCount() > 0
 		if (this.getForm().isValid())
 			return new Ext.data.Record(this.getForm().getValues());
 		else
@@ -707,6 +698,7 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 								iconCls : 'icon-utils-s-add',
 								handler : function() {
 									this.insertWin.show();
+									//this.insertWin.maximize();
 								},
 								scope : this
 							}, "-", {
@@ -715,6 +707,7 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 								handler : function() {
 									// alert("edit");
 									this.updateWin.show();
+									//this.updateWin.maximize();
 									try {
 										this.updateWin.load(this.getSelected());
 									} catch (_err) {
@@ -921,7 +914,7 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.grid.GridPanel, {
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module, {
 			init : function() {
-				require('SelectSupplierWindow.js;' + 'SelectMaterialWindow.js;'
+				require('WarehouseStore.js;'+'StockDetailStore.js;'+'SelectSupplierWindow.js;' + 'SelectMaterialWindow.js;'
 								+ 'OutStockItemsEditorGridPanel.js', {
 							basedir : 'js/org/kyerp/warehouse'
 						});
