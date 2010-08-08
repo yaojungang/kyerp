@@ -26,6 +26,17 @@ public class InStockDetail extends InventoryDetail implements Serializable{
 	}
 
 	@Override
+	public StockDetail caculateStockDetail(StockDetail stockDetail,
+			InventoryDetail inventoryDetail) throws Exception {
+		logger.debug("入库：" + stockDetail.getBatchNumber() + "数量"
+				+ stockDetail.getAmount() + " + "
+				+ inventoryDetail.getInStockCount());
+		stockDetail.setAmount(stockDetail.getAmount().add(
+				inventoryDetail.getInStockCount()));
+		return stockDetail;
+	}
+
+	@Override
 	public String toString() {
 		try {
 			return "InStockDetail [getId()=" + getId() + ", getBatchNumber()="

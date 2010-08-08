@@ -109,7 +109,11 @@ public class InventoryDetailController extends BaseController {
 			n.setPrice(o.getPrice());
 			/** 总金额 */
 			n.setCost(o.getCost());
-
+			//所有者
+			if (null != o.getOwner()) {
+				n.setOwnerId(o.getOwner().getId());
+				n.setOwnerName(o.getOwner().getName());
+			}
 			rows.add(n);
 		}
 		model.addAttribute("totalProperty", queryResult.getTotalrecord());
@@ -124,7 +128,7 @@ public class InventoryDetailController extends BaseController {
 		limit = null == limit ? 20 : limit;
 
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
-		orderby.put("id", "asc");
+		orderby.put("id", "desc");
 		// build where jpql
 		StringBuffer wherejpql = new StringBuffer("");
 		List<Object> queryParams = new ArrayList<Object>();
@@ -171,8 +175,7 @@ public class InventoryDetailController extends BaseController {
 					.append(queryParams.size() + 1).append(")");
 			queryParams.add("%" + query.trim() + "%");
 		}
-		logger.debug("查询出入库明细\njpql:" + wherejpql + "\n "
-				+ queryParams.toString());
+		//logger.debug("查询出入库明细\njpql:" + wherejpql + "\n "+ queryParams.toString());
 		QueryResult<InventoryDetail> queryResult = inventoryDetailService
 				.getScrollData(start, limit, wherejpql.toString(),
 						queryParams.toArray(), orderby);

@@ -111,7 +111,8 @@ public class InStockService extends DaoSupport<InStock> implements
 			}
 			try {
 				inStockDetail.setHappenDate(inStockDetail.getInStock().getArriveDate());
-				StockDetail stockDetail = stockService.inStock(inStockDetail);
+				//StockDetail stockDetail = stockService.inStock(inStockDetail);
+				StockDetail stockDetail = stockService.dealWithInventoryDetail(inStockDetail);
 				// 设置当前余额
 				inStockDetail.setCurrentStockCount(stockDetail.getAmount());
 				// 反查期初余额

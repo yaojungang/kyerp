@@ -5,9 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kyerp.dao.DaoSupport;
-import org.kyerp.domain.warehouse.InStockDetail;
 import org.kyerp.domain.warehouse.InventoryDetail;
-import org.kyerp.domain.warehouse.OutStockDetail;
 import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.domain.warehouse.StockDetail;
 import org.kyerp.service.warehouse.IStockDetailService;
@@ -59,7 +57,17 @@ public class StockDetailService extends DaoSupport<StockDetail> implements
 			return null;
 		}
 	}
-
+	@Override
+	public StockDetail dealWithInventoryDetail(StockDetail stockDetail,InventoryDetail inventoryDetail)
+			throws Exception {
+		inventoryDetail.caculateStockDetail(stockDetail, inventoryDetail);		
+		stockDetail.setPrice(stockDetail.getPrice());
+		stockDetail.setCost(stockDetail.getAmount().multiply(
+				stockDetail.getPrice()));
+		update(stockDetail);
+		return stockDetail;
+	}
+/*
 	@Override
 	public StockDetail in(StockDetail stockDetail, InStockDetail inStockDetail)
 			throws Exception {
@@ -88,11 +96,11 @@ public class StockDetailService extends DaoSupport<StockDetail> implements
 		update(stockDetail);
 		return stockDetail;
 	}
-
+*/
 	@Override
-	public StockDetail addStockDetailfromInstockDetail(Stock stock,
-			InStockDetail inStockDetail) throws Exception {
-		StockDetail stockDetail = createStockDetailfromInventoryDetail(inStockDetail);
+	public StockDetail addStockDetailfromInventoryDetail(Stock stock,
+			InventoryDetail inventoryDetail) throws Exception {
+		StockDetail stockDetail = createStockDetailfromInventoryDetail(inventoryDetail);
 		stockDetail.setStock(stock);
 		List<StockDetail> stockDetails = stock.getStockDetails();
 		stockDetails.add(stockDetail);

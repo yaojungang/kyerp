@@ -1,8 +1,7 @@
 package org.kyerp.service.warehouse;
 
 import org.kyerp.dao.DAO;
-import org.kyerp.domain.warehouse.InStockDetail;
-import org.kyerp.domain.warehouse.OutStockDetail;
+import org.kyerp.domain.warehouse.InventoryDetail;
 import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.domain.warehouse.StockDetail;
 import org.springframework.stereotype.Service;
@@ -20,18 +19,25 @@ public interface IStockService extends DAO<Stock> {
 	 */
 	Stock findStockByMaterialIdAndOwnerId(Long materailId,Long ownerId);
 	/**
+	 * 处理入库单，出库单
+	 * @param inventoryDetail
+	 * @return
+	 * @throws Exception
+	 */
+	StockDetail dealWithInventoryDetail(InventoryDetail inventoryDetail) throws Exception;
+	/**
 	 * 入库
 	 * 
 	 * @param stockDetail
 	 */
-	StockDetail inStock(InStockDetail inStockDetail) throws Exception;
+	//StockDetail inStock(InStockDetail inStockDetail) throws Exception;
 
 	/**
 	 * 出库
 	 * 
 	 * @param stockDetail
 	 */
-	StockDetail outStock(OutStockDetail outStockDetail) throws Exception;
+	//StockDetail outStock(OutStockDetail outStockDetail) throws Exception;
 	/**
 	 * 更新Stock的数量，金额和价格，删除数量为零的批次，并保存stock
 	 * @param stockId
@@ -47,17 +53,10 @@ public interface IStockService extends DAO<Stock> {
 	 */
 	int updateAmountPriceAndCost(Stock stock) throws Exception;
 	/**
-	 * 根据入库项目，创建一个新的库存记录，并保存stock
-	 * @param inStockDetail
+	 * 根据入库/出库项目，创建一个新的库存记录，并保存stock
 	 * @return
 	 */
-	Stock add(InStockDetail inStockDetail) throws Exception ;
-	/**
-	 * 根据出库项目，创建一个新的库存记录，并保存stock
-	 * @param inStockDetail
-	 * @return
-	 */
-	Stock add(OutStockDetail outStockDetail) throws Exception ;
+	Stock add(InventoryDetail inventoryDetail) throws Exception ;
 	/**
 	 * 删除余额为零的记录
 	 * @throws Exception
