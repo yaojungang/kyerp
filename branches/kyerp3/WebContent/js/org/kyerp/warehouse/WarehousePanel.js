@@ -1,19 +1,3 @@
-
-/** ***************************************************************************** */
-org.kyerp.warehouse.WarehouseStore = new Ext.data.Store({
-			autoLoad : true,
-			proxy : new Ext.data.HttpProxy({
-						url : org.kyerp.warehouse.WarehousePanel_LIST_URL
-					}),
-			reader : new Ext.data.JsonReader({
-						totalProperty : "totalProperty",
-						root : "rows",
-						id : "id"
-					}, ['id', 'createTime', 'updateTime', 'name',
-							'serialNumber', 'note', 'childWarehouseIds',
-							'childWarehouseNames', 'parentWarehouseId',
-							'parentWarehouseName'])
-		});
 /** ***************************************************************************** */
 org.kyerp.warehouse.WarehouseTree = new Ext.tree.TreePanel({
 	title : '库房',
@@ -149,7 +133,6 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 					store.load();
 				});
 		this.grid.on('afteredit', function(e) {
-					// alert(Ext.encode(e.record.data));
 					Ext.Ajax.request({
 								url : org.kyerp.warehouse.WarehousePanel_SAVE_URL,
 								params : {
@@ -250,6 +233,9 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module, {
 			init : function() {
+				require('WarehouseStore.js', {
+							basedir : 'js/org/kyerp/warehouse'
+						});
 				this.body = new org.kyerp.warehouse.WarehousePanel({
 							border : false,
 							bodyBorder : false

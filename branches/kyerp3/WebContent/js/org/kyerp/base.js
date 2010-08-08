@@ -1,4 +1,6 @@
-﻿// 模块基类
+﻿//Version
+var versionNumber = "Version 3.0 bate v20100806";
+// 模块基类
 org.kyerp.module = function(tab) {
 	this.main = tab;
 	this.init();
@@ -54,7 +56,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 			margins : '0 0 5 0',
 			border : false,
 			height : 39,
-			html : '<div style="background:url(images/hd-bg.gif); height:39px;"><img src="images/logo.gif" /><div style="float:right;padding:10px 20px 0px 0px;color:#ffffff;">Version 3.0 bate v20100728</div></div>'
+			html : '<div style="background:url(images/hd-bg.gif); height:39px;"><img src="images/logo.gif" /><div style="float:right;padding:10px 20px 0px 0px;color:#ffffff;">'+versionNumber+'</div></div>'
 		});
 		// 首页
 		this.indexTab = {
@@ -180,7 +182,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 				});
 		this.body.on('tabchange', this.changeTab, this);
 
-		var viewport = new Ext.Viewport({
+		this.viewport = new Ext.Viewport({
 					layout : 'border',
 					items : [this.pageHeader, this.tree, this.body,
 							this.pageFoot]
@@ -257,6 +259,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 // 实例化主程序类
 Ext.BLANK_IMAGE_URL = 'images/s.gif';
 Ext.form.Field.prototype.msgTarget = 'side';
+var kyerpApp;
 Ext.onReady(function() {
 			Ext.QuickTips.init();
 			Ext.lib.Ajax.defaultPostHeader += ";charset=utf-8";
@@ -283,50 +286,5 @@ Ext.onReady(function() {
 			// }
 			// })
 			// });
+
 });
-
-Number.prototype.toFixed = function(d) {
-	var s = this + "";
-	if (!d)
-		d = 0;
-	if (s.indexOf(".") == -1)
-		s += ".";
-	s += new Array(d + 1).join("0");
-	if (new RegExp("^(-|\\+)?(\\d+(\\.\\d{0," + (d + 1) + "})?)\\d*$").test(s)) {
-		var s = "0" + RegExp.$2, pm = RegExp.$1, a = RegExp.$3.length, b = true;
-		if (a == d + 2) {
-			a = s.match(/\d/g);
-			if (parseInt(a[a.length - 1]) > 4) {
-				for (var i = a.length - 2; i >= 0; i--) {
-					a[i] = parseInt(a[i]) + 1;
-					if (a[i] == 10) {
-						a[i] = 0;
-						b = i != 1;
-					} else
-						break;
-				}
-			}
-			s = a.join("").replace(new RegExp("(\\d+)(\\d{" + d + "})\\d$"),
-					"$1.$2");
-		}
-		if (b)
-			s = s.substr(1);
-		return (pm + s).replace(/\.$/, "");
-	}
-	return this + "";
-};
-
-statusRenderer = function(value) {
-									switch (value){
-										case '编制' :
-											return "<font color=blue>"+value+"</font>";
-										case '等待审核' :
-											return "<font color=purple>"+value+"</font>";
-										case '已审核' :
-											return "<font color=black>"+value+"</font>";
-										case '已冲销' :
-											return "<font color=red>"+value+"</font>";
-										default:
-											return value;
-									}
-								};

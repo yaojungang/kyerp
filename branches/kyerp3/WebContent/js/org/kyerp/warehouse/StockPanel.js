@@ -55,7 +55,7 @@ org.kyerp.warehouse.StockPanel = Ext.extend(Ext.Panel, {
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module,{
     init: function(){
-    	require('MaterialCategoryTreePanel.js;' + 'StockListPanel.js', {
+    	require('InventoryDetailStroe.js;'+'InventoryDetailWindow.js;'+'InventoryOwnerStore.js;'+'StockDetailWindow.js;'+'MaterialCategoryTreePanel.js;' + 'StockListPanel.js', {
 							basedir : 'js/org/kyerp/warehouse'
 						});
         this.body = new org.kyerp.warehouse.StockPanel({border : false,bodyBorder : false});

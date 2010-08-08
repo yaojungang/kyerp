@@ -136,7 +136,7 @@ org.kyerp.warehouse.SupplierFormPanel = Ext.extend(Ext.form.FormPanel, {
 											name : "nameSpell"
 										}, {
 											fieldLabel : '助记码',
-											name : 'help'
+											name : 'helpCode'
 										}]
 									}]
 						}, {
@@ -192,9 +192,7 @@ org.kyerp.warehouse.SupplierFormPanel = Ext.extend(Ext.form.FormPanel, {
 															name : 'fax'
 														}, {
 															fieldLabel : '电子邮件',
-															name : 'email',
-															allowBlank : true,
-															vtype : 'email'
+															name : 'email'
 														}]
 											}]
 								}]

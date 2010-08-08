@@ -38,10 +38,12 @@
 <script type="text/javascript" src="js/org/kyerp/share/ux/TreeComboBox.js"></script>
 <script type="text/javascript" src="js/org/kyerp/share/ux/Ext.ux.form.DateTime.js"></script>
 <script type="text/javascript" src="js/org/kyerp/share/ux/Ext.ux.renderer.ComboRenderer.js"></script>
+<script type="text/javascript" src="js/org/kyerp/share/ux/Ext.plugins.GridCombox.js"></script>
 <script type="text/javascript">document.getElementById('loading-msg').innerHTML = '加载基本类库 ...';</script>
 <script type="text/javascript" src="js/org/kyerp/ns.js"></script>
 <script type="text/javascript" src="js/org/kyerp/share/Exception.js"></script>
 <script type="text/javascript" src="js/org/kyerp/base.js"></script>
+<script type="text/javascript" src="js/org/kyerp/share/utils.js"></script>
 <script type="text/javascript">document.getElementById('loading-msg').innerHTML = '正在从服务器端获取数据 ...';</script>
 </body>
 </html>
