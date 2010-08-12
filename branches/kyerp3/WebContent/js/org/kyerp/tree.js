@@ -1,11 +1,36 @@
-﻿[ {
+﻿[{
+		id : "PaperOfMaterialStock",
+		text : "纸张库存",
+		expanded : false,
+		children : [ {
+			id : "PaperOfMaterialPanel",
+			text : "纸张档案",
+			ns : 'org.kyerp.warehouse.print',
+			leaf : true
+		},{
+			id : "PaperInStockPanel",
+			ns : 'org.kyerp.warehouse.print',
+			text : "纸张入库",
+			leaf : true
+		}, {
+			id : "PaperOutStockPanel",
+			ns : 'org.kyerp.warehouse.print',
+			text : "纸张出库",
+			leaf : true
+		}, {
+			id : "PaperStockPanel",
+			text : "纸张库存",
+			ns : 'org.kyerp.warehouse.print',
+			leaf : true
+		} ]
+	},{
 	text : "库存管理",
 	expanded : true,
 	children : [ {
 		id : "StoreFileManager",
 		text : "库存档案",
 		expanded : false,
-		children : [ , {
+		children : [{
 			id : "MaterialCategoryPanel",
 			text : "原料分类",
 			ns : 'org.kyerp.warehouse',
@@ -14,11 +39,6 @@
 			id : "MaterialPanel",
 			ns : 'org.kyerp.warehouse',
 			text : "原料档案",
-			leaf : true
-		}, {
-			id : "PaperOfMaterialPanel",
-			text : "纸张档案",
-			ns : 'org.kyerp.warehouse',
 			leaf : true
 		} ]
 	}, {

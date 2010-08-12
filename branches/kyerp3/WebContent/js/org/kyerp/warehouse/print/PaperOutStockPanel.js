@@ -1,5 +1,5 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.Panel, {
+org.kyerp.warehouse.print.PaperOutStockPanel = Ext.extend(Ext.Panel, {
 			store : org.kyerp.warehouse.InStockStore,
 			layout : 'border',
 			listGrid : null,
@@ -20,7 +20,7 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.Panel, {
 							border : false
 						});
 				this.items = [this.listGrid, this.detailGrid];
-				org.kyerp.warehouse.OutStockPanel.superclass.initComponent
+				org.kyerp.warehouse.print.PaperOutStockPanel.superclass.initComponent
 						.call(this);
 			}
 		});
@@ -39,7 +39,7 @@ Ext.extend(org.kyerp.module, {
 						'OutStockDetailEditorGrid.js', {
 							basedir : 'js/org/kyerp/warehouse'
 						});
-				this.body = new org.kyerp.warehouse.OutStockPanel({
+				this.body = new org.kyerp.warehouse.print.PaperOutStockPanel({
 							border : false,
 							bodyBorder : false
 						});

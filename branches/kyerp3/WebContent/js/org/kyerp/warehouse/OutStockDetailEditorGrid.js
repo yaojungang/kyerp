@@ -1,80 +1,5 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.OutStockItemStore = new Ext.data.Store({
-			reader : new Ext.data.JsonReader({}, new Ext.data.Record.create([{
-								name : "id",
-								type : "int"
-							}, {
-								name : "billCount",
-								type : "float"
-							}, {
-								name : "billCost",
-								type : "float"
-							}, {
-								name : "materialId",
-								type : "int"
-							}, {
-								name : "materialName",
-								type : "string"
-							}, {
-								name : 'batchNumber',
-								type : 'string'
-							}, {
-								name : "warehouseId",
-								type : "int"
-							}, {
-								name : "warehouseName",
-								type : "string"
-							}, {
-								name : "unitId",
-								type : "int"
-							}, {
-								name : "unitName",
-								type : "string"
-							}, {
-								name : "price",
-								type : "float"
-							}, {
-								name : "remark",
-								type : "string"
-							}, {
-								name : 'pressworkNo',
-								type : 'string'
-							}, {
-								name : "ownerId",
-								type : "int"
-							}, {
-								name : "ownerName",
-								type : "string"
-							}]))
-		});
-/** ***************************************************************************** */
-org.kyerp.warehouse.InventoryOwnerStore = new Ext.data.Store({
-			autoLoad : {
-				baseParams : {
-					limit : 20
-				}
-			},
-			url : org.kyerp.warehouse.InventoryOwnerPanel_STORE_URL,
-			reader : new Ext.data.JsonReader({
-						totalProperty : "totalProperty",
-						root : "rows",
-						idProperty : "id"
-					}, new Ext.data.Record.create([{
-								name : "id",
-								type : "int"
-							}, {
-								name : "name",
-								type : "string"
-							}])),
-			listeners : {
-				load : function() {
-					var store = org.kyerp.warehouse.StockStore;
-					store.setBaseParam("ownerId", 1);
-				}
-			}
-		});
-/** ***************************************************************************** */
-org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
+org.kyerp.warehouse.OutStockDetailEditorGrid = Ext.extend(
 		Ext.grid.EditorGridPanel, {
 			inserted : [],
 			materialCombo : null,
@@ -256,9 +181,9 @@ org.kyerp.warehouse.OutStockItemsEditorGridPanel = Ext.extend(
 							store : org.kyerp.warehouse.WarehouseStore
 						});
 
-				org.kyerp.warehouse.OutStockItemsEditorGridPanel.superclass.constructor
+				org.kyerp.warehouse.OutStockDetailEditorGrid.superclass.constructor
 						.call(this, {
-									store : org.kyerp.warehouse.OutStockItemStore,
+									store : org.kyerp.warehouse.OutStockDetailStore,
 									autoScroll : true,
 									sm : new Ext.grid.RowSelectionModel({
 												singleSelect : true
