@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
  */
 @Controller
 @SessionAttributes("paper")
+@RequestMapping("/warehouse/print/PaperOfMaterial/")
 public class PapaerOfMaterialController{
 	@Autowired
 	IMaterialCategoryService	materialCategoryService;
@@ -44,7 +45,7 @@ public class PapaerOfMaterialController{
 	@Autowired
 	IUnitService				unitService;
 
-	@RequestMapping("/warehouse/PaperOfMaterial/jsonList.html")
+	@RequestMapping("jsonList.html")
 	public String list(String query, Long materialCategoryId, Integer start, Integer limit, Model model, HttpServletRequest request) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
@@ -124,7 +125,7 @@ public class PapaerOfMaterialController{
 	}
 
 	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/PaperOfMaterial/jsonSave.html")
+	@RequestMapping("jsonSave.html")
 	public String save(PaperOfMaterialExtGridRow materialRow, ModelMap model) {
 		PaperOfMaterial material = new PaperOfMaterial();
 		if(null != materialRow.getId() && materialRow.getId() > 0) {
@@ -171,7 +172,7 @@ public class PapaerOfMaterialController{
 	}
 
 	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/PaperOfMaterial/jsonDelete.html")
+	@RequestMapping("jsonDelete.html")
 	public String delete(ModelMap model, Long[] ids) {
 		paperOfMaterialService.delete((Serializable[]) ids);
 		model.addAttribute("success", true);

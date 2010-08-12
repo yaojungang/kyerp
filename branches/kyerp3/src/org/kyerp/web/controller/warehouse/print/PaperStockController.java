@@ -1,4 +1,4 @@
-package org.kyerp.web.controller.warehouse;
+package org.kyerp.web.controller.warehouse.print;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,8 +14,10 @@ import net.sf.json.JSONArray;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.kyerp.domain.common.view.ExcelTitleCell;
 import org.kyerp.domain.common.view.QueryResult;
+import org.kyerp.domain.warehouse.Material;
 import org.kyerp.domain.warehouse.Stock;
 import org.kyerp.domain.warehouse.StockDetail;
+import org.kyerp.domain.warehouse.print.PaperOfMaterial;
 import org.kyerp.service.warehouse.IStockService;
 import org.kyerp.utils.ExcelExportor;
 import org.kyerp.utils.MathTools;
@@ -31,8 +33,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
-@RequestMapping("/warehouse/Stock/")
-public class StockController extends BaseController {
+@RequestMapping("/warehouse/print/PaperStock/")
+public class PaperStockController extends BaseController {
 	@Autowired
 	IStockService stockService;
 
@@ -42,9 +44,9 @@ public class StockController extends BaseController {
 		QueryResult<Stock> queryResult = getList(model, start, limit,
 				ownerId,mCategoryId,  query);
 
-		List<StockExtGridRow> rows = new ArrayList<StockExtGridRow>();
+		List<PaperStockExtGridRow> rows = new ArrayList<PaperStockExtGridRow>();
 		for (Stock o : queryResult.getResultlist()) {
-			StockExtGridRow n = new StockExtGridRow();
+			PaperStockExtGridRow n = new PaperStockExtGridRow();
 			n.setId(o.getId());
 			/** 建立时间 */
 			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(),
@@ -79,9 +81,9 @@ public class StockController extends BaseController {
 			n.setRemark(o.getRemark());
 			/** 明细 */
 			if (null != o.getStockDetails() && o.getStockDetails().size() > 0) {
-				List<StockDetailExtGridRow> itemRows = new ArrayList<StockDetailExtGridRow>();
+				List<PaperStockDetailExtGridRow> itemRows = new ArrayList<PaperStockDetailExtGridRow>();
 				for (StockDetail detail : o.getStockDetails()) {
-					StockDetailExtGridRow row = new StockDetailExtGridRow();
+					PaperStockDetailExtGridRow row = new PaperStockDetailExtGridRow();
 					/** id */
 					row.setId(detail.getId());
 					/** 时间 */
@@ -230,14 +232,22 @@ public class StockController extends BaseController {
 					.append(queryParams.size() + 1).append(")");
 			queryParams.add("%" + query.trim().toUpperCase() + "%");
 		}
-		//logger.debug("查询库存:\njpql=" + wherejpql.toString()+"\n参数="+queryParams.toString());
+		logger.debug("查询库存:\njpql=" + wherejpql.toString()+"\n参数="+queryParams.toString());
 		QueryResult<Stock> queryResult = stockService.getScrollData(start,
 				limit, wherejpql.toString(), queryParams.toArray(), orderby);
+		List<Stock> stocks = new ArrayList<Stock>();
+		for (Stock stock : queryResult.getResultlist()) {
+			Material material = stock.getMaterial();
+			 if (material instanceof PaperOfMaterial) {
+				stocks.add(stock);
+			}
+		}
+		queryResult.setResultlist(stocks);
 		return queryResult;
 	}
 
 	@RequestMapping("jsonSave.html")
-	public String save(StockExtGridRow row, ModelMap model) {
+	public String save(PaperStockExtGridRow row, ModelMap model) {
 		Stock stock = new Stock();
 		if (null != row.getId() && row.getId() > 0) {
 			stock = stockService.find(row.getId());

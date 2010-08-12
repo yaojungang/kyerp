@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
+@RequestMapping("/warehouse/InStock/")
 public class InStockController extends BaseController {
 	@Autowired
 	IInStockService inStockService;
@@ -61,7 +62,7 @@ public class InStockController extends BaseController {
 	@Autowired
 	IInventoryOwnerService inventoryOwnerService;
 
-	@RequestMapping("/warehouse/InStock/jsonList.html")
+	@RequestMapping("jsonList.html")
 	public String list(Model model, Integer start, Long inOutTypeId,
 			Long supplierId, String query, Integer limit) throws Exception {
 		try {
@@ -198,9 +199,9 @@ public class InStockController extends BaseController {
 				}
 				/** 明细 */
 				if (null != o.getDetails() && o.getDetails().size() > 0) {
-					List<InStockItemExtGridRow> itemRows = new ArrayList<InStockItemExtGridRow>();
+					List<InStockDetailExtGridRow> itemRows = new ArrayList<InStockDetailExtGridRow>();
 					for (InStockDetail detail : o.getDetails()) {
-						InStockItemExtGridRow row = new InStockItemExtGridRow();
+						InStockDetailExtGridRow row = new InStockDetailExtGridRow();
 						/** id */
 						row.setId(detail.getId());
 						/** 时间 */
@@ -275,7 +276,7 @@ public class InStockController extends BaseController {
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/InStock/jsonSave.html")
+	@RequestMapping("jsonSave.html")
 	public String save(InStockExtGridRow row, ModelMap model) throws Exception {
 		try {
 			InStock inStock = null;
@@ -387,7 +388,7 @@ public class InStockController extends BaseController {
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/InStock/jsonDelete.html")
+	@RequestMapping("jsonDelete.html")
 	public String delete(ModelMap model, Long[] ids) {
 		try {
 			inStockService.delete((Serializable[]) ids);
@@ -406,7 +407,7 @@ public class InStockController extends BaseController {
 	 * 
 	 * @throws Exception
 	 */
-	@RequestMapping("/warehouse/InStock/jsonPostForCheck.html")
+	@RequestMapping("jsonPostForCheck.html")
 	public String postForCheck(ModelMap model, Long id) {
 		try {
 			InStock inStock = inStockService.find(id);
@@ -427,7 +428,7 @@ public class InStockController extends BaseController {
 	/**
 	 * 返回编制状态
 	 */
-	@RequestMapping("/warehouse/InStock/jsonReturnForEdit.html")
+	@RequestMapping("jsonReturnForEdit.html")
 	public String returnForEdit(ModelMap model, Long id) {
 		try {
 			InStock inStock = inStockService.find(id);
@@ -452,7 +453,7 @@ public class InStockController extends BaseController {
 	/**
 	 * 审核单据
 	 */
-	@RequestMapping("/warehouse/InStock/jsonCheckBill.html")
+	@RequestMapping("jsonCheckBill.html")
 	public String checkBill(ModelMap model, Long id) {
 		try {
 			inStockService.checkInStock(id);
@@ -467,35 +468,9 @@ public class InStockController extends BaseController {
 	}
 
 	/**
-	 * 修改入库单的备注
-	 */
-	@RequestMapping("/warehouse/InStockDetail/jsonSave.html")
-	public String save(InStockItemExtGridRow row, ModelMap model) {
-		try {
-			InStockDetail sd = null;
-			if (null != row.getId() && row.getId() > 0) {
-				sd = inStockDetailService.find(row.getId());
-				sd.setRemark(row.getRemark());
-				inStockDetailService.update(sd);
-				model.addAttribute("success", true);
-				model.addAttribute("message", "修改入库单的备注！");
-			} else {
-				model.addAttribute("failure", true);
-				model.addAttribute("message", "入库单的ID不能为空！");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("failure", true);
-			model.addAttribute("message",
-					"修改入库单的备注失败！<br />" + e.getLocalizedMessage());
-		}
-		return "jsonView";
-	}
-
-	/**
 	 * 冲销单据
 	 */
-	@RequestMapping("/warehouse/InStock/jsonCongXiao.html")
+	@RequestMapping("jsonCongXiao.html")
 	public String congXiao(ModelMap model, Long id) throws Exception {
 		try {
 			inStockService.congXiao(id);
@@ -515,7 +490,7 @@ public class InStockController extends BaseController {
 	 * @throws Exception
 	 */
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/InStock/resetSerialNumber.html")
+	@RequestMapping("resetSerialNumber.html")
 	public String resetSerialNumber(ModelMap model) throws Exception {
 		try {
 			LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
