@@ -197,9 +197,9 @@ public class OutStockController extends BaseController {
 
 				/** 明细 */
 				if (null != o.getDetails() && o.getDetails().size() > 0) {
-					List<OutStockItemExtGridRow> itemRows = new ArrayList<OutStockItemExtGridRow>();
+					List<OutStockDetailExtGridRow> itemRows = new ArrayList<OutStockDetailExtGridRow>();
 					for (OutStockDetail detail : o.getDetails()) {
-						OutStockItemExtGridRow row = new OutStockItemExtGridRow();
+						OutStockDetailExtGridRow row = new OutStockDetailExtGridRow();
 						/** id */
 						row.setId(detail.getId());
 						/** 时间 */

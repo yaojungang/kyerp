@@ -26,11 +26,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author y109 2009-12-8下午03:36:16
  */
 @Controller
+@RequestMapping("/warehouse/MaterialCategory/")
 public class MaterialCategoryController extends BaseController{
 	@Autowired
 	IMaterialCategoryService	materialCategoryService;
 
-	@RequestMapping("/warehouse/MaterialCategory/jsonList.html")
+	@RequestMapping("jsonList.html")
 	public String list(Long parentId, Integer start, Integer limit, Model model) {
 		start = null == start ? 0 : start;
 		limit = null == limit ? 20 : limit;
@@ -78,13 +79,14 @@ public class MaterialCategoryController extends BaseController{
 		return "jsonView";
 	}
 
-	@RequestMapping("/warehouse/MaterialCategory/jsonTree.html")
+	@RequestMapping("jsonTree.html")
 	public void tree(Long parentId, Model model, HttpServletResponse response) throws IOException {
 		// 默认的原材分类的根分类ID为2
 		response.getWriter().write(treeString(parentId));
 	}
 
 	public String treeString(Long parentId) {
+		logger.debug("parentId="+parentId);
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
 		QueryResult<MaterialCategory> queryResult = materialCategoryService.getScrollData(orderby);
@@ -103,7 +105,8 @@ public class MaterialCategoryController extends BaseController{
 				if(null != d.getParentCategory() && d.getParentCategory().getId() > 0) {
 					node.setParentId(String.valueOf(d.getParentCategory().getId()));
 				}
-				if(null != parentId && d.getId().compareTo(parentId) == 0) {
+				if(null != parentId && d.getId().toString().equals(parentId.toString())) {
+					logger.debug("parentId="+parentId);
 					rootNode.setId(String.valueOf(parentId));
 					rootNode.setText(d.getName());
 					rootNode.setExpanded(true);
@@ -129,7 +132,7 @@ public class MaterialCategoryController extends BaseController{
 	}
 
 	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/MaterialCategory/jsonSave.html")
+	@RequestMapping("jsonSave.html")
 	public String save(MaterialCategoryExtGridRow materialCategoryRow, ModelMap model) {
 		MaterialCategory materialCategory = new MaterialCategory();
 		if(null != materialCategoryRow.getId() && materialCategoryRow.getId() > 0) {
@@ -158,7 +161,7 @@ public class MaterialCategoryController extends BaseController{
 	}
 
 	@Secured( { "ROLE_ADMIN" })
-	@RequestMapping("/warehouse/MaterialCategory/jsonDelete.html")
+	@RequestMapping("jsonDelete.html")
 	public String delete(ModelMap model, Long[] ids) {
 		materialCategoryService.delete((Serializable[]) ids);
 		model.addAttribute("success", true);

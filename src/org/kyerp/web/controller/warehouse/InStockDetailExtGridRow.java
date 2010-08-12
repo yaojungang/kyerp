@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * @author y109 2010-3-2下午09:47:20
  */
-public class InStockItemExtGridRow{
+public class InStockDetailExtGridRow{
 	private Long		id;
 	/** 建立时间 */
 	private String		createTime;
@@ -37,7 +37,7 @@ public class InStockItemExtGridRow{
 	/** 金额 */
 	private BigDecimal	billCost;
 
-	public InStockItemExtGridRow() {
+	public InStockDetailExtGridRow() {
 	}
 
 	public BigDecimal getBillCost() {

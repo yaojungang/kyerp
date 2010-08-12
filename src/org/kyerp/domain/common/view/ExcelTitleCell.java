@@ -1,5 +1,6 @@
 package org.kyerp.domain.common.view;
 
+
 /**
  * Excel 标题行项目
  *org.kyerp.domain.common.view.ExcelTitleColumn.java
@@ -7,29 +8,25 @@ package org.kyerp.domain.common.view;
  * @author y109
  *         2010-4-20下午11:40:50
  */
-public class ExcelTitleColumn{
-	private String	name;
+public class ExcelTitleCell{
+	private String	title;
 	private int		width;
 
-	public ExcelTitleColumn() {
+	public ExcelTitleCell() {
 	}
 
-	/**
-	 * @param name
-	 * @param width
-	 */
-	public ExcelTitleColumn(String name, int width) {
+	public ExcelTitleCell(String title, int width) {
 		super();
-		this.name = name;
+		this.title = title;
 		this.width = width;
 	}
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public int getWidth() {
@@ -39,5 +36,5 @@ public class ExcelTitleColumn{
 	public void setWidth(int width) {
 		this.width = width;
 	}
-
+	
 }
