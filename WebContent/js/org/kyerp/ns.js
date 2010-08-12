@@ -2,6 +2,7 @@ Ext.ns('org','org.kyerp','org.kyerp.ext');
 Ext.ns('org.kyerp.security');
 Ext.ns('org.kyerp.org');
 Ext.ns('org.kyerp.warehouse');
+Ext.ns('org.kyerp.warehouse.print');
 Ext.ns('org.kyerp.crm');
 
 /** ***************************************************************************** */
@@ -56,10 +57,6 @@ org.kyerp.warehouse.MaterialListPanel_STORE_URL = "warehouse/Material/jsonList.h
 org.kyerp.warehouse.MaterialListPanel_SAVE_URL = "warehouse/Material/jsonSave.html";
 org.kyerp.warehouse.MaterialListPanel_DELETE_URL = "warehouse/Material/jsonDelete.html";
 /** ***************************************************************************** */
-org.kyerp.warehouse.PaperOfMaterialPanel_STORE_URL = "warehouse/PaperOfMaterial/jsonList.html";
-org.kyerp.warehouse.PaperOfMaterialPanel_SAVE_URL = "warehouse/PaperOfMaterial/jsonSave.html";
-org.kyerp.warehouse.PaperOfMaterialPanel_DELETE_URL = "warehouse/PaperOfMaterial/jsonDelete.html";
-/** ***************************************************************************** */
 org.kyerp.warehouse.MaterialPanel_STORE_URL = "warehouse/Material/jsonList.html";
 org.kyerp.warehouse.Material_STORE_ALL_URL = "warehouse/Material/jsonListAll.html";
 /** ***************************************************************************** */
@@ -108,6 +105,7 @@ org.kyerp.warehouse.InStock_PostForCheck_URL = "warehouse/InStock/jsonPostForChe
 org.kyerp.warehouse.InStock_ReturnForEdit_URL = "warehouse/InStock/jsonReturnForEdit.html";
 org.kyerp.warehouse.InStock_CheckBill_URL = "warehouse/InStock/jsonCheckBill.html";
 /** ***************************************************************************** */
+org.kyerp.warehouse.InStockDetail_STORE_URL = "warehouse/InStockDetail/jsonList.html";
 org.kyerp.warehouse.InStockDetail_SAVE_URL = "warehouse/InStockDetail/jsonSave.html";
 org.kyerp.warehouse.InStockDetail_DELETE_URL = "warehouse/InStockDetail/jsonDelete.html";
 /** ***************************************************************************** */
@@ -120,9 +118,21 @@ org.kyerp.warehouse.OutStock_ReturnForEdit_URL = "warehouse/OutStock/jsonReturnF
 org.kyerp.warehouse.OutStock_CheckBill_URL = "warehouse/OutStock/jsonCheckBill.html";
 org.kyerp.warehouse.OutStock_CongXiao_URL = "warehouse/OutStock/jsonCongXiao.html";
 /** ***************************************************************************** */
+org.kyerp.warehouse.OutStockDetail_STORE_URL = "warehouse/OutStockDetail/jsonList.html";
+org.kyerp.warehouse.OutStockDetail_SAVE_URL = "warehouse/OutStockDetail/jsonSave.html";
+org.kyerp.warehouse.OutStockDetail_DELETE_URL = "warehouse/OutStockDetail/jsonDelete.html";
+/** ***************************************************************************** */
 org.kyerp.warehouse.InventoryOwnerPanel_STORE_URL = "warehouse/InventoryOwner/jsonList.html";
 org.kyerp.warehouse.InventoryOwnerPanel_SAVE_URL = "warehouse/InventoryOwner/jsonSave.html";
 org.kyerp.warehouse.InventoryOwnerPanel_DELETE_URL = "warehouse/InventoryOwner/jsonDelete.html";
+/** ***************************************************************************** */
+org.kyerp.warehouse.print.PaperStock_EXCEL_URL = "warehouse/print/PaperStock/excel.html";
+org.kyerp.warehouse.print.PaperStockListPanel_STORE_URL = "warehouse/print/PaperStock/jsonList.html";
+org.kyerp.warehouse.print.PaperStock_SAVE_URL = "warehouse/print/PaperStock/jsonSave.html";
+/** ***************************************************************************** */
+org.kyerp.warehouse.print.PaperOfMaterialPanel_STORE_URL = "warehouse/print/PaperOfMaterial/jsonList.html";
+org.kyerp.warehouse.print.PaperOfMaterialPanel_SAVE_URL = "warehouse/print/PaperOfMaterial/jsonSave.html";
+org.kyerp.warehouse.print.PaperOfMaterialPanel_DELETE_URL = "warehouse/print/PaperOfMaterial/jsonDelete.html";
 /** ***************************************************************************** */
 
 /** ***************************************************************************** */

@@ -1,18 +1,18 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.Panel, {
+org.kyerp.warehouse.print.PaperInStockPanel = Ext.extend(Ext.Panel, {
 			store : org.kyerp.warehouse.InStockStore,
 			layout : 'border',
 			listGrid : null,
 			detailGrid : null,
 			border : false,
 			initComponent : function() {
-				this.listGrid = new org.kyerp.warehouse.OutStockGrid(
+				this.listGrid = new org.kyerp.warehouse.InStockGrid(
 						{
 							region : 'center',
 							autoWidth : true,
 							border : false
 						});
-				this.detailGrid = new org.kyerp.warehouse.OutStockDetailEditorGrid(
+				this.detailGrid = new org.kyerp.warehouse.InStockDetailGrid(
 						{
 							height : 80,
 							region : 'south',
@@ -20,7 +20,7 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.Panel, {
 							border : false
 						});
 				this.items = [this.listGrid, this.detailGrid];
-				org.kyerp.warehouse.OutStockPanel.superclass.initComponent
+				org.kyerp.warehouse.print.PaperInStockPanel.superclass.initComponent
 						.call(this);
 			}
 		});
@@ -29,17 +29,18 @@ org.kyerp.warehouse.OutStockPanel = Ext.extend(Ext.Panel, {
 Ext.extend(org.kyerp.module, {
 			init : function() {
 				require('WarehouseStore.js;' +
-						'StockStore.js;' +
+						'MaterialStore.js;' +
 						'InventoryOwnerStore.js;' +
-						'OutStockDetailStore.js;' +
-						'OutStockStore.js;' +
+						'InStockDetailStore.js;' +
+						'InStockStore.js;' +
 						'SelectSupplierWindow.js;' +
 						'SelectMaterialWindow.js;' +
-						'OutStockGrid.js;' +
-						'OutStockDetailEditorGrid.js', {
+						'InStockGrid.js;' +
+						'InStockDetailGrid.js;'
+						+ 'InStockDetailEditorGrid.js', {
 							basedir : 'js/org/kyerp/warehouse'
 						});
-				this.body = new org.kyerp.warehouse.OutStockPanel({
+				this.body = new org.kyerp.warehouse.print.PaperInStockPanel({
 							border : false,
 							bodyBorder : false
 						});

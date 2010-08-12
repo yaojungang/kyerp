@@ -1,25 +1,5 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.InventoryOwnerStore = new Ext.data.Store( {
-	autoLoad : {
-		baseParams : {
-			limit : 20
-		}
-	},
-	url : org.kyerp.warehouse.InventoryOwnerPanel_STORE_URL,
-	reader : new Ext.data.JsonReader( {
-		totalProperty : "totalProperty",
-		root : "rows",
-		idProperty : "id"
-	}, new Ext.data.Record.create( [ {
-		name : "id",
-		type : "int"
-	}, {
-		name : "name",
-		type : "string"
-	} ]))
-});
-/** ***************************************************************************** */
-org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
+org.kyerp.warehouse.InStockDetailEditorGrid = Ext.extend(
 		Ext.grid.EditorGridPanel, {
 			inserted : [],
 			materialCombo : null,
@@ -96,7 +76,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 							allowBlank : false,
 							emptyText : '请选择',
 							triggerAction : 'all',
-							store : org.kyerp.warehouse.materialStore,
+							store : org.kyerp.warehouse.MaterialStore,
 							loadingText : '正在载入数据,请稍候！',
 							minChars : 2,
 							queryDelay : 300,
@@ -131,7 +111,7 @@ org.kyerp.warehouse.InStockItemsEditorGridPanel = Ext.extend(
 							triggerAction : 'all',
 							store : org.kyerp.warehouse.WarehouseStore
 						});
-				org.kyerp.warehouse.InStockItemsEditorGridPanel.superclass.constructor
+				org.kyerp.warehouse.InStockDetailEditorGrid.superclass.constructor
 						.call(this, {
 							store : org.kyerp.warehouse.InStockDetailStore,
 							autoScroll : true,

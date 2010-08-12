@@ -1,11 +1,11 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.PaperOfMaterialStore =new Ext.data.Store({
+org.kyerp.warehouse.print.PaperOfMaterialStore =new Ext.data.Store({
 					autoLoad : {
 						baseParams : {
 							limit : 20
 						}
 					},
-					url : org.kyerp.warehouse.PaperOfMaterialPanel_STORE_URL,
+					url : org.kyerp.warehouse.print.PaperOfMaterialPanel_STORE_URL,
 					reader : new Ext.data.JsonReader({
 								totalProperty : "totalProperty",
 								root : "rows",
@@ -88,7 +88,7 @@ org.kyerp.warehouse.PaperOfMaterialStore =new Ext.data.Store({
 									}]))
 				});
 /** ***************************************************************************** */
-org.kyerp.warehouse.PaperOfMaterialPanelFormPanel = Ext.extend(
+org.kyerp.warehouse.print.PaperOfMaterialPanelFormPanel = Ext.extend(
 		Ext.form.FormPanel, {
 			url : "",
 			constructor : function(_cfg) {
@@ -98,7 +98,7 @@ org.kyerp.warehouse.PaperOfMaterialPanelFormPanel = Ext.extend(
 				var _readOnly = this["readOnly"] == null
 						? false
 						: this["readOnly"];
-				org.kyerp.warehouse.PaperOfMaterialPanelFormPanel.superclass.constructor
+				org.kyerp.warehouse.print.PaperOfMaterialPanelFormPanel.superclass.constructor
 						.call(this, {
 							labelWidth : 80,
 							baseCls : 'x-plain',
@@ -251,15 +251,15 @@ org.kyerp.warehouse.PaperOfMaterialPanelFormPanel = Ext.extend(
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow = Ext.extend(Ext.Window, {
+org.kyerp.warehouse.print.PaperOfMaterialPanelInfoWindow = Ext.extend(Ext.Window, {
 	url : "",
 	form : null,
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this.form = new org.kyerp.warehouse.PaperOfMaterialPanelFormPanel({
+		this.form = new org.kyerp.warehouse.print.PaperOfMaterialPanelFormPanel({
 					url : this.url
 				});
-		org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow.superclass.constructor
+		org.kyerp.warehouse.print.PaperOfMaterialPanelInfoWindow.superclass.constructor
 				.call(this, {
 							plain : true,
 							width : 500,
@@ -305,18 +305,18 @@ org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow = Ext.extend(Ext.Window, {
 
 });
 /** ***************************************************************************** */
-org.kyerp.warehouse.PaperOfMaterialPanelViewWindow = Ext.extend(Ext.Window, {
+org.kyerp.warehouse.print.PaperOfMaterialPanelViewWindow = Ext.extend(Ext.Window, {
 			title : "查看",
 			iconCls : 'icon-utils-s-view',
 			closeAction : 'hide',
 			html : '查看'
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.PaperOfMaterialPanelInsertWindow = Ext.extend(
-		org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow, {
+org.kyerp.warehouse.print.PaperOfMaterialPanelInsertWindow = Ext.extend(
+		org.kyerp.warehouse.print.PaperOfMaterialPanelInfoWindow, {
 			title : "添 加",
 			iconCls : 'icon-utils-s-add',
-			url : org.kyerp.warehouse.PaperOfMaterialPanel_SAVE_URL,
+			url : org.kyerp.warehouse.print.PaperOfMaterialPanel_SAVE_URL,
 			onSubmit : function(_form, _action, _values) {
 				var _data = _values.data;
 				Ext.apply(_data, {
@@ -331,11 +331,11 @@ org.kyerp.warehouse.PaperOfMaterialPanelInsertWindow = Ext.extend(
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.PaperOfMaterialPanelUpdateWindow = Ext.extend(
-		org.kyerp.warehouse.PaperOfMaterialPanelInfoWindow, {
+org.kyerp.warehouse.print.PaperOfMaterialPanelUpdateWindow = Ext.extend(
+		org.kyerp.warehouse.print.PaperOfMaterialPanelInfoWindow, {
 			title : "修 改",
 			iconCls : 'icon-utils-s-edit',
-			url : org.kyerp.warehouse.PaperOfMaterialPanel_SAVE_URL,
+			url : org.kyerp.warehouse.print.PaperOfMaterialPanel_SAVE_URL,
 			pnId : "",
 			load : function(_r) {
 				this.form.setValues(_r);
@@ -364,14 +364,14 @@ org.kyerp.warehouse.PaperOfMaterialPanelUpdateWindow = Ext.extend(
 			}
 		});
 /** ***************************************************************************** */
-org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
-	viewWin : new org.kyerp.warehouse.PaperOfMaterialPanelViewWindow(),
-	insertWin : new org.kyerp.warehouse.PaperOfMaterialPanelInsertWindow(),
-	updateWin : new org.kyerp.warehouse.PaperOfMaterialPanelUpdateWindow(),
+org.kyerp.warehouse.print.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
+	viewWin : new org.kyerp.warehouse.print.PaperOfMaterialPanelViewWindow(),
+	insertWin : new org.kyerp.warehouse.print.PaperOfMaterialPanelInsertWindow(),
+	updateWin : new org.kyerp.warehouse.print.PaperOfMaterialPanelUpdateWindow(),
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this["store"] = org.kyerp.warehouse.PaperOfMaterialStore,
-		org.kyerp.warehouse.PaperOfMaterialPanel.superclass.constructor.call(
+		this["store"] = org.kyerp.warehouse.print.PaperOfMaterialStore,
+		org.kyerp.warehouse.print.PaperOfMaterialPanel.superclass.constructor.call(
 				this, {
 					stripeRows : true,
 					tbar : [{
@@ -524,7 +524,7 @@ org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 		try {
 			var _sr = this.getSelected();
 			Ext.Ajax.request({
-						url : org.kyerp.warehouse.PaperOfMaterialPanel_DELETE_URL,
+						url : org.kyerp.warehouse.print.PaperOfMaterialPanel_DELETE_URL,
 						params : {
 							ids : _sr.get("id")
 						}
@@ -552,7 +552,7 @@ org.kyerp.warehouse.PaperOfMaterialPanel = Ext.extend(Ext.grid.GridPanel, {
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module, {
 			init : function() {
-				this.body = new org.kyerp.warehouse.PaperOfMaterialPanel({
+				this.body = new org.kyerp.warehouse.print.PaperOfMaterialPanel({
 							border : false,
 							bodyBorder : false
 						});

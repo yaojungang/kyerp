@@ -1,12 +1,12 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.MaterialPanel = Ext.extend(Ext.Panel, {
+org.kyerp.warehouse.print.PaperStockPanel = Ext.extend(Ext.Panel, {
 	materialCategoryTree : null,
 	materialList : null,
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
 		this.materialCategoryTree = new org.kyerp.warehouse.MaterialCategoryTreePanel(
 				{
-					title : '物料分类',
+					title : '纸张分类',
 					region : 'west',
 					border : false,
 					split : true,
@@ -16,35 +16,37 @@ org.kyerp.warehouse.MaterialPanel = Ext.extend(Ext.Panel, {
 					minSize : 100,
 					maxSize : 500,
 					autoScroll : true,
-					cmargins : '3 3 3 3'
+					cmargins : '3 3 3 3',
+					url:org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL+"?parentId=3"
 				});
-		this.materialList = new org.kyerp.warehouse.MaterialListPanel({
-					title : '库存明细',
+		this.materialList = new org.kyerp.warehouse.print.PaperStockListPanel({
+					title : '纸张库存明细表',
 					border : false,
 					region : 'center'
 				});
-		org.kyerp.warehouse.MaterialPanel.superclass.constructor.call(this, {
+
+		org.kyerp.warehouse.print.PaperStockPanel.superclass.constructor.call(this, {
 					layout : 'border',
 					border : false,
 					defaults : {
 						collapsible : true,
 						split : true
 					},
-					items : [this.materialCategoryTree, this.materialList]
+					items : [this.materialList]
 				});
 		// 点击tree改变List的内容
 		this.materialCategoryTree.on("click", function(node) {
 					this.materialList.store.on('beforeload', function(thiz,
 									options) {
 								Ext.apply(thiz.baseParams, {
-											materialCategoryId : node.attributes.id
+											mCategoryId : node.attributes.id
 										});
 							}, this);
 					this.materialList.store.load({
 								params : {
 									start : 0,
 									limit : 20,
-									materialCategoryId : node.attributes.id
+									mCategoryId : node.attributes.id
 								}
 							});
 					this.materialList.setTitle(node.attributes.text);
@@ -54,11 +56,22 @@ org.kyerp.warehouse.MaterialPanel = Ext.extend(Ext.Panel, {
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module,{
     init: function(){
-    	require('MaterialStore.js;' +
-    			'MaterialCategoryTreePanel.js;' + 'MaterialListPanel.js', {
-							basedir : 'js/org/kyerp/warehouse'
-						});
-        this.body = new org.kyerp.warehouse.MaterialPanel({border : false,bodyBorder : false});
+    	require('StockDetailStore.js;' +
+    			'StockDetailGrid.js;' +
+    			'StockDetailWindow.js;' +
+    			'InventoryDetailStroe.js;' +
+    			'InventoryDetailWindow.js;' +
+    			'InventoryOwnerStore.js;' +    			
+    			'MaterialCategoryTreePanel.js', {
+					basedir : 'js/org/kyerp/warehouse'
+				
+				});
+    	require('PaperStockStore.js;' +
+    			'PaperStockListPanel.js', {
+					basedir : 'js/org/kyerp/warehouse/print'
+				
+				});
+        this.body = new org.kyerp.warehouse.print.PaperStockPanel({border : false,bodyBorder : false});
         this.main.add(this.body);
         this.main.doLayout();  
     }

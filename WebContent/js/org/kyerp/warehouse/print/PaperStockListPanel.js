@@ -1,14 +1,14 @@
 /** ***************************************************************************** */
-org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.EditorGridPanel, {
+org.kyerp.warehouse.print.PaperStockListGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 	expander : null,
 	stockDetailWin : null,
 	inOutDetailWin : null,
 	constructor : function(_cfg) {
 		Ext.apply(this, _cfg);
-		this["store"] = org.kyerp.warehouse.StockStore;
+		this["store"] = org.kyerp.warehouse.print.PaperStockStore;
 		this.stockDetailWin = new org.kyerp.warehouse.StockDetailWindow();
 		this.inOutDetailWin = new org.kyerp.warehouse.InventoryDetailWindow();
-		org.kyerp.warehouse.StockListGrid.superclass.constructor.call(this, {
+		org.kyerp.warehouse.print.PaperStockListGrid.superclass.constructor.call(this, {
 			stripeRows : true,
 			viewConfig : {
 				forceFit : true
@@ -27,7 +27,7 @@ org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 				width : 80,
 				listeners : {
 					select : function(comboBox,record,index) {
-						var store = org.kyerp.warehouse.StockStore;
+						var store = org.kyerp.warehouse.print.PaperStockStore;
 						store.setBaseParam("ownerId", record.data.id);
 						store.load( {
 							params : {
@@ -69,7 +69,7 @@ org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 				text : "导  出",
 				iconCls : 'page_excel',
 				handler : function() {
-					window.open(org.kyerp.warehouse.Stock_EXCEL_URL);
+					window.open(org.kyerp.warehouse.print.PaperStock_EXCEL_URL);
 				},
 				scope : this
 			}, "-", '物料分类：', {
@@ -89,7 +89,7 @@ org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 				rootVisible : false,
 				treeUrl : org.kyerp.warehouse.MaterialCategoryPanel_TREE_URL,
 				onSelect : function(node) {
-					var store = org.kyerp.warehouse.StockStore;
+					var store = org.kyerp.warehouse.print.PaperStockStore;
 					store.setBaseParam("mCategoryId", node.id);
 					store.load();
 				}
@@ -173,7 +173,7 @@ org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 		this.on("rowdblclick", this.onRowdblclick, this);
 		this.on("afteredit", function(e) {
 			Ext.Ajax.request( {
-				url : org.kyerp.warehouse.Stock_SAVE_URL,
+				url : org.kyerp.warehouse.print.PaperStock_SAVE_URL,
 				params : {
 					id : e.record.data.id,
 					remark : e.record.data.remark
@@ -195,6 +195,8 @@ org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 		return _sm.getSelected();
 	},
 	onRowSelect : function(_sel, _index, _r) {
+		// org.kyerp.warehouse.StockDetailStore.loadData(Ext
+		// .decode(_sel.data.details), false);
 		var data = _sel.data;
 		var store = org.kyerp.warehouse.StockDetailStore;
 		store.setBaseParam("stockId", data.id);
@@ -208,14 +210,14 @@ org.kyerp.warehouse.StockListGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 	}
 });
 /** ***************************************************************************** */
-org.kyerp.warehouse.StockListPanel = Ext.extend(Ext.Panel, {
-	store : org.kyerp.warehouse.StockStore,
+org.kyerp.warehouse.print.PaperStockListPanel = Ext.extend(Ext.Panel, {
+	store : org.kyerp.warehouse.print.PaperStockStore,
 	layout : 'border',
 	stockListGrid : null,
 	stockDetailGrid : null,
 	border : false,
 	initComponent : function() {
-		this.stockListGrid = new org.kyerp.warehouse.StockListGrid( {
+		this.stockListGrid = new org.kyerp.warehouse.print.PaperStockListGrid( {
 			region : 'center',
 			autoWidth : true,
 			border : false
@@ -227,7 +229,7 @@ org.kyerp.warehouse.StockListPanel = Ext.extend(Ext.Panel, {
 			border : false
 		});
 		this.items = [ this.stockListGrid, this.stockDetailGrid ];
-		org.kyerp.warehouse.StockListPanel.superclass.initComponent.call(this);
+		org.kyerp.warehouse.print.PaperStockListPanel.superclass.initComponent.call(this);
 	}
 });
 
