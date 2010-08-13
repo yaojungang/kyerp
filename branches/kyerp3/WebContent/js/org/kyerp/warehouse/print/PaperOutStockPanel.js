@@ -12,7 +12,7 @@ org.kyerp.warehouse.print.PaperOutStockPanel = Ext.extend(Ext.Panel, {
 							autoWidth : true,
 							border : false
 						});
-				this.detailGrid = new org.kyerp.warehouse.OutStockDetailEditorGrid(
+				this.detailGrid = new org.kyerp.warehouse.OutStockDetailGrid(
 						{
 							height : 80,
 							region : 'south',
@@ -30,12 +30,14 @@ Ext.extend(org.kyerp.module, {
 			init : function() {
 				require('WarehouseStore.js;' +
 						'StockStore.js;' +
+                        'StockDetailStore.js;' +
 						'InventoryOwnerStore.js;' +
 						'OutStockDetailStore.js;' +
 						'OutStockStore.js;' +
 						'SelectSupplierWindow.js;' +
 						'SelectMaterialWindow.js;' +
 						'OutStockGrid.js;' +
+                        'OutStockDetailGrid.js;' +
 						'OutStockDetailEditorGrid.js', {
 							basedir : 'js/org/kyerp/warehouse'
 						});
