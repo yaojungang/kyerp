@@ -44,6 +44,7 @@ org.kyerp.warehouse.InStockDetailGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 								editor : new Ext.form.TextArea()
 							}]),
 					bbar : new Ext.PagingToolbar({
+                                hide : true,
 								plugins : new Ext.ux.Andrie.pPageSize({
 											beforeText : '每页显示',
 											afterText : '条'

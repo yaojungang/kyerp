@@ -117,7 +117,8 @@ org.kyerp.warehouse.OutStockDetailEditorGrid = Ext.extend(
 							triggerAction : 'all',
 							store : org.kyerp.warehouse.StockDetailStore,
 							plugins : [new Ext.plugins.GridCombox()],
-							cm : new Ext.grid.ColumnModel([{
+							cm : new Ext.grid.ColumnModel([
+									new Ext.grid.RowNumberer(), {
 										header : 'ID',
 										width : 50,
 										dataIndex : 'id',
@@ -238,14 +239,22 @@ org.kyerp.warehouse.OutStockDetailEditorGrid = Ext.extend(
 										dataIndex : 'batchNumber',
 										editor : this.stockDetailCombo
 									}, {
-										header : "出库数量",
+										header : "理论数量",
 										width : 70,
-										dataIndex : "billCount",
+										dataIndex : "outStockCount",
 										editor : new Ext.form.NumberField({
 													decimalPrecision : 4,
 													allowBlank : false
 												})
 									}, {
+                                        header : "实际数量",
+                                        width : 70,
+                                        dataIndex : "realOutStockCount",
+                                        editor : new Ext.form.NumberField({
+                                                    decimalPrecision : 4,
+                                                    allowBlank : false
+                                                })
+                                    }, {
 										header : '生产任务单号',
 										dataIndex : "pressworkNo",
 										editor : new Ext.form.TextField()

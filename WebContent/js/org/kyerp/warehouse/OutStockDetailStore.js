@@ -9,7 +9,10 @@ org.kyerp.warehouse.OutStockDetailStore = new Ext.data.Store({
                                 name : "id",
                                 type : "int"
                             }, {
-                                name : "billCount",
+                                name : "outStockCount",
+                                type : "float"
+                            }, {
+                                name : "realOutStockCount",
                                 type : "float"
                             }, {
                                 name : "billCost",
