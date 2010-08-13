@@ -1,0 +1,515 @@
+﻿/**icons*/
+.icon-add-form {
+	background: url(../images/ext-extend/icons/form.png) no-repeat left
+		0px !important;
+}
+.icon-plugin {
+	background: url(../images/ext-extend/icons/plugin.gif) no-repeat left
+		0px !important;
+}
+
+.icon-cmp {
+	background: url(../images/ext-extend/icons/cmp.gif) no-repeat left 0px
+		!important;
+}
+
+.page {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		0px !important;
+}
+
+.page_add {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-20px !important;
+}
+
+.page_edit {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-40px !important;
+}
+
+.page_delete {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-60px !important;
+}
+
+.page_find {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-80px !important;
+}
+
+.page_gear {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-100px !important;
+}
+
+.page_attach {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-120px !important;
+}
+
+.page_link {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-140px !important;
+}
+
+.page_goto {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-160px !important;
+}
+
+.page_key {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-180px !important;
+}
+
+.page_save {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-200px !important;
+}
+
+.page_refresh {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-220px !important;
+}
+
+.page_excel {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-240px !important;
+}
+
+.page_word {
+	background: url(../images/ext-extend/icons/icon_page.gif) no-repeat left
+		-260px !important;
+}
+
+.table {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left 0px !important;
+}
+
+.table_add {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -20px !important;
+}
+
+.table_edit {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -40px !important;
+}
+
+.table_delete {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -60px !important;
+}
+
+.table_find {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -80px !important;
+}
+
+.table_gear {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -100px !important;
+}
+
+.table_attach {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -120px !important;
+}
+
+.table_link {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -140px !important;
+}
+
+.table_goto {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -160px !important;
+}
+
+.table_key {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -180px !important;
+}
+
+.table_save {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -200px !important;
+}
+
+.table_refresh {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -220px !important;
+}
+
+.table_row_insert {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -240px !important;
+}
+
+.table_row_delete {
+	background: url(../images/ext-extend/icons/icon_table.gif) no-repeat
+		left -260px !important;
+}
+
+.tag {
+	background: url(../images/ext-extend/icons/icon_tag.gif) no-repeat left
+		0px !important;
+}
+
+.tag_add {
+	background: url(../images/ext-extend/icons/icon_tag.gif) no-repeat left
+		-20px !important;
+}
+
+.tag_edit {
+	background: url(../images/ext-extend/icons/icon_tag.gif) no-repeat left
+		-40px !important;
+}
+
+.tag_delete {
+	background: url(../images/ext-extend/icons/icon_tag.gif) no-repeat left
+		-60px !important;
+}
+
+.mail {
+	background: url(../images/ext-extend/icons/icon_mail.gif) no-repeat left
+		0px !important;
+}
+
+.mail_add {
+	background: url(../images/ext-extend/icons/icon_mail.gif) no-repeat left
+		-20px !important;
+}
+
+.mail_edit {
+	background: url(../images/ext-extend/icons/icon_mail.gif) no-repeat left
+		-40px !important;
+}
+
+.mail_delete {
+	background: url(../images/ext-extend/icons/icon_mail.gif) no-repeat left
+		-60px !important;
+}
+
+.mail_find {
+	background: url(../images/ext-extend/icons/icon_mail.gif) no-repeat left
+		-80px !important;
+}
+
+.mail_open {
+	background: url(../images/ext-extend/icons/icon_mail.gif) no-repeat left
+		-100px !important;
+}
+
+.mail_attach {
+	background: url(../images/ext-extend/icons/icon_mail.gif) no-repeat left
+		-120px !important;
+}
+
+.mail_link {
+	background: url(../images/ext-extend/icons/icon_mail.gif) no-repeat left
+		-140px !important;
+}
+
+.mail_goto {
+	background: url(../images/ext-extend/icons/icon_mail.gif) no-repeat left
+		-160px !important;
+}
+
+.feed {
+	background: url(../images/ext-extend/icons/icon_feed.gif) no-repeat left
+		0px !important;
+}
+
+.feed_add {
+	background: url(../images/ext-extend/icons/icon_feed.gif) no-repeat left
+		-20px !important;
+}
+
+.feed_edit {
+	background: url(../images/ext-extend/icons/icon_feed.gif) no-repeat left
+		-40px !important;
+}
+
+.feed_delete {
+	background: url(../images/ext-extend/icons/icon_feed.gif) no-repeat left
+		-60px !important;
+}
+
+.feed_find {
+	background: url(../images/ext-extend/icons/icon_feed.gif) no-repeat left
+		-80px !important;
+}
+
+.feed_link {
+	background: url(../images/ext-extend/icons/icon_feed.gif) no-repeat left
+		-100px !important;
+}
+
+.feed_goto {
+	background: url(../images/ext-extend/icons/icon_feed.gif) no-repeat left
+		-120px !important;
+}
+
+.feed_key {
+	background: url(../images/ext-extend/icons/icon_feed.gif) no-repeat left
+		-140px !important;
+}
+
+.feed_save {
+	background: url(../images/ext-extend/icons/icon_feed.gif) no-repeat left
+		-160px !important;
+}
+
+.icon-root-s {
+	background: url(../images/ext-extend/icons/home.gif) no-repeat left
+		!important;
+}
+
+.icon-help-s {
+	background: url(../images/help16x16.jpg ) no-repeat left !important;
+}
+
+.icon-system-help-s {
+	background: url(../images/ext-extend/icons/forum.gif) no-repeat left
+		!important;
+}
+
+.icon-home-s {
+	background: url(../images/ext-extend/icons/home.png ) no-repeat left
+		!important;
+}
+
+.icon-order-s {
+	background: url(../images/ext-extend/icons/table_refresh.png ) no-repeat
+		left !important;
+}
+
+.icon-order-s-new {
+	background: url(../images/ext-extend/icons/new.gif) no-repeat left
+		!important;
+}
+
+.icon-order-s-spAdd {
+	background: url(../images/ext-extend/icons/user_add.png ) no-repeat left
+		!important;
+}
+
+.icon-order-s-spEdit {
+	background: url(../images/ext-extend/icons/user_edit.png ) no-repeat
+		left !important;
+}
+
+.icon-order-s-spDelete {
+	background: url(../images/ext-extend/icons/user_delete.png ) no-repeat
+		left !important;
+}
+
+.icon-order-s-draft {
+	background: url(../images/ext-extend/icons/order_edit.gif) no-repeat
+		left !important;
+}
+
+.icon-order-s-outbox {
+	background: url(../images/ext-extend/icons/works.gif) no-repeat left
+		!important;
+}
+
+.icon-order-s-comSearch {
+	background: url(../images/ext-extend/icons/root.gif) no-repeat left
+		!important;
+}
+
+.icon-order-s-myOrders {
+	background: url(../images/ext-extend/icons/list.gif) no-repeat left
+		!important;
+}
+
+.icon-order-s-auditing {
+	background: url(../images/ext-extend/icons/info-edit.gif) no-repeat left
+		!important;
+}
+
+.icon-order-s-signIn {
+	background: url(../images/ext-extend/icons/edit.gif) no-repeat left
+		!important;
+}
+
+.icon-order-s-send {
+	background: url(../images/ext-extend/icons/folder_go.png ) no-repeat
+		left !important;
+}
+
+.icon-order-s-con-maintenance {
+	background: url(../images/ext-extend/icons/folder_wrench.png ) no-repeat
+		left !important;
+}
+
+.icon-order-s-con-pour {
+	background: url(../images/ext-extend/icons/cog_edit.png ) no-repeat left
+		!important;
+}
+
+.icon-order-s-examineAndApprove {
+	background: url(../images/ext-extend/icons/user_edit.png ) no-repeat
+		left !important;
+}
+
+.icon-order-s-evaluate {
+	background: url(../images/ext-extend/icons/user_comment.png ) no-repeat
+		left !important;
+}
+
+.icon-order-s-cancel {
+	background: url(../images/ext-extend/icons/refresh.gif) no-repeat left
+		!important;
+}
+
+.icon-order-s-close {
+	background: url(../images/ext-extend/icons/cross.gif) no-repeat left
+		!important;
+}
+
+.icon-order-s-search {
+	background: url(../images/ext-extend/icons/search.png ) no-repeat left
+		!important;
+}
+
+.icon-system-s {
+	background: url(../images/system16x16.jpg ) no-repeat left !important;
+}
+
+.icon-system-s-users {
+	background: url(../images/ext-extend/icons/user_suit.gif) no-repeat left
+		!important;
+}
+
+.icon-system-s-userSelf-help {
+	background: url(../images/ext-extend/icons/setting.png ) no-repeat left
+		!important;
+}
+
+.icon-system-s-report {
+	background: url(../images/ext-extend/icons/grid.png ) no-repeat left
+		!important;
+}
+
+.icon-changePass-s {
+	background: url(../images/logout16x16.jpg ) no-repeat left !important;
+}
+
+.icon-changePass-s-edit {
+	background: url(../images/ext-extend/icons/edit_pass.gif) no-repeat left
+		!important;
+}
+
+.icon-role-s {
+	background: url(../images/ext-extend/icons/lock.gif) no-repeat left
+		!important;
+}
+
+.icon-role-s-resource {
+	background: url(../images/ext-extend/icons/list.gif) no-repeat left
+		!important;
+}
+
+.icon-role-s-operation {
+	background: url(../images/ext-extend/icons/cog_edit.png ) no-repeat left
+		!important;
+}
+
+.icon-lock-s {
+	background: url(../images/ext-extend/icons/lock.gif) no-repeat left
+		!important;
+}
+
+/*****公用图标*****/
+.icon-utils-s-view {
+	background: url(../images/ext-extend/icons/topic.gif) no-repeat left
+		!important;
+}
+.icon-utils-s-excel {
+	background: url(../images/ext-extend/icons/excel.png) no-repeat left
+		!important;
+}
+
+.icon-utils-s-add {
+	background: url(../images/ext-extend/icons/add.gif) no-repeat left
+		!important;
+}
+
+.icon-utils-s-edit {
+	background: url(../images/ext-extend/icons/edit.gif) no-repeat left
+		!important;
+}
+
+.icon-utils-s-search {
+	background: url(../images/ext-extend/icons/search.png ) no-repeat left
+		!important;
+}
+
+.icon-utils-s-close {
+	background: url(../images/ext-extend/icons/cross.gif) no-repeat left
+		!important;
+}
+
+.icon-utils-s-delete {
+	background: url(../images/ext-extend/icons/delete.gif) no-repeat left
+		!important;
+}
+
+.icon-utils-s-release {
+	background: url(../images/ext-extend/icons/folder_go.png ) no-repeat
+		left !important;
+}
+
+.icon-system-switch2tree {
+	background: url(../images/ext-extend/icons/table_refresh.png ) no-repeat
+		left !important;
+}
+
+.icon-system-refresh {
+	background: url(../images/ext-extend/icons/refresh.gif) no-repeat left
+		!important;
+}
+
+.icon-style-tree {
+	background: url(../images/ext-extend/icons/expand-all.gif) no-repeat
+		left !important;
+}
+
+.icon-style-tab {
+	background: url(../images/ext-extend/icons/tabs.gif) no-repeat left
+		!important;
+}
+
+.icon-utils-message {
+	background: url(../images/ext-extend/icons/msg.gif) no-repeat left
+		!important;
+}
+
+.icon-utils-newMsg {
+	background: url(../images/hot.gif) no-repeat left !important;
+}
+
+.icon-expand-all {
+	background: url(../images/ext-extend/icons/expand-all.gif) no-repeat
+		left !important;
+}
+
+.icon-collapse-all {
+	background: url(../images/ext-extend/icons/collapse-all.gif) no-repeat
+		left !important;
+}
+
+.icon-accordian {
+	background: url(../images/ext-extend/icons/accordian.gif) no-repeat left
+		!important;
+}
+
+.icon-application_go {
+	background: url(../images/ext-extend/icons/application_go.png) no-repeat
+		left !important;
+}
