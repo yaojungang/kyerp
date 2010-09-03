@@ -74,7 +74,7 @@
 		</s:if> <s:if test="#af.fapiaoStatus==0">
 			<img
 				src="${pageContext.request.contextPath}/Library/images/fapiaoyikai.gif">
-		</s:if></td>
+		</s:if>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AFID:<s:property value="#af.afId" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td colspan="2" align="right"><span class="item"> <s:date
 			name="#af.ad" nice="false" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		<span class="sImpactred">No. <s:property value="#af.iso" /><s:property

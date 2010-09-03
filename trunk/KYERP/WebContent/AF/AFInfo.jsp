@@ -129,7 +129,7 @@ function show(id){
 	<tr>
 		<td align="left">
 		<div style="margin-left: 20px; float: left;"><span class="item"><s:if
-			test="#af.iso.equals('SK')"> QYYT-D-7.5.1-01</s:if></span></div>
+			test="#af.iso.equals('SK')"> QYYT-D-7.5.1-01</s:if>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AFID:<s:property value="#af.afId" /></span></div>
 		<div style="margin-right: 50px; float: right;"><span
 			class="text"><s:date name="#af.ad" nice="false" /></span></div>
 		</td>
