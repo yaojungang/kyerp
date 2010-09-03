@@ -27,7 +27,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WarehouseController extends BaseController{
 	@Autowired
 	IWarehouseService	warehouseService;
-
+	@RequestMapping("jsonAllList.html")
+	public String allList(Model model) {
+		// build order by
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("id", "asc");
+		QueryResult<Warehouse> queryResult = warehouseService.getScrollData(orderby);
+		List<WarehouseExtGridRow> rows = new ArrayList<WarehouseExtGridRow>();
+		for (Warehouse o : queryResult.getResultlist()) {
+			WarehouseExtGridRow n = new WarehouseExtGridRow();
+			n.setId(o.getId());
+			n.setName(o.getName());
+			n.setCreateTime(DateFormatUtils.format(o.getCreateTime(), "yyyy-MM-dd HH:mm:ss"));
+			/** 修改时间 */
+			if(null != o.getUpdateTime()) {
+				n.setUpdateTime(DateFormatUtils.format(o.getUpdateTime(), "yyyy-MM-dd HH:mm:ss"));
+			}
+			/** 申请单号 */
+			n.setSerialNumber(o.getSerialNumber());
+			n.setNote(o.getNote());
+			/** 父类 */
+			if(null != o.getParentWarehouse()) {
+				n.setParentWarehouseId(o.getParentWarehouse().getId());
+				n.setParentWarehouseName(o.getParentWarehouse().getName());
+			} else {
+				n.setParentWarehouseId(0);
+				n.setParentWarehouseName("顶级分类");
+			}
+			rows.add(n);
+		}
+		;
+		model.addAttribute("totalProperty", queryResult.getTotalrecord());
+		model.addAttribute("rows", rows);
+		return "jsonView";
+	}
 	@RequestMapping("jsonList.html")
 	public String list(Long parentId, Integer start, Integer limit, Model model) {
 		start = null == start ? 0 : start;
