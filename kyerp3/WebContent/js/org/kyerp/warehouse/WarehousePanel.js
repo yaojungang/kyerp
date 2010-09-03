@@ -5,7 +5,7 @@ org.kyerp.warehouse.WarehouseStore = new Ext.data.Store({
                     limit : 20
                 }
             },
-            url : org.kyerp.warehouse.Warehouse_ALL_LIST_URL,
+            url : org.kyerp.warehouse.WarehousePanel_LIST_URL,
             reader : new Ext.data.JsonReader({
                         totalProperty : "totalProperty",
                         root : "rows",
@@ -187,7 +187,7 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 							if (data.success) {
 								node.appendChild(new Ext.tree.TreeNode({
 											id : data.id,
-											text : data.supplierTypeExtGridRow.name,
+											text : data.warehouseExtGridRow.name,
 											leaf : true
 										}));
 								node.getUI().removeClass('x-tree-node-leaf');
