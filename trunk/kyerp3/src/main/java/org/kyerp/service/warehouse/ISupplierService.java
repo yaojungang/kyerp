@@ -12,5 +12,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface ISupplierService extends DAO<Supplier> {
-
+	/**
+	 * 保存
+	 * @param supplier
+	 */
+	public void save(Supplier supplier) throws Exception;
+	/**
+	 * 修改时检查重复
+	 * @param supplier
+	 * @throws Exception
+	 */
+	public void update(Supplier supplier) throws Exception;
+	/**
+	 * 检查重复
+	 * @param paper
+	 */
+	public int getCount(Supplier supplier);
 }

@@ -126,7 +126,7 @@ public class PapaerOfMaterialController{
 
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("jsonSave.html")
-	public String save(PaperOfMaterialExtGridRow materialRow, ModelMap model) {
+	public String save(PaperOfMaterialExtGridRow materialRow, ModelMap model) throws Exception {
 		PaperOfMaterial material = new PaperOfMaterial();
 		if(null != materialRow.getId() && materialRow.getId() > 0) {
 			material = paperOfMaterialService.find(materialRow.getId());
@@ -163,7 +163,7 @@ public class PapaerOfMaterialController{
 		if(null != materialRow.getId() && materialRow.getId() > 0) {
 			paperOfMaterialService.update(material);
 		} else {
-			paperOfMaterialService.savePaper(material);
+			paperOfMaterialService.save(material);
 		}
 		long id = material.getId() > 0 ? material.getId() : paperOfMaterialService.findLast().getId();
 		model.addAttribute("success", true);

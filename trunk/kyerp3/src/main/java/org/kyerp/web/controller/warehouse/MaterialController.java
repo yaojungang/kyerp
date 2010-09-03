@@ -158,7 +158,7 @@ public class MaterialController extends BaseController{
 
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/Material/jsonSave.html")
-	public String save(MaterialExtGridRow materialRow, ModelMap model) {
+	public String save(MaterialExtGridRow materialRow, ModelMap model) throws Exception {
 		Material material = new Material();
 		if(null != materialRow.getId() && materialRow.getId() > 0) {
 			material = materialService.find(materialRow.getId());
@@ -178,7 +178,7 @@ public class MaterialController extends BaseController{
 		if(null != materialRow.getId() && materialRow.getId() > 0) {
 			materialService.update(material);
 		} else {
-			materialService.saveMaterial(material);
+			materialService.save(material);
 		}
 		long id = material.getId() > 0 ? material.getId() : materialService.findLast().getId();
 		model.addAttribute("success", true);

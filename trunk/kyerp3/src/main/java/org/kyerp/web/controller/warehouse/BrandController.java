@@ -76,7 +76,7 @@ public class BrandController extends BaseController{
 	}
 
 	@RequestMapping("/warehouse/Brand/jsonTree.html")
-	public String tree(Model model) {
+	public String tree(Model model) throws Exception {
 		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
 		orderby.put("id", "asc");
 		QueryResult<Brand> queryResult = brandService.getScrollData(orderby);
@@ -115,7 +115,7 @@ public class BrandController extends BaseController{
 
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/Brand/jsonSave.html")
-	public String save(BrandExtGridRow brandRow, ModelMap model) {
+	public String save(BrandExtGridRow brandRow, ModelMap model) throws Exception {
 		Brand brand = new Brand();
 		if(null != brandRow.getId() && brandRow.getId() > 0) {
 			brand = brandService.find(brandRow.getId());

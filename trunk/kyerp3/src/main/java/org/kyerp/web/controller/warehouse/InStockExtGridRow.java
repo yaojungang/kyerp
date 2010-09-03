@@ -22,9 +22,9 @@ public class InStockExtGridRow{
 	private String		supplierName;
 	/** 备注 */
 	private String		remark;
-	/** 总数量 */
+	/** 数量 */
 	private BigDecimal	billCount;
-	/** 总费用 */
+	/** 金额 */
 	private BigDecimal	billCost;
 	/** 填单人 */
 	private long		writeUserId;

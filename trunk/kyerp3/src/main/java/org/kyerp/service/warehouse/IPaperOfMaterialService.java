@@ -13,7 +13,19 @@ import org.springframework.stereotype.Service;
 @Service
 public interface IPaperOfMaterialService extends DAO<PaperOfMaterial>{
 	/**
+	 * 保存
 	 * @param paper
 	 */
-	public void savePaper(PaperOfMaterial paper);
+	public void save(PaperOfMaterial paper) throws Exception;
+	/**
+	 * 修改
+	 * @param paper
+	 * @throws Exception
+	 */
+	public void update(PaperOfMaterial paper) throws Exception;
+	/**
+	 * 检查库中已有数量，防止重复
+	 * @param paper
+	 */
+	public int getCount(PaperOfMaterial paper);
 }

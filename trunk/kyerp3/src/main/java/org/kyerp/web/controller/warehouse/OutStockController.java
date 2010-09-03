@@ -295,6 +295,9 @@ public class OutStockController extends BaseController {
 								.getLong("warehouseId")));
 						detail.setPrice(new BigDecimal(jsonObject
 								.getString("price")));
+						//任务单号
+						detail.setPressworkNo(jsonObject
+								.getString("pressworkNo"));
 						// 单位为物料单位
 						detail.setUnit(materialService.find(
 								jsonObject.getLong("materialId")).getUnit());
@@ -303,7 +306,7 @@ public class OutStockController extends BaseController {
 								.getString("outStockCount")));
 						// 数量
 						detail.setRealOutStockCount(new BigDecimal(jsonObject
-								.getString("realOutStockCount")));
+								.getString("outStockCount")));
 						// 备注
 						if (null != jsonObject.getString("remark")) {
 							detail.setRemark(jsonObject.getString("remark"));

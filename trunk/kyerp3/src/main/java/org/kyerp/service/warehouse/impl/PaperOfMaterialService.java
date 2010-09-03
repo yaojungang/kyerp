@@ -5,11 +5,15 @@ package org.kyerp.service.warehouse.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.TemporalType;
 
 import org.kyerp.dao.DaoSupport;
+import org.kyerp.domain.common.view.QueryResult;
 import org.kyerp.domain.warehouse.print.PaperOfMaterial;
 import org.kyerp.service.warehouse.IPaperOfMaterialService;
 import org.springframework.stereotype.Service;
@@ -19,12 +23,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PaperOfMaterialService extends DaoSupport<PaperOfMaterial> implements IPaperOfMaterialService{
-
-	/*
-	 * @see org.kyerp.service.warehouse.IPaperOfMaterialService#savePaper(org.kyerp.domain.warehouse.PaperOfMaterial)
-	 */
 	@Override
-	public void savePaper(PaperOfMaterial paper) {
+	public void save(PaperOfMaterial paper) throws Exception {
+		paper.setMaterialName();
+		paper.setSpecification();
+		paper.setFullName();
+		if (getCount(paper)>0) {
+			throw new Exception("库中已有名为："+paper.getFullName()+"的纸张");
+		};
 		paper.setSerialNumber(buildSerialNumber(new Date()));
 		super.save(paper);
 
@@ -47,5 +53,74 @@ public class PaperOfMaterialService extends DaoSupport<PaperOfMaterial> implemen
 		long count = (Long) em.createQuery("select count(o) from Material o where o.createTime>=?1").setParameter(1, date, TemporalType.TIMESTAMP).getSingleResult();
 		out.append(count + 1);
 		return out.toString();
+	}
+
+	@Override
+	public int getCount(PaperOfMaterial paper) {
+		StringBuffer wherejpql = new StringBuffer("");
+		List<Object> queryParams = new ArrayList<Object>();
+		wherejpql.append(" 1=?").append((queryParams.size() + 1));
+		queryParams.add(1);
+		// 克重
+		if(paper.getPaperWeight()> 0) {
+			if(queryParams.size() > 0) {
+				wherejpql.append(" and ");
+			}
+			wherejpql.append(" o.paperWeight=?").append((queryParams.size() + 1));
+			queryParams.add(paper.getPaperWeight());
+		}
+		// 纸长
+		if(paper.getPaperHeight()> 0) {
+			if(queryParams.size() > 0) {
+				wherejpql.append(" and ");
+			}
+			wherejpql.append(" o.paperHeight=?").append((queryParams.size() + 1));
+			queryParams.add(paper.getPaperHeight());
+		}
+		// 纸宽
+		if(paper.getPaperWidth()> 0) {
+			if(queryParams.size() > 0) {
+				wherejpql.append(" and ");
+			}
+			wherejpql.append(" o.paperWidth=?").append((queryParams.size() + 1));
+			queryParams.add(paper.getPaperWidth());
+		}
+		// 名称
+		if(null != paper.getPaperName()) {
+			wherejpql.append(" and o.paperName like ?").append(queryParams.size() + 1);
+			queryParams.add("%" + paper.getPaperName().trim() + "%");
+
+		}
+		// 供应商
+		if(null != paper.getSupplier()) {
+			wherejpql.append(" and o.supplier.name like ?").append(queryParams.size() + 1);
+			queryParams.add("%" + paper.getSupplier().getName().trim() + "%");
+			
+		}
+		// 品牌
+		if(null != paper.getBrand()) {
+			wherejpql.append(" and o.brand.name like ?").append(queryParams.size() + 1);
+			queryParams.add("%" + paper.getBrand().getName().trim() + "%");
+			
+		}
+		LinkedHashMap<String, String> orderby = new LinkedHashMap<String, String>();
+		orderby.put("id", "asc");
+		QueryResult<PaperOfMaterial> queryResult = this.getScrollData(wherejpql.toString(), queryParams.toArray(), null);
+		logger.debug("jpql:"+wherejpql.toString());
+		logger.debug("params:"+queryParams.toString());
+
+		return (int) queryResult.getTotalrecord();
+	}
+
+	@Override
+	public void update(PaperOfMaterial paper) throws Exception {
+		paper.setMaterialName();
+		paper.setSpecification();
+		paper.setFullName();
+		if (getCount(paper)>1) {
+			throw new Exception("库中已有名为："+paper.getFullName()+"的纸张");
+		};
+		super.update(paper);
+		
 	}
 }

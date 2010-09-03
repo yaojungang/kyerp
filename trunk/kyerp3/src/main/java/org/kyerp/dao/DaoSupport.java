@@ -56,7 +56,6 @@ public abstract class DaoSupport<T> implements DAO<T>{
 		List<Object> queryParams = new ArrayList<Object>();
 		wherejpql.append(" 1=?").append((queryParams.size() + 1));
 		queryParams.add(1);
-		// set parent id
 		if(null != propertyName && null != value) {
 			wherejpql.append(" and "+propertyName+"=?").append(queryParams.size() + 1);
 			queryParams.add("%" + value + "%");
@@ -64,6 +63,13 @@ public abstract class DaoSupport<T> implements DAO<T>{
 			throw new RuntimeException(this.entityClass.getName() + ":传入的实体属性："+propertyName+"与值"+value+"不能为空");
 		}
 		QueryResult<T> queryResult = getScrollData(wherejpql.toString(), queryParams.toArray(),null);
+		logger.debug("jpql:"+wherejpql.toString());
+		logger.debug("parame:"+queryParams.toArray());
+		logger.debug(this.entityClass.getName() + ":传入的实体属性："+propertyName+" 值:"+value);
+		logger.debug("Totalrecord="+queryResult.getTotalrecord());
+		if (queryResult.getTotalrecord()<1) {
+			return null;
+		}
 		if (queryResult.getTotalrecord() > 0) {
 			throw new RuntimeException("结果不唯一");
 		}else {

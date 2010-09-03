@@ -71,6 +71,11 @@ public class Material extends BaseItem implements Serializable{
 		logger.debug("设置物料全称为:" + this.getMaterialName() + "(" + this.getSpecification() + ")");
 		this.setName(this.getMaterialName() + "(" + this.getSpecification() + ")");
 	}
+	// 设置物料全称
+	public String getFullName() {
+		logger.debug("获取物料全称为:" + this.getMaterialName() + "(" + this.getSpecification() + ")");
+		return this.getMaterialName() + "(" + this.getSpecification() + ")";
+	}
 
 	public String getMaterialName() {
 		return materialName;
