@@ -58,6 +58,7 @@ Ext.extend(org.kyerp.module,{
     			'MaterialCategoryTreePanel.js;' + 'MaterialListPanel.js', {
 							basedir : 'js/org/kyerp/warehouse'
 						});
+        org.kyerp.warehouse.MaterialStore.load();
         this.body = new org.kyerp.warehouse.MaterialPanel({border : false,bodyBorder : false});
         this.main.add(this.body);
         this.main.doLayout();  

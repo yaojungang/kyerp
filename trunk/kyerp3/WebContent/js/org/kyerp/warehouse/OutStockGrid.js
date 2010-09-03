@@ -548,6 +548,7 @@ org.kyerp.warehouse.OutStockGrid = Ext.extend(Ext.grid.GridPanel, {
 								text : "添  加",
 								iconCls : 'icon-utils-s-add',
 								handler : function() {
+                                    org.kyerp.warehouse.OutStockDetailStore.removeAll();
 									this.insertWin.show();
 									//this.insertWin.maximize();
 								},

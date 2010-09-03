@@ -1,13 +1,30 @@
 /** ***************************************************************************** */
+org.kyerp.warehouse.WarehouseStore = new Ext.data.Store({
+            autoLoad : {
+                baseParams : {
+                    limit : 20
+                }
+            },
+            url : org.kyerp.warehouse.Warehouse_ALL_LIST_URL,
+            reader : new Ext.data.JsonReader({
+                        totalProperty : "totalProperty",
+                        root : "rows",
+                        id : "id"
+                    }, ['id', 'createTime', 'updateTime', 'name',
+                            'serialNumber', 'note', 'childWarehouseIds',
+                            'childWarehouseNames', 'parentWarehouseId',
+                            'parentWarehouseName'])
+});
+/** ***************************************************************************** */
 org.kyerp.warehouse.WarehouseTree = new Ext.tree.TreePanel({
-	title : '库房',
+	title : '仓库',
 	loader : new Ext.tree.TreeLoader({
 				dataUrl : org.kyerp.warehouse.WarehousePanel_TREE_URL
 			}),
 	root : {
 		nodeType : 'async',
 		id : 'root',
-		text : '库房',
+		text : '仓库',
 		expanded : true
 	},
 	tools : [{
@@ -28,27 +45,27 @@ org.kyerp.warehouse.WarehouseTree = new Ext.tree.TreePanel({
 });
 /** ***************************************************************************** */
 org.kyerp.warehouse.WarehouseGrid = new Ext.grid.EditorGridPanel({
-			title : '库房资料',
+			title : '仓库资料',
 			store : org.kyerp.warehouse.WarehouseStore,
-			columns : [new Ext.grid.RowNumberer(), {
-						header : '编码',
-						width : 100,
-						sortable : true,
-						dataIndex : 'serialNumber',
-						editor : new Ext.form.TextField()
-					}, {
-						header : '名称',
-						width : 150,
-						sortable : true,
-						dataIndex : 'name',
-						editor : new Ext.form.TextField()
-					}, {
-						header : '说明',
-						width : 300,
-						sortable : true,
-						dataIndex : 'note',
-						editor : new Ext.form.TextField()
-					}],
+			colModel : new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(), {
+                        header : '编码',
+                        width : 100,
+                        sortable : true,
+                        dataIndex : 'serialNumber',
+                        editor : new Ext.form.TextField()
+                    }, {
+                        header : '名称',
+                        width : 150,
+                        sortable : true,
+                        dataIndex : 'name',
+                        editor : new Ext.form.TextField()
+                    }, {
+                        header : '说明',
+                        width : 300,
+                        sortable : true,
+                        dataIndex : 'note',
+                        editor : new Ext.form.TextField()
+                    }]),
 			border : false,
 			selModel : new Ext.grid.RowSelectionModel(),
 			bbar : new Ext.PagingToolbar({
@@ -106,7 +123,7 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 												this);
 									},
 									scope : this
-								}, '->', '双击表格可以修改库房资料']
+								}, '->', '双击表格可以修改仓库资料']
 					}, {
 						region : 'west',
 						layout : 'fit',
@@ -133,6 +150,7 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 					store.load();
 				});
 		this.grid.on('afteredit', function(e) {
+					// alert(Ext.encode(e.record.data));
 					Ext.Ajax.request({
 								url : org.kyerp.warehouse.WarehousePanel_SAVE_URL,
 								params : {
@@ -162,14 +180,14 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 						url : org.kyerp.warehouse.WarehousePanel_SAVE_URL,
 						params : {
 							parentWarehouseId : node.id,
-							name : '新库房'
+							name : '新仓库'
 						},
 						success : function(response) {
 							var data = Ext.decode(response.responseText);
 							if (data.success) {
 								node.appendChild(new Ext.tree.TreeNode({
 											id : data.id,
-											text : data.warehouseExtGridRow.name,
+											text : data.supplierTypeExtGridRow.name,
 											leaf : true
 										}));
 								node.getUI().removeClass('x-tree-node-leaf');
@@ -201,7 +219,7 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 			} else {
 				var node = this.tree.getSelectionModel().getSelectedNode();
 				id = node.id;
-			}
+			};
 			Ext.Ajax.request({
 						url : org.kyerp.warehouse.WarehousePanel_DELETE_URL
 								+ "?ids=" + id,
@@ -219,7 +237,7 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 								}
 								org.kyerp.warehouse.WarehouseGrid.getStore()
 										.reload();
-								Ext.MessageBox.alert('警告', '删除库房资料完成。');
+								Ext.MessageBox.alert('警告', '删除仓库资料完成。');
 							} else {
 								Ext.MessageBox.alert('警告', data.msg);
 							}
@@ -233,9 +251,6 @@ org.kyerp.warehouse.WarehousePanel = Ext.extend(Ext.Panel, {
 /** ***************************************************************************** */
 Ext.extend(org.kyerp.module, {
 			init : function() {
-				require('WarehouseStore.js', {
-							basedir : 'js/org/kyerp/warehouse'
-						});
 				this.body = new org.kyerp.warehouse.WarehousePanel({
 							border : false,
 							bodyBorder : false

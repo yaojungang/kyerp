@@ -75,7 +75,7 @@ org.kyerp.warehouse.SupplierTypePanel_LIST_URL = "warehouse/SupplierType/jsonLis
 org.kyerp.warehouse.SupplierTypePanel_SAVE_URL = "warehouse/SupplierType/jsonSave.html";
 org.kyerp.warehouse.SupplierTypePanel_DELETE_URL = "warehouse/SupplierType/jsonDelete.html";
 /** ***************************************************************************** */
-org.kyerp.warehouse.Warehouse_ALL_LIST_URL = "warehouse/Warehouse/jsonAllList.html";
+org.kyerp.warehouse.Warehouse_ALL_LIST_URL = "warehouse/Warehouse/jsonList.html";
 org.kyerp.warehouse.WarehousePanel_TREE_URL = "warehouse/Warehouse/jsonTree.html";
 org.kyerp.warehouse.WarehousePanel_LIST_URL = "warehouse/Warehouse/jsonList.html";
 org.kyerp.warehouse.WarehousePanel_SAVE_URL = "warehouse/Warehouse/jsonSave.html";

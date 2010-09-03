@@ -18,7 +18,7 @@ org.kyerp.warehouse.OutStockDetailEditorGrid = Ext.extend(
 								var _detailsGrid = Ext.WindowMgr.getActive().form.detailsGrid;
 								var _rs = new Ext.data.Record({
 											id : '',
-											ownerId : '1',
+											ownerId : '2',
 											materialId : '',
 											materialName : '请输入物料名称',
 											warehouseId : 4,
@@ -53,7 +53,7 @@ org.kyerp.warehouse.OutStockDetailEditorGrid = Ext.extend(
 						});
 				this.ownerCombo = new Ext.form.ComboBox({
 							hiddenName : 'ownerId',
-							value : 1,
+							value : 2,
 							typeAhead : true,
 							lazyRender : true,
 							pageSize : 20,
@@ -239,7 +239,7 @@ org.kyerp.warehouse.OutStockDetailEditorGrid = Ext.extend(
 										dataIndex : 'batchNumber',
 										editor : this.stockDetailCombo
 									}, {
-										header : "理论数量",
+										header : "数量",
 										width : 70,
 										dataIndex : "outStockCount",
 										editor : new Ext.form.NumberField({
@@ -247,14 +247,6 @@ org.kyerp.warehouse.OutStockDetailEditorGrid = Ext.extend(
 													allowBlank : false
 												})
 									}, {
-                                        header : "实际数量",
-                                        width : 70,
-                                        dataIndex : "realOutStockCount",
-                                        editor : new Ext.form.NumberField({
-                                                    decimalPrecision : 4,
-                                                    allowBlank : false
-                                                })
-                                    }, {
 										header : '生产任务单号',
 										dataIndex : "pressworkNo",
 										editor : new Ext.form.TextField()
@@ -312,7 +304,7 @@ org.kyerp.warehouse.OutStockDetailEditorGrid = Ext.extend(
 			onInsertButtonClick : function() {
 				var _rs = new Ext.data.Record({
 							id : '',
-							ownerId : '1',
+							ownerId : '2',
 							materialId : '',
 							materialName : '请选择物料',
 							batchNumber : '',

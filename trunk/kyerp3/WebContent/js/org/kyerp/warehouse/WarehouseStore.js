@@ -14,4 +14,4 @@ org.kyerp.warehouse.WarehouseStore = new Ext.data.Store({
 							'serialNumber', 'note', 'childWarehouseIds',
 							'childWarehouseNames', 'parentWarehouseId',
 							'parentWarehouseName'])
-		});
+});

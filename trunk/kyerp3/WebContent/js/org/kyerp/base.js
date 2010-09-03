@@ -1,17 +1,17 @@
 ﻿//Version
-var versionNumber = "Version 3.0 bate v20100806";
+var versionNumber = "Version 3.0 bate v20100902";
 // 模块基类
 org.kyerp.module = function(tab) {
 	this.main = tab;
 	this.init();
-}
+};
 Ext.extend(org.kyerp.module, Ext.util.Observable, {
 			init : Ext.emptyFn
 		});
 // 主程序类
 org.kyerp.base = function() {
 	this.init();
-}
+};
 Ext.extend(org.kyerp.base, Ext.util.Observable, {
 	init : function() {
 		this.tree = new Ext.tree.TreePanel({
@@ -129,7 +129,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 							location = 'logout'
 						}
 					});
-		}
+		};
 		// foot部分
 		this.pageFoot = new Ext.Panel({
 			region : 'south',
@@ -235,7 +235,7 @@ Ext.extend(org.kyerp.base, Ext.util.Observable, {
 			url = node.attributes.ns + ".";
 			url = url.replace(/\./g, "/");
 		}
-		url = url + node.id
+		url = url + node.id;
 		// 定义模块变量
 		var model;
 		if (this[node.id]) {

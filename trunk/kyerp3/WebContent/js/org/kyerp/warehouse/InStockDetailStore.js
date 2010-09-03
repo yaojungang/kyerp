@@ -9,9 +9,12 @@ org.kyerp.warehouse.InStockDetailStore = new Ext.data.Store({
 								name : "id",
 								type : "int"
 							}, {
-								name : "billCount"
+								name : "billCount",
+                                type : 'float'
 							}, {
-								name : "billCost"
+								name : "billCost",
+                                type : 'float',
+                                decimalPrecision : 2
 							}, {
 								name : "materialId",
 								type : "int"
@@ -34,7 +37,9 @@ org.kyerp.warehouse.InStockDetailStore = new Ext.data.Store({
 								name : "unitName",
 								type : "string"
 							}, {
-								name : "price"
+								name : "price",
+                                type : 'float',
+                                decimalPrecision : 2
 							}, {
 								name : "remark",
 								type : "string"

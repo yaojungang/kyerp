@@ -9,7 +9,7 @@ function showMsg(title, msg) {
 	Ext.MessageBox.show({
 		title : title,
 		msg : msg,
-		icon : Ext.MessageBox.WARNING,
+		icon : Ext.MessageBox.ERROR,
 		buttons : Ext.MessageBox.OK,
 		modal : true
 	});
