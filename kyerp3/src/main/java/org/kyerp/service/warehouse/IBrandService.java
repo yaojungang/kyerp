@@ -9,5 +9,19 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface IBrandService extends DAO<Brand> {
-
+	/**
+	 * 保存
+	 * @param supplier
+	 */
+	public void save(Brand brand) throws Exception;
+	/**
+	 * 修改
+	 * @param supplier
+	 */
+	public void update(Brand brand) throws Exception;
+	/**
+	 * 检查重复
+	 * @param paper
+	 */
+	public int getCount(Brand brand) throws Exception;
 }

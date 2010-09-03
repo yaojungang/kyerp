@@ -50,7 +50,7 @@ public class SupplierController extends BaseController{
 		}
 		// set query
 		if(null != query && !query.equals("")) {
-			wherejpql.append(" and (o.paperName like ?").append(queryParams.size() + 1);
+			wherejpql.append(" and (o.name like ?").append(queryParams.size() + 1);
 			queryParams.add("%" + query.trim() + "%");
 			// name
 			wherejpql.append(" or o.name like ?").append(queryParams.size() + 1);
@@ -120,7 +120,7 @@ public class SupplierController extends BaseController{
 
 	@Secured( { "ROLE_ADMIN" })
 	@RequestMapping("/warehouse/Supplier/jsonSave.html")
-	public String save(SupplierExtGridRow o, ModelMap model) {
+	public String save(SupplierExtGridRow o, ModelMap model) throws Exception {
 		Supplier n = new Supplier();
 		if(null != o.getId() && o.getId() > 0) {
 			n = supplierService.find(o.getId());

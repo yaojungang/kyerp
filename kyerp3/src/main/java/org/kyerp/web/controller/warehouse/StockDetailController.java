@@ -89,6 +89,7 @@ public class StockDetailController{
 			}
 			/** 价格 */
 			n.setPrice(o.getPrice());
+			
 			/** 数量 */
 			if (null != o.getAmount()) {
 				n.setAmount(o.getAmount());

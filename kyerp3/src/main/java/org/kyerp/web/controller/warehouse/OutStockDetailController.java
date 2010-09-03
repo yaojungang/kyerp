@@ -86,6 +86,10 @@ public class OutStockDetailController extends BaseController {
 					row.setWarehouseName(detail.getWarehouse()
 							.getName());
 				}
+				//任务单号
+				if (null != detail.getPressworkNo()) {
+					row.setPressworkNo(detail.getPressworkNo());
+				}
 				/** 单位 */
 				if (null != detail.getUnit()) {
 					row.setUnitId(detail.getUnit().getId());

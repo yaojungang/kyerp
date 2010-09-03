@@ -129,9 +129,9 @@ public class InStockController extends BaseController {
 				if (null != o.getRemark()) {
 					n.setRemark(o.getRemark());
 				}
-				/** 总数量 */
+				/** 数量 */
 				n.setBillCount(o.getBillCount());
-				/** 总费用 */
+				/** 金额 */
 				if (null != o.getBillCost()) {
 					n.setBillCost(o.getBillCost());
 				}
@@ -288,7 +288,7 @@ public class InStockController extends BaseController {
 								jsonObject.getLong("materialId")).getUnit());
 						// 数量
 						detail.setInStockCount(new BigDecimal(jsonObject
-								.getString("inStockCount")));
+								.getString("billCount")));
 						// 备注
 						if (null != jsonObject.getString("remark")) {
 							detail.setRemark(jsonObject.getString("remark"));
